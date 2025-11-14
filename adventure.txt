@@ -1,0 +1,5 @@
+adventure
+boss
+card
+domain
+equipment
