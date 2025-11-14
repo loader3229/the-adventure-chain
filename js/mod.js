@@ -41,7 +41,7 @@ function getPointGen() {
 	if(!canGenPoints())
 		return new Decimal(0)
 
-	let gain = new Decimal(1)
+	let gain = getLevel()
 	return gain
 }
 
@@ -51,6 +51,7 @@ function addedPlayerData() { return {
 
 // Display extra things at the top of the page
 var displayThings = [
+	function(){return "Level: "+formatWhole(getLevel())+" ("+format(getLevelProgress().mul(100))+"%)"},
 	function(){return "ATK: "+format(getATK())}
 ]
 
@@ -79,5 +80,17 @@ function fixOldSave(oldVersion){
 }
 
 function getATK(){
-	return new Decimal(1);
+	return getLevel();
+}
+
+function getLevel(){
+	return getRealLevel().floor();
+}
+
+function getLevelProgress(){
+	return getRealLevel().sub(getLevel());
+}
+
+function getRealLevel(){
+	return player.a.points.cbrt().add(100).log10().sub(2).mul(200).add(1);
 }

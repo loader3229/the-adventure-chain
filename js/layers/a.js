@@ -25,7 +25,7 @@ addLayer("a", {
     },
     tabFormat: [
         "main-display",
-        ["display-text",function(){return "Current Enemy Level: "+formatWhole(player.a.level)}],
+        ["row",[["display-text",function(){return "Current Enemy Level: "+formatWhole(player.a.level)}],["clickable",21],["clickable",22]]],
         ["bar","hp"],
         ["display-text",function(){return "ATK: "+format(layers.a.getEnemyATK())+", EXP: "+format(layers.a.getEnemyEXP())}],
         ["clickable","11"]
@@ -60,8 +60,6 @@ addLayer("a", {
         }
     },
     clickables: {
-        rows: 1,
-        cols: 1,
         11: {
             title() {
                 return "Attack"
@@ -75,6 +73,34 @@ addLayer("a", {
             onClick() {
                 player.points = player.points.sub(layers.a.getEnemyATK());
                 player.a.hp = player.a.hp.sub(getATK());
+            },
+            unlocked: true,
+        },
+        21: {
+            title() {
+                return "-1"
+            },
+            canClick(){
+                return player.a.level.gte(2);
+            },
+            onClick() {
+                player.a.level = player.a.level.sub(1);
+                player.a.nextEnemyTime = new Decimal(2);
+                player.a.hp = layers.a.getEnemyHP();
+            },
+            unlocked: true,
+        },
+        22: {
+            title() {
+                return "+1"
+            },
+            canClick(){
+                return true;
+            },
+            onClick() {
+                player.a.level = player.a.level.add(1);
+                player.a.nextEnemyTime = new Decimal(2);
+                player.a.hp = layers.a.getEnemyHP();
             },
             unlocked: true,
         }
