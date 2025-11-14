@@ -3,7 +3,7 @@ let modInfo = {
 	id: "the-adventure-chain",
 	author: "loader3229",
 	pointsName: "HP",
-	modFiles: ["layers/a.js", "tree.js"],
+	modFiles: ["layers/a.js", "layers/b.js", "tree.js"],
 
 	discordName: "",
 	discordLink: "",
