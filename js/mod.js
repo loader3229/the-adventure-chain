@@ -52,7 +52,9 @@ function addedPlayerData() { return {
 // Display extra things at the top of the page
 var displayThings = [
 	function(){return "Level: "+formatWhole(getLevel())+" ("+format(getLevelProgress().mul(100))+"%)"},
-	function(){return "ATK: "+format(getATK())}
+	function(){return "ATK: "+format(getATK())},
+	function(){if(getDEF().gte(1))return "DEF: "+format(getDEF())}
+
 ]
 
 // Determines when the game "ends"
@@ -80,7 +82,14 @@ function fixOldSave(oldVersion){
 }
 
 function getATK(){
-	return getLevel();
+	let atk=getLevel();
+	return atk;
+}
+
+function getDEF(){
+	let def=new Decimal(0);
+	if(player.b.points.gte(1))def = getLevel().mul(0.05);
+	return def;
 }
 
 function getLevel(){

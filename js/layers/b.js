@@ -5,7 +5,7 @@ addLayer("b", {
     startData() { return {
         unlocked: true,
 		points: new Decimal(0),
-        hp: new Decimal(499.999),
+        hp: new Decimal(299.999),
     }},
     color: "#FFCC66",
     resource: "Beaten Bosses", // Name of prestige currency
@@ -14,28 +14,33 @@ addLayer("b", {
     branches: ['a'],
     layerShown(){return player.b.points.gte(1) || getLevel().gte(10)},
     getBossHP(){
-        return Decimal.pow(50,player.b.points.add(1));
+        return Decimal.pow(5,player.b.points).mul(30);
     },
     getBossATK(){
-        return Decimal.pow(10,player.b.points.add(1));
+        return Decimal.pow(4,player.b.points).mul(10);
     },
     tabFormat: [
         "main-display",
-        ["bar","hp"],
-        ["clickable","11"]
+        ["column",[["raw-html",function(){
+                let y = player.b.hp.div(layers.b.getBossHP());
+                y=y.floor().toNumber()+1;
+		return "<div style=width:400px;text-align:right;>x"+y+"</div>";
+	}],["bar","hp"]]],
+        ["clickable","11"],
+	"milestones"
     ],
     bars: {
         hp: {
             fillStyle(){
                 let y = player.b.hp.div(layers.b.getBossHP());
                 y=y.floor();
-                return {'background-color' : "hsl("+(Math.min(y.toNumber(),10)*30)+",100%,50%)"};
+                return {'background-color' : "hsl("+(Math.min(y.toNumber(),10)*150)+",100%,40%)"};
             },
             baseStyle(){
                 let y = player.b.hp.div(layers.b.getBossHP());
                 y=y.floor();
                 if(y==0)return {'background-color' : "#000000"};
-                return {'background-color' : "hsl("+((y.toNumber()-1)*30)+",100%,50%)"};
+                return {'background-color' : "hsl("+(Math.min(y.toNumber()-1,10)*150)+",100%,40%)"};
             },
             textStyle: {'color': '#ffffff'},
             borderStyle() {return {}},
@@ -55,20 +60,49 @@ addLayer("b", {
                 return "Attack"
             },
             display() {
-                return "Use "+format(layers.b.getBossATK())+" HP to attack"
+                return "Use "+format(layers.b.getBossATK().div(getDEF().add(1)))+" HP to attack"
             },
             canClick(){
-                return player.points.gte(layers.b.getBossATK());
+                return player.points.gte(layers.b.getBossATK().div(getDEF().add(1)));
             },
             onClick() {
                 let y = player.b.hp.div(layers.b.getBossHP());
-                player.points = player.points.sub(layers.b.getBossATK());
+                player.points = player.points.sub(layers.b.getBossATK().div(getDEF().add(1)));
                 player.b.hp = player.b.hp.sub(getATK().div(new Decimal(10).sub(y.floor()).max(1))).max(y.floor().sub(0.0001).mul(layers.b.getBossHP()));
             },
             unlocked: true,
         }
     },
+milestones: [
+{
+			requirementDescription: "Beat 1 boss",
+            unlocked() {return player[this.layer].points.gte(0)},
+            done() {return player[this.layer].points.gte(1)}, // Used to determine when to give the milestone
+            effectDescription: "+0.05 DEF per level.",
+        },
+{
+			requirementDescription: "Beat 2 bosses",
+            unlocked() {return player[this.layer].points.gte(1)},
+            done() {return player[this.layer].points.gte(2)}, // Used to determine when to give the milestone
+            effectDescription: "Gain more EXP from enemies.",
+        },
+{
+			requirementDescription: "Beat 3 bosses",
+            unlocked() {return player[this.layer].points.gte(2)},
+            done() {return player[this.layer].points.gte(3)}, // Used to determine when to give the milestone
+            effectDescription: "Gain more EXP from enemies, but Enemy DEF is increased.",
+	onComplete() {
+player.a.nextEnemyTime = new Decimal(2);
+            player.a.hp = layers.a.getEnemyHP();
+}
+        },
+
+
+],
     update(diff){
-        
+        if(player.b.hp.lte(0)){
+		player.b.points=player.b.points.add(1);
+		player.b.hp=layers.b.getBossHP().mul(9.9999);
+	}
     }
 })

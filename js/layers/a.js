@@ -20,15 +20,21 @@ addLayer("a", {
     getEnemyATK(){
         return player.a.level.mul(Decimal.pow(1.01,player.a.level.pow(0.5)));
     },
+    getEnemyDEF(){
+        return player.a.level.mul(player.b.points.gte(3)?0.05:0.01).sub(1).max(0).mul(Decimal.pow(1.01,player.a.level.pow(0.5)));
+    },
     getEnemyEXP(){
-        return player.a.level.pow(2.1).mul(Decimal.pow(1.021,player.a.level.pow(0.5)));
+        return player.a.level.pow(2.1).mul(Decimal.pow(1.021,player.a.level.pow(0.5))).max(player.a.level.pow(3.1).mul(Decimal.pow(1.031,player.a.level.pow(0.5))).div(player.b.points.gte(3)?5:player.b.points.gte(2)?50:110));
     },
     tabFormat: [
         "main-display",
         ["row",[["display-text",function(){return "Current Enemy Level: "+formatWhole(player.a.level)}],["clickable",21],["clickable",22]]],
         ["bar","hp"],
-        ["display-text",function(){return "ATK: "+format(layers.a.getEnemyATK())+", EXP: "+format(layers.a.getEnemyEXP())}],
-        ["clickable","11"]
+        ["display-text",function(){return "ATK: "+format(layers.a.getEnemyATK())}],
+        ["display-text",function(){if(player.a.level.gte(player.b.points.gte(3)?21:101))return "DEF: "+format(layers.a.getEnemyDEF())}],
+        ["display-text",function(){return "EXP: "+format(layers.a.getEnemyEXP())}],
+        ["display-text",function(){return "Reach Level 10 to unlock layer B"}],
+        ["row",[["clickable","11"],["clickable","12"]]],
     ],
     bars: {
         hp: {
@@ -65,16 +71,39 @@ addLayer("a", {
                 return "Attack"
             },
             display() {
-                return "Use "+format(layers.a.getEnemyATK())+" HP to deal "+format(getATK())+" damage"
+                return "Use "+format(layers.a.getEnemyATK().div(getDEF().add(1)))+" HP to deal "+format(getATK().div(layers.a.getEnemyDEF().add(1)))+" damage"
             },
             canClick(){
-                return player.points.gte(layers.a.getEnemyATK()) && player.a.nextEnemyTime.lte(0);
+                return player.points.gte(layers.a.getEnemyATK().div(getDEF().add(1))) && player.a.nextEnemyTime.lte(0);
             },
             onClick() {
-                player.points = player.points.sub(layers.a.getEnemyATK());
-                player.a.hp = player.a.hp.sub(getATK());
+                player.points = player.points.sub(layers.a.getEnemyATK().div(getDEF().add(1)));
+                player.a.hp = player.a.hp.sub(getATK().div(layers.a.getEnemyDEF().add(1)));
             },
             unlocked: true,
+        },
+        12: {
+            title() {
+                return "Attack x"+formatWhole(this.bulk());
+            },
+		bulk() {
+			let bulk=player.points.div(layers.a.getEnemyATK().div(getDEF().add(1))).floor();
+			let dmg=player.a.hp.div(getATK().div(layers.a.getEnemyDEF().add(1))).ceil();
+			bulk = bulk.min(dmg).max(1);
+			return bulk;
+		},
+            display() {
+                return "Use "+format(layers.a.getEnemyATK().div(getDEF().add(1)).mul(this.bulk()))+" HP to deal "+format(getATK().div(layers.a.getEnemyDEF().add(1)).mul(this.bulk()))+" damage"
+            },
+            canClick(){
+                return player.points.gte(layers.a.getEnemyATK().div(getDEF().add(1))) && player.a.nextEnemyTime.lte(0);
+            },
+            onClick() {
+		let bulk=this.bulk();
+                player.points = player.points.sub(layers.a.getEnemyATK().div(getDEF().add(1)).mul(bulk));
+                player.a.hp = player.a.hp.sub(getATK().div(layers.a.getEnemyDEF().add(1)).mul(bulk));
+            },
+            unlocked(){return  player.b.points.gte(2)},
         },
         21: {
             title() {
