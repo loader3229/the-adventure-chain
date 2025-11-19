@@ -53,7 +53,7 @@ function addedPlayerData() { return {
 var displayThings = [
 	function(){return "Level: "+formatWhole(getLevel())+" ("+format(getLevelProgress().mul(100))+"%)"},
 	function(){return "ATK: "+format(getATK())},
-	function(){if(getDEF().gte(1))return "DEF: "+format(getDEF())}
+	function(){if(player.b.points.gte(1))return "DEF: "+format(getDEF())}
 
 ]
 

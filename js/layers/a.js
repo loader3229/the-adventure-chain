@@ -4,9 +4,10 @@ addLayer("a", {
     position: 0, // Horizontal position within a row. By default it uses the layer id and sorts in alphabetical order
     startData() { return {
         unlocked: true,
-		points: new Decimal(0),
+	points: new Decimal(0),
         hp: new Decimal(5.05),
         level: new Decimal(1),
+        setLevel: new Decimal(1),
         nextEnemyTime: new Decimal(0)
     }},
     color: "#FF6666",
@@ -21,17 +22,18 @@ addLayer("a", {
         return player.a.level.mul(Decimal.pow(1.01,player.a.level.pow(0.5)));
     },
     getEnemyDEF(){
-        return player.a.level.mul(player.b.points.gte(3)?0.05:0.01).sub(1).max(0).mul(Decimal.pow(1.01,player.a.level.pow(0.5)));
+        return player.a.level.mul(Decimal.pow(1.01,player.a.level.pow(0.5))).mul(0.05).sub(1.05).max(0);
     },
     getEnemyEXP(){
-        return player.a.level.pow(2.1).mul(Decimal.pow(1.021,player.a.level.pow(0.5))).max(player.a.level.pow(3.1).mul(Decimal.pow(1.031,player.a.level.pow(0.5))).div(player.b.points.gte(3)?5:player.b.points.gte(2)?50:110));
+        return player.a.level.pow(20/9).max(player.a.level.pow(3.1).mul(Decimal.pow(1.031,player.a.level.pow(0.5))).div(player.b.points.gte(2)?5:15));
     },
     tabFormat: [
         "main-display",
-        ["row",[["display-text",function(){return "Current Enemy Level: "+formatWhole(player.a.level)}],["clickable",21],["clickable",22]]],
+        ["row",[["display-text",function(){return "Set Enemy Level: "}],["text-input","setLevel"],["clickable",21],["clickable",22]]],
+        ["row",[["display-text",function(){return "Current Enemy Level: "+formatWhole(player.a.level)}]]],
         ["bar","hp"],
         ["display-text",function(){return "ATK: "+format(layers.a.getEnemyATK())}],
-        ["display-text",function(){if(player.a.level.gte(player.b.points.gte(3)?21:101))return "DEF: "+format(layers.a.getEnemyDEF())}],
+        ["display-text",function(){if(player.a.level.gte(20))return "DEF: "+format(layers.a.getEnemyDEF())}],
         ["display-text",function(){return "EXP: "+format(layers.a.getEnemyEXP())}],
         ["display-text",function(){return "Reach Level 10 to unlock layer B"}],
         ["row",[["clickable","11"],["clickable","12"]]],
@@ -80,6 +82,7 @@ addLayer("a", {
                 player.points = player.points.sub(layers.a.getEnemyATK().div(getDEF().add(1)));
                 player.a.hp = player.a.hp.sub(getATK().div(layers.a.getEnemyDEF().add(1)));
             },
+
             unlocked: true,
         },
         12: {
@@ -113,10 +116,11 @@ addLayer("a", {
                 return player.a.level.gte(2);
             },
             onClick() {
-                player.a.level = player.a.level.sub(1);
+                player.a.setLevel = player.a.level = player.a.level.sub(1);
                 player.a.nextEnemyTime = new Decimal(2);
                 player.a.hp = layers.a.getEnemyHP();
             },
+            style: {'width':"60px", 'min-height':"60px"},
             unlocked: true,
         },
         22: {
@@ -127,10 +131,11 @@ addLayer("a", {
                 return true;
             },
             onClick() {
-                player.a.level = player.a.level.add(1);
+                player.a.setLevel = player.a.level = player.a.level.add(1);
                 player.a.nextEnemyTime = new Decimal(2);
                 player.a.hp = layers.a.getEnemyHP();
             },
+            style: {'width':"60px", 'min-height':"60px"},
             unlocked: true,
         }
     },
@@ -141,5 +146,11 @@ addLayer("a", {
             player.a.points = player.a.points.add(layers.a.getEnemyEXP());
         }
         player.a.nextEnemyTime = player.a.nextEnemyTime.sub(diff);
+player.a.setLevel = player.a.setLevel.max(1);
+        if(player.a.level.neq(player.a.setLevel)){
+player.a.level = player.a.setLevel;
+            player.a.nextEnemyTime = new Decimal(2);
+            player.a.hp = layers.a.getEnemyHP();
+}
     }
 })

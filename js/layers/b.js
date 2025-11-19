@@ -5,7 +5,7 @@ addLayer("b", {
     startData() { return {
         unlocked: true,
 		points: new Decimal(0),
-        hp: new Decimal(299.999),
+        hp: new Decimal(199.999),
     }},
     color: "#FFCC66",
     resource: "Beaten Bosses", // Name of prestige currency
@@ -14,7 +14,7 @@ addLayer("b", {
     branches: ['a'],
     layerShown(){return player.b.points.gte(1) || getLevel().gte(10)},
     getBossHP(){
-        return Decimal.pow(5,player.b.points).mul(30);
+        return Decimal.pow(5,player.b.points).mul(20);
     },
     getBossATK(){
         return Decimal.pow(4,player.b.points).mul(10);
@@ -84,13 +84,13 @@ milestones: [
 			requirementDescription: "Beat 2 bosses",
             unlocked() {return player[this.layer].points.gte(1)},
             done() {return player[this.layer].points.gte(2)}, // Used to determine when to give the milestone
-            effectDescription: "Gain more EXP from enemies.",
+            effectDescription: "Gain more EXP from enemies and unlock Bulk Attack in layer A.",
         },
 {
 			requirementDescription: "Beat 3 bosses",
             unlocked() {return player[this.layer].points.gte(2)},
             done() {return player[this.layer].points.gte(3)}, // Used to determine when to give the milestone
-            effectDescription: "Gain more EXP from enemies, but Enemy DEF is increased.",
+            effectDescription: "Unlock layer C.",
 	onComplete() {
 player.a.nextEnemyTime = new Decimal(2);
             player.a.hp = layers.a.getEnemyHP();
