@@ -3,7 +3,7 @@ addLayer("b", {
     symbol: "B", // This appears on the layer's node. Default is the id with the first letter capitalized
     position: 0, // Horizontal position within a row. By default it uses the layer id and sorts in alphabetical order
     startData() { return {
-        unlocked: true,
+        unlocked: false,
 		points: new Decimal(0),
         hp: new Decimal(199.999),
     }},
@@ -26,7 +26,7 @@ addLayer("b", {
                 y=y.floor().toNumber()+1;
 		return "<div style=width:400px;text-align:right;>x"+y+"</div>";
 	}],["bar","hp"]]],
-        ["clickable","11"],
+        ["row",[["clickable","11"],["clickable","12"]]],
 	"milestones"
     ],
     bars: {
@@ -66,12 +66,39 @@ addLayer("b", {
                 return player.points.gte(layers.b.getBossATK().div(getDEF().add(1)));
             },
             onClick() {
+                if(!layers[this.layer].clickables[this.id].canClick())return;
+
                 let y = player.b.hp.div(layers.b.getBossHP());
                 player.points = player.points.sub(layers.b.getBossATK().div(getDEF().add(1)));
-                player.b.hp = player.b.hp.sub(getATK().div(new Decimal(10).sub(y.floor()).max(1))).max(y.floor().sub(0.0001).mul(layers.b.getBossHP()));
+                player.b.hp = player.b.hp.sub(getATK().mul(layers.b.dmgMult()).div(new Decimal(10).sub(y.floor()).max(1))).max(y.floor().sub(0.0001).mul(layers.b.getBossHP()));
             },
             unlocked: true,
-        }
+        },
+        12: {
+            title() {
+                return "Attack x"+formatWhole(this.bulk());
+            },
+		bulk() {
+			let bulk=player.points.div(layers.b.getBossATK().div(getDEF().add(1))).floor().max(1);
+			return bulk;
+		},
+            display() {
+                return "Use "+format(layers.b.getBossATK().div(getDEF().add(1)).mul(this.bulk()))+" HP to attack"
+            },
+            canClick(){
+                return player.points.gte(layers.b.getBossATK().div(getDEF().add(1)));
+            },
+            onClick() {
+                if(!layers[this.layer].clickables[this.id].canClick())return;
+
+		let bulk=this.bulk();
+                let y = player.b.hp.div(layers.b.getBossHP());
+                player.points = player.points.sub(layers.b.getBossATK().div(getDEF().add(1)).mul(bulk));
+                player.b.hp = player.b.hp.sub(getATK().mul(layers.b.dmgMult()).div(new Decimal(10).sub(y.floor()).max(1)).mul(bulk)).max(y.floor().sub(0.0001).mul(layers.b.getBossHP()));
+            },
+            unlocked(){return  player.b.points.gte(3)},
+        },
+
     },
 milestones: [
 {
@@ -90,19 +117,36 @@ milestones: [
 			requirementDescription: "Beat 3 bosses",
             unlocked() {return player[this.layer].points.gte(2)},
             done() {return player[this.layer].points.gte(3)}, // Used to determine when to give the milestone
-            effectDescription: "Unlock layer C.",
-	onComplete() {
-player.a.nextEnemyTime = new Decimal(2);
-            player.a.hp = layers.a.getEnemyHP();
-}
+            effectDescription: "Unlock layer C and unlock Bulk Attack in layer B.",
         },
-
-
+{
+			requirementDescription: "Beat 4 bosses",
+            unlocked() {return player[this.layer].points.gte(3)},
+            done() {return player[this.layer].points.gte(4)}, // Used to determine when to give the milestone
+            effectDescription: "Calm point gain is multiplied by beaten bosses count.",
+        },
+{
+			requirementDescription: "Beat 5 bosses",
+            unlocked() {return player[this.layer].points.gte(4)},
+            done() {return player[this.layer].points.gte(5)}, // Used to determine when to give the milestone
+            effectDescription: "Calm point gain is better, unlock calm upgrades.",
+        },
 ],
     update(diff){
+        if(getLevel().gte(10))player.b.unlocked = true;
         if(player.b.hp.lte(0)){
 		player.b.points=player.b.points.add(1);
 		player.b.hp=layers.b.getBossHP().mul(9.9999);
 	}
-    }
+    },
+    dmgMult(){
+        let ret=new Decimal(1);
+        if(hasUpgrade("c",13))ret = ret.mul(upgradeEffect("c",13));
+        return ret;
+    },
+    doReset(layer){},
+    hotkeys: [
+        {key: "b", description: "b: attack boss", onPress(){if(player.b.points.gte(3))layers.b.clickables[12].onClick(); else layers.b.clickables[11].onClick();}},
+    ],
+
 })

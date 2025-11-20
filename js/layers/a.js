@@ -25,7 +25,10 @@ addLayer("a", {
         return player.a.level.mul(Decimal.pow(1.01,player.a.level.pow(0.5))).mul(0.05).sub(1.05).max(0);
     },
     getEnemyEXP(){
-        return player.a.level.pow(20/9).max(player.a.level.pow(3.1).mul(Decimal.pow(1.031,player.a.level.pow(0.5))).div(player.b.points.gte(2)?5:15));
+        if(!player.c.unlocked)return player.a.level.pow(20/9).max(player.a.level.pow(3.1).mul(Decimal.pow(1.031,player.a.level.pow(0.5))).div(player.b.points.gte(2)?5:15));
+        let exp=player.a.level.pow(3.1).mul(Decimal.pow(1.031,player.a.level.pow(0.5)));
+        exp = exp.mul(layers.c.effect());
+        return exp;
     },
     tabFormat: [
         "main-display",
@@ -79,6 +82,7 @@ addLayer("a", {
                 return player.points.gte(layers.a.getEnemyATK().div(getDEF().add(1))) && player.a.nextEnemyTime.lte(0);
             },
             onClick() {
+                if(!layers[this.layer].clickables[this.id].canClick())return;
                 player.points = player.points.sub(layers.a.getEnemyATK().div(getDEF().add(1)));
                 player.a.hp = player.a.hp.sub(getATK().div(layers.a.getEnemyDEF().add(1)));
             },
@@ -102,6 +106,7 @@ addLayer("a", {
                 return player.points.gte(layers.a.getEnemyATK().div(getDEF().add(1))) && player.a.nextEnemyTime.lte(0);
             },
             onClick() {
+                if(!layers[this.layer].clickables[this.id].canClick())return;
 		let bulk=this.bulk();
                 player.points = player.points.sub(layers.a.getEnemyATK().div(getDEF().add(1)).mul(bulk));
                 player.a.hp = player.a.hp.sub(getATK().div(layers.a.getEnemyDEF().add(1)).mul(bulk));
@@ -152,5 +157,17 @@ player.a.level = player.a.setLevel;
             player.a.nextEnemyTime = new Decimal(2);
             player.a.hp = layers.a.getEnemyHP();
 }
-    }
+    },
+    doReset(layer){
+        if(layer == "c"){
+             player.a.points = new Decimal(0);
+            player.a.nextEnemyTime = new Decimal(2);
+            player.a.hp = layers.a.getEnemyHP();
+             updateTemp();
+        }
+    },
+    hotkeys: [
+        {key: "a", description: "a: attack enemy", onPress(){if(player.b.points.gte(2))layers.a.clickables[12].onClick(); else layers.a.clickables[11].onClick();}},
+    ],
+
 })

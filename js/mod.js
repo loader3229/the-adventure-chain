@@ -3,7 +3,7 @@ let modInfo = {
 	id: "the-adventure-chain",
 	author: "loader3229",
 	pointsName: "HP",
-	modFiles: ["layers/a.js", "layers/b.js", "tree.js"],
+	modFiles: ["layers/a.js", "layers/b.js", "layers/c.js", "tree.js"],
 
 	discordName: "",
 	discordLink: "",
@@ -13,11 +13,19 @@ let modInfo = {
 
 // Set your version in num and name
 let VERSION = {
-	num: "1.0",
-	name: "Adventure",
+	num: "3.1",
+	name: "Calm Points",
 }
 
 let changelog = `<h1>Changelog:</h1><br>
+	<h3>v3.1</h3><br>
+		- Added Calm buyables.<br>
+		- Added Calm upgrades.<br>
+	<h3>v3.0</h3><br>
+		- Added Calm Points.<br>
+		- Added hotkeys for A,B,C.<br>
+	<h3>v2.0</h3><br>
+		- Added Bosses.<br>
 	<h3>v1.0</h3><br>
 		- Added Adventure.`
 
@@ -42,6 +50,9 @@ function getPointGen() {
 		return new Decimal(0)
 
 	let gain = getLevel()
+	if(hasMilestone("c",2))gain = gain.mul(1.1);
+gain = gain.mul(buyableEffect("c",21));
+
 	return gain
 }
 
@@ -83,12 +94,18 @@ function fixOldSave(oldVersion){
 
 function getATK(){
 	let atk=getLevel();
+	if(hasMilestone("c",2))atk = atk.mul(1.1);
+atk = atk.mul(buyableEffect("c",12));
+
 	return atk;
 }
 
 function getDEF(){
 	let def=new Decimal(0);
 	if(player.b.points.gte(1))def = getLevel().mul(0.05);
+	if(hasMilestone("c",2))def = def.mul(1.1);
+def = def.mul(buyableEffect("c",13));
+
 	return def;
 }
 
@@ -101,5 +118,12 @@ function getLevelProgress(){
 }
 
 function getRealLevel(){
+	if(hasMilestone("c",3)){
+		let tmp=new Decimal(1);
+		if(hasMilestone("c",6))tmp = tmp.add(0.2);
+		tmp = tmp.add(buyableEffect("c",22));
+		if(player.a.points.lte(tmp))return player.a.points.cbrt().add(1);
+		return player.a.points.cbrt().div(100).div(tmp).add(1).log(1.01).mul(tmp).add(1);
+	}
 	return player.a.points.cbrt().add(100).log10().sub(2).mul(200).add(1);
 }

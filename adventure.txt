@@ -1,5 +1,6 @@
 adventure
 boss
-card
-domain
+calm
+dimension
 equipment
+forge
