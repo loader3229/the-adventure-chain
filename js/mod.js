@@ -3,7 +3,7 @@ let modInfo = {
 	id: "the-adventure-chain",
 	author: "loader3229",
 	pointsName: "HP",
-	modFiles: ["layers/a.js", "layers/b.js", "layers/c.js", "tree.js"],
+	modFiles: ["layers/a.js", "layers/b.js", "layers/c.js", "layers/d.js", "tree.js"],
 
 	discordName: "",
 	discordLink: "",
@@ -102,6 +102,7 @@ atk = atk.mul(buyableEffect("c",12));
 
 function getDEF(){
 	let def=new Decimal(0);
+	if(inChallenge("d",11))return def;
 	if(player.b.points.gte(1))def = getLevel().mul(0.05);
 	if(hasMilestone("c",2))def = def.mul(1.1);
 def = def.mul(buyableEffect("c",13));
