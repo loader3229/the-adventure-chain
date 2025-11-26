@@ -24,12 +24,13 @@ addLayer("a", {
         return player.a.level.mul(Decimal.pow(1.01, player.a.level.pow(0.5)));
     },
     getEnemyDEF() {
-        return player.a.level.mul(Decimal.pow(1.01, player.a.level.pow(0.5))).mul(0.05).sub(1.05).max(0);
+        return player.a.level.mul(Decimal.pow(1.01, player.a.level.pow(0.5))).mul(0.05).sub(1.05).max(0).max(player.a.level.mul(Decimal.pow(1.01, player.a.level.pow(0.5))).mul(0.1).sub(70));
     },
     getEnemyEXP() {
         if (!player.c.unlocked) return player.a.level.pow(20 / 9).max(player.a.level.pow(3.1).mul(Decimal.pow(1.031, player.a.level.pow(0.5))).div(player.b.points.gte(2) ? 5 : 15));
-        let exp = player.a.level.pow(3.1).mul(Decimal.pow(1.031, player.a.level.pow(0.5)));
+        let exp = player.a.level.pow(3.1).mul(Decimal.pow(1.031, player.a.level.pow(0.5))).max(player.a.level.pow(3.2).mul(Decimal.pow(1.031, player.a.level.pow(0.5))).sub(54e8));
         exp = exp.mul(layers.c.effect());
+        exp = exp.mul(buyableEffect("c",23));
         return exp;
     },
     tabFormat: [

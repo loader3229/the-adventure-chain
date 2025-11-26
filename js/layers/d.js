@@ -27,16 +27,47 @@ addLayer("d", {
     challenges: {
         11: {
             name: "Defenseless",
-            challengeDescription: "Your DEF is 0.",
-            goal() { return new Decimal(600); },
+            challengeDescription() { return "Your DEF is 0.<br>Completions: "+formatWhole(player.d.challenges[11])+"/10"; },
+            goal() { return Decimal.pow(1.1,player.d.challenges[11]).mul(600); },
+            goalDescription(){return "Reach Level " + formatWhole(this.goal().ceil());},
             currencyDisplayName: "Level",
             canComplete() { return getLevel().gte(this.goal()) },
-            onEnter() { doReset("c", true); }
+            onEnter() { doReset("c", true); },
+            completionLimit: 10,
+            rewardDescription: "1 domain point per completion."
+        },
+        12: {
+            name: "Glass Cannon",
+            challengeDescription() { return "You will have 100 HP at the start of the domain, but you can't gain more.<br>Completions: "+formatWhole(player.d.challenges[12])+"/10"; },
+            goal() { return Decimal.pow(1.1,player.d.challenges[12]).mul(500); },
+            goalDescription(){return "Reach Level " + formatWhole(this.goal().ceil());},
+            currencyDisplayName: "Level",
+            canComplete() { return getLevel().gte(this.goal()) },
+            completionLimit: 10,
+            rewardDescription: "1 domain point per completion.",
+            onEnter(){
+                doReset("c", true);
+                player.points=new Decimal(100);
+            }
         },
 
     },
     update(diff) {
         if (player.b.points.gte(6)) player.d.unlocked = true;
+        player.d.points=new Decimal(player.d.challenges[11]).add(player.d.challenges[12]);
     },
+	effect() {
+		let ret = Decimal.pow(1.1,player.d.points);
+		return ret;
+	},
+	effect2() {
+		let ret = player.d.points.pow(1.5).add(1);
+		return ret;
+	},
+	effectDescription() { // Optional text to describe the effects
+		let eff = this.effect();
+		let eff2 = this.effect2();
+		return "translated to a " + format(eff) + "x multiplier to Calm Point gain and " + format(eff2) + "x multiplier to Boss Damage";
+	},
 
 })

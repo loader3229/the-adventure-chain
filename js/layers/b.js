@@ -133,6 +133,18 @@ addLayer("b", {
             done() { return player[this.layer].points.gte(5) }, // Used to determine when to give the milestone
             effectDescription: "Calm point gain is better, unlock calm upgrades.",
         },
+        {
+            requirementDescription: "Beat 6 bosses",
+            unlocked() { return player[this.layer].points.gte(5) },
+            done() { return player[this.layer].points.gte(6) }, // Used to determine when to give the milestone
+            effectDescription: "Unlock layer D.",
+        },
+        {
+            requirementDescription: "Beat 7 bosses",
+            unlocked() { return player[this.layer].points.gte(6) },
+            done() { return player[this.layer].points.gte(7) }, // Used to determine when to give the milestone
+            effectDescription: "Reduce level requirement based on beaten bosses count, unlock more calm upgrades.",
+        },
     ],
     update(diff) {
         if (getLevel().gte(10)) player.b.unlocked = true;
@@ -144,6 +156,7 @@ addLayer("b", {
     dmgMult() {
         let ret = new Decimal(1);
         if (hasUpgrade("c", 13)) ret = ret.mul(upgradeEffect("c", 13));
+        ret = ret.mul(layers.d.effect2());
         return ret;
     },
     doReset(layer) { },

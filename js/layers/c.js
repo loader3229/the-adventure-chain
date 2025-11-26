@@ -50,6 +50,7 @@ addLayer("c", {
 		if (player.b.points.gte(4)) ret = ret.mul(player.b.points);
 		ret = ret.mul(buyableEffect("c", 11));
 		if (hasUpgrade("c", 11)) ret = ret.mul(upgradeEffect("c", 11));
+		ret = ret.mul(layers.d.effect());
 		return ret;
 	},
 	effect() {
@@ -99,7 +100,7 @@ addLayer("c", {
 		},
 	],
 	update(diff) {
-		if (hasMilestone("c", 1)) player.a.points = player.a.points.add(getLevel().pow(player.d.activeChallenge ? 0.5 : 2).mul(diff).mul(layers.c.effect()));
+		if (hasMilestone("c", 1)) player.a.points = player.a.points.add(getLevel().pow(player.d.activeChallenge ? 0.5 : 2).mul(diff).mul(layers.c.effect().mul(buyableEffect("c",23))));
 	},
 	upgrades: {
 		11: {
@@ -117,9 +118,11 @@ addLayer("c", {
 			cost: new Decimal(1e6),
 			effect: function () { return Decimal.pow(2, player.c.upgrades.length) },
 			effectDisplay: function () { return format(upgradeEffect(this.layer, this.id)) + "x" }
+		},
+		14: {
+			description: "Unlock a new calm buyable.",
+			cost: new Decimal(1e7)
 		}
-
-
 	},
 	buyables: {
 		11: {
@@ -233,7 +236,8 @@ addLayer("c", {
 				let eff = new Decimal(1).add(player[this.layer].buyables[this.id].div(20));
 				return eff;
 			}
-		}, 22: {
+		},
+		22: {
 			title() {
 				return "Level Scaling";
 			},
@@ -261,6 +265,34 @@ addLayer("c", {
 				return eff;
 			},
 			unlocked() { return hasUpgrade("c", 12) }
+		},
+		23: {
+			title() {
+				return "EXP Gain";
+			},
+			display() {
+				let data = tmp[this.layer].buyables[this.id];
+				return "Level: " + format(player[this.layer].buyables[this.id]) + "<br>" +
+					"EXP gain x" + format(data.effect) + "<br>" +
+					"Cost for Next Level: " + format(data.cost) + " Calm Points";
+			},
+			cost() {
+				let a = player[this.layer].buyables[this.id];
+				a = Decimal.pow(3, a).mul(1e6);
+				return a;
+			},
+			canAfford() {
+				return player[this.layer].points.gte(layers[this.layer].buyables[this.id].cost())
+			},
+			buy() {
+				player[this.layer].points = player[this.layer].points.sub(layers[this.layer].buyables[this.id].cost())
+				player[this.layer].buyables[this.id] = player[this.layer].buyables[this.id].add(1)
+			},
+			effect() {
+				let eff = new Decimal(1).add(player[this.layer].buyables[this.id]);
+				return eff;
+			},
+			unlocked() { return hasUpgrade("c", 14) }
 		},
 
 

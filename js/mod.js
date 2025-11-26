@@ -13,11 +13,13 @@ let modInfo = {
 
 // Set your version in num and name
 let VERSION = {
-	num: "3.1",
-	name: "Calm Points",
+	num: "4.0",
+	name: "Domains",
 }
 
 let changelog = `<h1>Changelog:</h1><br>
+	<h3>v4.0</h3><br>
+		- Added Domains.<br>
 	<h3>v3.1</h3><br>
 		- Added Calm buyables.<br>
 		- Added Calm upgrades.<br>
@@ -41,6 +43,7 @@ function getStartPoints(){
 
 // Determines if it should show points/sec
 function canGenPoints(){
+	if(inChallenge("d",12))return false;
 	return true
 }
 
@@ -122,6 +125,7 @@ function getRealLevel(){
 	if(hasMilestone("c",3)){
 		let tmp=new Decimal(1);
 		if(hasMilestone("c",6))tmp = tmp.add(0.2);
+		if(player.b.points.gte(7))tmp = tmp.add(player.b.points.sub(5).mul(0.05));
 		tmp = tmp.add(buyableEffect("c",22));
 		if(player.a.points.lte(tmp))return player.a.points.cbrt().add(1);
 		return player.a.points.cbrt().div(100).div(tmp).add(1).log(1.01).mul(tmp).add(1);
