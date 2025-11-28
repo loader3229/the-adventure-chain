@@ -145,6 +145,18 @@ addLayer("b", {
             done() { return player[this.layer].points.gte(7) }, // Used to determine when to give the milestone
             effectDescription: "Reduce level requirement based on beaten bosses count, unlock more calm upgrades.",
         },
+        {
+            requirementDescription: "Beat 8 bosses",
+            unlocked() { return player[this.layer].points.gte(7) },
+            done() { return player[this.layer].points.gte(8) }, // Used to determine when to give the milestone
+            effectDescription: "Unlock layer E and increase level cap.",
+        },
+        {
+            requirementDescription: "Beat 9 bosses",
+            unlocked() { return player[this.layer].points.gte(8) },
+            done() { return player[this.layer].points.gte(9) }, // Used to determine when to give the milestone
+            effectDescription: "Unlock a new equipment type.",
+        },
     ],
     update(diff) {
         if (getLevel().gte(10)) player.b.unlocked = true;

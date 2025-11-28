@@ -3,7 +3,7 @@ let modInfo = {
 	id: "the-adventure-chain",
 	author: "loader3229",
 	pointsName: "HP",
-	modFiles: ["layers/a.js", "layers/b.js", "layers/c.js", "layers/d.js", "tree.js"],
+	modFiles: ["layers/a.js", "layers/b.js", "layers/c.js", "layers/d.js", "layers/e.js", "tree.js"],
 
 	discordName: "",
 	discordLink: "",
@@ -65,7 +65,7 @@ function addedPlayerData() { return {
 
 // Display extra things at the top of the page
 var displayThings = [
-	function(){return "Level: "+formatWhole(getLevel())+" ("+format(getLevelProgress().mul(100))+"%)"},
+	function(){return "Level: "+formatWhole(getLevel())+"/"+formatWhole(getLevelCap())+" ("+format(getLevelProgress().mul(100))+"%)"},
 	function(){return "ATK: "+format(getATK())},
 	function(){if(player.b.points.gte(1))return "DEF: "+format(getDEF())}
 
@@ -117,18 +117,38 @@ function getLevel(){
 	return getRealLevel().floor();
 }
 
+function getLevelCap(){
+	if(player.b.points.gte(8))return new Decimal(3000);
+	if(hasMilestone("c",3))return new Decimal(2000);
+	return new Decimal(1000);
+}
+
 function getLevelProgress(){
 	return getRealLevel().sub(getLevel());
 }
 
 function getRealLevel(){
 	if(hasMilestone("c",3)){
-		let tmp=new Decimal(1);
-		if(hasMilestone("c",6))tmp = tmp.add(0.2);
-		if(player.b.points.gte(7))tmp = tmp.add(player.b.points.sub(5).mul(0.05));
-		tmp = tmp.add(buyableEffect("c",22));
-		if(player.a.points.lte(tmp))return player.a.points.cbrt().add(1);
-		return player.a.points.cbrt().div(100).div(tmp).add(1).log(1.01).mul(tmp).add(1);
+
+		let scaling=new Decimal(1);
+		if(hasMilestone("c",6))scaling = scaling.add(0.2);
+		if(player.b.points.gte(7))scaling = scaling.add(player.b.points.sub(5).mul(0.05));
+		scaling = scaling.add(buyableEffect("c",22));
+		scaling = scaling.add(layers.e.equipmentEff(11));
+
+
+
+		let level = player.a.points.cbrt().div(100).div(scaling).add(1).log(1.01).mul(scaling).add(1);
+		if(player.a.points.lte(scaling))level = player.a.points.cbrt().add(1);
+		if(level.gte(1225))level = level.sqrt().mul(35);
+		level = level.min(2000);
+		if(player.b.points.gte(8)){
+			let level2 = player.a.points.pow(0.25).div(200).div(scaling).add(1).log(1.001).mul(scaling).div(5).add(1);
+			if(player.a.points.lte(scaling.div(5)))level2 = player.a.points.pow(0.25).add(1);
+			level2 = level2.min(3000);
+			level = level.max(level2);
+		}
+		return level;
 	}
-	return player.a.points.cbrt().add(100).log10().sub(2).mul(200).add(1);
+	return player.a.points.cbrt().add(100).log10().sub(2).mul(200).add(1).min(1000);
 }

@@ -81,7 +81,7 @@ addLayer("c", {
 		{
 			requirementDescription: "100 calm points",
 			done() { return player.c.points.gte(100) }, // Used to determine when to give the milestone
-			effectDescription: "Reduce level requirement.",
+			effectDescription: "Reduce level requirement and increase level cap.",
 		},
 		{
 			requirementDescription: "300 calm points",
@@ -100,7 +100,7 @@ addLayer("c", {
 		},
 	],
 	update(diff) {
-		if (hasMilestone("c", 1)) player.a.points = player.a.points.add(getLevel().pow(player.d.activeChallenge ? 0.5 : 2).mul(diff).mul(layers.c.effect().mul(buyableEffect("c",23))));
+		if (hasMilestone("c", 1)) player.a.points = player.a.points.add(getLevel().pow(player.d.activeChallenge ? 0.5 : 2).mul(diff).mul(layers.a.getEXPMult()));
 	},
 	upgrades: {
 		11: {
@@ -121,7 +121,13 @@ addLayer("c", {
 		},
 		14: {
 			description: "Unlock a new calm buyable.",
-			cost: new Decimal(1e7)
+			cost: new Decimal(1e7),
+			unlocked(){return player.b.points.gte(7)}
+		},
+		15: {
+			description: "Unlock a new equipment type, equipment shard effect is better.",
+			cost: new Decimal(3e8),
+			unlocked(){return player.e.unlocked}
 		}
 	},
 	buyables: {
@@ -295,9 +301,12 @@ addLayer("c", {
 			unlocked() { return hasUpgrade("c", 14) }
 		},
 
+	},
+
 
 		doReset(layer) { },
-
-
-	}
+passiveGeneration(){
+if(player.b.points.gte(9))return layers.e.equipmentEff(13).toNumber();
+else return 0;
+},
 })

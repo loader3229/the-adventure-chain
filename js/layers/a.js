@@ -29,8 +29,15 @@ addLayer("a", {
     getEnemyEXP() {
         if (!player.c.unlocked) return player.a.level.pow(20 / 9).max(player.a.level.pow(3.1).mul(Decimal.pow(1.031, player.a.level.pow(0.5))).div(player.b.points.gte(2) ? 5 : 15));
         let exp = player.a.level.pow(3.1).mul(Decimal.pow(1.031, player.a.level.pow(0.5))).max(player.a.level.pow(3.2).mul(Decimal.pow(1.031, player.a.level.pow(0.5))).sub(54e8));
+        exp = exp.mul(layers.a.getEXPMult());
+        return exp;
+    },
+    getEXPMult() {
+        if (!player.c.unlocked) return new Decimal(1);
+        let exp = new Decimal(1);
         exp = exp.mul(layers.c.effect());
         exp = exp.mul(buyableEffect("c",23));
+	exp = exp.mul(layers.e.equipmentEff(12));
         return exp;
     },
     tabFormat: [
@@ -43,6 +50,8 @@ addLayer("a", {
         ["display-text", function () { return "EXP: " + format(layers.a.getEnemyEXP()) }],
         ["display-text", function () { return "Reach Level 10 to unlock layer B" }],
         ["row", [["clickable", "11"], ["clickable", "12"]]],
+        ["display-text", function () { return player.e.drop }],
+
     ],
     bars: {
         hp: {
@@ -149,6 +158,7 @@ addLayer("a", {
     },
     update(diff) {
         if (player.a.hp.lte(0)) {
+            layers.e.drop(player.a.level);
             player.a.nextEnemyTime = new Decimal(2);
             player.a.hp = layers.a.getEnemyHP();
             player.a.points = player.a.points.add(layers.a.getEnemyEXP());
