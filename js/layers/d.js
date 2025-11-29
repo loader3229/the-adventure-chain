@@ -27,34 +27,49 @@ addLayer("d", {
     challenges: {
         11: {
             name: "Defenseless",
-            challengeDescription() { return "Your DEF is 0.<br>Completions: "+formatWhole(player.d.challenges[11])+"/10"; },
+            challengeDescription() { return "Your DEF is 0.<br>Completions: "+formatWhole(player.d.challenges[11])+"/15"; },
             goal() { return Decimal.pow(1.1,player.d.challenges[11]).mul(600); },
             goalDescription(){return "Reach Level " + formatWhole(this.goal().ceil());},
             currencyDisplayName: "Level",
             canComplete() { return getLevel().gte(this.goal()) },
             onEnter() { doReset("c", true); },
-            completionLimit: 10,
+            completionLimit: 15,
             rewardDescription: "1 domain point per completion."
         },
         12: {
             name: "Glass Cannon",
-            challengeDescription() { return "You will have 100 HP at the start of the domain, but you can't gain more.<br>Completions: "+formatWhole(player.d.challenges[12])+"/10"; },
+            challengeDescription() { return "You will have 100 HP at the start of the domain, but you can't gain more.<br>Completions: "+formatWhole(player.d.challenges[12])+"/15"; },
             goal() { return Decimal.pow(1.1,player.d.challenges[12]).mul(500); },
             goalDescription(){return "Reach Level " + formatWhole(this.goal().ceil());},
             currencyDisplayName: "Level",
             canComplete() { return getLevel().gte(this.goal()) },
-            completionLimit: 10,
+            completionLimit: 15,
             rewardDescription: "1 domain point per completion.",
             onEnter(){
                 doReset("c", true);
                 player.points=new Decimal(100);
             }
         },
+        21: {
+            name: "Weak Attack",
+            challengeDescription() { return "Your ATK is 1.<br>Completions: "+formatWhole(player.d.challenges[21])+"/15"; },
+            goal() { return Decimal.pow(1.1,player.d.challenges[21]).mul(1000); },
+            goalDescription(){return "Reach Level " + formatWhole(this.goal().ceil());},
+            currencyDisplayName: "Level",
+            canComplete() { return getLevel().gte(this.goal()) },
+            completionLimit: 15,
+            rewardDescription: "1 domain point per completion.",
+            onEnter(){
+                doReset("c", true);
+            },
+		unlocked(){return hasUpgrade("c",21);}
+        },
+
 
     },
     update(diff) {
         if (player.b.points.gte(6)) player.d.unlocked = true;
-        player.d.points=new Decimal(player.d.challenges[11]).add(player.d.challenges[12]);
+        player.d.points=new Decimal(player.d.challenges[11]).add(player.d.challenges[12]).add(player.d.challenges[21]);
     },
 	effect() {
 		let ret = Decimal.pow(1.1,player.d.points);

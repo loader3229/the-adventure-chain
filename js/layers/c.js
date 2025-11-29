@@ -30,6 +30,7 @@ addLayer("c", {
 			"content": [
 				"main-display",
 				"prestige-button",
+				"resource-display",
 				"upgrades",
 				"milestones"
 			]
@@ -37,6 +38,8 @@ addLayer("c", {
 			"content": [
 				"main-display",
 				"prestige-button",
+				"resource-display",
+
 				"buyables"
 			], unlocked: function () { return hasMilestone("c", 4) }
 		}
@@ -128,6 +131,13 @@ addLayer("c", {
 			description: "Unlock a new equipment type, equipment shard effect is better.",
 			cost: new Decimal(3e8),
 			unlocked(){return player.e.unlocked}
+		},
+		21: {
+			description: "Unlock a new domain. Domain Points reduce damage taken when attacking boss.",
+			cost: new Decimal(1e10),
+			unlocked(){return player.e.unlocked},
+			effect: function () { return player.d.points.mul(0.05).add(1) },
+			effectDisplay: function () { return "/"+format(upgradeEffect(this.layer, this.id)) }
 		}
 	},
 	buyables: {

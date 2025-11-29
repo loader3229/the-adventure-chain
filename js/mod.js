@@ -96,6 +96,7 @@ function fixOldSave(oldVersion){
 }
 
 function getATK(){
+	if(inChallenge("d",21))return new Decimal(1);
 	let atk=getLevel();
 	if(hasMilestone("c",2))atk = atk.mul(1.1);
 atk = atk.mul(buyableEffect("c",12));
@@ -118,6 +119,7 @@ function getLevel(){
 }
 
 function getLevelCap(){
+	if(player.b.points.gte(10))return new Decimal(4000);
 	if(player.b.points.gte(8))return new Decimal(3000);
 	if(hasMilestone("c",3))return new Decimal(2000);
 	return new Decimal(1000);
@@ -143,9 +145,9 @@ function getRealLevel(){
 		if(level.gte(1225))level = level.sqrt().mul(35);
 		level = level.min(2000);
 		if(player.b.points.gte(8)){
-			let level2 = player.a.points.pow(0.25).div(200).div(scaling).add(1).log(1.001).mul(scaling).div(5).add(1);
-			if(player.a.points.lte(scaling.div(5)))level2 = player.a.points.pow(0.25).add(1);
-			level2 = level2.min(3000);
+			let level2 = player.a.points.pow(0.25).div(player.b.points.gte(10)?250:200).div(scaling).add(1).log(1.001).mul(scaling).div(player.b.points.gte(10)?4:5).add(1);
+			if(player.a.points.lte(scaling.div(player.b.points.gte(10)?4:5)))level2 = player.a.points.pow(0.25).add(1);
+			level2 = level2.min(player.b.points.gte(10)?4000:3000);
 			level = level.max(level2);
 		}
 		return level;
