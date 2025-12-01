@@ -20,6 +20,10 @@ addLayer("e", {
                     level: new Decimal(0),
                     power: new Decimal(0)
                 },
+		14: {
+                    level: new Decimal(0),
+                    power: new Decimal(0)
+                },
             },
         }
     },
@@ -43,6 +47,7 @@ addLayer("e", {
 gainMult(x){
 	if(x === undefined)x = new Decimal(0);
 	x = x.pow(2).div(300000);
+	x = x.mul(buyableEffect("c",31));
 	return x;
 },
     update(diff) {
@@ -53,6 +58,7 @@ gainMult(x){
         let types = [11];
 	if(hasUpgrade("c",15))types.push(12);
 	if(player.b.points.gte(9))types.push(13);
+	if(hasUpgrade("c",22))types.push(14);
 	let type=types[Math.floor(types.length*Math.random())];
         let power = layers.e.effect().mul(Math.random()).add(1);
         let x = Decimal.mul(player.e.equipment[type].level,player.e.equipment[type].power);
@@ -76,6 +82,9 @@ gainMult(x){
 	}
 	if(type==13){
 		return new Decimal(1).sub(Decimal.pow(0.995,x.pow(0.5)));
+	}
+	if(type==14){
+		return x.div(3000).add(1);
 	}
 
 	return new Decimal(0);
@@ -113,5 +122,16 @@ unlocked(){return hasUpgrade("c",15);}
             style: {"background-color": "#6699FF"},
 unlocked(){return player.b.points.gte(9);}
         },
+        14: {
+            title: "Calm Gem",
+            display: function(){
+                return `Level: ${formatWhole(player[this.layer].equipment[this.id].level)}<br>Power: ${formatWhole(player[this.layer].equipment[this.id].power.mul(100))}%<br>Effect: Calm Point Gain x${format(layers[this.layer].equipmentEff(this.id))}`;
+            },
+            canClick: false,
+            style: {"background-color": "#6699FF"},
+unlocked(){return hasUpgrade("c",22);}
+
+        },
+
     },
 })

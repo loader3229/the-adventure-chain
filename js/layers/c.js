@@ -54,6 +54,7 @@ addLayer("c", {
 		ret = ret.mul(buyableEffect("c", 11));
 		if (hasUpgrade("c", 11)) ret = ret.mul(upgradeEffect("c", 11));
 		ret = ret.mul(layers.d.effect());
+		ret = ret.mul(layers.e.equipmentEff(14));
 		return ret;
 	},
 	effect() {
@@ -138,6 +139,11 @@ addLayer("c", {
 			unlocked(){return player.e.unlocked},
 			effect: function () { return player.d.points.mul(0.05).add(1) },
 			effectDisplay: function () { return "/"+format(upgradeEffect(this.layer, this.id)) }
+		},
+		22: {
+			description: "Unlock a new equipment type and a new calm buyable.",
+			cost: new Decimal(3e11),
+			unlocked(){return player.e.unlocked},
 		}
 	},
 	buyables: {
@@ -309,6 +315,34 @@ addLayer("c", {
 				return eff;
 			},
 			unlocked() { return hasUpgrade("c", 14) }
+		},
+		31: {
+			title() {
+				return "Equipment Shard Gain";
+			},
+			display() {
+				let data = tmp[this.layer].buyables[this.id];
+				return "Level: " + format(player[this.layer].buyables[this.id]) + "<br>" +
+					"Equipment Shard gain x" + format(data.effect) + "<br>" +
+					"Cost for Next Level: " + format(data.cost) + " Calm Points";
+			},
+			cost() {
+				let a = player[this.layer].buyables[this.id];
+				a = Decimal.pow(2, a).mul(1e10);
+				return a;
+			},
+			canAfford() {
+				return player[this.layer].points.gte(layers[this.layer].buyables[this.id].cost())
+			},
+			buy() {
+				player[this.layer].points = player[this.layer].points.sub(layers[this.layer].buyables[this.id].cost())
+				player[this.layer].buyables[this.id] = player[this.layer].buyables[this.id].add(1)
+			},
+			effect() {
+				let eff = new Decimal(1).add(player[this.layer].buyables[this.id]);
+				return eff;
+			},
+			unlocked() { return hasUpgrade("c", 22) }
 		},
 
 	},
