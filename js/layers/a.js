@@ -17,6 +17,10 @@ addLayer("a", {
     type: "none", // normal: cost to gain currency depends on amount gained. static: cost depends on how much you already have
     row: 0, // Row the layer is in on the tree (0 is the first row)
     layerShown() { return true },
+baseResource: "HP", // Name of resource prestige is based on
+	baseAmount() {
+		return player.points;
+	},
     getEnemyHP() {
         return player.a.level.mul(Decimal.pow(1.01, player.a.level.pow(0.5))).mul(5);
     },
@@ -50,6 +54,7 @@ addLayer("a", {
         ["display-text", function () { return "EXP: " + format(layers.a.getEnemyEXP()) }],
         ["display-text", function () { return "Reach Level 10 to unlock layer B" }],
         ["row", [["clickable", "11"], ["clickable", "12"]]],
+        "resource-display",
         ["display-text", function () { return player.e.drop }],
 
     ],

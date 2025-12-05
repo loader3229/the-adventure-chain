@@ -48,6 +48,7 @@ gainMult(x){
 	if(x === undefined)x = new Decimal(0);
 	x = x.pow(2).div(300000);
 	x = x.mul(buyableEffect("c",31));
+if(player.b.points.gte(11))x = x.mul(player.b.points);
 	return x;
 },
     update(diff) {
@@ -55,20 +56,26 @@ gainMult(x){
     },
     drop(level) {
         if (level === undefined)return "Haha";
+	player.e.drop = "Enemy drop: ";
         let types = [11];
 	if(hasUpgrade("c",15))types.push(12);
 	if(player.b.points.gte(9))types.push(13);
 	if(hasUpgrade("c",22))types.push(14);
-	let type=types[Math.floor(types.length*Math.random())];
-        let power = layers.e.effect().mul(Math.random()).add(1);
-        let x = Decimal.mul(player.e.equipment[type].level,player.e.equipment[type].power);
-	let y = level.mul(power);
-	player.e.drop = "Enemy drop: "+layers.e.clickables[type].title+" Level "+formatWhole(level)+", Power: "+formatWhole(power.mul(100))+"%"
-	if(y.gte(x)){
-		player.e.equipment[type].level=level;
-		player.e.equipment[type].power=power;
+	let count = 1;
+	if(player.b.points.gte(11))count++;
+	for(i=0;i<count;i++){
+		let type=types[Math.floor(types.length*Math.random())];
+        	let power = layers.e.effect().mul(Math.random()).add(1);
+        	let x = Decimal.mul(player.e.equipment[type].level,player.e.equipment[type].power);
+		let y = level.mul(power);
+		if(i)player.e.drop += "; ";
+		player.e.drop += layers.e.clickables[type].title+" Level "+formatWhole(level)+", Power: "+formatWhole(power.mul(100))+"%";
+		if(y.gte(x)){
+			player.e.equipment[type].level=level;
+			player.e.equipment[type].power=power;
+		}
+		player.e.points = player.e.points.add(layers.e.gainMult(x.min(y)));
 	}
-	player.e.points = player.e.points.add(layers.e.gainMult(x.min(y)));
 	return player.e.drop;
     },
     equipmentEff(type){

@@ -3,7 +3,7 @@ let modInfo = {
 	id: "the-adventure-chain",
 	author: "loader3229",
 	pointsName: "HP",
-	modFiles: ["layers/a.js", "layers/b.js", "layers/c.js", "layers/d.js", "layers/e.js", "tree.js"],
+	modFiles: ["layers/a.js", "layers/b.js", "layers/c.js", "layers/d.js", "layers/e.js", "layers/f.js", "tree.js"],
 
 	discordName: "",
 	discordLink: "",
@@ -149,6 +149,7 @@ function getRealLevel(){
 		if(player.b.points.gte(8)){
 			let level2 = player.a.points.pow(0.25).div(player.b.points.gte(10)?250:200).div(scaling).add(1).log(1.001).mul(scaling).div(player.b.points.gte(10)?4:5).add(1);
 			if(player.a.points.lte(scaling.div(player.b.points.gte(10)?4:5)))level2 = player.a.points.pow(0.25).add(1);
+			if(level2.gte(3600))level2 = level2.sqrt().mul(60);
 			level2 = level2.min(player.b.points.gte(10)?4000:3000);
 			level = level.max(level2);
 		}

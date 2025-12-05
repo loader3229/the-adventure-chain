@@ -15,6 +15,10 @@ addLayer("b", {
     row: 1, // Row the layer is in on the tree (0 is the first row)
     branches: ['a'],
     layerShown() { return player.b.points.gte(1) || getLevel().gte(10) },
+baseResource: "HP", // Name of resource prestige is based on
+	baseAmount() {
+		return player.points;
+	},
     getBossHP() {
 	if(player.b.points.gte(10))return Decimal.pow(10, player.b.points.sub(10)).mul(2e8);
 	if(player.b.points.gte(8))return Decimal.pow(8, player.b.points.sub(8)).mul(3125000);
@@ -34,6 +38,7 @@ addLayer("b", {
             return "<div style=width:400px;text-align:right;>x" + y + "</div>";
         }], ["bar", "hp"]]],
         ["row", [["clickable", "11"], ["clickable", "12"]]],
+        "resource-display",
         "milestones"
     ],
     bars: {
@@ -173,6 +178,12 @@ addLayer("b", {
             unlocked() { return player[this.layer].points.gte(9) },
             done() { return player[this.layer].points.gte(10) }, // Used to determine when to give the milestone
             effectDescription: "Increase level cap, and level requirement is reduced.",
+        },
+        {
+            requirementDescription: "Beat 11 bosses",
+            unlocked() { return player[this.layer].points.gte(10) },
+            done() { return player[this.layer].points.gte(11) }, // Used to determine when to give the milestone
+            effectDescription: "Equipment Shard gain is multiplied by beaten bosses count. Each enemy drop 2 equipments. Unlock layer F.",
         },
     ],
     update(diff) {
