@@ -185,6 +185,12 @@ baseResource: "HP", // Name of resource prestige is based on
             done() { return player[this.layer].points.gte(11) }, // Used to determine when to give the milestone
             effectDescription: "Equipment Shard gain is multiplied by beaten bosses count. Each enemy drop 2 equipments. Unlock layer F.",
         },
+        {
+            requirementDescription: "Beat 12 bosses",
+            unlocked() { return player[this.layer].points.gte(11) },
+            done() { return player[this.layer].points.gte(12) }, // Used to determine when to give the milestone
+            effectDescription: "Unlock Sacrifice.",
+        },
     ],
     update(diff) {
         if (getLevel().gte(10)) player.b.unlocked = true;

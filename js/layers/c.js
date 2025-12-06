@@ -55,6 +55,7 @@ addLayer("c", {
 		if (hasUpgrade("c", 11)) ret = ret.mul(upgradeEffect("c", 11));
 		ret = ret.mul(layers.d.effect());
 		ret = ret.mul(layers.e.equipmentEff(14));
+		ret = ret.mul(layers.f.effect());
 		return ret;
 	},
 	effect() {
@@ -144,6 +145,16 @@ addLayer("c", {
 			description: "Unlock a new equipment type and a new calm buyable.",
 			cost: new Decimal(3e11),
 			unlocked(){return player.e.unlocked},
+		},
+		23: {
+			description: "Unlock more tiers of machines.",
+			cost: new Decimal(2e13),
+			unlocked(){return player.f.unlocked},
+		},
+		24: {
+			description: "Equipment Power +50% for new equipments.",
+			cost: new Decimal(5e14),
+			unlocked(){return player.f.unlocked},
 		}
 	},
 	buyables: {

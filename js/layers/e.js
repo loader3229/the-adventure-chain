@@ -49,6 +49,8 @@ gainMult(x){
 	x = x.pow(2).div(300000);
 	x = x.mul(buyableEffect("c",31));
 if(player.b.points.gte(11))x = x.mul(player.b.points);
+		x = x.mul(layers.f.effect());
+
 	return x;
 },
     update(diff) {
@@ -65,7 +67,7 @@ if(player.b.points.gte(11))x = x.mul(player.b.points);
 	if(player.b.points.gte(11))count++;
 	for(i=0;i<count;i++){
 		let type=types[Math.floor(types.length*Math.random())];
-        	let power = layers.e.effect().mul(Math.random()).add(1);
+        	let power = layers.e.effect().mul(Math.random()).add(layers.e.effect2());
         	let x = Decimal.mul(player.e.equipment[type].level,player.e.equipment[type].power);
 		let y = level.mul(power);
 		if(i)player.e.drop += "; ";
@@ -99,8 +101,12 @@ if(player.b.points.gte(11))x = x.mul(player.b.points);
 effect(){
 	return player.e.points.add(10).log10().div(hasUpgrade("c",15)?4:10);
 },
+effect2(){
+	if(hasUpgrade("c",24))return new Decimal(1.5);
+	return new Decimal(1);
+},
 effectDescription(){
-	return "Max equipment power: "+formatWhole(layers.e.effect().mul(100).add(100))+"%";
+	return "equipment power range: "+formatWhole(layers.e.effect2().mul(100))+"% - "+formatWhole(layers.e.effect().add(layers.e.effect2()).mul(100))+"%";
 },
     clickables: {
         11: {

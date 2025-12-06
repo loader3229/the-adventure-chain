@@ -27,23 +27,23 @@ addLayer("d", {
     challenges: {
         11: {
             name: "Defenseless",
-            challengeDescription() { return "Your DEF is 0.<br>Completions: "+formatWhole(player.d.challenges[11])+"/15"; },
+            challengeDescription() { return "Your DEF is 0.<br>Completions: "+formatWhole(player.d.challenges[11])+"/12"; },
             goal() { return Decimal.pow(1.1,player.d.challenges[11]).mul(600); },
             goalDescription(){return "Reach Level " + formatWhole(this.goal().ceil());},
             currencyDisplayName: "Level",
             canComplete() { return getLevel().gte(this.goal()) },
             onEnter() { doReset("c", true); },
-            completionLimit: 15,
+            completionLimit: 12,
             rewardDescription: "1 domain point per completion."
         },
         12: {
             name: "Glass Cannon",
-            challengeDescription() { return "You will have 100 HP at the start of the domain, but you can't gain more.<br>Completions: "+formatWhole(player.d.challenges[12])+"/15"; },
+            challengeDescription() { return "You will have 100 HP at the start of the domain, but you can't gain more.<br>Completions: "+formatWhole(player.d.challenges[12])+"/12"; },
             goal() { return Decimal.pow(1.1,player.d.challenges[12]).mul(500); },
             goalDescription(){return "Reach Level " + formatWhole(this.goal().ceil());},
             currencyDisplayName: "Level",
             canComplete() { return getLevel().gte(this.goal()) },
-            completionLimit: 15,
+            completionLimit: 12,
             rewardDescription: "1 domain point per completion.",
             onEnter(){
                 doReset("c", true);
@@ -52,12 +52,12 @@ addLayer("d", {
         },
         21: {
             name: "Weak Attack",
-            challengeDescription() { return "Your ATK is 1.<br>Completions: "+formatWhole(player.d.challenges[21])+"/15"; },
+            challengeDescription() { return "Your ATK is 1.<br>Completions: "+formatWhole(player.d.challenges[21])+"/12"; },
             goal() { return Decimal.pow(1.1,player.d.challenges[21]).mul(1000); },
             goalDescription(){return "Reach Level " + formatWhole(this.goal().ceil());},
             currencyDisplayName: "Level",
             canComplete() { return getLevel().gte(this.goal()) },
-            completionLimit: 15,
+            completionLimit: 12,
             rewardDescription: "1 domain point per completion.",
             onEnter(){
                 doReset("c", true);
