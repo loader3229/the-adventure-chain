@@ -88,7 +88,7 @@ baseResource: "HP", // Name of resource prestige is based on
 
                 let y = player.b.hp.div(layers.b.getBossHP());
                 player.points = player.points.sub(layers.b.getBossATK().div(getDEF().add(1)));
-                player.b.hp = player.b.hp.sub(getATK().mul(layers.b.dmgMult()));
+                player.b.hp = player.b.hp.sub(getATK().mul(getDMG()).mul(layers.b.dmgMult()));
             },
             unlocked: true,
         },
@@ -112,7 +112,7 @@ baseResource: "HP", // Name of resource prestige is based on
                 let bulk = this.bulk();
                 let y = player.b.hp.div(layers.b.getBossHP());
                 player.points = player.points.sub(layers.b.getBossATK().div(getDEF().add(1)).mul(bulk));
-		player.b.hp = player.b.hp.sub(getATK().mul(layers.b.dmgMult()).mul(bulk));
+		player.b.hp = player.b.hp.sub(getATK().mul(getDMG()).mul(layers.b.dmgMult()).mul(bulk));
             },
             unlocked() { return player.b.points.gte(3) },
         },
@@ -191,6 +191,19 @@ baseResource: "HP", // Name of resource prestige is based on
             done() { return player[this.layer].points.gte(12) }, // Used to determine when to give the milestone
             effectDescription: "Unlock Sacrifice.",
         },
+        {
+            requirementDescription: "Beat 13 bosses",
+            unlocked() { return player[this.layer].points.gte(12) },
+            done() { return player[this.layer].points.gte(13) }, // Used to determine when to give the milestone
+            effectDescription: "+0.0001 DMG per level, unlock some calm upgrades.",
+        },
+        {
+            requirementDescription: "Beat 14 bosses",
+            unlocked() { return player[this.layer].points.gte(13) },
+            done() { return player[this.layer].points.gte(14) }, // Used to determine when to give the milestone
+            effectDescription: "Equipment Shard effect is better.",
+        },
+
     ],
     update(diff) {
         if (getLevel().gte(10)) player.b.unlocked = true;
@@ -203,6 +216,7 @@ baseResource: "HP", // Name of resource prestige is based on
         let ret = new Decimal(1);
         if (hasUpgrade("c", 13)) ret = ret.mul(upgradeEffect("c", 13));
         ret = ret.mul(layers.d.effect2());
+	if(player.sac.points.gte(1))ret = ret.mul(10);
         return ret;
     },
     dmgDivide() {

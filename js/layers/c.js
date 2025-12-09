@@ -11,10 +11,13 @@ addLayer("c", {
 	color: "#66FF66",
 	resource: "Calm Points", // Name of prestige currency
 	type: "normal", // normal: cost to gain currency depends on amount gained. static: cost depends on how much you already have
-	requires: new Decimal(100),
+	requires() {
+		if (player.sac.points.gte(1))return new Decimal(20);
+		return new Decimal(100);
+	},
 	exponent() {
 		ret = new Decimal(2);
-		if (hasMilestone("c", 5)) ret = ret.add(0.6);
+		if (hasMilestone("c", 5)) ret = ret.add(player.sac.points.gte(1)?0.1:0.6);
 		if (player.b.points.gte(5)) ret = ret.add(0.4);
 		return ret;
 	},
@@ -56,6 +59,7 @@ addLayer("c", {
 		ret = ret.mul(layers.d.effect());
 		ret = ret.mul(layers.e.equipmentEff(14));
 		ret = ret.mul(layers.f.effect());
+		if (player.sac.points.gte(1))ret = ret.div(12);
 		return ret;
 	},
 	effect() {
@@ -69,8 +73,8 @@ addLayer("c", {
 	},
 	milestones: [
 		{
-			requirementDescription: "1st calm reset",
-			done() { return player.c.unlocked }, // Used to determine when to give the milestone
+			requirementDescription: "1 calm point",
+			done() { return player.c.points.gte(1) }, // Used to determine when to give the milestone
 			effectDescription: "Gain more EXP from enemies.",
 		},
 		{
@@ -86,7 +90,10 @@ addLayer("c", {
 		{
 			requirementDescription: "100 calm points",
 			done() { return player.c.points.gte(100) }, // Used to determine when to give the milestone
-			effectDescription: "Reduce level requirement and increase level cap.",
+			effectDescription() {
+			if(player.sac.points.gte(1))return "Gain more EXP from enemies.";
+			 return "Reduce level requirement and increase level cap.";
+			},
 		},
 		{
 			requirementDescription: "300 calm points",
@@ -103,9 +110,27 @@ addLayer("c", {
 			done() { return player.c.points.gte(4000) }, // Used to determine when to give the milestone
 			effectDescription: "Reduce level requirement.",
 		},
+		{
+			requirementDescription: "1e14 calm points",
+			done() { return player.c.points.gte(1e14) && player.sac.points.gte(1) }, // Used to determine when to give the milestone
+			unlocked(){return player.sac.points.gte(1)},
+			effectDescription: "Reduce level requirement.",
+		},
+		{
+			requirementDescription: "1e16 calm points",
+			done() { return player.c.points.gte(1e16) && player.sac.points.gte(1) }, // Used to determine when to give the milestone
+			unlocked(){return player.sac.points.gte(1)},
+			effectDescription: "Scrap effect boost EXP.",
+		},
+		{
+			requirementDescription: "1e18 calm points",
+			done() { return player.c.points.gte(1e18) && player.sac.points.gte(1) }, // Used to determine when to give the milestone
+			unlocked(){return player.sac.points.gte(1)},
+			effectDescription: "Gain more EXP from enemies.",
+		},
 	],
 	update(diff) {
-		if (hasMilestone("c", 1)) player.a.points = player.a.points.add(getLevel().pow(player.d.activeChallenge ? 0.5 : 2).mul(diff).mul(layers.a.getEXPMult()));
+		if (hasMilestone("c", 1)) player.a.points = player.a.points.add(getLevel().pow(player.d.activeChallenge ? 0.5 : 2).pow(player.sac.points.gte(1)?1.75:1).mul(diff).mul(layers.a.gainMult()));
 	},
 	upgrades: {
 		11: {
@@ -155,7 +180,22 @@ addLayer("c", {
 			description: "Equipment Power +50% for new equipments.",
 			cost: new Decimal(5e14),
 			unlocked(){return player.f.unlocked},
-		}
+		},
+		25: {
+			description: "Scrap effect is better.",
+			cost: new Decimal(3e10),
+			unlocked(){return player.sac.points.gte(1)},
+		},
+		31: {
+			description: "4000 Calm Points milestone is better.",
+			cost: new Decimal(1e17),
+			unlocked(){return player.b.points.gte(13)}
+		},
+		32: {
+			description: "Increase max domain completions.",
+			cost: new Decimal(3e18),
+			unlocked(){return player.b.points.gte(13)}
+		},
 	},
 	buyables: {
 		11: {

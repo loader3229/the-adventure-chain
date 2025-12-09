@@ -34,17 +34,23 @@ baseResource: "HP", // Name of resource prestige is based on
         return player.a.level.mul(Decimal.pow(1.01, player.a.level.pow(0.5))).mul(0.0001).max(1);
     },
     getEnemyEXP() {
-        if (!player.c.unlocked) return player.a.level.pow(20 / 9).max(player.a.level.pow(3.1).mul(Decimal.pow(1.031, player.a.level.pow(0.5))).div(player.b.points.gte(2) ? 5 : 15));
-        let exp = player.a.level.pow(3.1).mul(Decimal.pow(1.031, player.a.level.pow(0.5))).max(player.a.level.pow(3.2).mul(Decimal.pow(1.031, player.a.level.pow(0.5))).sub(54e8)).max(player.a.level.pow(4.1).mul(Decimal.pow(1.041, player.a.level.pow(0.5))).div(4000));
-        exp = exp.mul(layers.a.getEXPMult());
+	let exp = player.a.level.pow(20 / 9).max(player.a.level.pow(3.1).mul(Decimal.pow(1.031, player.a.level.pow(0.5))).div(player.b.points.gte(2) ? 5 : 15));
+        if (player.c.unlocked) exp = player.a.level.pow(3.1).mul(Decimal.pow(1.031, player.a.level.pow(0.5))).max(player.a.level.pow(3.2).mul(Decimal.pow(1.031, player.a.level.pow(0.5))).sub(54e8)).max(player.a.level.pow(4.1).mul(Decimal.pow(1.041, player.a.level.pow(0.5))).div(4000));
+	if (player.sac.points.gte(1)){
+		exp = player.a.level.pow(3.1).mul(Decimal.pow(1.031, player.a.level.pow(0.5))).mul(20).max(player.a.level.pow(4.1).mul(Decimal.pow(1.041, player.a.level.pow(0.5))).div(hasMilestone("c",9)?1:60));
+		if(hasMilestone("c",0))exp = exp.mul(3);
+		if(hasMilestone("c",3))exp = exp.mul(2);
+	}
+        exp = exp.mul(layers.a.gainMult());
         return exp;
     },
-    getEXPMult() {
+    gainMult() {
         if (!player.c.unlocked) return new Decimal(1);
         let exp = new Decimal(1);
         exp = exp.mul(layers.c.effect());
         exp = exp.mul(buyableEffect("c",23));
 	exp = exp.mul(layers.e.equipmentEff(12));
+        if(hasMilestone("c",8))exp = exp.mul(layers.f.effect());
         return exp;
     },
     tabFormat: [
@@ -97,7 +103,7 @@ baseResource: "HP", // Name of resource prestige is based on
                 return "Attack"
             },
             display() {
-                return "Use " + format(layers.a.getEnemyATK().mul(layers.a.getEnemyDMG()).div(getDEF().add(1))) + " HP to deal " + format(getATK().div(layers.a.getEnemyDEF().add(1))) + " damage"
+                return "Use " + format(layers.a.getEnemyATK().mul(layers.a.getEnemyDMG()).div(getDEF().add(1))) + " HP to deal " + format(getATK().mul(getDMG()).div(layers.a.getEnemyDEF().add(1))) + " damage"
             },
             canClick() {
                 return player.points.gte(layers.a.getEnemyATK().mul(layers.a.getEnemyDMG()).div(getDEF().add(1))) && player.a.nextEnemyTime.lte(0);
@@ -105,7 +111,7 @@ baseResource: "HP", // Name of resource prestige is based on
             onClick() {
                 if (!layers[this.layer].clickables[this.id].canClick()) return;
                 player.points = player.points.sub(layers.a.getEnemyATK().mul(layers.a.getEnemyDMG()).div(getDEF().add(1)));
-                player.a.hp = player.a.hp.sub(getATK().div(layers.a.getEnemyDEF().add(1)));
+                player.a.hp = player.a.hp.sub(getATK().mul(getDMG()).div(layers.a.getEnemyDEF().add(1)));
             },
 
             unlocked: true,
@@ -116,12 +122,12 @@ baseResource: "HP", // Name of resource prestige is based on
             },
             bulk() {
                 let bulk = player.points.div(layers.a.getEnemyATK().mul(layers.a.getEnemyDMG()).div(getDEF().add(1))).floor();
-                let dmg = player.a.hp.div(getATK().div(layers.a.getEnemyDEF().add(1))).ceil();
+                let dmg = player.a.hp.div(getATK().mul(getDMG()).div(layers.a.getEnemyDEF().add(1))).ceil();
                 bulk = bulk.min(dmg).max(1);
                 return bulk;
             },
             display() {
-                return "Use " + format(layers.a.getEnemyATK().mul(layers.a.getEnemyDMG()).div(getDEF().add(1)).mul(this.bulk())) + " HP to deal " + format(getATK().div(layers.a.getEnemyDEF().add(1)).mul(this.bulk())) + " damage"
+                return "Use " + format(layers.a.getEnemyATK().mul(layers.a.getEnemyDMG()).div(getDEF().add(1)).mul(this.bulk())) + " HP to deal " + format(getATK().mul(getDMG()).div(layers.a.getEnemyDEF().add(1)).mul(this.bulk())) + " damage"
             },
             canClick() {
                 return player.points.gte(layers.a.getEnemyATK().mul(layers.a.getEnemyDMG()).div(getDEF().add(1))) && player.a.nextEnemyTime.lte(0);
@@ -130,7 +136,7 @@ baseResource: "HP", // Name of resource prestige is based on
                 if (!layers[this.layer].clickables[this.id].canClick()) return;
                 let bulk = this.bulk();
                 player.points = player.points.sub(layers.a.getEnemyATK().mul(layers.a.getEnemyDMG()).div(getDEF().add(1)).mul(bulk));
-                player.a.hp = player.a.hp.sub(getATK().div(layers.a.getEnemyDEF().add(1)).mul(bulk));
+                player.a.hp = player.a.hp.sub(getATK().mul(getDMG()).div(layers.a.getEnemyDEF().add(1)).mul(bulk));
             },
             unlocked() { return player.b.points.gte(2) },
         },

@@ -3,7 +3,7 @@ let modInfo = {
 	id: "the-adventure-chain",
 	author: "loader3229",
 	pointsName: "HP",
-	modFiles: ["layers/a.js", "layers/b.js", "layers/c.js", "layers/d.js", "layers/e.js", "layers/f.js", "tree.js"],
+	modFiles: ["layers.js", "layers/a.js", "layers/b.js", "layers/c.js", "layers/d.js", "layers/e.js", "layers/f.js", "tree.js"],
 
 	discordName: "",
 	discordLink: "",
@@ -69,7 +69,8 @@ function addedPlayerData() { return {
 var displayThings = [
 	function(){return "Level: "+formatWhole(getLevel())+"/"+formatWhole(getLevelCap())+" ("+format(getLevelProgress().mul(100))+"%)"},
 	function(){return "ATK: "+format(getATK())},
-	function(){if(player.b.points.gte(1))return "DEF: "+format(getDEF())}
+	function(){if(player.b.points.gte(1))return "DEF: "+format(getDEF())},
+	function(){if(player.b.points.gte(13))return "DMG: "+format(getDMG())+"x"}
 
 ]
 
@@ -116,11 +117,18 @@ def = def.mul(buyableEffect("c",13));
 	return def;
 }
 
+function getDMG(){
+	let dmg=new Decimal(1);
+	if(player.b.points.gte(13))dmg = dmg.add(getLevel().mul(0.0001));
+	return dmg;
+}
+
 function getLevel(){
 	return getRealLevel().floor();
 }
 
 function getLevelCap(){
+	if(player.sac.points.gte(1))return new Decimal(10000);
 	if(player.b.points.gte(10))return new Decimal(4000);
 	if(player.b.points.gte(8))return new Decimal(3000);
 	if(hasMilestone("c",3))return new Decimal(2000);
@@ -132,16 +140,22 @@ function getLevelProgress(){
 }
 
 function getRealLevel(){
+	
+	let scaling=new Decimal(1);
+	if(hasMilestone("c",6))scaling = scaling.add(hasUpgrade("c",31)?1:0.2);
+	if(player.b.points.gte(13))scaling = scaling.add(player.b.points.mul(0.05));
+	else if(player.b.points.gte(7))scaling = scaling.add(player.b.points.sub(5).mul(0.05));
+	scaling = scaling.add(buyableEffect("c",22));
+	scaling = scaling.add(layers.e.equipmentEff(11));
+
+	if(player.sac.points.gte(1)){
+		let level = player.a.points.pow(0.2).div(200).div(scaling).add(1).log(1.005).mul(scaling).add(1);
+		if(hasMilestone("c",7))level = player.a.points.pow(0.2).div(250).div(scaling).add(1).log(1.004).mul(scaling).add(1);
+		if(player.a.points.lte(scaling))level = player.a.points.pow(0.2).add(1);
+		level = level.min(10000);
+		return level;
+	}
 	if(hasMilestone("c",3)){
-
-		let scaling=new Decimal(1);
-		if(hasMilestone("c",6))scaling = scaling.add(0.2);
-		if(player.b.points.gte(7))scaling = scaling.add(player.b.points.sub(5).mul(0.05));
-		scaling = scaling.add(buyableEffect("c",22));
-		scaling = scaling.add(layers.e.equipmentEff(11));
-
-
-
 		let level = player.a.points.cbrt().div(100).div(scaling).add(1).log(1.01).mul(scaling).add(1);
 		if(player.a.points.lte(scaling))level = player.a.points.cbrt().add(1);
 		if(level.gte(1225))level = level.sqrt().mul(35);

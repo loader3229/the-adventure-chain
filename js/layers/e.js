@@ -99,11 +99,14 @@ if(player.b.points.gte(11))x = x.mul(player.b.points);
 	return new Decimal(0);
 },
 effect(){
-	return player.e.points.add(10).log10().div(hasUpgrade("c",15)?4:10);
+	let ret=player.e.points.add(10).log10().div(hasUpgrade("c",15)?4:10);
+	return ret;
 },
 effect2(){
-	if(hasUpgrade("c",24))return new Decimal(1.5);
-	return new Decimal(1);
+	let ret=new Decimal(1);
+	if(hasUpgrade("c",24))ret = ret.add(0.5);
+	if(player.b.points.gte(14))ret = ret.add(player.e.points.add(10).log10().div(10));
+	return ret;
 },
 effectDescription(){
 	return "equipment power range: "+formatWhole(layers.e.effect2().mul(100))+"% - "+formatWhole(layers.e.effect().add(layers.e.effect2()).mul(100))+"%";
@@ -143,7 +146,6 @@ unlocked(){return player.b.points.gte(9);}
             canClick: false,
             style: {"background-color": "#6699FF"},
 unlocked(){return hasUpgrade("c",22);}
-
         },
 
     },

@@ -1,28 +1,45 @@
-addLayer("p", {
-    name: "prestige", // This is optional, only used in a few places, If absent it just uses the layer id.
-    symbol: "P", // This appears on the layer's node. Default is the id with the first letter capitalized
+addLayer("sac", {
+    name: "sacrifice", // This is optional, only used in a few places, If absent it just uses the layer id.
+    symbol: "Sac", // This appears on the layer's node. Default is the id with the first letter capitalized
     position: 0, // Horizontal position within a row. By default it uses the layer id and sorts in alphabetical order
     startData() { return {
-        unlocked: true,
+        unlocked: false,
 		points: new Decimal(0),
     }},
-    color: "#4BDC13",
-    requires: new Decimal(10), // Can be a function that takes requirement increases into account
-    resource: "prestige points", // Name of prestige currency
-    baseResource: "points", // Name of resource prestige is based on
-    baseAmount() {return player.points}, // Get the current amount of baseResource
-    type: "normal", // normal: cost to gain currency depends on amount gained. static: cost depends on how much you already have
-    exponent: 0.5, // Prestige currency exponent
-    gainMult() { // Calculate the multiplier for main currency from bonuses
-        mult = new Decimal(1)
-        return mult
-    },
-    gainExp() { // Calculate the exponent on main currency from bonuses
-        return new Decimal(1)
-    },
-    row: 0, // Row the layer is in on the tree (0 is the first row)
+    color: "#FFFFFF",
+    requires(){
+	if(player.sac.points.gte(1))return new Decimal("10^^10");
+	return new Decimal(4000);
+}, // Can be a function that takes requirement increases into account
+    resource: "sacrifices", // Name of prestige currency
+    baseResource: "levels", // Name of resource prestige is based on
+    baseAmount() {return getLevel()}, // Get the current amount of baseResource
+    type: "static", // normal: cost to gain currency depends on amount gained. static: cost depends on how much you already have
+    exponent: 1, // Prestige currency exponent
+    base: 1,
+        row: "side", // Row the layer is in on the tree (0 is the first row)
     hotkeys: [
-        {key: "p", description: "P: Reset for prestige points", onPress(){if (canReset(this.layer)) doReset(this.layer)}},
+        {key: "`", description: "`: sacrifice", onPress(){if (canReset(this.layer)) doReset(this.layer)}},
     ],
-    layerShown(){return true}
+    layerShown(){return player.b.points.gte(12) || player.sac.unlocked},
+	milestones: [
+        {
+            requirementDescription: "Sacrifice 1 times",
+            unlocked() { return player[this.layer].points.gte(0) },
+            done() { return player[this.layer].points.gte(1) }, // Used to determine when to give the milestone
+            effectDescription: "Increase max level and EXP gain, but increase EXP required to level up. Reduce Tier 1 machine cost in layer F. You can complete domain without exiting domain. Deal 10x damage to bosses.",
+        },
+],
+doReset(layer){
+	if (layer == "sac"){
+		layerDataReset("a");
+		layerDataReset("c");
+		layerDataReset("d");
+		layerDataReset("e");
+		layerDataReset("f");
+            updateTemp();
+            updateTemp();
+            updateTemp();
+	}
+},
 })

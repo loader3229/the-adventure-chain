@@ -50,7 +50,7 @@ if(player.f.maxTier.gte(3))player.f.t2=player.f.t2.root(player.f.maxTier.sub(2))
 }
     },
 effect(){
-	return Decimal.pow(2,player.f.points.add(1).log10().sqrt());
+	return Decimal.pow(hasUpgrade("c",25)?3:2,player.f.points.add(1).log10().sqrt());
 },
 effectDescription(){
 	return "translated to "+format(layers.f.effect())+"x Calm Points and Equipment Shards";
@@ -68,7 +68,7 @@ buyables: {
 			},
 			cost() {
 				let a = player[this.layer].buyables[this.id];
-				a = Decimal.pow(3, a).mul(1e5);
+				a = Decimal.pow(3, a).mul(player.sac.points.gte(1)?1e3:1e5);
 				return a;
 			},
 			canAfford() {
@@ -104,7 +104,8 @@ buyables: {
 			buy() {
 				player.e.points = player.e.points.sub(layers[this.layer].buyables[this.id].cost())
 				player[this.layer].buyables[this.id] = player[this.layer].buyables[this.id].add(1)
-			}
+			},
+			unlocked() { return hasUpgrade("c", 23) }
 		},
 
 }
