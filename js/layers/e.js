@@ -24,6 +24,22 @@ addLayer("e", {
                     level: new Decimal(0),
                     power: new Decimal(0)
                 },
+                21: {
+                    level: new Decimal(0),
+                    power: new Decimal(0)
+                },
+		22: {
+                    level: new Decimal(0),
+                    power: new Decimal(0)
+                },
+		23: {
+                    level: new Decimal(0),
+                    power: new Decimal(0)
+                },
+		24: {
+                    level: new Decimal(0),
+                    power: new Decimal(0)
+                },
             },
         }
     },
@@ -63,8 +79,11 @@ if(player.b.points.gte(11))x = x.mul(player.b.points);
 	if(hasUpgrade("c",15))types.push(12);
 	if(player.b.points.gte(9))types.push(13);
 	if(hasUpgrade("c",22))types.push(14);
+	if(player.b.points.gte(15))types.push(21);
+	if(player.b.points.gte(15))types.push(22);
 	let count = 1;
 	if(player.b.points.gte(11))count++;
+	if(player.b.points.gte(15))count++;
 	for(i=0;i<count;i++){
 		let type=types[Math.floor(types.length*Math.random())];
         	let power = layers.e.effect().mul(Math.random()).add(layers.e.effect2());
@@ -95,7 +114,9 @@ if(player.b.points.gte(11))x = x.mul(player.b.points);
 	if(type==14){
 		return x.div(3000).add(1);
 	}
-
+	if(type>=21 && type<=24){
+		return Decimal.pow(1.01,x.pow(0.3).sub(20)).max(x.pow(0.3).div(100).add(1));
+	}
 	return new Decimal(0);
 },
 effect(){
@@ -147,6 +168,23 @@ unlocked(){return player.b.points.gte(9);}
             style: {"background-color": "#6699FF"},
 unlocked(){return hasUpgrade("c",22);}
         },
-
+        21: {
+            title: "Weapon",
+            display: function(){
+                return `Level: ${formatWhole(player[this.layer].equipment[this.id].level)}<br>Power: ${formatWhole(player[this.layer].equipment[this.id].power.mul(100))}%<br>Effect: ATK x${format(layers[this.layer].equipmentEff(this.id))}`;
+            },
+            canClick: false,
+            style: {"background-color": "#6699FF"},
+unlocked(){return player.b.points.gte(15);}
+        },
+        22: {
+            title: "Armor",
+            display: function(){
+                return `Level: ${formatWhole(player[this.layer].equipment[this.id].level)}<br>Power: ${formatWhole(player[this.layer].equipment[this.id].power.mul(100))}%<br>Effect: DEF x${format(layers[this.layer].equipmentEff(this.id))}`;
+            },
+            canClick: false,
+            style: {"background-color": "#6699FF"},
+unlocked(){return player.b.points.gte(15);}
+        },
     },
 })

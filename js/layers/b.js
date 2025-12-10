@@ -203,6 +203,12 @@ baseResource: "HP", // Name of resource prestige is based on
             done() { return player[this.layer].points.gte(14) }, // Used to determine when to give the milestone
             effectDescription: "Equipment Shard effect is better.",
         },
+        {
+            requirementDescription: "Beat 15 bosses",
+            unlocked() { return player[this.layer].points.gte(14) },
+            done() { return player[this.layer].points.gte(15) }, // Used to determine when to give the milestone
+            effectDescription: "Unlock 2 new types of equipments, each enemy drop 3 equipments.",
+        },
 
     ],
     update(diff) {

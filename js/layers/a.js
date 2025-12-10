@@ -40,6 +40,7 @@ baseResource: "HP", // Name of resource prestige is based on
 		exp = player.a.level.pow(3.1).mul(Decimal.pow(1.031, player.a.level.pow(0.5))).mul(20).max(player.a.level.pow(4.1).mul(Decimal.pow(1.041, player.a.level.pow(0.5))).div(hasMilestone("c",9)?1:60));
 		if(hasMilestone("c",0))exp = exp.mul(3);
 		if(hasMilestone("c",3))exp = exp.mul(2);
+		if(hasMilestone("c",10))exp = player.a.level.pow(4.1).mul(Decimal.pow(1.041, player.a.level.pow(0.5))).mul(100);
 	}
         exp = exp.mul(layers.a.gainMult());
         return exp;

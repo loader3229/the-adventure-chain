@@ -52,7 +52,7 @@ addLayer("d", {
         },
         21: {
             name: "Weak Attack",
-            challengeDescription() { return "Your ATK is 1.<br>Completions: "+formatWhole(player.d.challenges[this.id])+"/"+layers.d.challenges[this.id].completionLimit(); },
+            challengeDescription() { return "Your ATK "+(player.b.points.gte(13)?"and DMG are":"is")+" 1.<br>Completions: "+formatWhole(player.d.challenges[this.id])+"/"+layers.d.challenges[this.id].completionLimit(); },
             goal() { return Decimal.pow(1.1,player.d.challenges[21]).mul(player.sac.points.gte(1)?500:1000); },
             goalDescription(){return "Reach Level " + formatWhole(this.goal().ceil());},
             currencyDisplayName: "Level",

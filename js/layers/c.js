@@ -128,6 +128,12 @@ addLayer("c", {
 			unlocked(){return player.sac.points.gte(1)},
 			effectDescription: "Gain more EXP from enemies.",
 		},
+		{
+			requirementDescription: "1e20 calm points",
+			done() { return player.c.points.gte(1e20) && player.sac.points.gte(1) }, // Used to determine when to give the milestone
+			unlocked(){return player.sac.points.gte(1)},
+			effectDescription: "Gain more EXP from enemies.",
+		},
 	],
 	update(diff) {
 		if (hasMilestone("c", 1)) player.a.points = player.a.points.add(getLevel().pow(player.d.activeChallenge ? 0.5 : 2).pow(player.sac.points.gte(1)?1.75:1).mul(diff).mul(layers.a.gainMult()));
