@@ -103,7 +103,7 @@ if(player.b.points.gte(11))x = x.mul(player.b.points);
 	if(type === undefined)return new Decimal(0);
 	let x = Decimal.mul(player.e.equipment[type].level,player.e.equipment[type].power);
 	if(type==11){
-		return x.div(60000);
+		return x.div(hasUpgrade("c",33)?50000:60000);
 	}
 	if(type==12){
 		return Decimal.pow(1.01,x.pow(0.5));
@@ -112,7 +112,7 @@ if(player.b.points.gte(11))x = x.mul(player.b.points);
 		return new Decimal(1).sub(Decimal.pow(0.995,x.pow(0.5)));
 	}
 	if(type==14){
-		return x.div(3000).add(1);
+		return x.div(hasUpgrade("c",33)?2000:3000).add(1);
 	}
 	if(type>=21 && type<=24){
 		return Decimal.pow(1.01,x.pow(0.3).sub(20)).max(x.pow(0.3).div(100).add(1));

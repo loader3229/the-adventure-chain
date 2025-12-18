@@ -3,7 +3,7 @@ let modInfo = {
 	id: "the-adventure-chain",
 	author: "loader3229",
 	pointsName: "HP",
-	modFiles: ["layers.js", "layers/a.js", "layers/b.js", "layers/c.js", "layers/d.js", "layers/e.js", "layers/f.js", "tree.js"],
+	modFiles: ["layers.js", "layers/a.js", "layers/b.js", "layers/c.js", "layers/d.js", "layers/e.js", "layers/f.js", "layers/g.js", "tree.js"],
 
 	discordName: "",
 	discordLink: "",
@@ -149,7 +149,8 @@ function getRealLevel(){
 	
 	let scaling=new Decimal(1);
 	if(hasMilestone("c",6))scaling = scaling.add(hasUpgrade("c",31)?1:0.2);
-	if(player.b.points.gte(13))scaling = scaling.add(player.b.points.mul(0.05));
+	if(player.b.points.gte(16))scaling = scaling.add(player.b.points.div(16).pow(2));
+	else if(player.b.points.gte(13))scaling = scaling.add(player.b.points.mul(0.05));
 	else if(player.b.points.gte(7))scaling = scaling.add(player.b.points.sub(5).mul(0.05));
 	scaling = scaling.add(buyableEffect("c",22));
 	scaling = scaling.add(layers.e.equipmentEff(11));

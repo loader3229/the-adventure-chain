@@ -45,6 +45,11 @@ baseResource: "HP", // Name of resource prestige is based on
         exp = exp.mul(layers.a.gainMult());
         return exp;
     },
+    getEnemyGold() {
+	let gold=player.a.level.div(1000).pow(1.5).mul(player.b.points.sub(15).max(0)).add(1).mul(player.b.points.sub(15).max(0).pow(0.5));
+        return gold;
+    },
+
     gainMult() {
         if (!player.c.unlocked) return new Decimal(1);
         let exp = new Decimal(1);
@@ -63,6 +68,7 @@ baseResource: "HP", // Name of resource prestige is based on
         ["display-text", function () { if (player.a.level.gte(20)) return "DEF: " + format(layers.a.getEnemyDEF()) }],
         ["display-text", function () { if (player.a.level.gte(4960)) return "DMG: " + format(layers.a.getEnemyDMG()) +"x" }],
         ["display-text", function () { return "EXP: " + format(layers.a.getEnemyEXP()) }],
+        ["display-text", function () { if (player.b.points.gte(16)) return "Gold: " + format(layers.a.getEnemyGold()) }],
         ["display-text", function () { if (!player.b.unlocked) return "Reach Level 10 to unlock layer B" }],
         ["row", [["clickable", "11"], ["clickable", "12"]]],
         "resource-display",

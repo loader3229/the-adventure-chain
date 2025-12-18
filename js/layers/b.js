@@ -209,6 +209,13 @@ baseResource: "HP", // Name of resource prestige is based on
             done() { return player[this.layer].points.gte(15) }, // Used to determine when to give the milestone
             effectDescription: "Unlock 2 new types of equipments, each enemy drop 3 equipments.",
         },
+        {
+            requirementDescription: "Beat 16 bosses",
+            unlocked() { return player[this.layer].points.gte(15) },
+            done() { return player[this.layer].points.gte(16) }, // Used to determine when to give the milestone
+            effectDescription: "Unlock layer G.",
+        },
+
 
     ],
     update(diff) {

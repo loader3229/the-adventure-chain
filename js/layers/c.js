@@ -202,6 +202,12 @@ addLayer("c", {
 			cost: new Decimal(3e18),
 			unlocked(){return player.b.points.gte(13)}
 		},
+		33: {
+			description: "Level Gem and Calm Gem effects are better.",
+			cost: new Decimal(4e20),
+			unlocked(){return player.b.points.gte(13)}
+		},
+
 	},
 	buyables: {
 		11: {
