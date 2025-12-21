@@ -46,7 +46,8 @@ baseResource: "HP", // Name of resource prestige is based on
         return exp;
     },
     getEnemyGold() {
-	let gold=player.a.level.div(1000).pow(1.5).mul(player.b.points.sub(15).max(0)).add(1).mul(player.b.points.sub(15).max(0).pow(0.5));
+	let gold=player.a.level.div(1000).mul(player.b.points.sub(15).max(0).pow(0.5)).add(1).pow(1.5).mul(player.b.points.sub(15).max(0).pow(0.5));
+        gold= gold.mul(layers.g.gainMult());
         return gold;
     },
 
@@ -184,6 +185,7 @@ baseResource: "HP", // Name of resource prestige is based on
             player.a.nextEnemyTime = new Decimal(2);
             player.a.hp = layers.a.getEnemyHP();
             player.a.points = player.a.points.add(layers.a.getEnemyEXP());
+            player.g.points = player.g.points.add(layers.a.getEnemyGold());
         }
         player.a.nextEnemyTime = player.a.nextEnemyTime.sub(diff);
         player.a.setLevel = player.a.setLevel.max(1);

@@ -20,11 +20,13 @@ baseResource: "HP", // Name of resource prestige is based on
 		return player.points;
 	},
     getBossHP() {
-	if(player.b.points.gte(10))return Decimal.pow(10, player.b.points.sub(10)).mul(2e8);
+	if(player.b.points.gte(16))return Decimal.pow(10, player.b.points.sub(2));
+	if(player.b.points.gte(10))return Decimal.pow(10, player.b.points.sub(2)).mul(2);
 	if(player.b.points.gte(8))return Decimal.pow(8, player.b.points.sub(8)).mul(3125000);
         return Decimal.pow(5, player.b.points).mul(10);
     },
     getBossATK() {
+	if(player.b.points.gte(16))return Decimal.pow(2, player.b.points.sub(16)).mul(1e9).div(layers.b.dmgDivide());
 	if(player.b.points.gte(10))return Decimal.pow(2, player.b.points.sub(10)).mul(4e6).div(layers.b.dmgDivide());
 	if(player.b.points.gte(8))return Decimal.pow(2.5, player.b.points.sub(8)).mul(655360).div(layers.b.dmgDivide());
         return Decimal.pow(4, player.b.points).mul(10).div(layers.b.dmgDivide());

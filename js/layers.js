@@ -37,6 +37,8 @@ doReset(layer){
 		layerDataReset("d");
 		layerDataReset("e");
 		layerDataReset("f");
+		layerDataReset("g");
+
             updateTemp();
             updateTemp();
             updateTemp();
