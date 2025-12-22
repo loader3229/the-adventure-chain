@@ -66,6 +66,7 @@ addLayer("c", {
     effect() {
         let ret = player.c.points.add(1);
         if (ret.gte(10)) ret = Decimal.pow(10, ret.log10().sqrt().mul(2).sub(1));
+	if (hasUpgrade("c",35)) ret = Decimal.pow(10, player.c.points.add(1).log10().sqrt().mul(2));
         return ret;
     },
     effectDescription() { // Optional text to describe the effects
@@ -208,7 +209,16 @@ addLayer("c", {
             cost: new Decimal(4e20),
             unlocked(){return player.b.points.gte(13)}
         },
-
+        34: {
+            description: "Unlock a new domain.",
+            cost: new Decimal(2e22),
+            unlocked(){return player.b.points.gte(16)}
+        },
+        35: {
+            description: "Calm Point effect is better.",
+            cost: new Decimal(1e24),
+            unlocked(){return player.b.points.gte(16)}
+        },
     },
     buyables: {
         11: {

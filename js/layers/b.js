@@ -26,7 +26,7 @@ baseResource: "HP", // Name of resource prestige is based on
         return Decimal.pow(5, player.b.points).mul(10);
     },
     getBossATK() {
-	if(player.b.points.gte(16))return Decimal.pow(2, player.b.points.sub(16)).mul(1e9).div(layers.b.dmgDivide());
+	if(player.b.points.gte(16))return Decimal.pow(1e9, player.b.points.sub(16)).mul(1e9).div(layers.b.dmgDivide());
 	if(player.b.points.gte(10))return Decimal.pow(2, player.b.points.sub(10)).mul(4e6).div(layers.b.dmgDivide());
 	if(player.b.points.gte(8))return Decimal.pow(2.5, player.b.points.sub(8)).mul(655360).div(layers.b.dmgDivide());
         return Decimal.pow(4, player.b.points).mul(10).div(layers.b.dmgDivide());
@@ -217,6 +217,13 @@ baseResource: "HP", // Name of resource prestige is based on
             done() { return player[this.layer].points.gte(16) }, // Used to determine when to give the milestone
             effectDescription: "Unlock layer G.",
         },
+        {
+            requirementDescription: "Beat 17 bosses",
+            unlocked() { return player[this.layer].points.gte(16) },
+            done() { return player[this.layer].points.gte(17) }, // Used to determine when to give the milestone
+            effectDescription: "Gold gain is boosted by bosses beaten.",
+        },
+
 
 
     ],

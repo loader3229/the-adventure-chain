@@ -64,6 +64,20 @@ addLayer("d", {
             },
 		unlocked(){return hasUpgrade("c",21);}
         },
+        22: {
+            name: "InstaRoot",
+            challengeDescription() { return "You can only 1-attack kill enemies. Attack is square rooted.<br>Completions: "+formatWhole(player.d.challenges[this.id])+"/"+layers.d.challenges[this.id].completionLimit(); },
+            goal() { return Decimal.pow(1.1,player.d.challenges[22]).mul(500); },
+            goalDescription(){return "Reach Level " + formatWhole(this.goal().ceil());},
+            currencyDisplayName: "Level",
+            canComplete() { return getLevel().gte(this.goal()) },
+            completionLimit() { return layers.d.completionLimit();},
+            rewardDescription: "1 domain point per completion.",
+            onEnter(){
+                doReset("c", true);
+            },
+		unlocked(){return hasUpgrade("c",34);}
+        },
     },
 completionLimit() {
 	let d=12;
@@ -78,7 +92,7 @@ completionLimit() {
 						player.d.challenges[player.d.activeChallenge]=Math.min(layers.d.completionLimit(),player.d.challenges[player.d.activeChallenge]+1);
 					}
 				}
-player.d.points=new Decimal(player.d.challenges[11]).add(player.d.challenges[12]).add(player.d.challenges[21]);
+player.d.points=new Decimal(player.d.challenges[11]).add(player.d.challenges[12]).add(player.d.challenges[21]).add(player.d.challenges[22]);
 	
 	}
     },

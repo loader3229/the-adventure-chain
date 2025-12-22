@@ -72,32 +72,41 @@ if(player.b.points.gte(11))x = x.mul(player.b.points);
     update(diff) {
         if (player.b.points.gte(8)) player.e.unlocked = true;
     },
-    drop(level) {
-        if (level === undefined)return "Haha";
-	player.e.drop = "Enemy drop: ";
+    types() {
         let types = [11];
 	if(hasUpgrade("c",15))types.push(12);
 	if(player.b.points.gte(9))types.push(13);
 	if(hasUpgrade("c",22))types.push(14);
 	if(player.b.points.gte(15))types.push(21);
 	if(player.b.points.gte(15))types.push(22);
+    return types;
+},
+    drop(level) {
+        if (level === undefined)return "Haha";
+	player.e.drop = "Enemy drop: ";
+	let types = layers.e.types();
 	let count = 1;
 	if(player.b.points.gte(11))count++;
 	if(player.b.points.gte(15))count++;
 	for(i=0;i<count;i++){
 		let type=types[Math.floor(types.length*Math.random())];
         	let power = layers.e.effect().mul(Math.random()).add(layers.e.effect2());
-        	let x = Decimal.mul(player.e.equipment[type].level,player.e.equipment[type].power);
-		let y = level.mul(power);
+        	
 		if(i)player.e.drop += "; ";
 		player.e.drop += layers.e.clickables[type].title+" Level "+formatWhole(level)+", Power: "+formatWhole(power.mul(100))+"%";
-		if(y.gte(x)){
+layers.e.equip(type,level,power);
+	}
+	return player.e.drop;
+    },
+    equip(type,level,power){
+        if(type === undefined)return new Decimal(0);
+        let x = Decimal.mul(player.e.equipment[type].level,player.e.equipment[type].power);
+	let y = level.mul(power);
+	if(y.gte(x)){
 			player.e.equipment[type].level=level;
 			player.e.equipment[type].power=power;
 		}
 		player.e.points = player.e.points.add(layers.e.gainMult(x.min(y)));
-	}
-	return player.e.drop;
     },
     equipmentEff(type){
 	if(type === undefined)return new Decimal(0);

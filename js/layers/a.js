@@ -120,6 +120,7 @@ baseResource: "HP", // Name of resource prestige is based on
                 if (!layers[this.layer].clickables[this.id].canClick()) return;
                 player.points = player.points.sub(layers.a.getEnemyATK().mul(layers.a.getEnemyDMG()).div(getDEF().add(1)));
                 player.a.hp = player.a.hp.sub(getATK().mul(getDMG()).div(layers.a.getEnemyDEF().add(1)));
+		if(inChallenge("d",22) && player.a.hp.gt(0))player.a.hp = layers.a.getEnemyHP();
             },
 
             unlocked: true,
@@ -129,6 +130,7 @@ baseResource: "HP", // Name of resource prestige is based on
                 return "Attack x" + formatWhole(this.bulk());
             },
             bulk() {
+		if(inChallenge("d",22))return new Decimal(1);
                 let bulk = player.points.div(layers.a.getEnemyATK().mul(layers.a.getEnemyDMG()).div(getDEF().add(1))).floor();
                 let dmg = player.a.hp.div(getATK().mul(getDMG()).div(layers.a.getEnemyDEF().add(1))).ceil();
                 bulk = bulk.min(dmg).max(1);
@@ -145,6 +147,7 @@ baseResource: "HP", // Name of resource prestige is based on
                 let bulk = this.bulk();
                 player.points = player.points.sub(layers.a.getEnemyATK().mul(layers.a.getEnemyDMG()).div(getDEF().add(1)).mul(bulk));
                 player.a.hp = player.a.hp.sub(getATK().mul(getDMG()).div(layers.a.getEnemyDEF().add(1)).mul(bulk));
+		if(inChallenge("d",22) && player.a.hp.gt(0))player.a.hp = layers.a.getEnemyHP();
             },
             unlocked() { return player.b.points.gte(2) },
         },
@@ -186,7 +189,8 @@ baseResource: "HP", // Name of resource prestige is based on
             player.a.hp = layers.a.getEnemyHP();
             player.a.points = player.a.points.add(layers.a.getEnemyEXP());
             player.g.points = player.g.points.add(layers.a.getEnemyGold());
-        }
+        }else if(inChallenge("d",22))player.a.hp = layers.a.getEnemyHP();
+
         player.a.nextEnemyTime = player.a.nextEnemyTime.sub(diff);
         player.a.setLevel = player.a.setLevel.max(1);
         if (player.a.level.neq(player.a.setLevel)) {

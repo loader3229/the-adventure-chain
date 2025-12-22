@@ -16,7 +16,7 @@ addLayer("sac", {
     baseAmount() {return getLevel()}, // Get the current amount of baseResource
     type: "static", // normal: cost to gain currency depends on amount gained. static: cost depends on how much you already have
     exponent: 1, // Prestige currency exponent
-    base: 1,
+    base: 4,
         row: "side", // Row the layer is in on the tree (0 is the first row)
     hotkeys: [
         {key: "`", description: "`: sacrifice", onPress(){if (canReset(this.layer)) doReset(this.layer)}},

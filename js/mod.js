@@ -13,11 +13,13 @@ let modInfo = {
 
 // Set your version in num and name
 let VERSION = {
-    num: "5.0",
-    name: "Equipments",
+    num: "7.0",
+    name: "Gold",
 }
 
 let changelog = `<h1>Changelog:</h1><br>
+    <h3>v7.0</h3><br>
+        - Added layers F and G.<br>
     <h3>v5.0</h3><br>
         - Added Equipments.<br>
     <h3>v4.0</h3><br>
@@ -67,6 +69,7 @@ function addedPlayerData() { return {
 
 // Display extra things at the top of the page
 var displayThings = [
+	"Endgame: Level 16k and Boss 17 beaten",
     function(){return "Level: "+formatWhole(getLevel())+"/"+formatWhole(getLevelCap())+" ("+format(getLevelProgress().mul(100))+"%)"},
     function(){return "ATK: "+format(getATK())},
     function(){if(player.b.points.gte(1))return "DEF: "+format(getDEF())},
@@ -76,7 +79,7 @@ var displayThings = [
 
 // Determines when the game "ends"
 function isEndgame() {
-    return player.points.gte(new Decimal("e280000000"))
+    return player.b.points.gte(17) && getLevel().gte(16000)
 }
 
 
@@ -106,6 +109,9 @@ atk = atk.mul(buyableEffect("c",12));
 
 atk = atk.mul(layers.e.equipmentEff(21));
 
+
+
+    if(inChallenge("d",22))atk = atk.sqrt();
     return atk;
 }
 
@@ -134,7 +140,7 @@ function getLevel(){
 }
 
 function getLevelCap(){
-    if(player.sac.points.gte(1))return new Decimal(100000);
+    if(player.sac.points.gte(1))return new Decimal(16000);
     if(player.b.points.gte(10))return new Decimal(4000);
     if(player.b.points.gte(8))return new Decimal(3000);
     if(hasMilestone("c",3))return new Decimal(2000);
@@ -159,7 +165,7 @@ function getRealLevel(){
         let level = player.a.points.pow(0.2).div(200).div(scaling).add(1).log(1.005).mul(scaling).add(1);
         if(hasMilestone("c",7))level = player.a.points.pow(0.2).div(250).div(scaling).add(1).log(1.004).mul(scaling).add(1);
         if(player.a.points.lte(scaling))level = player.a.points.pow(0.2).add(1);
-        level = level.min(100000);
+        level = level.min(16000);
         return level;
     }
     if(hasMilestone("c",3)){
