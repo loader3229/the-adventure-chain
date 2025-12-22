@@ -7,6 +7,7 @@ addLayer("b", {
             unlocked: false,
             points: new Decimal(0),
             hp: new Decimal(1000),
+            y: new Decimal(10)
         }
     },
     color: "#FFCC66",
@@ -20,10 +21,10 @@ baseResource: "HP", // Name of resource prestige is based on
 		return player.points;
 	},
     getBossHP() {
-	if(player.b.points.gte(16))return Decimal.pow(10, player.b.points.sub(2));
-	if(player.b.points.gte(10))return Decimal.pow(10, player.b.points.sub(2)).mul(2);
-	if(player.b.points.gte(8))return Decimal.pow(8, player.b.points.sub(8)).mul(3125000);
-        return Decimal.pow(5, player.b.points).mul(10);
+	if(player.b.points.gte(16))return Decimal.pow(10, player.b.points);
+	if(player.b.points.gte(10))return Decimal.pow(10, player.b.points).mul(2);
+	if(player.b.points.gte(8))return Decimal.pow(8, player.b.points.sub(8)).mul(312500000);
+        return Decimal.pow(5, player.b.points).mul(1000);
     },
     getBossATK() {
 	if(player.b.points.gte(16))return Decimal.pow(1e9, player.b.points.sub(16)).mul(1e9).div(layers.b.dmgDivide());
@@ -34,9 +35,7 @@ baseResource: "HP", // Name of resource prestige is based on
     tabFormat: [
         "main-display",
         ["column", [["raw-html", function () {
-            let y = player.b.hp.div(layers.b.getBossHP());
-            y = y.floor().toNumber() + 1;
-	    y = Math.ceil(10-Math.sqrt(Math.max(100-y,0)));
+            let y = Math.ceil(player.b.y.toNumber());
             return "<div style=width:400px;text-align:right;>x" + y + "</div>";
         }], ["bar", "hp"]]],
         ["row", [["clickable", "11"], ["clickable", "12"]]],
@@ -46,20 +45,16 @@ baseResource: "HP", // Name of resource prestige is based on
     bars: {
         hp: {
             fillStyle() {
-                let y = player.b.hp.div(layers.b.getBossHP());
-                y = y.floor().toNumber() + 1;
-	        y = Math.ceil(10-Math.sqrt(Math.max(100-y,0)));
+                let y = Math.ceil(player.b.y.toNumber());
 
                 if (y <= 0) return { 'background-color': "#000000" };
-                return { 'background-color': "hsl(" + (Math.min(y - 1, 10) * 150) + ",100%,40%)" };
+                return { 'background-color': "hsl(" + ((y-1) * 150) + ",100%,"+(40+60*Math.pow(1/2,y))+"%)" };
             },
             baseStyle() {
-                let y = player.b.hp.div(layers.b.getBossHP());
-                y = y.floor().toNumber() + 1;
-	        y = Math.ceil(10-Math.sqrt(Math.max(100-y,0)));
+                let y = Math.ceil(player.b.y.toNumber());
 
-                if (y <= 1) return { 'background-color': "#000000" };
-                return { 'background-color': "hsl(" + (Math.min(y - 2, 10) * 150) + ",100%,40%)" };
+                if (y <= 1) return { 'background-color': "#000000", 'transition-duration': '0s' };
+                return { 'background-color': "hsl(" + ((y-2) * 150) + ",100%,"+(40+60*Math.pow(1/2,y-1))+"%)", 'transition-duration': '0s' };
             },
             textStyle: { 'color': '#ffffff' },
             borderStyle() { return {} },
@@ -67,11 +62,10 @@ baseResource: "HP", // Name of resource prestige is based on
             width: 400,
             height: 30,
             progress() {
-                let y = player.b.hp.div(layers.b.getBossHP());
-		y = Decimal.sub(10,Decimal.sub(100,y).max(0).sqrt()).max(0);
-                return y.toNumber() - y.floor().min(9).toNumber();
+                let y = player.b.y.toNumber();
+                return y - Math.ceil(y) + 1;
             },
-            unlocked: true
+            unlocked: true,instant: true
         }
     },
     clickables: {
@@ -229,9 +223,10 @@ baseResource: "HP", // Name of resource prestige is based on
     ],
     update(diff) {
         if (getLevel().gte(10)) player.b.unlocked = true;
-        if (player.b.hp.lte(0)) {
+        if (player.b.y.lte(0)) {
             player.b.points = player.b.points.add(1);
-            player.b.hp = layers.b.getBossHP().mul(100);
+            player.b.hp = layers.b.getBossHP();
+            player.b.y = player.b.points.add(10);
         }
     },
     dmgMult() {
@@ -252,3 +247,7 @@ baseResource: "HP", // Name of resource prestige is based on
     ],
 
 })
+
+setInterval(function(){
+        if(player.b && player.b.y && layers.b && layers.b.getBossHP)player.b.y = player.b.points.add(10).mul(Decimal.sub(1,Decimal.sub(1,player.b.hp.div(layers.b.getBossHP()).min(1)).sqrt())).mul(0.01).add(player.b.y.mul(0.99)).max(0),tmp.b.bars.hp.fillStyle=layers.b.bars.hp.fillStyle(),tmp.b.bars.hp.baseStyle=layers.b.bars.hp.baseStyle(),tmp.b.bars.hp.progress=layers.b.bars.hp.progress(),constructBarStyle("b","hp");
+},10);
