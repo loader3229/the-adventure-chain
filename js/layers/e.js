@@ -79,6 +79,8 @@ if(player.b.points.gte(11))x = x.mul(player.b.points);
 	if(hasUpgrade("c",22))types.push(14);
 	if(player.b.points.gte(15))types.push(21);
 	if(player.b.points.gte(15))types.push(22);
+	if(player.b.points.gte(18))types.push(23);
+	if(player.b.points.gte(19))types.push(24);
     return types;
 },
     drop(level) {
@@ -112,7 +114,7 @@ layers.e.equip(type,level,power);
 	if(type === undefined)return new Decimal(0);
 	let x = Decimal.mul(player.e.equipment[type].level,player.e.equipment[type].power);
 	if(type==11){
-		return x.div(hasUpgrade("c",33)?50000:60000);
+		return softcap(x.div(hasUpgrade("c",33)?50000:60000),new Decimal(2));
 	}
 	if(type==12){
 		return Decimal.pow(1.01,x.pow(0.5));
@@ -124,6 +126,7 @@ layers.e.equip(type,level,power);
 		return x.div(hasUpgrade("c",33)?2000:3000).add(1);
 	}
 	if(type>=21 && type<=24){
+		if(hasUpgrade("g",14))return Decimal.pow(1.01,x.pow(0.3)).max(x.pow(0.3).div(90).add(1));
 		return Decimal.pow(1.01,x.pow(0.3).sub(20)).max(x.pow(0.3).div(100).add(1));
 	}
 	return new Decimal(0);
@@ -135,6 +138,7 @@ effect(){
 effect2(){
 	let ret=new Decimal(1);
 	if(hasUpgrade("c",24))ret = ret.add(0.5);
+	if(hasUpgrade("g",13))ret = ret.add(0.5);
 	if(player.b.points.gte(14))ret = ret.add(player.e.points.add(10).log10().div(10));
 	return ret;
 },
@@ -194,6 +198,24 @@ unlocked(){return player.b.points.gte(15);}
             canClick: false,
             style: {"background-color": "#6699FF"},
 unlocked(){return player.b.points.gte(15);}
+        },
+        23: {
+            title: "Helmet",
+            display: function(){
+                return `Level: ${formatWhole(player[this.layer].equipment[this.id].level)}<br>Power: ${formatWhole(player[this.layer].equipment[this.id].power.mul(100))}%<br>Effect: HP gain x${format(layers[this.layer].equipmentEff(this.id))}`;
+            },
+            canClick: false,
+            style: {"background-color": "#6699FF"},
+unlocked(){return player.b.points.gte(18);}
+        },
+        24: {
+            title: "Shoes",
+            display: function(){
+                return `Level: ${formatWhole(player[this.layer].equipment[this.id].level)}<br>Power: ${formatWhole(player[this.layer].equipment[this.id].power.mul(100))}%<br>Effect: DMG x${format(layers[this.layer].equipmentEff(this.id))}`;
+            },
+            canClick: false,
+            style: {"background-color": "#6699FF"},
+unlocked(){return player.b.points.gte(19);}
         },
     },
 })

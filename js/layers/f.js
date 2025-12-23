@@ -50,7 +50,10 @@ if(player.f.maxTier.gte(3))player.f.t2=player.f.t2.root(player.f.maxTier.sub(2))
 }
     },
 effect(){
-	return Decimal.pow(hasUpgrade("c",25)?3:2,player.f.points.add(1).log10().sqrt());
+	let base=new Decimal(2);
+	if(hasUpgrade("c",25))base = base.add(1);
+	if(hasMilestone("c",12))base = base.add(1);
+	return Decimal.pow(base,player.f.points.add(1).log10().sqrt());
 },
 effectDescription(){
 	return "translated to "+format(layers.f.effect())+"x Calm Points and Equipment Shards";
@@ -68,7 +71,7 @@ buyables: {
 			},
 			cost() {
 				let a = player[this.layer].buyables[this.id];
-				a = Decimal.pow(3, a).mul(player.sac.points.gte(1)?1e3:1e5);
+				a = Decimal.pow(3, a).mul(player.sac.points.gte(2)?100:player.sac.points.gte(1)?1e3:1e5);
 				return a;
 			},
 			canAfford() {

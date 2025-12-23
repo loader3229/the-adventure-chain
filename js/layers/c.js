@@ -12,13 +12,14 @@ addLayer("c", {
     resource: "Calm Points", // Name of prestige currency
     type: "normal", // normal: cost to gain currency depends on amount gained. static: cost depends on how much you already have
     requires() {
+        if (player.sac.points.gte(2))return new Decimal(10);
         if (player.sac.points.gte(1))return new Decimal(20);
         return new Decimal(100);
     },
     exponent() {
         ret = new Decimal(2);
         if (hasMilestone("c", 5)) ret = ret.add(player.sac.points.gte(1)?0.1:0.6);
-        if (player.b.points.gte(5)) ret = ret.add(0.4);
+        if (player.b.points.gte(5)) ret = ret.add(player.sac.points.gte(2)?0.1:0.4);
         return ret;
     },
     baseResource: "levels", // Name of resource prestige is based on
@@ -113,28 +114,46 @@ addLayer("c", {
             effectDescription: "Reduce level requirement.",
         },
         {
-            requirementDescription: "1e14 calm points",
-            done() { return player.c.points.gte(1e14) && player.sac.points.gte(1) }, // Used to determine when to give the milestone
+            requirementDescription() { if(player.sac.points.gte(2))return "1e6 calm points"; return "1e14 calm points";},
+            done() { return (player.c.points.gte(1e14) && player.sac.points.gte(1)) || (player.c.points.gte(1e6) && player.sac.points.gte(2)) }, // Used to determine when to give the milestone
             unlocked(){return player.sac.points.gte(1)},
             effectDescription: "Reduce level requirement.",
         },
         {
-            requirementDescription: "1e16 calm points",
-            done() { return player.c.points.gte(1e16) && player.sac.points.gte(1) }, // Used to determine when to give the milestone
+            requirementDescription() { if(player.sac.points.gte(2))return "1e8 calm points"; return "1e16 calm points";},
+            done() { return (player.c.points.gte(1e16) && player.sac.points.gte(1)) || (player.c.points.gte(1e8) && player.sac.points.gte(2)) }, // Used to determine when to give the milestone
             unlocked(){return player.sac.points.gte(1)},
             effectDescription: "Scrap effect boost EXP.",
         },
         {
-            requirementDescription: "1e18 calm points",
-            done() { return player.c.points.gte(1e18) && player.sac.points.gte(1) }, // Used to determine when to give the milestone
+            requirementDescription() { if(player.sac.points.gte(2))return "1e11 calm points"; return "1e18 calm points";},
+            done() { return (player.c.points.gte(1e18) && player.sac.points.gte(1)) || (player.c.points.gte(1e11) && player.sac.points.gte(2)) }, // Used to determine when to give the milestone
             unlocked(){return player.sac.points.gte(1)},
             effectDescription: "Gain more EXP from enemies.",
         },
         {
-            requirementDescription: "1e20 calm points",
-            done() { return player.c.points.gte(1e20) && player.sac.points.gte(1) }, // Used to determine when to give the milestone
+            requirementDescription() { if(player.sac.points.gte(2))return "1e14 calm points"; return "1e20 calm points";},
+            done() { return (player.c.points.gte(1e20) && player.sac.points.gte(1)) || (player.c.points.gte(1e14) && player.sac.points.gte(2)) }, // Used to determine when to give the milestone
             unlocked(){return player.sac.points.gte(1)},
             effectDescription: "Gain more EXP from enemies.",
+        },
+        {
+            requirementDescription() { return "1e18 calm points";},
+            done() { return (player.c.points.gte(1e18) && player.sac.points.gte(2)) }, // Used to determine when to give the milestone
+            unlocked(){return player.sac.points.gte(2)},
+            effectDescription: "Gain more EXP from enemies.",
+        },
+        {
+            requirementDescription() { return "1e21 calm points";},
+            done() { return (player.c.points.gte(1e21) && player.sac.points.gte(2)) }, // Used to determine when to give the milestone
+            unlocked(){return player.sac.points.gte(2)},
+            effectDescription: "Scrap effect is better.",
+        },
+        {
+            requirementDescription() { return "1e24 calm points";},
+            done() { return (player.c.points.gte(1e24) && player.sac.points.gte(2)) }, // Used to determine when to give the milestone
+            unlocked(){return player.sac.points.gte(2)},
+            effectDescription: "+0.01 DEF per level.",
         },
     ],
     update(diff) {
@@ -218,6 +237,11 @@ addLayer("c", {
             description: "Calm Point effect is better.",
             cost: new Decimal(1e24),
             unlocked(){return player.b.points.gte(16)}
+        },
+        41: {
+            description: "Unlock a new calm buyable.",
+            cost: new Decimal(1e26),
+            unlocked(){return player.sac.points.gte(2)},
         },
     },
     buyables: {
@@ -417,6 +441,35 @@ addLayer("c", {
                 return eff;
             },
             unlocked() { return hasUpgrade("c", 22) }
+        },
+        32: {
+            title() {
+                return "DMG";
+            },
+            display() {
+                let data = tmp[this.layer].buyables[this.id];
+                return "Level: " + format(player[this.layer].buyables[this.id]) + "<br>" +
+                    "DMG x" + format(data.effect) + "<br>" +
+                    "Cost for Next Level: " + format(data.cost) + " Calm Points";
+            },
+            cost() {
+                let a = player[this.layer].buyables[this.id];
+                a = Decimal.pow(3, a).mul(250);
+                return a;
+            },
+            canAfford() {
+                return player[this.layer].points.gte(layers[this.layer].buyables[this.id].cost())
+            },
+            buy() {
+                player[this.layer].points = player[this.layer].points.sub(layers[this.layer].buyables[this.id].cost())
+                player[this.layer].buyables[this.id] = player[this.layer].buyables[this.id].add(1)
+
+            },
+            effect() {
+                let eff = new Decimal(1).add(player[this.layer].buyables[this.id].div(20));
+                return eff;
+            },
+            unlocked() { return hasUpgrade("c", 41) }
         },
 
     },

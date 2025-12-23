@@ -51,6 +51,16 @@ addLayer("g", {
 			description: "Unlock Equipment Shop.",
 			cost: new Decimal(2000),
 		},
+        13: {
+            description: "Equipment Power +50% for new equipments, additionally +10% in Gold Shop.",
+            cost: new Decimal(6000),
+            unlocked(){return player.sac.points.gte(2)},
+        },
+        14: {
+            description: "Effects of Weapon, Armor, Helmet and Shoes are better.",
+            cost: new Decimal(30000),
+            unlocked(){return player.sac.points.gte(2)},
+        },
 	},
 clickables: {
 	11: {
@@ -63,12 +73,13 @@ clickables: {
 		let type=types[Math.floor(types.length*Math.random())];
 		let level=getLevel().mul(Math.random()*0.25+1);
 		let x = Decimal.mul(player.e.equipment[type].level,player.e.equipment[type].power).max(1);
-		let power=x.mul(Math.random()*0.1+1.05).div(level).max(1).min(layers.e.effect().add(layers.e.effect2()).mul(Math.random()*0.05+1));
+		let power=x.mul(Math.random()*0.1+1.05).div(level).max(layers.e.effect2()).min(layers.e.effect().add(layers.e.effect2()).mul(Math.random()*0.05+1));
+                if(hasUpgrade("g",13))power = power.add(0.1);
 		while(i<5 && level.mul(power).lt(x)){
 			type=types[Math.floor(types.length*Math.random())];
 			level=getLevel().mul(Math.random()*0.25+1);
 			x = Decimal.mul(player.e.equipment[type].level,player.e.equipment[type].power).max(1);
-			power=x.mul(Math.random()*0.1+1.05).div(level).max(1).min(layers.e.effect().add(layers.e.effect2()).mul(Math.random()*0.05+1));
+			power=x.mul(Math.random()*0.1+1.05).div(level).max(layers.e.effect2()).min(layers.e.effect().add(layers.e.effect2()).mul(Math.random()*0.05+1));
 			i++;
 		}
 		player.g.shop[0].type=type;

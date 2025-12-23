@@ -8,7 +8,7 @@ addLayer("sac", {
     }},
     color: "#FFFFFF",
     requires(){
-	if(player.sac.points.gte(1))return new Decimal("10^^10");
+	if(player.sac.points.gte(2))return new Decimal("10^^10");
 	return new Decimal(4000);
 }, // Can be a function that takes requirement increases into account
     resource: "sacrifices", // Name of prestige currency
@@ -28,6 +28,12 @@ addLayer("sac", {
             unlocked() { return player[this.layer].points.gte(0) },
             done() { return player[this.layer].points.gte(1) }, // Used to determine when to give the milestone
             effectDescription: "Increase max level and EXP gain, but increase EXP required to level up. Reduce Tier 1 machine cost in layer F. You can complete domain without exiting domain. Deal 10x damage to bosses.",
+        },
+        {
+            requirementDescription: "Sacrifice 2 times",
+            unlocked() { return player[this.layer].points.gte(1) },
+            done() { return player[this.layer].points.gte(2) }, // Used to determine when to give the milestone
+            effectDescription: "Increase max level and EXP gain, but increase EXP required to level up. Deal 100x damage to bosses.",
         },
 ],
 doReset(layer){

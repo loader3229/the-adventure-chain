@@ -21,32 +21,46 @@ baseResource: "HP", // Name of resource prestige is based on
 	baseAmount() {
 		return player.points;
 	},
-    getEnemyHP() {
-        return player.a.level.mul(Decimal.pow(1.01, player.a.level.pow(0.5))).mul(5);
+    getEnemyHP(level) {
+	if(level === undefined)level = player.a.level;
+        return level.mul(Decimal.pow(1.01, level.pow(0.5))).mul(5);
     },
-    getEnemyATK() {
-        return player.a.level.mul(Decimal.pow(1.01, player.a.level.pow(0.5)));
+    getEnemyATK(level) {
+	if(level === undefined)level = player.a.level;
+        return level.mul(Decimal.pow(1.01, level.pow(0.5)));
     },
-    getEnemyDEF() {
-        return player.a.level.mul(Decimal.pow(1.01, player.a.level.pow(0.5))).mul(0.05).sub(1.05).max(0).max(player.a.level.mul(Decimal.pow(1.01, player.a.level.pow(0.5))).mul(0.1).sub(70));
+    getEnemyDEF(level) {
+	if(level === undefined)level = player.a.level;
+        return level.mul(Decimal.pow(1.01, level.pow(0.5))).mul(0.05).sub(1.05).max(0).max(level.mul(Decimal.pow(1.01, level.pow(0.5))).mul(0.1).sub(70));
     },
-    getEnemyDMG() {
-        return player.a.level.mul(Decimal.pow(1.01, player.a.level.pow(0.5))).mul(0.0001).max(1);
+    getEnemyDMG(level) {
+	if(level === undefined)level = player.a.level;
+        return level.mul(Decimal.pow(1.01, level.pow(0.5))).mul(0.0001).max(1);
     },
-    getEnemyEXP() {
-	let exp = player.a.level.pow(20 / 9).max(player.a.level.pow(3.1).mul(Decimal.pow(1.031, player.a.level.pow(0.5))).div(player.b.points.gte(2) ? 5 : 15));
-        if (player.c.unlocked) exp = player.a.level.pow(3.1).mul(Decimal.pow(1.031, player.a.level.pow(0.5))).max(player.a.level.pow(3.2).mul(Decimal.pow(1.031, player.a.level.pow(0.5))).sub(54e8)).max(player.a.level.pow(4.1).mul(Decimal.pow(1.041, player.a.level.pow(0.5))).div(4000));
+    getEnemyEXP(level) {
+	if(level === undefined)level = player.a.level;
+	let exp = level.pow(20 / 9).max(level.pow(3.1).mul(Decimal.pow(1.031, level.pow(0.5))).div(player.b.points.gte(2) ? 5 : 15));
+        if (player.c.unlocked) exp = level.pow(3.1).mul(Decimal.pow(1.031, level.pow(0.5))).max(level.pow(3.2).mul(Decimal.pow(1.031, level.pow(0.5))).sub(54e8)).max(level.pow(4.1).mul(Decimal.pow(1.041, level.pow(0.5))).div(4000));
 	if (player.sac.points.gte(1)){
-		exp = player.a.level.pow(3.1).mul(Decimal.pow(1.031, player.a.level.pow(0.5))).mul(20).max(player.a.level.pow(4.1).mul(Decimal.pow(1.041, player.a.level.pow(0.5))).div(hasMilestone("c",9)?1:60));
+		exp = level.pow(3.1).mul(Decimal.pow(1.031, level.pow(0.5))).mul(20).max(level.pow(4.1).mul(Decimal.pow(1.041, level.pow(0.5))).div(hasMilestone("c",9)?1:60));
 		if(hasMilestone("c",0))exp = exp.mul(3);
 		if(hasMilestone("c",3))exp = exp.mul(2);
-		if(hasMilestone("c",10))exp = player.a.level.pow(4.1).mul(Decimal.pow(1.041, player.a.level.pow(0.5))).mul(100);
+		if(hasMilestone("c",10))exp = level.pow(4.1).mul(Decimal.pow(1.041, level.pow(0.5))).mul(100);
+	}
+	if (player.sac.points.gte(2)){
+		exp = level.pow(4.1).mul(Decimal.pow(1.041, level.pow(0.5))).mul(20);
+		if(hasMilestone("c",0))exp = exp.mul(2.5);
+		if(hasMilestone("c",3))exp = exp.mul(2);
+		if(hasMilestone("c",9))exp = exp.mul(2.5);
+		if(hasMilestone("c",10))exp = exp.mul(2);
+		if(hasMilestone("c",11))exp = exp.mul(2);
 	}
         exp = exp.mul(layers.a.gainMult());
         return exp;
     },
-    getEnemyGold() {
-	let gold=player.a.level.div(1000).mul(player.b.points.sub(15).max(0).pow(0.5)).add(1).pow(1.5).mul(player.b.points.sub(15).max(0).pow(0.5));
+    getEnemyGold(level) {
+	if(level === undefined)level = player.a.level;
+	let gold=level.div(1000).mul(player.b.points.sub(15).max(0).pow(0.5)).add(1).pow(1.5).mul(player.b.points.sub(15).max(0).pow(0.5));
         gold= gold.mul(layers.g.gainMult());
         return gold;
     },

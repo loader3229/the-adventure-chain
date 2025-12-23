@@ -21,15 +21,13 @@ baseResource: "HP", // Name of resource prestige is based on
 		return player.points;
 	},
     getBossHP() {
-	if(player.b.points.gte(16))return Decimal.pow(10, player.b.points);
-	if(player.b.points.gte(10))return Decimal.pow(10, player.b.points).mul(2);
-	if(player.b.points.gte(8))return Decimal.pow(8, player.b.points.sub(8)).mul(312500000);
+	if(player.b.points.gte(10))return Decimal.pow(10, player.b.points);
         return Decimal.pow(5, player.b.points).mul(1000);
     },
     getBossATK() {
-	if(player.b.points.gte(16))return Decimal.pow(1e9, player.b.points.sub(16)).mul(1e9).div(layers.b.dmgDivide());
-	if(player.b.points.gte(10))return Decimal.pow(2, player.b.points.sub(10)).mul(4e6).div(layers.b.dmgDivide());
-	if(player.b.points.gte(8))return Decimal.pow(2.5, player.b.points.sub(8)).mul(655360).div(layers.b.dmgDivide());
+	if(player.b.points.gte(16))return Decimal.pow(2.5, player.b.points.sub(16)).mul(1e9).div(layers.b.dmgDivide());
+	if(player.b.points.gte(10))return Decimal.pow(2, player.b.points.sub(7)).mul(1e6).div(layers.b.dmgDivide());
+	if(player.b.points.gte(8))return Decimal.pow(4, player.b.points).mul(8).div(layers.b.dmgDivide());
         return Decimal.pow(4, player.b.points).mul(10).div(layers.b.dmgDivide());
     },
     tabFormat: [
@@ -217,6 +215,24 @@ baseResource: "HP", // Name of resource prestige is based on
             done() { return player[this.layer].points.gte(17) }, // Used to determine when to give the milestone
             effectDescription: "Gold gain is boosted by bosses beaten.",
         },
+        {
+            requirementDescription: "Beat 18 bosses",
+            unlocked() { return player[this.layer].points.gte(17) },
+            done() { return player[this.layer].points.gte(18) }, // Used to determine when to give the milestone
+            effectDescription: "Unlock a new type of equipment. 1.25x HP gain.",
+        },
+        {
+            requirementDescription: "Beat 19 bosses",
+            unlocked() { return player[this.layer].points.gte(18) },
+            done() { return player[this.layer].points.gte(19) }, // Used to determine when to give the milestone
+            effectDescription: "Unlock a new type of equipment. 1.1x DMG.",
+        },
+        {
+            requirementDescription: "Beat 20 bosses",
+            unlocked() { return player[this.layer].points.gte(19) },
+            done() { return player[this.layer].points.gte(20) }, // Used to determine when to give the milestone
+            effectDescription: "Unlock layer H.",
+        },
 
 
 
@@ -234,6 +250,7 @@ baseResource: "HP", // Name of resource prestige is based on
         if (hasUpgrade("c", 13)) ret = ret.mul(upgradeEffect("c", 13));
         ret = ret.mul(layers.d.effect2());
 	if(player.sac.points.gte(1))ret = ret.mul(10);
+	if(player.sac.points.gte(2))ret = ret.mul(100);
         return ret;
     },
     dmgDivide() {
