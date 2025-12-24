@@ -233,6 +233,12 @@ baseResource: "HP", // Name of resource prestige is based on
             done() { return player[this.layer].points.gte(20) }, // Used to determine when to give the milestone
             effectDescription: "Unlock layer H.",
         },
+        {
+            requirementDescription: "Beat 21 bosses",
+            unlocked() { return player[this.layer].points.gte(20) },
+            done() { return player[this.layer].points.gte(21) }, // Used to determine when to give the milestone
+            effectDescription: "Current Endgame",
+        },
 
 
 

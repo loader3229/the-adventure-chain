@@ -13,11 +13,13 @@ let modInfo = {
 
 // Set your version in num and name
 let VERSION = {
-    num: "7.0",
-    name: "Gold",
+    num: "8.0",
+    name: "Helper",
 }
 
 let changelog = `<h1>Changelog:</h1><br>
+    <h3>v8.0</h3><br>
+        - Added layer H.<br>
     <h3>v7.0</h3><br>
         - Added layers F and G.<br>
     <h3>v5.0</h3><br>
@@ -71,7 +73,7 @@ function addedPlayerData() { return {
 
 // Display extra things at the top of the page
 var displayThings = [
-	"Endgame: Level 16k and Boss 17 beaten",
+	"Endgame: Boss 21 beaten",
     function(){return "Level: "+formatWhole(getLevel())+"/"+formatWhole(getLevelCap())+" ("+format(getLevelProgress().mul(100))+"%)"},
     function(){return "ATK: "+format(getATK())},
     function(){if(player.b.points.gte(1))return "DEF: "+format(getDEF())},
@@ -81,7 +83,7 @@ var displayThings = [
 
 // Determines when the game "ends"
 function isEndgame() {
-    return player.b.points.gte(17) && getLevel().gte(16000)
+    return player.b.points.gte(21)
 }
 
 
@@ -149,7 +151,7 @@ function getLevel(){
 }
 
 function getLevelCap(){
-    if(player.sac.points.gte(2))return new Decimal(64000);
+    if(player.sac.points.gte(2))return new Decimal(40000);
     if(player.sac.points.gte(1))return new Decimal(16000);
     if(player.b.points.gte(10))return new Decimal(4000);
     if(player.b.points.gte(8))return new Decimal(3000);
@@ -179,7 +181,7 @@ function getRealLevel(){
     if(player.sac.points.gte(2)){
         let level = player.a.points.pow(1/12).div(12.5).div(softcap(getLevelScaling().sqrt(),new Decimal(3))).add(1).log(1.08).mul(softcap(getLevelScaling().sqrt(),new Decimal(3))).pow(2).add(1);
         if(player.a.points.pow(1/6).lte(softcap(getLevelScaling().sqrt(),new Decimal(3)).pow(2)))level = player.a.points.pow(1/6).add(1);
-        if(level.gte(40000))level = level.sqrt().mul(200).min(64000);
+        if(level.gte(40000))level = level.sqrt().mul(200).min(40000);
         return level;
     }
     if(player.sac.points.gte(1)){

@@ -9,7 +9,8 @@ addLayer("a", {
             hp: new Decimal(5.05),
             level: new Decimal(1),
             setLevel: new Decimal(1),
-            nextEnemyTime: new Decimal(0)
+            nextEnemyTime: new Decimal(0),
+            equipmentShard: false,
         }
     },
     color: "#FF6666",
@@ -87,7 +88,7 @@ baseResource: "HP", // Name of resource prestige is based on
         ["display-text", function () { if (!player.b.unlocked) return "Reach Level 10 to unlock layer B" }],
         ["row", [["clickable", "11"], ["clickable", "12"]]],
         "resource-display",
-        ["display-text", function () { return player.e.drop }],
+        ["display-text", function () { return player.e.drop }],["clickable", "13"]
 
     ],
     bars: {
@@ -165,6 +166,20 @@ baseResource: "HP", // Name of resource prestige is based on
             },
             unlocked() { return player.b.points.gte(2) },
         },
+        13: {
+            title() {
+                return "Enemy Drop Mode";
+            },
+             display(){if(player.a.equipmentShard)return "Equipment Shard";return "Equipment";},
+            canClick() {
+                return hasUpgrade("c",42);
+            },
+            onClick() {
+                player.a.equipmentShard = !player.a.equipmentShard;
+            },
+            unlocked() {return hasUpgrade("c",42)},
+        },
+
         21: {
             title() {
                 return "-1"

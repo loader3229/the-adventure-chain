@@ -90,6 +90,13 @@ if(player.b.points.gte(11))x = x.mul(player.b.points);
 	let count = 1;
 	if(player.b.points.gte(11))count++;
 	if(player.b.points.gte(15))count++;
+        if(player.a.equipmentShard){
+              let power = layers.e.effect().add(layers.e.effect2());
+              let gain=layers.e.gainMult(level.mul(power)).mul(count**1.1).mul(1.1);
+             player.e.points = player.e.points.add(gain);
+             player.e.drop += format(gain) +" Equipment Shards";
+              return player.e.drop;
+        }
 	for(i=0;i<count;i++){
 		let type=types[Math.floor(types.length*Math.random())];
         	let power = layers.e.effect().mul(Math.random()).add(layers.e.effect2());

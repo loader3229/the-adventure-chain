@@ -244,7 +244,7 @@ addLayer("c", {
             unlocked(){return player.sac.points.gte(2)},
         },
         42: {
-            description: "...",
+            description: "You can let enemies drop equipment shards instead of equipments in adventure. Equipment shards drop in this mode is more than equipment shards from equipments.",
             cost: new Decimal(1e28),
             unlocked(){return player.sac.points.gte(2)},
         },
