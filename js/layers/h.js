@@ -1,0 +1,101 @@
+addLayer("h", {
+    name: "helper", // This is optional, only used in a few places, If absent it just uses the layer id.
+    symbol: "H", // This appears on the layer's node. Default is the id with the first letter capitalized
+    position: 0, // Horizontal position within a row. By default it uses the layer id and sorts in alphabetical order
+    startData() {
+        return {
+            unlocked: false,
+            points: new Decimal(0),
+            autoProgress: new Decimal(0),
+            clickables: {11:new Decimal(0)},
+        }
+    },
+    color: "#FF00FF",
+    resource: "helper points", // Name of prestige currency
+    type: "none", // normal: cost to gain currency depends on amount gained. static: cost depends on how much you already have
+    requires: new Decimal(100),
+    row: 7, // Row the layer is in on the tree (0 is the first row)
+    branches: ['g'],
+    layerShown() { return player.b.points.gte(20) || player.g.unlocked },
+gainMult(){
+	return new Decimal(1);
+    },
+    buyables: {
+        11: {
+            title() {
+                return "Auto-Helper";
+            },
+            display() {
+                let data = tmp[this.layer].buyables[this.id];
+                return "Level: " + format(player[this.layer].buyables[this.id]) + "<br>" +
+                    "Activate " + format(data.effect) + " ticks per second<br>" +
+                    "Cost for Next Level: " + format(data.cost) + " Gold";
+            },
+            cost() {
+                let a = player[this.layer].buyables[this.id];
+                a = Decimal.pow(2, a);
+                return a;
+            },
+            canAfford() {
+                return player.g.points.gte(layers[this.layer].buyables[this.id].cost())
+            },
+            buy() {
+                player.g.points = player.g.points.sub(layers[this.layer].buyables[this.id].cost())
+                player[this.layer].buyables[this.id] = player[this.layer].buyables[this.id].add(1)
+
+            },
+            effect() {
+                let eff = player[this.layer].buyables[this.id].pow(0.5).mul(0.1);
+                return eff;
+            }
+
+        }
+    },
+    clickables: {
+        11: {
+            title() {
+                return "Change Auto-Helper Type"
+            },
+            display() {
+                if(player.h.clickables[11].eq(0)){
+                    return "Current Type: None. Gain 2 base helper points per helper tick.";
+                }else if(player.h.clickables[11].eq(1)){
+                    return "Current Type: Auto-bulk-attack enemies per tick. Gain 1 base helper point per helper tick.";
+                }else if(player.h.clickables[11].eq(2)){
+                    return "Current Type: Auto-bulk-attack bosses per tick. Gain 1 base helper point per helper tick.";
+                }
+            },
+            canClick() {
+                return player.points.gte(layers.b.getBossATK().div(getDEF().add(1)));
+            },
+            onClick() {
+                player.h.clickables[11]=new Decimal((player.h.clickables[11].toNumber()+1)%3);
+            },
+            style(){  if(player.h.clickables[11].eq(0)){
+                   return  {"background-color": layers.h.color};
+                }else if(player.h.clickables[11].eq(1)){
+                    return {"background-color": layers.a.color};
+
+                }else if(player.h.clickables[11].eq(2)){
+                    return {"background-color": layers.b.color};
+
+                }
+},
+            unlocked: true,
+        }
+    },
+    update(diff) {
+        if (player.b.points.gte(20)) player.h.unlocked = true;
+        player.h.autoProgress=player.h.autoProgress.add(buyableEffect("h",11).mul(diff));
+        if (player.h.autoProgress.gte(1)) {
+	    if(player.h.clickables[11].eq(0))player.h.points = player.h.points.add(player.h.autoProgress.mul(layers.h.gainMult()));
+            else if(player.h.clickables[11].eq(1))layers.a.clickables[12].onClick();
+            else if(player.h.clickables[11].eq(2))layers.b.clickables[12].onClick();
+            player.h.points = player.h.points.add(player.h.autoProgress.mul(layers.h.gainMult()));
+            player.h.autoProgress=new Decimal(0);
+	}
+    },
+    hotkeys: [
+        { key: "h", description: "h: change auto-helper type", onPress() { if (player.b.points.gte(20)) layers.h.clickables[11].onClick(); } },
+    ],
+});

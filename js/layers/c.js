@@ -243,6 +243,11 @@ addLayer("c", {
             cost: new Decimal(1e26),
             unlocked(){return player.sac.points.gte(2)},
         },
+        42: {
+            description: "...",
+            cost: new Decimal(1e28),
+            unlocked(){return player.sac.points.gte(2)},
+        },
     },
     buyables: {
         11: {
