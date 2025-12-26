@@ -94,7 +94,7 @@ gainMult(){
                 }
             },
             canClick() {
-                return player.points.gte(layers.b.getBossATK().div(getDEF().add(1)));
+                return true;
             },
             onClick() {
                 player.h.clickables[11]=new Decimal((player.h.clickables[11].toNumber()+1)%3);
