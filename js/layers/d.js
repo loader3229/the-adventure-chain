@@ -84,6 +84,7 @@ completionLimit() {
 	if(player.sac.points.gte(1))d+=3;
 	if(player.sac.points.gte(2))d+=5;
 	if(hasUpgrade("c",32))d+=10;
+	if(hasUpgrade("g",15))d+=5;
 	return d;},
     update(diff) {
         if (player.b.points.gte(6)) player.d.unlocked = true;

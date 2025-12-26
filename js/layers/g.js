@@ -61,6 +61,17 @@ addLayer("g", {
             cost: new Decimal(30000),
             unlocked(){return player.sac.points.gte(2)},
         },
+        15: {
+            description: "Increase max domain completions.",
+            cost: new Decimal(100000),
+            unlocked(){return player.sac.points.gte(2)},
+        },
+        21: {
+            description: "Deal more damage to bosses based on gold upgrades.",
+            cost: new Decimal(3e5),
+            effect: function () { return Decimal.pow(2, player.g.upgrades.length) },
+            effectDisplay: function () { return format(upgradeEffect(this.layer, this.id)) + "x" }
+        },
 	},
 clickables: {
 	11: {

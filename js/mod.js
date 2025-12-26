@@ -64,6 +64,8 @@ gain = gain.mul(buyableEffect("c",21));
     if(player.b.points.gte(18))gain = gain.mul(1.25);
 gain = gain.mul(layers.e.equipmentEff(23));
 
+if(player.b.points.gte(21))gain = gain.mul(buyableEffect("h",12));
+
     return gain
 }
 
@@ -113,7 +115,7 @@ function getATK(){
 atk = atk.mul(buyableEffect("c",12));
 
 atk = atk.mul(layers.e.equipmentEff(21));
-
+if(player.b.points.gte(21))atk = atk.mul(buyableEffect("h",12));
 
 
     if(inChallenge("d",22))atk = atk.sqrt();
@@ -124,12 +126,14 @@ function getDEF(){
     let def=new Decimal(0);
     if(inChallenge("d",11))return def;
     if(player.b.points.gte(1))def = def.add(getLevel().mul(0.05));
+    if(player.b.points.gte(21))def = def.add(getLevel().mul(0.02));
     if(hasMilestone("c",13))def = def.add(getLevel().mul(0.01));
     if(hasMilestone("c",2))def = def.mul(1.1);
 def = def.mul(buyableEffect("c",13));
 
 def = def.mul(layers.e.equipmentEff(22));
 
+if(player.b.points.gte(21))def = def.mul(buyableEffect("h",12));
     return def;
 }
 
@@ -143,6 +147,8 @@ dmg = dmg.mul(buyableEffect("c",32));
 
 dmg = dmg.mul(layers.e.equipmentEff(24));
 
+if(player.b.points.gte(21))dmg = dmg.mul(buyableEffect("h",12));
+
     return dmg;
 }
 
@@ -151,7 +157,7 @@ function getLevel(){
 }
 
 function getLevelCap(){
-    if(player.sac.points.gte(2))return new Decimal(40000);
+    if(player.sac.points.gte(2))return new Decimal(64000);
     if(player.sac.points.gte(1))return new Decimal(16000);
     if(player.b.points.gte(10))return new Decimal(4000);
     if(player.b.points.gte(8))return new Decimal(3000);
@@ -179,9 +185,9 @@ function getRealLevel(){
     let scaling=getLevelScaling();
 	
     if(player.sac.points.gte(2)){
-        let level = player.a.points.pow(1/12).div(12.5).div(softcap(getLevelScaling().sqrt(),new Decimal(3))).add(1).log(1.08).mul(softcap(getLevelScaling().sqrt(),new Decimal(3))).pow(2).add(1);
-        if(player.a.points.pow(1/6).lte(softcap(getLevelScaling().sqrt(),new Decimal(3)).pow(2)))level = player.a.points.pow(1/6).add(1);
-        if(level.gte(40000))level = level.sqrt().mul(200).min(40000);
+        let level = player.a.points.pow(1/12).div(12.5).div(softcap(getLevelScaling().sqrt(),new Decimal(player.b.points.gte(21)?player.b.points.mul(0.1).add(1):3))).add(1).log(1.08).mul(softcap(getLevelScaling().sqrt(),new Decimal(player.b.points.gte(21)?player.b.points.mul(0.1).add(1):3))).pow(2).add(1);
+        if(player.a.points.pow(1/6).lte(softcap(getLevelScaling().sqrt(),new Decimal(player.b.points.gte(21)?player.b.points.mul(0.1).add(1):3)).pow(2)))level = player.a.points.pow(1/6).add(1);
+        level = level.min(64000);
         return level;
     }
     if(player.sac.points.gte(1)){

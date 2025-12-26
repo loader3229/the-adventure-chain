@@ -49,6 +49,34 @@ gainMult(){
                 return eff;
             }
 
+        },
+        12: {
+            title() {
+                return "Stat Helper";
+            },
+            display() {
+                let data = tmp[this.layer].buyables[this.id];
+                return "Level: " + format(player[this.layer].buyables[this.id]) + "<br>" +
+                    "HP gain,ATK,DEF,DMG x" + format(data.effect) + " (based on helper points)<br>" +
+                    "Cost for Next Level: " + format(data.cost) + " Gold";
+            },
+            cost() {
+                let a = player[this.layer].buyables[this.id];
+                a = Decimal.pow(3, a).mul(100);
+                return a;
+            },
+            canAfford() {
+                return player.g.points.gte(layers[this.layer].buyables[this.id].cost())
+            },
+            buy() {
+                player.g.points = player.g.points.sub(layers[this.layer].buyables[this.id].cost())
+                player[this.layer].buyables[this.id] = player[this.layer].buyables[this.id].add(1)
+            },
+            effect() {
+                let eff = player[this.layer].buyables[this.id].mul(player[this.layer].points.add(10).log10()).div(100).add(1);
+                return eff;
+            },unlocked(){return player.b.points.gte(21)}
+
         }
     },
     clickables: {

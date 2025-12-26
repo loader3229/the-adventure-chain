@@ -237,11 +237,20 @@ baseResource: "HP", // Name of resource prestige is based on
             requirementDescription: "Beat 21 bosses",
             unlocked() { return player[this.layer].points.gte(20) },
             done() { return player[this.layer].points.gte(21) }, // Used to determine when to give the milestone
-            effectDescription: "Current Endgame",
+            effectDescription: "+0.02 DEF per level. Unlock another helper.",
         },
-
-
-
+        {
+            requirementDescription: "Beat 22 bosses",
+            unlocked() { return player[this.layer].points.gte(21) },
+            done() { return player[this.layer].points.gte(22) }, // Used to determine when to give the milestone
+            effectDescription: "Equipment Shard effect is better.",
+        },
+        {
+            requirementDescription: "Beat 23 bosses",
+            unlocked() { return player[this.layer].points.gte(22) },
+            done() { return player[this.layer].points.gte(23) }, // Used to determine when to give the milestone
+            effectDescription: "You can buy Tier 2 machines using Scraps. Increase Max machine tier by 1.",
+        },
     ],
     update(diff) {
         if (getLevel().gte(10)) player.b.unlocked = true;
@@ -254,6 +263,7 @@ baseResource: "HP", // Name of resource prestige is based on
     dmgMult() {
         let ret = new Decimal(1);
         if (hasUpgrade("c", 13)) ret = ret.mul(upgradeEffect("c", 13));
+        if (hasUpgrade("g", 21)) ret = ret.mul(upgradeEffect("g", 21));
         ret = ret.mul(layers.d.effect2());
 	if(player.sac.points.gte(1))ret = ret.mul(10);
 	if(player.sac.points.gte(2))ret = ret.mul(100);

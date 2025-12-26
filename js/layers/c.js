@@ -155,6 +155,12 @@ addLayer("c", {
             unlocked(){return player.sac.points.gte(2)},
             effectDescription: "+0.01 DEF per level.",
         },
+        {
+            requirementDescription() { return "1e29 calm points";},
+            done() { return (player.c.points.gte(1e29) && player.sac.points.gte(2)) }, // Used to determine when to give the milestone
+            unlocked(){return player.sac.points.gte(2)},
+            effectDescription: "+50% Equipment Power.",
+        },
     ],
     update(diff) {
         if (hasMilestone("c", 1)) player.a.points = player.a.points.add(getLevel().pow(player.d.activeChallenge ? 0.5 : 2).pow(player.sac.points.gte(1)?1.75:1).mul(diff).mul(layers.a.gainMult()));
@@ -246,6 +252,11 @@ addLayer("c", {
         42: {
             description: "You can let enemies drop equipment shards instead of equipments in adventure. Equipment shards drop in this mode is more than equipment shards from equipments.",
             cost: new Decimal(1e28),
+            unlocked(){return player.sac.points.gte(2)},
+        },
+        43: {
+            description: "Unlock a new calm buyable.",
+            cost: new Decimal(3e29),
             unlocked(){return player.sac.points.gte(2)},
         },
     },
@@ -476,7 +487,35 @@ addLayer("c", {
             },
             unlocked() { return hasUpgrade("c", 41) }
         },
+        33: {
+            title() {
+                return "All Factory Machine Speed";
+            },
+            display() {
+                let data = tmp[this.layer].buyables[this.id];
+                return "Level: " + format(player[this.layer].buyables[this.id]) + "<br>" +
+                    "All Factory Machine Speed x" + format(data.effect) + "<br>" +
+                    "Cost for Next Level: " + format(data.cost) + " Calm Points";
+            },
+            cost() {
+                let a = player[this.layer].buyables[this.id];
+                a = Decimal.pow(10, a).mul(1e25);
+                return a;
+            },
+            canAfford() {
+                return player[this.layer].points.gte(layers[this.layer].buyables[this.id].cost())
+            },
+            buy() {
+                player[this.layer].points = player[this.layer].points.sub(layers[this.layer].buyables[this.id].cost())
+                player[this.layer].buyables[this.id] = player[this.layer].buyables[this.id].add(1)
 
+            },
+            effect() {
+                let eff = new Decimal(1).add(player[this.layer].buyables[this.id]);
+                return eff;
+            },
+            unlocked() { return hasUpgrade("c", 43) }
+        },
     },
 
 
