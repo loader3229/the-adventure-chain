@@ -62,6 +62,7 @@ function getPointGen() {
     if(hasMilestone("c",2))gain = gain.mul(1.1);
 gain = gain.mul(buyableEffect("c",21));
     if(player.b.points.gte(18))gain = gain.mul(1.25);
+    if(player.b.points.gte(24))gain = gain.mul(2);
 gain = gain.mul(layers.e.equipmentEff(23));
 
 if(player.b.points.gte(21))gain = gain.mul(buyableEffect("h",12));
@@ -75,7 +76,7 @@ function addedPlayerData() { return {
 
 // Display extra things at the top of the page
 var displayThings = [
-	"Endgame: Boss 21 beaten",
+	"Endgame: Boss 24 beaten and Level 64000",
     function(){return "Level: "+formatWhole(getLevel())+"/"+formatWhole(getLevelCap())+" ("+format(getLevelProgress().mul(100))+"%)"},
     function(){return "ATK: "+format(getATK())},
     function(){if(player.b.points.gte(1))return "DEF: "+format(getDEF())},
@@ -85,7 +86,7 @@ var displayThings = [
 
 // Determines when the game "ends"
 function isEndgame() {
-    return player.b.points.gte(21)
+    return player.b.points.gte(24) && getLevel().gte(64000)
 }
 
 

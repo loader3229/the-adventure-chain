@@ -146,6 +146,7 @@ effect2(){
 	let ret=new Decimal(1);
 	if(hasUpgrade("c",24))ret = ret.add(0.5);
 	if(hasUpgrade("g",13))ret = ret.add(0.5);
+	if(hasUpgrade("g",22))ret = ret.add(0.5);
 	if(hasMilestone("c",14))ret = ret.add(0.5);
 	if(player.b.points.gte(14))ret = ret.add(player.e.points.add(10).log10().div(player.b.points.gte(22)?8:10));
 	return ret;

@@ -259,6 +259,11 @@ addLayer("c", {
             cost: new Decimal(3e29),
             unlocked(){return player.sac.points.gte(2)},
         },
+        44: {
+            description: "HP gain, ATK, DEF and DMG calm buyables are cheaper.",
+            cost: new Decimal(3e31),
+            unlocked(){return player.sac.points.gte(2)},
+        },
     },
     buyables: {
         11: {
@@ -301,7 +306,7 @@ addLayer("c", {
             },
             cost() {
                 let a = player[this.layer].buyables[this.id];
-                a = Decimal.pow(3, a).mul(100);
+                a = Decimal.pow(3, a).mul(hasUpgrade("c",44)?1:100);
                 return a;
             },
             canAfford() {
@@ -329,7 +334,7 @@ addLayer("c", {
             },
             cost() {
                 let a = player[this.layer].buyables[this.id];
-                a = Decimal.pow(3, a).mul(150);
+                a = Decimal.pow(3, a).mul(hasUpgrade("c",44)?1.5:150);
                 return a;
             },
             canAfford() {
@@ -357,7 +362,7 @@ addLayer("c", {
             },
             cost() {
                 let a = player[this.layer].buyables[this.id];
-                a = Decimal.pow(3, a).mul(200);
+                a = Decimal.pow(3, a).mul(hasUpgrade("c",44)?2:200);
                 return a;
             },
             canAfford() {
@@ -470,7 +475,7 @@ addLayer("c", {
             },
             cost() {
                 let a = player[this.layer].buyables[this.id];
-                a = Decimal.pow(3, a).mul(250);
+                a = Decimal.pow(3, a).mul(hasUpgrade("c",44)?2.5:250);
                 return a;
             },
             canAfford() {

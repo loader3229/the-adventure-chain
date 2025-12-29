@@ -25,6 +25,7 @@ baseResource: "HP", // Name of resource prestige is based on
         return Decimal.pow(5, player.b.points).mul(1000);
     },
     getBossATK() {
+             if(player.b.points.gte(24))return new Decimal(1e100).div(layers.b.dmgDivide());
 	if(player.b.points.gte(16))return Decimal.pow(2.5, player.b.points.sub(16)).mul(1e9).div(layers.b.dmgDivide());
 	if(player.b.points.gte(10))return Decimal.pow(2, player.b.points.sub(7)).mul(1e6).div(layers.b.dmgDivide());
 	if(player.b.points.gte(8))return Decimal.pow(4, player.b.points).mul(8).div(layers.b.dmgDivide());
@@ -250,6 +251,12 @@ baseResource: "HP", // Name of resource prestige is based on
             unlocked() { return player[this.layer].points.gte(22) },
             done() { return player[this.layer].points.gte(23) }, // Used to determine when to give the milestone
             effectDescription: "You can buy Tier 2 machines using Scraps. Increase Max machine tier by 1.",
+        },
+        {
+            requirementDescription: "Beat 24 bosses",
+            unlocked() { return player[this.layer].points.gte(23) },
+            done() { return player[this.layer].points.gte(24) }, // Used to determine when to give the milestone
+            effectDescription: "2x HP gain.",
         },
     ],
     update(diff) {
