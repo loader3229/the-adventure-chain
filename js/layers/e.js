@@ -74,9 +74,9 @@ if(player.b.points.gte(11))x = x.mul(player.b.points);
     },
     types() {
         let types = [11];
-	if(hasUpgrade("c",15))types.push(12);
+	if(hasUpgrade("c",15) || player.sac.points.gte(3))types.push(12);
 	if(player.b.points.gte(9))types.push(13);
-	if(hasUpgrade("c",22))types.push(14);
+	if(hasUpgrade("c",22) || player.sac.points.gte(3))types.push(14);
 	if(player.b.points.gte(15))types.push(21);
 	if(player.b.points.gte(15))types.push(22);
 	if(player.b.points.gte(18))types.push(23);
@@ -170,7 +170,7 @@ effectDescription(){
             },
             canClick: false,
             style: {"background-color": "#6699FF"},
-unlocked(){return hasUpgrade("c",15);}
+unlocked(){return hasUpgrade("c",15) || player.sac.points.gte(3);}
         },
         13: {
             title: "Passive Gem",
@@ -188,7 +188,7 @@ unlocked(){return player.b.points.gte(9);}
             },
             canClick: false,
             style: {"background-color": "#6699FF"},
-unlocked(){return hasUpgrade("c",22);}
+unlocked(){return hasUpgrade("c",22) || player.sac.points.gte(3);}
         },
         21: {
             title: "Weapon",

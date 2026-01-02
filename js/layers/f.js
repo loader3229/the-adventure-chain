@@ -81,7 +81,7 @@ buyables: {
 			},
 			cost() {
 				let a = player[this.layer].buyables[this.id];
-				a = Decimal.pow(3, a).mul(player.sac.points.gte(2)?100:player.sac.points.gte(1)?1e3:1e5);
+				a = Decimal.pow(3, a).mul(player.sac.points.gte(3)?1:player.sac.points.gte(2)?100:player.sac.points.gte(1)?1e3:1e5);
 				return a;
 			},
 			canAfford() {

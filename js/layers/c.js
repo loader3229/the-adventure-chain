@@ -12,6 +12,7 @@ addLayer("c", {
     resource: "Calm Points", // Name of prestige currency
     type: "normal", // normal: cost to gain currency depends on amount gained. static: cost depends on how much you already have
     requires() {
+        if (player.sac.points.gte(3))return new Decimal(5);
         if (player.sac.points.gte(2))return new Decimal(10);
         if (player.sac.points.gte(1))return new Decimal(20);
         return new Decimal(100);
@@ -114,8 +115,8 @@ addLayer("c", {
             effectDescription: "Reduce level requirement.",
         },
         {
-            requirementDescription() { if(player.sac.points.gte(2))return "1e6 calm points"; return "1e14 calm points";},
-            done() { return (player.c.points.gte(1e14) && player.sac.points.gte(1)) || (player.c.points.gte(1e6) && player.sac.points.gte(2)) }, // Used to determine when to give the milestone
+            requirementDescription() { if(player.sac.points.gte(3))return "1e5 calm points"; if(player.sac.points.gte(2))return "1e6 calm points"; return "1e14 calm points";},
+            done() { return (player.c.points.gte(1e14) && player.sac.points.gte(1)) || (player.c.points.gte(1e6) && player.sac.points.gte(2)) || (player.c.points.gte(1e5) && player.sac.points.gte(3)) }, // Used to determine when to give the milestone
             unlocked(){return player.sac.points.gte(1)},
             effectDescription: "Reduce level requirement.",
         },
@@ -138,26 +139,26 @@ addLayer("c", {
             effectDescription: "Gain more EXP from enemies.",
         },
         {
-            requirementDescription() { return "1e18 calm points";},
-            done() { return (player.c.points.gte(1e18) && player.sac.points.gte(2)) }, // Used to determine when to give the milestone
+            requirementDescription() { if(player.sac.points.gte(3))return "1e17 calm points"; return "1e18 calm points";},
+            done() { return (player.c.points.gte(1e18) && player.sac.points.gte(2)) || (player.c.points.gte(1e17) && player.sac.points.gte(3)) }, // Used to determine when to give the milestone
             unlocked(){return player.sac.points.gte(2)},
             effectDescription: "Gain more EXP from enemies.",
         },
         {
-            requirementDescription() { return "1e21 calm points";},
-            done() { return (player.c.points.gte(1e21) && player.sac.points.gte(2)) }, // Used to determine when to give the milestone
+            requirementDescription() { if(player.sac.points.gte(3))return "1e20 calm points"; return "1e21 calm points";},
+            done() { return (player.c.points.gte(1e21) && player.sac.points.gte(2)) || (player.c.points.gte(1e20) && player.sac.points.gte(3)) }, // Used to determine when to give the milestone
             unlocked(){return player.sac.points.gte(2)},
             effectDescription: "Scrap effect is better.",
         },
         {
-            requirementDescription() { return "1e24 calm points";},
-            done() { return (player.c.points.gte(1e24) && player.sac.points.gte(2)) }, // Used to determine when to give the milestone
+            requirementDescription() { if(player.sac.points.gte(3))return "1e23 calm points"; return "1e24 calm points";},
+            done() { return (player.c.points.gte(1e24) && player.sac.points.gte(2)) || (player.c.points.gte(1e23) && player.sac.points.gte(3)) }, // Used to determine when to give the milestone
             unlocked(){return player.sac.points.gte(2)},
             effectDescription: "+0.01 DEF per level.",
         },
         {
-            requirementDescription() { return "1e29 calm points";},
-            done() { return (player.c.points.gte(1e29) && player.sac.points.gte(2)) }, // Used to determine when to give the milestone
+            requirementDescription() { if(player.sac.points.gte(3))return "1e26 calm points"; return "1e29 calm points";},
+            done() { return (player.c.points.gte(1e29) && player.sac.points.gte(2)) || (player.c.points.gte(1e26) && player.sac.points.gte(3)) }, // Used to determine when to give the milestone
             unlocked(){return player.sac.points.gte(2)},
             effectDescription: "+50% Equipment Power.",
         },
@@ -188,7 +189,7 @@ addLayer("c", {
             unlocked(){return player.b.points.gte(7)}
         },
         15: {
-            description: "Unlock a new equipment type, equipment shard effect is better.",
+            description() {if(player.sac.points.gte(3))return "Equipment shard effect is better.";return "Unlock a new equipment type, equipment shard effect is better.";},
             cost: new Decimal(3e8),
             unlocked(){return player.e.unlocked}
         },
@@ -200,7 +201,7 @@ addLayer("c", {
             effectDisplay: function () { return "/"+format(upgradeEffect(this.layer, this.id)) }
         },
         22: {
-            description: "Unlock a new equipment type and a new calm buyable.",
+            description() {if(player.sac.points.gte(3))return "Unlock a new calm buyable.";return "Unlock a new equipment type and a new calm buyable.";},
             cost: new Decimal(3e11),
             unlocked(){return player.e.unlocked},
         },

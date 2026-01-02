@@ -37,7 +37,7 @@ addLayer("g", {
 				["display-text",function(){return layers.e.clickables[player.g.shop[0].type].title+" Level "+formatWhole(player.g.shop[0].level)+", Power: "+formatWhole(player.g.shop[0].power.mul(100))+"%"}],
 				["display-text",function(){return "Cost: "+formatWhole(layers.g.shopcost(0))+" gold"}],
 				["row",[["clickable",11],["clickable",12]]]
-			], unlocked: function () { return hasUpgrade("g",12) }
+			], unlocked: function () { return hasUpgrade("g",12) || player.sac.points.gte(3) }
 		}
 	},
 	upgrades: {
@@ -48,11 +48,11 @@ addLayer("g", {
 			effectDisplay: function () { return format(upgradeEffect(this.layer, this.id)) + "x" }
 		},
 		12: {
-			description: "Unlock Equipment Shop.",
+			description(){if (player.sac.points.gte(3))return "Equipment Power +30% in Equipment Shop."; return "Unlock Equipment Shop.";},
 			cost: new Decimal(2000),
 		},
         13: {
-            description: "Equipment Power +50% for new equipments, additionally +10% in Gold Shop.",
+            description: "Equipment Power +50% for new equipments, additionally +10% in Equipment Shop.",
             cost: new Decimal(6000),
             unlocked(){return player.sac.points.gte(2)},
         },
@@ -73,7 +73,7 @@ addLayer("g", {
             effectDisplay: function () { return format(upgradeEffect(this.layer, this.id)) + "x" }
         },
         22: {
-            description: "Equipment Power +50% for new equipments, additionally +10% in Gold Shop.",
+            description: "Equipment Power +50% for new equipments, additionally +10% in Equipment Shop.",
             cost: new Decimal(1e6),
             unlocked(){return player.sac.points.gte(2)},
         },
@@ -90,6 +90,7 @@ clickables: {
 		let level=getLevel().mul(Math.random()*0.25+1);
 		let x = Decimal.mul(player.e.equipment[type].level,player.e.equipment[type].power).max(1);
 		let power=x.mul(Math.random()*0.1+1.05).div(level).max(layers.e.effect2().add(layers.e.effect().mul(Math.random()*0.5))).min(layers.e.effect().add(layers.e.effect2()).mul(Math.random()*0.05+1));
+                if(hasUpgrade("g",12) && player.sac.points.gte(3))power = power.add(0.3);
                 if(hasUpgrade("g",13))power = power.add(0.1);
                 if(hasUpgrade("g",22))power = power.add(0.1);
 		while(i<5 && level.mul(power).lt(x)){
@@ -97,6 +98,7 @@ clickables: {
 			level=getLevel().mul(Math.random()*0.25+1);
 			x = Decimal.mul(player.e.equipment[type].level,player.e.equipment[type].power).max(1);
 			power=x.mul(Math.random()*0.1+1.05).div(level).max(layers.e.effect2().add(layers.e.effect().mul(Math.random()*0.5))).min(layers.e.effect().add(layers.e.effect2()).mul(Math.random()*0.05+1));
+                	if(hasUpgrade("g",12) && player.sac.points.gte(3))power = power.add(0.3);
                 	if(hasUpgrade("g",13))power = power.add(0.1);
                 	if(hasUpgrade("g",22))power = power.add(0.1);
 			i++;
