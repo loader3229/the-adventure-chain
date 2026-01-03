@@ -32,6 +32,7 @@ baseResource: "HP", // Name of resource prestige is based on
     },
     getEnemyDEF(level) {
 	if(level === undefined)level = player.a.level;
+         if(player.sac.points.gte(3))return level.mul(Decimal.pow(1.01, level.pow(0.5))).mul(0.05).sub(1.05).max(0);
         return level.mul(Decimal.pow(1.01, level.pow(0.5))).mul(0.05).sub(1.05).max(0).max(level.mul(Decimal.pow(1.01, level.pow(0.5))).mul(0.1).sub(70));
     },
     getEnemyDMG(level) {

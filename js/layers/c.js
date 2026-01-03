@@ -12,15 +12,15 @@ addLayer("c", {
     resource: "Calm Points", // Name of prestige currency
     type: "normal", // normal: cost to gain currency depends on amount gained. static: cost depends on how much you already have
     requires() {
-        if (player.sac.points.gte(3))return new Decimal(5);
+        if (player.sac.points.gte(3))return new Decimal(1);
         if (player.sac.points.gte(2))return new Decimal(10);
         if (player.sac.points.gte(1))return new Decimal(20);
         return new Decimal(100);
     },
     exponent() {
-        ret = new Decimal(2);
+        let ret = new Decimal(2);
         if (hasMilestone("c", 5)) ret = ret.add(player.sac.points.gte(1)?0.1:0.6);
-        if (player.b.points.gte(5)) ret = ret.add(player.sac.points.gte(2)?0.1:0.4);
+        if (player.b.points.gte(5) && player.sac.points.lte(2)) ret = ret.add(player.sac.points.gte(2)?0.1:0.4);
         return ret;
     },
     baseResource: "levels", // Name of resource prestige is based on
@@ -62,7 +62,8 @@ addLayer("c", {
         ret = ret.mul(layers.d.effect());
         ret = ret.mul(layers.e.equipmentEff(14));
         ret = ret.mul(layers.f.effect());
-        if (player.sac.points.gte(1))ret = ret.div(12);
+        if (player.sac.points.gte(3))ret = ret.div(1000);
+        else if (player.sac.points.gte(1))ret = ret.div(12);
         return ret;
     },
     effect() {
