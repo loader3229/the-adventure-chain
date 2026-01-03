@@ -133,6 +133,7 @@ layers.e.equip(type,level,power);
 		return x.div(hasUpgrade("c",33)?2000:3000).add(1);
 	}
 	if(type>=21 && type<=24){
+		if(player.sac.points.gte(3))return Decimal.pow(1.01,x.pow(hasUpgrade("g",14)?0.306:0.302));
 		if(hasUpgrade("g",14))return Decimal.pow(1.01,x.pow(0.3)).max(x.pow(0.3).div(90).add(1));
 		return Decimal.pow(1.01,x.pow(0.3).sub(20)).max(x.pow(0.3).div(100).add(1));
 	}
