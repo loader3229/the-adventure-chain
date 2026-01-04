@@ -2,27 +2,29 @@ addLayer("sac", {
     name: "sacrifice", // This is optional, only used in a few places, If absent it just uses the layer id.
     symbol: "Sac", // This appears on the layer's node. Default is the id with the first letter capitalized
     position: 0, // Horizontal position within a row. By default it uses the layer id and sorts in alphabetical order
-    startData() { return {
-        unlocked: false,
-		points: new Decimal(0),
-    }},
+    startData() {
+        return {
+            unlocked: false,
+            points: new Decimal(0),
+        }
+    },
     color: "#FFFFFF",
-    requires(){
-	if(player.sac.points.gte(2))return new Decimal("10^^10");
-	return new Decimal(4000);
-}, // Can be a function that takes requirement increases into account
+    requires() {
+        if (player.sac.points.gte(2)) return new Decimal("10^^10");
+        return new Decimal(4000);
+    }, // Can be a function that takes requirement increases into account
     resource: "sacrifices", // Name of prestige currency
     baseResource: "levels", // Name of resource prestige is based on
-    baseAmount() {return getLevel()}, // Get the current amount of baseResource
+    baseAmount() { return getLevel() }, // Get the current amount of baseResource
     type: "static", // normal: cost to gain currency depends on amount gained. static: cost depends on how much you already have
     exponent: 1, // Prestige currency exponent
     base: 4,
-        row: "side", // Row the layer is in on the tree (0 is the first row)
+    row: "side", // Row the layer is in on the tree (0 is the first row)
     hotkeys: [
-        {key: "`", description: "`: sacrifice", onPress(){if (canReset(this.layer)) doReset(this.layer)}},
+        { key: "`", description: "`: sacrifice", onPress() { if (canReset(this.layer)) doReset(this.layer) } },
     ],
-    layerShown(){return player.b.points.gte(12) || player.sac.unlocked},
-	milestones: [
+    layerShown() { return player.b.points.gte(12) || player.sac.unlocked },
+    milestones: [
         {
             requirementDescription: "Sacrifice 1 times",
             unlocked() { return player[this.layer].points.gte(0) },
@@ -41,20 +43,20 @@ addLayer("sac", {
             done() { return player[this.layer].points.gte(3) }, // Used to determine when to give the milestone
             effectDescription: "Increase max level and EXP gain, but increase EXP required to level up. Reduce Tier 1 machine cost in layer F. Unlock all 8 current equipment types at the start of the sacrifice.",
         },
-],
-doReset(layer){
-	if (layer == "sac"){
-		layerDataReset("a");
-		layerDataReset("c");
-		layerDataReset("d");
-		layerDataReset("e");
-		layerDataReset("f");
-		layerDataReset("g");
-		layerDataReset("h");
+    ],
+    doReset(layer) {
+        if (layer == "sac") {
+            layerDataReset("a");
+            layerDataReset("c");
+            layerDataReset("d");
+            layerDataReset("e");
+            layerDataReset("f");
+            layerDataReset("g");
+            layerDataReset("h");
 
             updateTemp();
             updateTemp();
             updateTemp();
-	}
-},
+        }
+    },
 })

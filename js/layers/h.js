@@ -7,7 +7,7 @@ addLayer("h", {
             unlocked: false,
             points: new Decimal(0),
             autoProgress: new Decimal(0),
-            clickables: {11:new Decimal(0)},
+            clickables: { 11: new Decimal(0) },
         }
     },
     color: "#FF00FF",
@@ -17,8 +17,8 @@ addLayer("h", {
     row: 7, // Row the layer is in on the tree (0 is the first row)
     branches: ['g'],
     layerShown() { return player.b.points.gte(20) || player.g.unlocked },
-gainMult(){
-	return new Decimal(1);
+    gainMult() {
+        return new Decimal(1);
     },
     buyables: {
         11: {
@@ -75,7 +75,7 @@ gainMult(){
             effect() {
                 let eff = player[this.layer].buyables[this.id].mul(player[this.layer].points.add(10).log10()).div(100).add(1);
                 return eff;
-            },unlocked(){return player.b.points.gte(21)}
+            }, unlocked() { return player.b.points.gte(21) }
 
         }
     },
@@ -85,11 +85,11 @@ gainMult(){
                 return "Change Auto-Helper Type"
             },
             display() {
-                if(player.h.clickables[11].eq(0)){
+                if (player.h.clickables[11].eq(0)) {
                     return "Current Type: None. Gain 2 base helper points per helper tick.";
-                }else if(player.h.clickables[11].eq(1)){
+                } else if (player.h.clickables[11].eq(1)) {
                     return "Current Type: Auto-bulk-attack enemies per tick. Gain 1 base helper point per helper tick.";
-                }else if(player.h.clickables[11].eq(2)){
+                } else if (player.h.clickables[11].eq(2)) {
                     return "Current Type: Auto-bulk-attack bosses per tick. Gain 1 base helper point per helper tick.";
                 }
             },
@@ -97,31 +97,32 @@ gainMult(){
                 return true;
             },
             onClick() {
-                player.h.clickables[11]=new Decimal((player.h.clickables[11].toNumber()+1)%3);
+                player.h.clickables[11] = new Decimal((player.h.clickables[11].toNumber() + 1) % 3);
             },
-            style(){  if(player.h.clickables[11].eq(0)){
-                   return  {"background-color": layers.h.color};
-                }else if(player.h.clickables[11].eq(1)){
-                    return {"background-color": layers.a.color};
+            style() {
+                if (player.h.clickables[11].eq(0)) {
+                    return { "background-color": layers.h.color };
+                } else if (player.h.clickables[11].eq(1)) {
+                    return { "background-color": layers.a.color };
 
-                }else if(player.h.clickables[11].eq(2)){
-                    return {"background-color": layers.b.color};
+                } else if (player.h.clickables[11].eq(2)) {
+                    return { "background-color": layers.b.color };
 
                 }
-},
+            },
             unlocked: true,
         }
     },
     update(diff) {
         if (player.b.points.gte(20)) player.h.unlocked = true;
-        player.h.autoProgress=player.h.autoProgress.add(buyableEffect("h",11).mul(diff));
+        player.h.autoProgress = player.h.autoProgress.add(buyableEffect("h", 11).mul(diff));
         if (player.h.autoProgress.gte(1)) {
-	    if(player.h.clickables[11].eq(0))player.h.points = player.h.points.add(player.h.autoProgress.mul(layers.h.gainMult()));
-            else if(player.h.clickables[11].eq(1))layers.a.clickables[12].onClick();
-            else if(player.h.clickables[11].eq(2))layers.b.clickables[12].onClick();
+            if (player.h.clickables[11].eq(0)) player.h.points = player.h.points.add(player.h.autoProgress.mul(layers.h.gainMult()));
+            else if (player.h.clickables[11].eq(1)) layers.a.clickables[12].onClick();
+            else if (player.h.clickables[11].eq(2)) layers.b.clickables[12].onClick();
             player.h.points = player.h.points.add(player.h.autoProgress.mul(layers.h.gainMult()));
-            player.h.autoProgress=new Decimal(0);
-	}
+            player.h.autoProgress = new Decimal(0);
+        }
     },
     hotkeys: [
         { key: "h", description: "h: change auto-helper type", onPress() { if (player.b.points.gte(20)) layers.h.clickables[11].onClick(); } },

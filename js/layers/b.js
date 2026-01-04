@@ -16,18 +16,18 @@ addLayer("b", {
     row: 1, // Row the layer is in on the tree (0 is the first row)
     branches: ['a'],
     layerShown() { return player.b.points.gte(1) || getLevel().gte(10) },
-baseResource: "HP", // Name of resource prestige is based on
-	baseAmount() {
-		return player.points;
-	},
+    baseResource: "HP", // Name of resource prestige is based on
+    baseAmount() {
+        return player.points;
+    },
     getBossHP() {
-	if(player.b.points.gte(10))return Decimal.pow(10, player.b.points);
+        if (player.b.points.gte(10)) return Decimal.pow(10, player.b.points);
         return Decimal.pow(5, player.b.points).mul(1000);
     },
     getBossATK() {
-	if(player.b.points.gte(16))return Decimal.pow(2.5, player.b.points.sub(16)).mul(1e9).div(layers.b.dmgDivide());
-	if(player.b.points.gte(10))return Decimal.pow(2, player.b.points.sub(7)).mul(1e6).div(layers.b.dmgDivide());
-	if(player.b.points.gte(8))return Decimal.pow(4, player.b.points).mul(8).div(layers.b.dmgDivide());
+        if (player.b.points.gte(16)) return Decimal.pow(2.5, player.b.points.sub(16)).mul(1e9).div(layers.b.dmgDivide());
+        if (player.b.points.gte(10)) return Decimal.pow(2, player.b.points.sub(7)).mul(1e6).div(layers.b.dmgDivide());
+        if (player.b.points.gte(8)) return Decimal.pow(4, player.b.points).mul(8).div(layers.b.dmgDivide());
         return Decimal.pow(4, player.b.points).mul(10).div(layers.b.dmgDivide());
     },
     tabFormat: [
@@ -46,13 +46,13 @@ baseResource: "HP", // Name of resource prestige is based on
                 let y = Math.ceil(player.b.y.toNumber());
 
                 if (y <= 0) return { 'background-color': "#000000" };
-                return { 'background-color': "hsl(" + ((y-1) * 150) + ",100%,"+(40+60*Math.pow(1/2,y))+"%)" };
+                return { 'background-color': "hsl(" + ((y - 1) * 150) + ",100%," + (40 + 60 * Math.pow(1 / 2, y)) + "%)" };
             },
             baseStyle() {
                 let y = Math.ceil(player.b.y.toNumber());
 
                 if (y <= 1) return { 'background-color': "#000000", 'transition-duration': '0s' };
-                return { 'background-color': "hsl(" + ((y-2) * 150) + ",100%,"+(40+60*Math.pow(1/2,y-1))+"%)", 'transition-duration': '0s' };
+                return { 'background-color': "hsl(" + ((y - 2) * 150) + ",100%," + (40 + 60 * Math.pow(1 / 2, y - 1)) + "%)", 'transition-duration': '0s' };
             },
             textStyle: { 'color': '#ffffff' },
             borderStyle() { return {} },
@@ -63,7 +63,7 @@ baseResource: "HP", // Name of resource prestige is based on
                 let y = player.b.y.toNumber();
                 return y - Math.ceil(y) + 1;
             },
-            unlocked: true,instant: true
+            unlocked: true, instant: true
         }
     },
     clickables: {
@@ -106,7 +106,7 @@ baseResource: "HP", // Name of resource prestige is based on
                 let bulk = this.bulk();
                 let y = player.b.hp.div(layers.b.getBossHP());
                 player.points = player.points.sub(layers.b.getBossATK().div(getDEF().add(1)).mul(bulk));
-		player.b.hp = player.b.hp.sub(getATK().mul(getDMG()).mul(layers.b.dmgMult()).mul(bulk));
+                player.b.hp = player.b.hp.sub(getATK().mul(getDMG()).mul(layers.b.dmgMult()).mul(bulk));
             },
             unlocked() { return player.b.points.gte(3) },
         },
@@ -271,8 +271,8 @@ baseResource: "HP", // Name of resource prestige is based on
         if (hasUpgrade("c", 13)) ret = ret.mul(upgradeEffect("c", 13));
         if (hasUpgrade("g", 21)) ret = ret.mul(upgradeEffect("g", 21));
         ret = ret.mul(layers.d.effect2());
-	if(player.sac.points.gte(1))ret = ret.mul(10);
-	if(player.sac.points.gte(2))ret = ret.mul(100);
+        if (player.sac.points.gte(1)) ret = ret.mul(10);
+        if (player.sac.points.gte(2)) ret = ret.mul(100);
         return ret;
     },
     dmgDivide() {
@@ -287,6 +287,6 @@ baseResource: "HP", // Name of resource prestige is based on
 
 })
 
-setInterval(function(){
-        if(player.b && player.b.y && layers.b && layers.b.getBossHP)player.b.y = player.b.points.add(10).mul(Decimal.sub(1,Decimal.sub(1,player.b.hp.div(layers.b.getBossHP()).min(1)).sqrt())).mul(0.01).add(player.b.y.mul(0.99)).max(0),tmp.b.bars.hp.fillStyle=layers.b.bars.hp.fillStyle(),tmp.b.bars.hp.baseStyle=layers.b.bars.hp.baseStyle(),tmp.b.bars.hp.progress=layers.b.bars.hp.progress(),constructBarStyle("b","hp");
-},10);
+setInterval(function () {
+    if (player.b && player.b.y && layers.b && layers.b.getBossHP) player.b.y = player.b.points.add(10).mul(Decimal.sub(1, Decimal.sub(1, player.b.hp.div(layers.b.getBossHP()).min(1)).sqrt())).mul(0.01).add(player.b.y.mul(0.99)).max(0), tmp.b.bars.hp.fillStyle = layers.b.bars.hp.fillStyle(), tmp.b.bars.hp.baseStyle = layers.b.bars.hp.baseStyle(), tmp.b.bars.hp.progress = layers.b.bars.hp.progress(), constructBarStyle("b", "hp");
+}, 10);

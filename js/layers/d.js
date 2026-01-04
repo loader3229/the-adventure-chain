@@ -27,89 +27,90 @@ addLayer("d", {
     challenges: {
         11: {
             name: "Defenseless",
-            challengeDescription() { return "Your DEF is 0.<br>Completions: "+formatWhole(player.d.challenges[this.id])+"/"+layers.d.challenges[this.id].completionLimit(); },
-            goal() { return Decimal.pow(1.1,softcap(new Decimal(player.d.challenges[11]),new Decimal(25),2)).mul(player.sac.points.gte(1)?500:600); },
-            goalDescription(){return "Reach Level " + formatWhole(this.goal().ceil());},
+            challengeDescription() { return "Your DEF is 0.<br>Completions: " + formatWhole(player.d.challenges[this.id]) + "/" + layers.d.challenges[this.id].completionLimit(); },
+            goal() { return Decimal.pow(1.1, softcap(new Decimal(player.d.challenges[11]), new Decimal(25), 2)).mul(player.sac.points.gte(1) ? 500 : 600); },
+            goalDescription() { return "Reach Level " + formatWhole(this.goal().ceil()); },
             currencyDisplayName: "Level",
             canComplete() { return getLevel().gte(this.goal()) },
             onEnter() { doReset("c", true); },
-            completionLimit() { return layers.d.completionLimit();},
+            completionLimit() { return layers.d.completionLimit(); },
             rewardDescription: "1 domain point per completion."
         },
         12: {
             name: "Glass Cannon",
-            challengeDescription() { return "You will have 100 HP at the start of the domain, but you can't gain more.<br>Completions: "+formatWhole(player.d.challenges[this.id])+"/"+layers.d.challenges[this.id].completionLimit(); },
-            goal() { return Decimal.pow(1.1,softcap(new Decimal(player.d.challenges[12]),new Decimal(25),2)).mul(500); },
-            goalDescription(){return "Reach Level " + formatWhole(this.goal().ceil());},
+            challengeDescription() { return "You will have 100 HP at the start of the domain, but you can't gain more.<br>Completions: " + formatWhole(player.d.challenges[this.id]) + "/" + layers.d.challenges[this.id].completionLimit(); },
+            goal() { return Decimal.pow(1.1, softcap(new Decimal(player.d.challenges[12]), new Decimal(25), 2)).mul(500); },
+            goalDescription() { return "Reach Level " + formatWhole(this.goal().ceil()); },
             currencyDisplayName: "Level",
             canComplete() { return getLevel().gte(this.goal()) },
-            completionLimit() { return layers.d.completionLimit();},
+            completionLimit() { return layers.d.completionLimit(); },
             rewardDescription: "1 domain point per completion.",
-            onEnter(){
+            onEnter() {
                 doReset("c", true);
-                player.points=new Decimal(100);
+                player.points = new Decimal(100);
             }
         },
         21: {
             name: "Weak Attack",
-            challengeDescription() { return "Your ATK "+(player.b.points.gte(13)?"and DMG are":"is")+" 1.<br>Completions: "+formatWhole(player.d.challenges[this.id])+"/"+layers.d.challenges[this.id].completionLimit(); },
-            goal() { return Decimal.pow(1.1,softcap(new Decimal(player.d.challenges[21]),new Decimal(25),2)).mul(player.sac.points.gte(1)?500:1000); },
-            goalDescription(){return "Reach Level " + formatWhole(this.goal().ceil());},
+            challengeDescription() { return "Your ATK " + (player.b.points.gte(13) ? "and DMG are" : "is") + " 1.<br>Completions: " + formatWhole(player.d.challenges[this.id]) + "/" + layers.d.challenges[this.id].completionLimit(); },
+            goal() { return Decimal.pow(1.1, softcap(new Decimal(player.d.challenges[21]), new Decimal(25), 2)).mul(player.sac.points.gte(1) ? 500 : 1000); },
+            goalDescription() { return "Reach Level " + formatWhole(this.goal().ceil()); },
             currencyDisplayName: "Level",
             canComplete() { return getLevel().gte(this.goal()) },
-            completionLimit() { return layers.d.completionLimit();},
+            completionLimit() { return layers.d.completionLimit(); },
             rewardDescription: "1 domain point per completion.",
-            onEnter(){
+            onEnter() {
                 doReset("c", true);
             },
-		unlocked(){return hasUpgrade("c",21);}
+            unlocked() { return hasUpgrade("c", 21); }
         },
         22: {
             name: "InstaRoot",
-            challengeDescription() { return "You can only 1-attack kill enemies. Attack is square rooted.<br>Completions: "+formatWhole(player.d.challenges[this.id])+"/"+layers.d.challenges[this.id].completionLimit(); },
-            goal() { return Decimal.pow(1.1,softcap(new Decimal(player.d.challenges[22]),new Decimal(25),2)).mul(500); },
-            goalDescription(){return "Reach Level " + formatWhole(this.goal().ceil());},
+            challengeDescription() { return "You can only 1-attack kill enemies. Attack is square rooted.<br>Completions: " + formatWhole(player.d.challenges[this.id]) + "/" + layers.d.challenges[this.id].completionLimit(); },
+            goal() { return Decimal.pow(1.1, softcap(new Decimal(player.d.challenges[22]), new Decimal(25), 2)).mul(500); },
+            goalDescription() { return "Reach Level " + formatWhole(this.goal().ceil()); },
             currencyDisplayName: "Level",
             canComplete() { return getLevel().gte(this.goal()) },
-            completionLimit() { return layers.d.completionLimit();},
+            completionLimit() { return layers.d.completionLimit(); },
             rewardDescription: "1 domain point per completion.",
-            onEnter(){
+            onEnter() {
                 doReset("c", true);
             },
-		unlocked(){return hasUpgrade("c",34);}
+            unlocked() { return hasUpgrade("c", 34); }
         },
     },
-completionLimit() {
-	let d=12;
-	if(player.sac.points.gte(1))d+=3;
-	if(player.sac.points.gte(2))d+=5;
-	if(hasUpgrade("c",32))d+=10;
-	if(hasUpgrade("g",15))d+=5;
-	return d;},
+    completionLimit() {
+        let d = 12;
+        if (player.sac.points.gte(1)) d += 3;
+        if (player.sac.points.gte(2)) d += 5;
+        if (hasUpgrade("c", 32)) d += 10;
+        if (hasUpgrade("g", 15)) d += 5;
+        return d;
+    },
     update(diff) {
         if (player.b.points.gte(6)) player.d.unlocked = true;
-        if(player.sac.points.gte(1)){
-		if(player.d.activeChallenge){
-					if(getLevel().gte(layers.d.challenges[player.d.activeChallenge].goal())){
-						player.d.challenges[player.d.activeChallenge]=Math.min(layers.d.completionLimit(),player.d.challenges[player.d.activeChallenge]+1);
-					}
-				}
-player.d.points=new Decimal(player.d.challenges[11]).add(player.d.challenges[12]).add(player.d.challenges[21]).add(player.d.challenges[22]);
-	
-	}
+        if (player.sac.points.gte(1)) {
+            if (player.d.activeChallenge) {
+                if (getLevel().gte(layers.d.challenges[player.d.activeChallenge].goal())) {
+                    player.d.challenges[player.d.activeChallenge] = Math.min(layers.d.completionLimit(), player.d.challenges[player.d.activeChallenge] + 1);
+                }
+            }
+            player.d.points = new Decimal(player.d.challenges[11]).add(player.d.challenges[12]).add(player.d.challenges[21]).add(player.d.challenges[22]);
+
+        }
     },
-	effect() {
-		let ret = Decimal.pow(1.1,player.d.points);
-		return ret;
-	},
-	effect2() {
-		let ret = player.d.points.pow(1.5).add(1);
-		return ret;
-	},
-	effectDescription() { // Optional text to describe the effects
-		let eff = this.effect();
-		let eff2 = this.effect2();
-		return "translated to a " + format(eff) + "x multiplier to Calm Point gain and " + format(eff2) + "x multiplier to Boss Damage";
-	},
+    effect() {
+        let ret = Decimal.pow(1.1, player.d.points);
+        return ret;
+    },
+    effect2() {
+        let ret = player.d.points.pow(1.5).add(1);
+        return ret;
+    },
+    effectDescription() { // Optional text to describe the effects
+        let eff = this.effect();
+        let eff2 = this.effect2();
+        return "translated to a " + format(eff) + "x multiplier to Calm Point gain and " + format(eff2) + "x multiplier to Boss Damage";
+    },
 
 })
