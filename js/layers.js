@@ -41,7 +41,7 @@ addLayer("sac", {
             requirementDescription: "Sacrifice 3 times",
             unlocked() { return player[this.layer].points.gte(2) },
             done() { return player[this.layer].points.gte(3) }, // Used to determine when to give the milestone
-            effectDescription: "Increase max level and EXP gain, but increase EXP required to level up. Reduce Tier 1 machine cost in layer F. Unlock all 8 current equipment types at the start of the sacrifice.",
+            effectDescription: "Increase max level and EXP gain, but increase EXP required to level up. Reduce Enemy DEF when level > 1000. Reduce Tier 1 machine cost in layer F. Unlock all 8 current equipment types and all 4 current domains at the start of the sacrifice. Reduce damage taken from bosses to 0.1x.",
         },
     ],
     doReset(layer) {

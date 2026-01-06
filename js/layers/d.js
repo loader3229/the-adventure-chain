@@ -28,7 +28,7 @@ addLayer("d", {
         11: {
             name: "Defenseless",
             challengeDescription() { return "Your DEF is 0.<br>Completions: " + formatWhole(player.d.challenges[this.id]) + "/" + layers.d.challenges[this.id].completionLimit(); },
-            goal() { return Decimal.pow(1.1, softcap(new Decimal(player.d.challenges[11]), new Decimal(25), 2)).mul(player.sac.points.gte(1) ? 500 : 600); },
+            goal() { return Decimal.pow(1.1, softcap(new Decimal(player.d.challenges[11]), new Decimal((hasUpgrade("c",34)&&player.sac.points.gte(3))?30:25), 2)).mul(player.sac.points.gte(1) ? 500 : 600); },
             goalDescription() { return "Reach Level " + formatWhole(this.goal().ceil()); },
             currencyDisplayName: "Level",
             canComplete() { return getLevel().gte(this.goal()) },
@@ -39,7 +39,7 @@ addLayer("d", {
         12: {
             name: "Glass Cannon",
             challengeDescription() { return "You will have 100 HP at the start of the domain, but you can't gain more.<br>Completions: " + formatWhole(player.d.challenges[this.id]) + "/" + layers.d.challenges[this.id].completionLimit(); },
-            goal() { return Decimal.pow(1.1, softcap(new Decimal(player.d.challenges[12]), new Decimal(25), 2)).mul(500); },
+            goal() { return Decimal.pow(1.1, softcap(new Decimal(player.d.challenges[12]), new Decimal((hasUpgrade("c",34)&&player.sac.points.gte(3))?30:25), 2)).mul(500); },
             goalDescription() { return "Reach Level " + formatWhole(this.goal().ceil()); },
             currencyDisplayName: "Level",
             canComplete() { return getLevel().gte(this.goal()) },
@@ -53,7 +53,7 @@ addLayer("d", {
         21: {
             name: "Weak Attack",
             challengeDescription() { return "Your ATK " + (player.b.points.gte(13) ? "and DMG are" : "is") + " 1.<br>Completions: " + formatWhole(player.d.challenges[this.id]) + "/" + layers.d.challenges[this.id].completionLimit(); },
-            goal() { return Decimal.pow(1.1, softcap(new Decimal(player.d.challenges[21]), new Decimal(25), 2)).mul(player.sac.points.gte(1) ? 500 : 1000); },
+            goal() { return Decimal.pow(1.1, softcap(new Decimal(player.d.challenges[21]), new Decimal((hasUpgrade("c",34)&&player.sac.points.gte(3))?30:25), 2)).mul(player.sac.points.gte(1) ? 500 : 1000); },
             goalDescription() { return "Reach Level " + formatWhole(this.goal().ceil()); },
             currencyDisplayName: "Level",
             canComplete() { return getLevel().gte(this.goal()) },
@@ -62,12 +62,12 @@ addLayer("d", {
             onEnter() {
                 doReset("c", true);
             },
-            unlocked() { return hasUpgrade("c", 21); }
+            unlocked() { return hasUpgrade("c", 21) || player.sac.points.gte(3); }
         },
         22: {
             name: "InstaRoot",
             challengeDescription() { return "You can only 1-attack kill enemies. Attack is square rooted.<br>Completions: " + formatWhole(player.d.challenges[this.id]) + "/" + layers.d.challenges[this.id].completionLimit(); },
-            goal() { return Decimal.pow(1.1, softcap(new Decimal(player.d.challenges[22]), new Decimal(25), 2)).mul(500); },
+            goal() { return Decimal.pow(1.1, softcap(new Decimal(player.d.challenges[22]), new Decimal((hasUpgrade("c",34)&&player.sac.points.gte(3))?30:25), 2)).mul(500); },
             goalDescription() { return "Reach Level " + formatWhole(this.goal().ceil()); },
             currencyDisplayName: "Level",
             canComplete() { return getLevel().gte(this.goal()) },
@@ -76,7 +76,7 @@ addLayer("d", {
             onEnter() {
                 doReset("c", true);
             },
-            unlocked() { return hasUpgrade("c", 34); }
+            unlocked() { return hasUpgrade("c", 34) || player.sac.points.gte(3); }
         },
     },
     completionLimit() {

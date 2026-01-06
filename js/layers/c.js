@@ -163,6 +163,13 @@ addLayer("c", {
             unlocked() { return player.sac.points.gte(2) },
             effectDescription: "+50% Equipment Power.",
         },
+        {
+            requirementDescription() { return "1e29 calm points"; },
+            done() { return (player.c.points.gte(1e29) && player.sac.points.gte(3)) }, // Used to determine when to give the milestone
+            unlocked() { return player.sac.points.gte(3) },
+            effectDescription: "1.6x ATK.",
+        },
+
     ],
     update(diff) {
         if (hasMilestone("c", 1)) player.a.points = player.a.points.add(getLevel().pow(player.d.activeChallenge ? 0.5 : 2).pow(player.sac.points.gte(1) ? 1.75 : 1).mul(diff).mul(layers.a.gainMult()));
@@ -195,55 +202,56 @@ addLayer("c", {
             unlocked() { return player.e.unlocked }
         },
         21: {
-            description: "Unlock a new domain. Domain Points reduce damage taken when attacking boss.",
-            cost: new Decimal(1e10),
+            description() { if (player.sac.points.gte(3)) return "Domain Points reduce damage taken when attacking boss."; return  "Unlock a new domain. Domain Points reduce damage taken when attacking boss."; },
+            cost() { if (player.sac.points.gte(3)) return new Decimal(1e11); return new Decimal(1e10) },
             unlocked() { return player.e.unlocked },
             effect: function () { return player.d.points.mul(0.05).add(1) },
             effectDisplay: function () { return "/" + format(upgradeEffect(this.layer, this.id)) }
         },
         22: {
             description() { if (player.sac.points.gte(3)) return "Unlock a new calm buyable."; return "Unlock a new equipment type and a new calm buyable."; },
-            cost: new Decimal(3e11),
+            cost() { if (player.sac.points.gte(3)) return new Decimal(1e13); return new Decimal(3e11) },
+
             unlocked() { return player.e.unlocked },
         },
         23: {
             description: "Unlock more tiers of machines.",
-            cost: new Decimal(2e13),
+            cost() { if (player.sac.points.gte(3)) return new Decimal(1e15); return new Decimal(2e13) },
             unlocked() { return player.f.unlocked },
         },
         24: {
             description: "Equipment Power +50% for new equipments.",
-            cost: new Decimal(5e14),
+            cost() { if (player.sac.points.gte(3)) return new Decimal(1e17); return new Decimal(5e14) },
             unlocked() { return player.f.unlocked },
         },
         25: {
             description: "Scrap effect is better.",
-            cost: new Decimal(3e10),
+            cost() { if (player.sac.points.gte(3)) return new Decimal(1e19); return new Decimal(3e10) },
             unlocked() { return player.sac.points.gte(1) },
         },
         31: {
             description: "4000 Calm Points milestone is better.",
-            cost: new Decimal(1e17),
+            cost() { if (player.sac.points.gte(3)) return new Decimal(1e21); return new Decimal(1e17) },
             unlocked() { return player.b.points.gte(13) }
         },
         32: {
             description: "Increase max domain completions.",
-            cost: new Decimal(3e18),
+            cost() { if (player.sac.points.gte(3)) return new Decimal(1e23); return new Decimal(3e18) },
             unlocked() { return player.b.points.gte(13) }
         },
         33: {
             description: "Level Gem and Calm Gem effects are better.",
-            cost: new Decimal(4e20),
+            cost() { if (player.sac.points.gte(3)) return new Decimal(1e25); return new Decimal(4e20) },
             unlocked() { return player.b.points.gte(13) }
         },
         34: {
-            description: "Unlock a new domain.",
-            cost: new Decimal(2e22),
+            description() { if (player.sac.points.gte(3)) return "Domain goal scaling is delayed."; return "Unlock a new domain." },
+            cost() { if (player.sac.points.gte(3)) return new Decimal(1e27); return new Decimal(2e22) },
             unlocked() { return player.b.points.gte(16) }
         },
         35: {
             description: "Calm Point effect is better.",
-            cost: new Decimal(1e24),
+            cost() { if (player.sac.points.gte(3)) return new Decimal(1e29); return new Decimal(1e24) },
             unlocked() { return player.b.points.gte(16) }
         },
         41: {
@@ -258,12 +266,12 @@ addLayer("c", {
         },
         43: {
             description: "Unlock a new calm buyable.",
-            cost: new Decimal(3e29),
+            cost() { if (player.sac.points.gte(3)) return new Decimal(1e30); return new Decimal(3e29) },
             unlocked() { return player.sac.points.gte(2) },
         },
         44: {
             description: "HP gain, ATK, DEF and DMG calm buyables are cheaper.",
-            cost: new Decimal(3e31),
+            cost() { if (player.sac.points.gte(3)) return new Decimal(1e32); return new Decimal(3e31) },
             unlocked() { return player.sac.points.gte(2) },
         },
     },
@@ -293,7 +301,7 @@ addLayer("c", {
             },
             effect() {
                 let eff = new Decimal(1).add(player[this.layer].buyables[this.id]);
-                if (player.sac.points.gte(3)) eff = new Decimal(1).add(player[this.layer].buyables[this.id].div(2));
+                if (player.sac.points.gte(3)) eff = new Decimal(1).add(player[this.layer].buyables[this.id].div(20));
                 return eff;
             }
         },
