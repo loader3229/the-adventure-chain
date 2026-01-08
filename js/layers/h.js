@@ -77,7 +77,36 @@ addLayer("h", {
                 return eff;
             }, unlocked() { return player.b.points.gte(21) }
 
+        },
+        13: {
+            title() {
+                return "Equipment Helper";
+            },
+            display() {
+                let data = tmp[this.layer].buyables[this.id];
+                return "Level: " + format(player[this.layer].buyables[this.id]) + "<br>" +
+                    "Equipment Power +" + format(data.effect.sub(1).mul(100)) + "% (based on helper points)<br>" +
+                    "Cost for Next Level: " + format(data.cost) + " Gold";
+            },
+            cost() {
+                let a = player[this.layer].buyables[this.id];
+                a = Decimal.pow(4, a).mul(1e4);
+                return a;
+            },
+            canAfford() {
+                return player.g.points.gte(layers[this.layer].buyables[this.id].cost())
+            },
+            buy() {
+                player.g.points = player.g.points.sub(layers[this.layer].buyables[this.id].cost())
+                player[this.layer].buyables[this.id] = player[this.layer].buyables[this.id].add(1)
+            },
+            effect() {
+                let eff = player[this.layer].buyables[this.id].mul(player[this.layer].points.add(10).log10().pow(1.5)).div(100).add(1);
+                return eff;
+            }, unlocked() { return player.b.points.gte(25) }
+
         }
+
     },
     clickables: {
         11: {

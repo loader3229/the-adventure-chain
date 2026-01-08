@@ -63,6 +63,7 @@ addLayer("a", {
     getEnemyGold(level) {
         if (level === undefined) level = player.a.level;
         let gold = level.div(1000).mul(player.b.points.sub(15).max(0).pow(0.5)).add(1).pow(1.5).mul(player.b.points.sub(15).max(0).pow(0.5));
+        if(player.b.points.gte(25))gold = level.div(1500).mul(player.b.points.pow(0.5)).add(1).pow(1.5).mul(player.b.points.pow(0.5));
         gold = gold.mul(layers.g.gainMult());
         return gold;
     },

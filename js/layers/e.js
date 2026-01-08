@@ -121,7 +121,7 @@ addLayer("e", {
         if (type === undefined) return new Decimal(0);
         let x = Decimal.mul(player.e.equipment[type].level, player.e.equipment[type].power);
         if (type == 11) {
-            return softcap(x.div(hasUpgrade("c", 33) ? 50000 : 60000), new Decimal(2));
+            return softcap(softcap(x.div(hasUpgrade("c", 33) ? 50000 : 60000), new Decimal(2)), new Decimal(8), 1/3);
         }
         if (type == 12) {
             return Decimal.pow(1.01, x.pow(0.5));
@@ -150,6 +150,7 @@ addLayer("e", {
         if (hasUpgrade("g", 22)) ret = ret.add(0.5);
         if (hasMilestone("c", 14)) ret = ret.add(0.5);
         if (player.b.points.gte(14)) ret = ret.add(player.e.points.add(10).log10().div(player.b.points.gte(22) ? 8 : 10));
+        if (player.b.points.gte(25)) ret = ret.add(buyableEffect("h",13).sub(1));
         return ret;
     },
     effectDescription() {

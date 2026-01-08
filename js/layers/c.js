@@ -288,7 +288,7 @@ addLayer("c", {
             },
             cost() {
                 let a = player[this.layer].buyables[this.id];
-                a = Decimal.pow(2, a).mul(100);
+                a = Decimal.pow(2, a).mul((hasUpgrade("c", 44) && player.sac.points.gte(3)) ? 1 :100);
                 return a;
             },
             canAfford() {
@@ -317,7 +317,7 @@ addLayer("c", {
             },
             cost() {
                 let a = player[this.layer].buyables[this.id];
-                a = Decimal.pow(3, a).mul(hasUpgrade("c", 44) ? 1 : 100);
+                a = Decimal.pow((hasUpgrade("c", 44) && player.sac.points.gte(3)) ? 2 : 3, a).mul((hasUpgrade("c", 44) && player.sac.points.gte(3)) ? 1.2 : hasUpgrade("c", 44) ? 1 : 100);
                 return a;
             },
             canAfford() {
@@ -345,7 +345,7 @@ addLayer("c", {
             },
             cost() {
                 let a = player[this.layer].buyables[this.id];
-                a = Decimal.pow(3, a).mul(hasUpgrade("c", 44) ? 1.5 : 150);
+                a = Decimal.pow((hasUpgrade("c", 44) && player.sac.points.gte(3)) ? 2 : 3, a).mul((hasUpgrade("c", 44) && player.sac.points.gte(3)) ? 1.4 : hasUpgrade("c", 44) ? 1.5 : 150);
                 return a;
             },
             canAfford() {
@@ -373,7 +373,7 @@ addLayer("c", {
             },
             cost() {
                 let a = player[this.layer].buyables[this.id];
-                a = Decimal.pow(3, a).mul(hasUpgrade("c", 44) ? 2 : 200);
+                a = Decimal.pow((hasUpgrade("c", 44) && player.sac.points.gte(3)) ? 2 : 3, a).mul((hasUpgrade("c", 44) && player.sac.points.gte(3)) ? 1.6 : hasUpgrade("c", 44) ? 2 : 200);
                 return a;
             },
             canAfford() {
@@ -486,7 +486,7 @@ addLayer("c", {
             },
             cost() {
                 let a = player[this.layer].buyables[this.id];
-                a = Decimal.pow(3, a).mul(hasUpgrade("c", 44) ? 2.5 : 250);
+                a = Decimal.pow((hasUpgrade("c", 44) && player.sac.points.gte(3)) ? 2 : 3, a).mul((hasUpgrade("c", 44) && player.sac.points.gte(3)) ? 1.8 : hasUpgrade("c", 44) ? 2.5 : 250);
                 return a;
             },
             canAfford() {

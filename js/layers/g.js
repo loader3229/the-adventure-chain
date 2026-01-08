@@ -77,6 +77,11 @@ addLayer("g", {
             cost: new Decimal(1e6),
             unlocked() { return player.sac.points.gte(2) },
         },
+        23: {
+            description: "Gain more Equipment Power in Equipment Shop based on your gold.",
+            cost: new Decimal(2e6),
+            unlocked() { return player.b.points.gte(25) },
+        },
     },
     clickables: {
         11: {
@@ -87,13 +92,10 @@ addLayer("g", {
                 let i = 0;
                 let types = layers.e.types();
                 let type = types[Math.floor(types.length * Math.random())];
-                let level = getLevel().mul(Math.random() * 0.25 + 1);
                 let x = Decimal.mul(player.e.equipment[type].level, player.e.equipment[type].power).max(1);
-                let power = x.mul(Math.random() * 0.1 + 1.05).div(level).max(layers.e.effect2().add(layers.e.effect().mul(Math.random() * 0.5))).min(layers.e.effect().add(layers.e.effect2()).mul(Math.random() * 0.05 + 1));
-                if (hasUpgrade("g", 12) && player.sac.points.gte(3)) power = power.add(0.3);
-                if (hasUpgrade("g", 13)) power = power.add(0.1);
-                if (hasUpgrade("g", 22)) power = power.add(0.1);
-                while (i < 5 && level.mul(power).lt(x)) {
+                let level = new Decimal(1);
+                let power = new Decimal(1);
+                while (i <= 5 && level.mul(power).lt(x)) {
                     type = types[Math.floor(types.length * Math.random())];
                     level = getLevel().mul(Math.random() * 0.25 + 1);
                     x = Decimal.mul(player.e.equipment[type].level, player.e.equipment[type].power).max(1);
@@ -101,6 +103,7 @@ addLayer("g", {
                     if (hasUpgrade("g", 12) && player.sac.points.gte(3)) power = power.add(0.3);
                     if (hasUpgrade("g", 13)) power = power.add(0.1);
                     if (hasUpgrade("g", 22)) power = power.add(0.1);
+                    if (hasUpgrade("g", 23)) power = power.mul(player.g.points.div(level.mul(power).pow(1.5).div(100000).add(100)).max(1).pow(0.05));
                     i++;
                 }
                 player.g.shop[0].type = type;
