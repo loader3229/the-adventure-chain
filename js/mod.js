@@ -13,7 +13,7 @@ let modInfo = {
 
 // Set your version in num and name
 let VERSION = {
-    num: "8.0",
+    num: "8.1",
     name: "Helper",
 }
 
@@ -78,7 +78,7 @@ function addedPlayerData() {
 
 // Display extra things at the top of the page
 var displayThings = [
-    "Endgame: Boss 24 beaten and Level 64000",
+    "Endgame: Boss 26 beaten and Level 100000",
     function () { return "Level: " + formatWhole(getLevel()) + "/" + formatWhole(getLevelCap()) + " (" + format(getLevelProgress().mul(100)) + "%)" },
     function () { return "ATK: " + format(getATK()) },
     function () { if (player.b.points.gte(1)) return "DEF: " + format(getDEF()) },
@@ -88,7 +88,7 @@ var displayThings = [
 
 // Determines when the game "ends"
 function isEndgame() {
-    return player.b.points.gte(24) && getLevel().gte(64000)
+    return player.b.points.gte(26) && getLevel().gte(100000)
 }
 
 
