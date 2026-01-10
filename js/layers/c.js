@@ -272,12 +272,12 @@ addLayer("c", {
         },
         43: {
             description: "Unlock a new calm buyable.",
-            cost() { if (player.sac.points.gte(3)) return new Decimal(1e30); return new Decimal(3e29) },
+            cost() { if (player.sac.points.gte(3)) return new Decimal(1e30); return new Decimal(2e29) },
             unlocked() { return player.sac.points.gte(2) },
         },
         44: {
             description: "HP gain, ATK, DEF and DMG calm buyables are cheaper.",
-            cost() { if (player.sac.points.gte(3)) return new Decimal(1e32); return new Decimal(3e31) },
+            cost() { if (player.sac.points.gte(3)) return new Decimal(1e32); return new Decimal(2e31) },
             unlocked() { return player.sac.points.gte(2) },
         },
     },
