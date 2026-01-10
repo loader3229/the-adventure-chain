@@ -113,4 +113,10 @@ addLayer("d", {
         return "translated to a " + format(eff) + "x multiplier to Calm Point gain and " + format(eff2) + "x multiplier to Boss Damage";
     },
 
+    doReset(layer) { 
+        if (layer == "i") {
+            layerDataReset("d");
+            updateTemp();
+        }
+    },
 })

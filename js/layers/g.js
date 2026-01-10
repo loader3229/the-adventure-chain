@@ -135,4 +135,10 @@ addLayer("g", {
         if (x === undefined) x = 0;
         return player.g.shop[x].level.mul(player.g.shop[x].power).pow(1.5).div(100000).add(100);
     },
+    doReset(layer) { 
+        if (layer == "i") {
+            layerDataReset("g");
+            updateTemp();
+        }
+    },
 })

@@ -124,7 +124,7 @@ addLayer("e", {
             return softcap(softcap(x.div(hasUpgrade("c", 33) ? 50000 : 60000), new Decimal(2)), new Decimal(8), 1/3);
         }
         if (type == 12) {
-            return Decimal.pow(1.01, x.pow(0.5));
+            return Decimal.pow(1.01, softcap(x.pow(0.5), new Decimal(1000)));
         }
         if (type == 13) {
             return new Decimal(1).sub(Decimal.pow(0.995, x.pow(0.5)));
@@ -149,6 +149,7 @@ addLayer("e", {
         if (hasUpgrade("g", 13)) ret = ret.add(0.5);
         if (hasUpgrade("g", 22)) ret = ret.add(0.5);
         if (hasMilestone("c", 14)) ret = ret.add(0.5);
+        if (hasMilestone("c", 16)) ret = ret.add(1);
         if (player.b.points.gte(14)) ret = ret.add(player.e.points.add(10).log10().div(player.b.points.gte(22) ? 8 : 10));
         if (player.b.points.gte(25)) ret = ret.add(buyableEffect("h",13).sub(1));
         return ret;
@@ -228,5 +229,11 @@ addLayer("e", {
             style: { "background-color": "#6699FF" },
             unlocked() { return player.b.points.gte(19); }
         },
+    },
+    doReset(layer) { 
+        if (layer == "i") {
+            layerDataReset("e");
+            updateTemp();
+        }
     },
 })

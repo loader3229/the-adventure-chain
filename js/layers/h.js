@@ -156,4 +156,10 @@ addLayer("h", {
     hotkeys: [
         { key: "h", description: "h: change auto-helper type", onPress() { if (player.b.points.gte(20)) layers.h.clickables[11].onClick(); } },
     ],
+    doReset(layer) { 
+        if (layer == "i") {
+            layerDataReset("h",["points"]);
+            updateTemp();
+        }
+    },
 });

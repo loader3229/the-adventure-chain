@@ -169,6 +169,12 @@ addLayer("c", {
             unlocked() { return player.sac.points.gte(3) },
             effectDescription: "1.6x ATK.",
         },
+        {
+            requirementDescription() { return "1e32 calm points"; },
+            done() { return (player.c.points.gte(1e32) && player.sac.points.gte(3)) }, // Used to determine when to give the milestone
+            unlocked() { return player.sac.points.gte(3) },
+            effectDescription: "+100% Equipment Power.",
+        },
 
     ],
     update(diff) {
@@ -535,7 +541,12 @@ addLayer("c", {
     },
 
 
-    doReset(layer) { },
+    doReset(layer) { 
+        if (layer == "i") {
+            layerDataReset("c");
+            updateTemp();
+        }
+    },
     passiveGeneration() {
         if (player.b.points.gte(9)) return layers.e.equipmentEff(13).toNumber();
         else return 0;

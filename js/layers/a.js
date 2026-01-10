@@ -237,6 +237,10 @@ addLayer("a", {
             player.a.hp = layers.a.getEnemyHP();
             updateTemp();
         }
+        if (layer == "i") {
+            layerDataReset("a");
+            updateTemp();
+        }
     },
     hotkeys: [
         { key: "a", description: "a: attack enemy", onPress() { if (player.b.points.gte(2)) layers.a.clickables[12].onClick(); else layers.a.clickables[11].onClick(); } },

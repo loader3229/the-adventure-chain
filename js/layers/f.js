@@ -149,5 +149,11 @@ addLayer("f", {
             unlocked() { return player.b.points.gte(23) }
         },
 
-    }
+    },
+    doReset(layer) { 
+        if (layer == "i") {
+            layerDataReset("f");
+            updateTemp();
+        }
+    },
 })

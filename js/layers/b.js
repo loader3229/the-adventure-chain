@@ -264,6 +264,12 @@ addLayer("b", {
             done() { return player[this.layer].points.gte(25) }, // Used to determine when to give the milestone
             effectDescription: "Unlock a new helper and a gold upgrade.",
         },
+        {
+            requirementDescription: "Beat 26 bosses",
+            unlocked() { return player[this.layer].points.gte(25) },
+            done() { return player[this.layer].points.gte(26) }, // Used to determine when to give the milestone
+            effectDescription: "Unlock layer I.",
+        },
     ],
     update(diff) {
         if (getLevel().gte(10)) player.b.unlocked = true;
