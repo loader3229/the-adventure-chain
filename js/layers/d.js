@@ -115,7 +115,14 @@ addLayer("d", {
 
     doReset(layer) { 
         if (layer == "i") {
-            layerDataReset("d");
+            layerDataReset("d",["challenges"]);
+            keepAmount = 0;
+            if(hasMilestone("i",1) || player.i.points.gte(2))keepAmount = 0.25 + 0.15 * player.i.points.cbrt().min(5).toNumber();
+         player.d.challenges[11] = Math.floor(player.d.challenges[11]*keepAmount);
+         player.d.challenges[12] = Math.floor(player.d.challenges[12]*keepAmount);
+         player.d.challenges[21] = Math.floor(player.d.challenges[21]*keepAmount);
+         player.d.challenges[22] = Math.floor(player.d.challenges[22]*keepAmount);
+
             updateTemp();
         }
     },

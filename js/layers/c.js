@@ -21,6 +21,7 @@ addLayer("c", {
         let ret = new Decimal(2);
         if (hasMilestone("c", 5)) ret = ret.add(player.sac.points.gte(1) ? 0.1 : 0.6);
         if (player.b.points.gte(5) && player.sac.points.lte(2)) ret = ret.add(player.sac.points.gte(2) ? 0.1 : 0.4);
+        if (hasMilestone("i", 0)) ret = ret.add(0.1);
         return ret;
     },
     baseResource: "levels", // Name of resource prestige is based on
@@ -62,6 +63,7 @@ addLayer("c", {
         ret = ret.mul(layers.d.effect());
         ret = ret.mul(layers.e.equipmentEff(14));
         ret = ret.mul(layers.f.effect());
+        if (hasMilestone("i", 0)) ret = ret.mul(2);
         if (player.sac.points.gte(3)) ret = ret.div(1000);
         else if (player.sac.points.gte(1)) ret = ret.div(12);
         return ret;
@@ -179,6 +181,16 @@ addLayer("c", {
     ],
     update(diff) {
         if (hasMilestone("c", 1)) player.a.points = player.a.points.add(getLevel().pow(player.d.activeChallenge ? 0.5 : 2).pow(player.sac.points.gte(1) ? 1.75 : 1).mul(diff).mul(layers.a.gainMult()));
+        if(hasMilestone("i", 0) && layers.c.tabFormat.Buyables.unlocked()){
+            for(i in layers.c.buyables){
+                if(layers.c.buyables[i].cost){
+                    if(typeof layers.c.buyables[i].unlocked == "function" && (layers.c.buyables[i].unlocked() == false)){
+                        continue;
+                    }
+                    if(player.c.points.gte(layers.c.buyables[i].cost()))player.c.buyables[i]=player.c.buyables[i].add(1);
+                }
+            }
+        } 
     },
     upgrades: {
         11: {
@@ -301,7 +313,7 @@ addLayer("c", {
                 return player[this.layer].points.gte(layers[this.layer].buyables[this.id].cost())
             },
             buy() {
-                player[this.layer].points = player[this.layer].points.sub(layers[this.layer].buyables[this.id].cost())
+                if(!hasMilestone("i",0))player[this.layer].points = player[this.layer].points.sub(layers[this.layer].buyables[this.id].cost())
                 player[this.layer].buyables[this.id] = player[this.layer].buyables[this.id].add(1)
 
             },
@@ -330,7 +342,7 @@ addLayer("c", {
                 return player[this.layer].points.gte(layers[this.layer].buyables[this.id].cost())
             },
             buy() {
-                player[this.layer].points = player[this.layer].points.sub(layers[this.layer].buyables[this.id].cost())
+                if(!hasMilestone("i",0))player[this.layer].points = player[this.layer].points.sub(layers[this.layer].buyables[this.id].cost())
                 player[this.layer].buyables[this.id] = player[this.layer].buyables[this.id].add(1)
 
             },
@@ -358,7 +370,7 @@ addLayer("c", {
                 return player[this.layer].points.gte(layers[this.layer].buyables[this.id].cost())
             },
             buy() {
-                player[this.layer].points = player[this.layer].points.sub(layers[this.layer].buyables[this.id].cost())
+                if(!hasMilestone("i",0))player[this.layer].points = player[this.layer].points.sub(layers[this.layer].buyables[this.id].cost())
                 player[this.layer].buyables[this.id] = player[this.layer].buyables[this.id].add(1)
 
             },
@@ -386,7 +398,7 @@ addLayer("c", {
                 return player[this.layer].points.gte(layers[this.layer].buyables[this.id].cost())
             },
             buy() {
-                player[this.layer].points = player[this.layer].points.sub(layers[this.layer].buyables[this.id].cost())
+                if(!hasMilestone("i",0))player[this.layer].points = player[this.layer].points.sub(layers[this.layer].buyables[this.id].cost())
                 player[this.layer].buyables[this.id] = player[this.layer].buyables[this.id].add(1)
 
             },
@@ -414,7 +426,7 @@ addLayer("c", {
                 return player[this.layer].points.gte(layers[this.layer].buyables[this.id].cost())
             },
             buy() {
-                player[this.layer].points = player[this.layer].points.sub(layers[this.layer].buyables[this.id].cost())
+                if(!hasMilestone("i",0))player[this.layer].points = player[this.layer].points.sub(layers[this.layer].buyables[this.id].cost())
                 player[this.layer].buyables[this.id] = player[this.layer].buyables[this.id].add(1)
 
             },
@@ -443,7 +455,7 @@ addLayer("c", {
                 return player[this.layer].points.gte(layers[this.layer].buyables[this.id].cost())
             },
             buy() {
-                player[this.layer].points = player[this.layer].points.sub(layers[this.layer].buyables[this.id].cost())
+                if(!hasMilestone("i",0))player[this.layer].points = player[this.layer].points.sub(layers[this.layer].buyables[this.id].cost())
                 player[this.layer].buyables[this.id] = player[this.layer].buyables[this.id].add(1)
             },
             effect() {
@@ -471,7 +483,7 @@ addLayer("c", {
                 return player[this.layer].points.gte(layers[this.layer].buyables[this.id].cost())
             },
             buy() {
-                player[this.layer].points = player[this.layer].points.sub(layers[this.layer].buyables[this.id].cost())
+                if(!hasMilestone("i",0))player[this.layer].points = player[this.layer].points.sub(layers[this.layer].buyables[this.id].cost())
                 player[this.layer].buyables[this.id] = player[this.layer].buyables[this.id].add(1)
             },
             effect() {
@@ -499,7 +511,7 @@ addLayer("c", {
                 return player[this.layer].points.gte(layers[this.layer].buyables[this.id].cost())
             },
             buy() {
-                player[this.layer].points = player[this.layer].points.sub(layers[this.layer].buyables[this.id].cost())
+                if(!hasMilestone("i",0))player[this.layer].points = player[this.layer].points.sub(layers[this.layer].buyables[this.id].cost())
                 player[this.layer].buyables[this.id] = player[this.layer].buyables[this.id].add(1)
 
             },
@@ -528,7 +540,7 @@ addLayer("c", {
                 return player[this.layer].points.gte(layers[this.layer].buyables[this.id].cost())
             },
             buy() {
-                player[this.layer].points = player[this.layer].points.sub(layers[this.layer].buyables[this.id].cost())
+                if(!hasMilestone("i",0))player[this.layer].points = player[this.layer].points.sub(layers[this.layer].buyables[this.id].cost())
                 player[this.layer].buyables[this.id] = player[this.layer].buyables[this.id].add(1)
 
             },
@@ -544,6 +556,7 @@ addLayer("c", {
     doReset(layer) { 
         if (layer == "i") {
             layerDataReset("c");
+            if(player.i.points.gte(3) || hasMilestone("i",2))player.c.milestones=[0,1,2,3,4,5,6,7];
             updateTemp();
         }
     },

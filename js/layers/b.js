@@ -290,6 +290,7 @@ addLayer("b", {
         if (hasUpgrade("c", 13)) ret = ret.mul(upgradeEffect("c", 13));
         if (hasUpgrade("g", 21)) ret = ret.mul(upgradeEffect("g", 21));
         ret = ret.mul(layers.d.effect2());
+        ret = ret.mul(layers.i.effect());
         if (player.sac.points.gte(1)) ret = ret.mul(10);
         if (player.sac.points.gte(2)) ret = ret.mul(100);
         return ret;

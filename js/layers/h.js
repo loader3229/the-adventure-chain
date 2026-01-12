@@ -18,7 +18,9 @@ addLayer("h", {
     branches: ['g'],
     layerShown() { return player.b.points.gte(20) || player.g.unlocked },
     gainMult() {
-        return new Decimal(1);
+		let ret=new Decimal(1);
+if(player.i.points.gte(4) || hasMilestone("i",3)) ret = ret.mul(3);
+        return ret;
     },
     buyables: {
         11: {
@@ -158,7 +160,8 @@ addLayer("h", {
     ],
     doReset(layer) { 
         if (layer == "i") {
-            layerDataReset("h",["points"]);
+            if(player.i.points.gte(4) || hasMilestone("i",3))layerDataReset("h",["points","buyables","upgrades"]);
+              else layerDataReset("h",["points","upgrades"]);
             updateTemp();
         }
     },

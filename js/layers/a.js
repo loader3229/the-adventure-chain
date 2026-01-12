@@ -75,6 +75,7 @@ addLayer("a", {
         exp = exp.mul(buyableEffect("c", 23));
         exp = exp.mul(layers.e.equipmentEff(12));
         if (hasMilestone("c", 8)) exp = exp.mul(layers.f.effect());
+        exp = exp.mul(layers.i.effect());
         return exp;
     },
     tabFormat: [

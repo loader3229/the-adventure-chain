@@ -127,6 +127,7 @@ addLayer("e", {
             return Decimal.pow(1.01, softcap(x.pow(0.5), new Decimal(1000)));
         }
         if (type == 13) {
+            if(hasMilestone("i",2))return Decimal.sub(10,Decimal.div(10,x.add(1).log10().pow(1.8).div(200).add(1)));
             return new Decimal(1).sub(Decimal.pow(0.995, x.pow(0.5)));
         }
         if (type == 14) {
@@ -233,6 +234,7 @@ addLayer("e", {
     doReset(layer) { 
         if (layer == "i") {
             layerDataReset("e");
+            if(player.i.points.gte(3) || hasMilestone("i",2))player.e.equipment[13].level=new Decimal(10000),player.e.equipment[13].power=new Decimal(10);
             updateTemp();
         }
     },
