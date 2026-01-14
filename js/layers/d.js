@@ -85,6 +85,7 @@ addLayer("d", {
         if (player.sac.points.gte(2)) d += 5;
         if (hasUpgrade("c", 32)) d += 10;
         if (hasUpgrade("g", 15)) d += 5;
+        if (hasMilestone("i", 4)) d += 5;
         return d;
     },
     update(diff) {

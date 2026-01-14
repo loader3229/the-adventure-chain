@@ -6,6 +6,9 @@ addLayer("i", {
         return {
             unlocked: false,
             points: new Decimal(0),
+            y: new Decimal(1024),
+            infDmg: new Decimal(0),
+            infTime: new Decimal(0),
         }
     },
     color: "#00CCCC",
@@ -17,6 +20,8 @@ addLayer("i", {
     gainMult() {
         let ret = new Decimal(1);
         if(player.b.points.gte(27))ret = ret.mul(player.b.points.sub(26).pow(0.6).add(1));
+ if (hasMilestone("i", 4))ret = ret.mul(1.25);
+ if (hasMilestone("i", 6))ret = ret.mul(layers.i.infEff());
         return ret;
     },
     getResetGain() {
@@ -39,7 +44,7 @@ addLayer("i", {
         { key: "i", description: "i: reset for imaginary points", onPress() { if (canReset(this.layer)) doReset(this.layer) } },
     ],
     effect() {
-        let ret = Decimal.pow(10, player.i.points.add(1).log10().sqrt());
+        let ret = Decimal.pow(10, player.i.points.mul(layers.i.infEff()).add(1).log10().sqrt());
         return ret;
     },
     effectDescription() { // Optional text to describe the effects
@@ -70,8 +75,108 @@ addLayer("i", {
         {
             requirementDescription: "5 imaginary points",
             done() { return player.i.points.gte(5) }, // Used to determine when to give the milestone
-            effectDescription: "1.25x imaginary points gain.",
+            effectDescription: "1.25x imaginary points gain. +5 domain max completions.",
+        },
+        {
+            requirementDescription: "7 imaginary points",
+            done() { return player.i.points.gte(7) }, // Used to determine when to give the milestone
+            effectDescription: "Imaginary Points's effect boost Calm Points.",
+        },
+        {
+            requirementDescription: "10 imaginary points",
+            done() { return player.i.points.gte(10) }, // Used to determine when to give the milestone
+            effectDescription: "Unlock the Infinity Boss.",
         },
     ],
+tabFormat: {
+        "Main Tab": {
+            "content": [
+                "main-display",
+                "prestige-button",
+                "resource-display",
+                "upgrades",
+                "milestones"
+            ]
+        }, "Infinity Boss": {
+            "content": [
+                "main-display",
+                "prestige-button",
+                "resource-display",
+["column", [["raw-html", function () {
+            let y = Math.ceil(player.i.y.toNumber());
+            return "<div style=width:400px;text-align:right;>x" + y + "</div>";
+        }], ["bar", "hp"]]],
+	"blank",
+        ["display-text","Damage to boss multiplier is applied to damage to Infinity Boss."],
+        ["display-text","Damage multiplier to Infinity Boss has a time factor, that resets on attack."],
+        ["display-text",function(){return "Total Damage Dealt to Infinity Boss: "+format(Decimal.pow(2,Decimal.sub(1024,player.i.y)).sub(1))}],
+        ["display-text",function(){return "Total Damage Dealt to Infinity Boss will increase Imaginary point's effect, and increase Imaginary point gain to "+format(layers.i.infEff())+"x."}],
+        ["row", [["clickable", "11"]]],
+            ], unlocked: function () { return hasMilestone("i", 6) }
+        }
+    },
+    bars: {
+        hp: {
+            fillStyle() {
+                let y = Math.ceil(player.i.y.toNumber());
 
+                if (y <= 0) return { 'background-color': "#000000" };
+                return { 'background-color': "hsl(" + ((y - 1) * 150) + ",100%," + (40 + 60 * Math.pow(1 / 2, y)) + "%)" };
+            },
+            baseStyle() {
+                let y = Math.ceil(player.i.y.toNumber());
+
+                if (y <= 1) return { 'background-color': "#000000", 'transition-duration': '0s' };
+                return { 'background-color': "hsl(" + ((y - 2) * 150) + ",100%," + (40 + 60 * Math.pow(1 / 2, y - 1)) + "%)", 'transition-duration': '0s' };
+            },
+            textStyle: { 'color': '#ffffff' },
+            borderStyle() { return {} },
+            direction: RIGHT,
+            width: 400,
+            height: 30,
+            progress() {
+                let y = player.i.y.toNumber();
+                return y - Math.ceil(y) + 1;
+            },
+            unlocked: true, instant: true,
+            display() {
+                return `${format(Decimal.pow(2,1024).sub(Decimal.pow(2,Decimal.sub(1024,player.i.y)).sub(1)))} / ${format(Decimal.pow(2,1024))}`
+            },
+        }
+    },
+    update(diff){
+if(hasMilestone("i", 6))player.i.infTime = player.i.infTime.add(diff);
+},
+    clickables: {
+        11: {
+            title() {
+                return "Attack"
+            },
+            display() {
+                return "Damage multiplier: "+format(layers.i.infMult(),2,true)+"x";
+            },
+            canClick() {
+                return true;
+            },
+            onClick() {
+                if (!layers[this.layer].clickables[this.id].canClick()) return;
+                player.i.infDmg = player.i.infDmg.add(getATK().mul(getDMG()).mul(layers.i.infMult()));
+                player.i.infTime=new Decimal(0);
+            },
+            unlocked: true,
+        },
+},
+infMult(){
+   let ret=layers.b.dmgMult();
+  ret = ret.mul(1-Math.pow(0.99996,player.i.infTime.toNumber()**2));
+  return ret.max(0).div(1e20);
+},
+infEff(){
+  return Decimal.sub(1200,player.i.y).div(176);
+}
 });
+
+
+setInterval(function () {
+    if (player.i && player.i.y && player.i.infDmg && layers.i) player.i.y = Decimal.sub(1024,player.i.infDmg.add(1).log2()).mul(0.001).add(player.i.y.mul(0.999)).max(0), tmp.i.bars.hp.fillStyle = layers.i.bars.hp.fillStyle(), tmp.i.bars.hp.baseStyle = layers.i.bars.hp.baseStyle(), tmp.i.bars.hp.progress = layers.i.bars.hp.progress(), constructBarStyle("i", "hp");
+}, 10);

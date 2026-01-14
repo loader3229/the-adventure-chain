@@ -64,6 +64,7 @@ addLayer("c", {
         ret = ret.mul(layers.e.equipmentEff(14));
         ret = ret.mul(layers.f.effect());
         if (hasMilestone("i", 0)) ret = ret.mul(2);
+        if (hasMilestone("i", 4)) ret = ret.mul(layers.i.effect());
         if (player.sac.points.gte(3)) ret = ret.div(1000);
         else if (player.sac.points.gte(1)) ret = ret.div(12);
         return ret;
