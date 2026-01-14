@@ -87,6 +87,11 @@ addLayer("i", {
             done() { return player.i.points.gte(10) }, // Used to determine when to give the milestone
             effectDescription: "Unlock the Infinity Boss.",
         },
+        {
+            requirementDescription: "15 imaginary points",
+            done() { return player.i.points.gte(15) }, // Used to determine when to give the milestone
+            effectDescription: "Imaginary Points's effect boost equipment shards.",
+        },
     ],
 tabFormat: {
         "Main Tab": {
@@ -172,7 +177,7 @@ infMult(){
   return ret.max(0).div(1e20);
 },
 infEff(){
-  return Decimal.sub(1200,player.i.y).div(176);
+  return Decimal.sub(1200,player.i.y).div(176).pow(1.2).min(10);
 }
 });
 

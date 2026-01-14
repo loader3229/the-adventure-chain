@@ -66,6 +66,7 @@ addLayer("e", {
         x = x.mul(buyableEffect("c", 31));
         if (player.b.points.gte(11)) x = x.mul(player.b.points);
         x = x.mul(layers.f.effect());
+        if (hasMilestone("i", 7)) x = x.mul(layers.i.effect());
 
         return x;
     },
