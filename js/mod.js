@@ -5,8 +5,8 @@ let modInfo = {
     pointsName: "HP",
     modFiles: ["layers.js", "layers/a.js", "layers/b.js", "layers/c.js", "layers/d.js", "layers/e.js", "layers/f.js", "layers/g.js", "layers/h.js", "layers/i.js", "tree.js"],
 
-    discordName: "",
-    discordLink: "",
+	discordName: "loader3229's Discord Server",
+	discordLink: "https://discord.gg/jztUReQ2vT",
     initialStartPoints: new Decimal(0), // Used for hard resets and new players
     offlineLimit: 1,  // In hours
 }
