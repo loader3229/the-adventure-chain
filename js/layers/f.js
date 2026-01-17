@@ -28,6 +28,10 @@ addLayer("f", {
                 ["display-text", function () { if (player.f.maxTier.gte(3)) return "You have 1 Tier " + formatWhole(player.f.maxTier) + " machine"; return "" }],
                 ["row", [["buyable", 11], ["buyable", 13], ["buyable", 12]]],
             ]
+        }, "Forge": {
+            "content": [
+                "main-display",["row", [["buyable", 21], ["buyable", 22]]],
+		], unlocked: function () { return player.b.points.gte(28) }
         }
     },
     gainMult() {
@@ -148,7 +152,34 @@ addLayer("f", {
             },
             unlocked() { return player.b.points.gte(23) }
         },
-
+        21: {
+            title() {
+                return "Simple Forge";
+            },
+            display() {
+                let data = tmp[this.layer].buyables[this.id];
+                return "Level: " + formatWhole(player[this.layer].buyables[this.id]) + "<br>" +
+                    "+" + format(data.effect.sub(1).mul(100)) + "% to Equipment Power<br>" +
+                    "Cost: " + format(data.cost) + " Scraps";
+            },
+            cost() {
+                let a = player[this.layer].buyables[this.id];
+                a = Decimal.pow(10,a.pow(1.5)).mul(1e30);
+                return a;
+            },
+            canAfford() {
+                return player.f.points.gte(layers[this.layer].buyables[this.id].cost())
+            },
+            buy() {
+                player.f.points = player.f.points.sub(layers[this.layer].buyables[this.id].cost())
+                player[this.layer].buyables[this.id] = player[this.layer].buyables[this.id].add(1)
+            },
+            effect() {
+                let eff = player[this.layer].buyables[this.id].pow(0.7).mul(0.2).add(1);
+                return eff;
+            },
+            unlocked() { return player.b.points.gte(28) }
+        },
     },
     doReset(layer) { 
         if (layer == "i") {

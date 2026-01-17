@@ -96,9 +96,8 @@ addLayer("d", {
                     player.d.challenges[player.d.activeChallenge] = Math.min(layers.d.completionLimit(), player.d.challenges[player.d.activeChallenge] + 1);
                 }
             }
-            player.d.points = new Decimal(player.d.challenges[11]).add(player.d.challenges[12]).add(player.d.challenges[21]).add(player.d.challenges[22]);
-
         }
+player.d.points = new Decimal(player.d.challenges[11]).add(player.d.challenges[12]).add(player.d.challenges[21]).add(player.d.challenges[22]);
     },
     effect() {
         let ret = Decimal.pow(1.1, player.d.points);

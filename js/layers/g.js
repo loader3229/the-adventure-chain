@@ -138,6 +138,7 @@ addLayer("g", {
     doReset(layer) { 
         if (layer == "i") {
             layerDataReset("g");
+            if(player.i.points.gte(20) || hasMilestone("i",8))player.g.upgrades=[11,12,13,14,15,21,22];
             updateTemp();
         }
     },

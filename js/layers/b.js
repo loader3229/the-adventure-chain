@@ -276,6 +276,12 @@ addLayer("b", {
             done() { return player[this.layer].points.gte(27) }, // Used to determine when to give the milestone
             effectDescription: "Increase Imaginary Points gain based on beaten bosses count.",
         },
+        {
+            requirementDescription: "Beat 28 bosses",
+            unlocked() { return player[this.layer].points.gte(27) },
+            done() { return player[this.layer].points.gte(28) }, // Used to determine when to give the milestone
+            effectDescription: "Unlock Forge.",
+        },
     ],
     update(diff) {
         if (getLevel().gte(10)) player.b.unlocked = true;

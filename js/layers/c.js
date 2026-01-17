@@ -293,6 +293,11 @@ addLayer("c", {
             cost() { if (player.sac.points.gte(3)) return new Decimal(1e32); return new Decimal(2e31) },
             unlocked() { return player.sac.points.gte(2) },
         },
+        45: {
+            description: "1.1x Imaginary Point gain.",
+            cost() { return new Decimal(1e34) },
+            unlocked() { return player.i.unlocked },
+        },
     },
     buyables: {
         11: {
@@ -558,6 +563,7 @@ addLayer("c", {
         if (layer == "i") {
             layerDataReset("c");
             if(player.i.points.gte(3) || hasMilestone("i",2))player.c.milestones=[0,1,2,3,4,5,6,7];
+            if(player.i.points.gte(20) || hasMilestone("i",8))player.c.milestones=[0,1,2,3,4,5,6,7,8,9,10,11];
             updateTemp();
         }
     },
