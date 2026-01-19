@@ -98,6 +98,11 @@ addLayer("i", {
             done() { return player.i.points.gte(20) }, // Used to determine when to give the milestone
             effectDescription: "Start with first 7 gold upgrades and first 12 calm milestones.",
         },
+        {
+            requirementDescription: "30 imaginary points",
+            done() { return player.i.points.gte(30) }, // Used to determine when to give the milestone
+            effectDescription: "Reduce post-100k level scaling.",
+        },
     ],
 tabFormat: {
         "Main Tab": {

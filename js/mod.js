@@ -13,11 +13,13 @@ let modInfo = {
 
 // Set your version in num and name
 let VERSION = {
-    num: "8.1",
-    name: "Helper",
+    num: "9.0",
+    name: "Imaginary",
 }
 
 let changelog = `<h1>Changelog:</h1><br>
+    <h3>v9.0</h3><br>
+        - Added layer I.<br>
     <h3>v8.0</h3><br>
         - Added layer H.<br>
     <h3>v7.0</h3><br>
@@ -78,7 +80,7 @@ function addedPlayerData() {
 
 // Display extra things at the top of the page
 var displayThings = [
-    "Endgame: Boss 26 beaten and Level 100000",
+    "Endgame: Boss 28 beaten and Level 110000",
     function () { return "Level: " + formatWhole(getLevel()) + "/" + formatWhole(getLevelCap()) + " (" + format(getLevelProgress().mul(100)) + "%)" },
     function () { return "ATK: " + format(getATK()) },
     function () { if (player.b.points.gte(1)) return "DEF: " + format(getDEF()) },
@@ -88,7 +90,7 @@ var displayThings = [
 
 // Determines when the game "ends"
 function isEndgame() {
-    return player.b.points.gte(26) && getLevel().gte(100000)
+    return player.b.points.gte(28) && getLevel().gte(110000)
 }
 
 
@@ -192,7 +194,10 @@ function getRealLevel() {
     if (player.sac.points.gte(3)) {
         let level = player.a.points.pow(0.075).div(16).div(scaling.sqrt()).add(1).log(1.0625).mul(scaling.sqrt()).pow(2).add(1);
         if (player.a.points.pow(0.15).lte(scaling)) level = player.a.points.pow(0.15).add(1);
-        if (level.gte(100000))level = level.root(5).mul(10000).min(getLevelCap());
+        if (level.gte(100000)){
+		if(hasMilestone("i", 9))level = level.root(2.5).mul(1000).min(getLevelCap());
+		else level = level.root(5).mul(10000).min(getLevelCap());
+	}
         return level;
     }
     if (player.sac.points.gte(2)) {
