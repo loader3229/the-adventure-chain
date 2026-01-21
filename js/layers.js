@@ -26,7 +26,7 @@ addLayer("sac", {
     layerShown() { return player.b.points.gte(12) || player.sac.unlocked },
     milestones: [
         {
-            requirementDescription: "Sacrifice 1 times",
+            requirementDescription: "Sacrifice 1 time",
             unlocked() { return player[this.layer].points.gte(0) },
             done() { return player[this.layer].points.gte(1) }, // Used to determine when to give the milestone
             effectDescription: "Increase max level and EXP gain, but increase EXP required to level up. Reduce Tier 1 machine cost in layer F. You can complete domain without exiting domain. Deal 10x damage to bosses.",

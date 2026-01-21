@@ -13,7 +13,7 @@ let modInfo = {
 
 // Set your version in num and name
 let VERSION = {
-    num: "9.0",
+    num: "9.1",
     name: "Imaginary",
 }
 
@@ -163,7 +163,7 @@ function getLevel() {
 }
 
 function getLevelCap() {
-    if (player.sac.points.gte(3)) return new Decimal(100000).add(player.i.points.pow(2).mul(10).min(400000));
+    if (player.sac.points.gte(3)) return new Decimal(100000).add(player.i.points.pow(2).mul(10).min(28000));
     if (player.sac.points.gte(2)) return new Decimal(64000);
     if (player.sac.points.gte(1)) return new Decimal(16000);
     if (player.b.points.gte(10)) return new Decimal(4000);
