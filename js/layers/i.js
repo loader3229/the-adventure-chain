@@ -81,7 +81,7 @@ addLayer("i", {
         {
             requirementDescription: "7 imaginary points",
             done() { return player.i.points.gte(7) }, // Used to determine when to give the milestone
-            effectDescription: "Imaginary Points's effect boost Calm Points.",
+            effectDescription: "Imaginary Points effect boost Calm Points.",
         },
         {
             requirementDescription: "10 imaginary points",
@@ -91,7 +91,7 @@ addLayer("i", {
         {
             requirementDescription: "15 imaginary points",
             done() { return player.i.points.gte(15) }, // Used to determine when to give the milestone
-            effectDescription: "Imaginary Points's effect boost equipment shards.",
+            effectDescription: "Imaginary Points effect boost equipment shards.",
         },
         {
             requirementDescription: "20 imaginary points",
@@ -102,6 +102,11 @@ addLayer("i", {
             requirementDescription: "30 imaginary points",
             done() { return player.i.points.gte(30) }, // Used to determine when to give the milestone
             effectDescription: "Reduce post-100k level scaling.",
+        },
+        {
+            requirementDescription: "50 imaginary points",
+            done() { return player.i.points.gte(50) }, // Used to determine when to give the milestone
+            effectDescription: "Calm buyable 'Level Scaling' effect is doubled.",
         },
     ],
 tabFormat: {

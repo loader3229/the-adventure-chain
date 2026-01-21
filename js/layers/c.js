@@ -438,6 +438,7 @@ addLayer("c", {
             },
             effect() {
                 let eff = new Decimal(0).add(player[this.layer].buyables[this.id].div(20));
+                if(hasMilestone("i",10))eff = eff.mul(2)
                 return eff;
             },
             unlocked() { return hasUpgrade("c", 12) }
