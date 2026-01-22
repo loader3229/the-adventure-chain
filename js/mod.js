@@ -80,6 +80,7 @@ function addedPlayerData() {
 
 // Display extra things at the top of the page
 var displayThings = [
+    "Mod Author: loader3229",
     "Endgame: Boss 28 beaten and Level 110000",
     function () { return "Level: " + formatWhole(getLevel()) + "/" + formatWhole(getLevelCap()) + " (" + format(getLevelProgress().mul(100)) + "%)" },
     function () { return "ATK: " + format(getATK()) },
@@ -180,7 +181,8 @@ function getLevelScaling() {
     let scaling = new Decimal(1);
     if (hasMilestone("c", 6)) scaling = scaling.add(hasUpgrade("c", 31) ? 1 : 0.2);
     if (hasMilestone("c", 7) && player.sac.points.gte(2)) scaling = scaling.add(0.5);
-    if (player.b.points.gte(16)) scaling = scaling.add(player.b.points.div(16).pow(2));
+    if (player.b.points.gte(29)) scaling = scaling.add(player.b.points.div(11.5).pow(2));
+    else if (player.b.points.gte(16)) scaling = scaling.add(player.b.points.div(16).pow(2));
     else if (player.b.points.gte(13)) scaling = scaling.add(player.b.points.mul(0.05));
     else if (player.b.points.gte(7)) scaling = scaling.add(player.b.points.sub(5).mul(0.05));
     scaling = scaling.add(buyableEffect("c", 22));

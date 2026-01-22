@@ -20,6 +20,7 @@ addLayer("h", {
     gainMult() {
 		let ret=new Decimal(1);
 if(player.i.points.gte(4) || hasMilestone("i",3)) ret = ret.mul(3);
+if(player.b.points.gte(29))ret = ret.mul(player.b.points.div(20));
         return ret;
     },
     buyables: {

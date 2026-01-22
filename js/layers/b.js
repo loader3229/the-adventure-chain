@@ -282,6 +282,12 @@ addLayer("b", {
             done() { return player[this.layer].points.gte(28) }, // Used to determine when to give the milestone
             effectDescription: "Unlock Forge.",
         },
+        {
+            requirementDescription: "Beat 29 bosses",
+            unlocked() { return player[this.layer].points.gte(28) },
+            done() { return player[this.layer].points.gte(29) }, // Used to determine when to give the milestone
+            effectDescription: "Boost Helper Points gain based on beaten bosses.",
+        },
     ],
     update(diff) {
         if (getLevel().gte(10)) player.b.unlocked = true;
@@ -299,6 +305,7 @@ addLayer("b", {
         ret = ret.mul(layers.i.effect());
         if (player.sac.points.gte(1)) ret = ret.mul(10);
         if (player.sac.points.gte(2)) ret = ret.mul(100);
+        if (hasMilestone("i", 11)) ret = ret.mul(10);
         return ret;
     },
     dmgDivide() {

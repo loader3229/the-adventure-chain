@@ -101,12 +101,17 @@ addLayer("i", {
         {
             requirementDescription: "30 imaginary points",
             done() { return player.i.points.gte(30) }, // Used to determine when to give the milestone
-            effectDescription: "Reduce post-100k level scaling.",
+            effectDescription: "Reduce post-100k additional level scaling.",
         },
         {
             requirementDescription: "50 imaginary points",
             done() { return player.i.points.gte(50) }, // Used to determine when to give the milestone
             effectDescription: "Calm buyable 'Level Scaling' effect is doubled.",
+        },
+        {
+            requirementDescription: "75 imaginary points",
+            done() { return player.i.points.gte(75) }, // Used to determine when to give the milestone
+            effectDescription: "Deal 10x damage to bosses.",
         },
     ],
 tabFormat: {
