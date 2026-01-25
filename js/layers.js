@@ -11,6 +11,7 @@ addLayer("sac", {
     color: "#FFFFFF",
     requires() {
         if (player.sac.points.gte(3)) return new Decimal("10^^10");
+        if (player.sac.points.gte(3)) return new Decimal(2000);
         return new Decimal(4000);
     }, // Can be a function that takes requirement increases into account
     resource: "sacrifices", // Name of prestige currency
@@ -53,6 +54,7 @@ addLayer("sac", {
             layerDataReset("f");
             layerDataReset("g");
             layerDataReset("h");
+            layerDataReset("i");
 
             updateTemp();
             updateTemp();

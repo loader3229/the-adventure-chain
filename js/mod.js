@@ -13,7 +13,7 @@ let modInfo = {
 
 // Set your version in num and name
 let VERSION = {
-    num: "9.1",
+    num: "9.2",
     name: "Imaginary",
 }
 
@@ -81,7 +81,7 @@ function addedPlayerData() {
 // Display extra things at the top of the page
 var displayThings = [
     "Mod Author: loader3229",
-    "Endgame: Boss 28 beaten and Level 110000",
+    "Endgame: Boss 29 beaten and Level 128000",
     function () { return "Level: " + formatWhole(getLevel()) + "/" + formatWhole(getLevelCap()) + " (" + format(getLevelProgress().mul(100)) + "%)" },
     function () { return "ATK: " + format(getATK()) },
     function () { if (player.b.points.gte(1)) return "DEF: " + format(getDEF()) },
@@ -91,7 +91,7 @@ var displayThings = [
 
 // Determines when the game "ends"
 function isEndgame() {
-    return player.b.points.gte(28) && getLevel().gte(110000)
+    return player.b.points.gte(29) && getLevel().gte(128000)
 }
 
 
@@ -164,6 +164,7 @@ function getLevel() {
 }
 
 function getLevelCap() {
+    if (player.sac.points.gte(4)) return new Decimal(112000).add(player.i.points.pow(2).mul(10).min(400000));
     if (player.sac.points.gte(3)) return new Decimal(100000).add(player.i.points.pow(2).mul(10).min(28000));
     if (player.sac.points.gte(2)) return new Decimal(64000);
     if (player.sac.points.gte(1)) return new Decimal(16000);
