@@ -121,12 +121,17 @@ addLayer("i", {
         {
             requirementDescription: "125 imaginary points",
             done() { return player.i.points.gte(125) }, // Used to determine when to give the milestone
-            effectDescription: "Infinity Boss Total Damage effect boost HP gain.",
+            effectDescription: "Infinity Boss Total Damage effect boost HP gain, keep all domain completions.",
         },
         {
             requirementDescription: "150 imaginary points",
             done() { return player.i.points.gte(150) }, // Used to determine when to give the milestone
             effectDescription: "Infinity Boss Total Damage effect boost ATK.",
+        },
+        {
+            requirementDescription: "200 imaginary points",
+            done() { return player.i.points.gte(200) }, // Used to determine when to give the milestone
+            effectDescription: "Infinity Boss Total Damage effect boost DEF.",
         },
     ],
 tabFormat: {

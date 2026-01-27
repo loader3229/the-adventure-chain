@@ -34,7 +34,7 @@ addLayer("d", {
             canComplete() { return getLevel().gte(this.goal()) },
             onEnter() { doReset("c", true); },
             completionLimit() { return layers.d.completionLimit(); },
-            rewardDescription: "1 domain point per completion."
+            rewardDescription(){if(player.b.points.gte(30))return "1 domain point and +1% DEF per completion.";return "1 domain point per completion.";}
         },
         12: {
             name: "Glass Cannon",
@@ -44,7 +44,7 @@ addLayer("d", {
             currencyDisplayName: "Level",
             canComplete() { return getLevel().gte(this.goal()) },
             completionLimit() { return layers.d.completionLimit(); },
-            rewardDescription: "1 domain point per completion.",
+            rewardDescription(){if(player.b.points.gte(30))return "1 domain point and +1% HP gain per completion.";return "1 domain point per completion.";},
             onEnter() {
                 doReset("c", true);
                 player.points = new Decimal(100);
@@ -58,7 +58,7 @@ addLayer("d", {
             currencyDisplayName: "Level",
             canComplete() { return getLevel().gte(this.goal()) },
             completionLimit() { return layers.d.completionLimit(); },
-            rewardDescription: "1 domain point per completion.",
+            rewardDescription(){if(player.b.points.gte(30))return "1 domain point and +1% ATK per completion.";return "1 domain point per completion.";},
             onEnter() {
                 doReset("c", true);
             },
@@ -72,7 +72,7 @@ addLayer("d", {
             currencyDisplayName: "Level",
             canComplete() { return getLevel().gte(this.goal()) },
             completionLimit() { return layers.d.completionLimit(); },
-            rewardDescription: "1 domain point per completion.",
+            rewardDescription(){if(player.b.points.gte(30))return "1 domain point and +1% DMG per completion.";return "1 domain point per completion.";},
             onEnter() {
                 doReset("c", true);
             },

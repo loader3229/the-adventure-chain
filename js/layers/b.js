@@ -288,6 +288,12 @@ addLayer("b", {
             done() { return player[this.layer].points.gte(29) }, // Used to determine when to give the milestone
             effectDescription: "Boost Helper Points gain based on beaten bosses.",
         },
+        {
+            requirementDescription: "Beat 30 bosses",
+            unlocked() { return player[this.layer].points.gte(29) },
+            done() { return player[this.layer].points.gte(30) }, // Used to determine when to give the milestone
+            effectDescription: "Unlock another reward for each of the first 4 domains.",
+        },
     ],
     update(diff) {
         if (getLevel().gte(10)) player.b.unlocked = true;

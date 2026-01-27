@@ -69,6 +69,7 @@ function getPointGen() {
 
     if (player.b.points.gte(24)) gain = gain.mul(1.25);
     if (player.b.points.gte(21)) gain = gain.mul(buyableEffect("h", 12));
+    if (player.b.points.gte(30)) gain = gain.mul(1+player.d.challenges[12]/100);
 
     return gain
 }
@@ -125,6 +126,8 @@ function getATK() {
     atk = atk.mul(layers.e.equipmentEff(21));
     if (player.b.points.gte(21)) atk = atk.mul(buyableEffect("h", 12));
     if(hasMilestone("i",14)) atk = atk.mul(layers.i.infEff());
+    if (player.b.points.gte(30)) atk = atk.mul(1+player.d.challenges[21]/100);
+
 
 
     if (inChallenge("d", 22)) atk = atk.sqrt();
@@ -144,6 +147,7 @@ function getDEF() {
 
     if (player.b.points.gte(21)) def = def.mul(buyableEffect("h", 12));
     if(hasMilestone("i",15)) def = def.mul(layers.i.infEff());
+    if (player.b.points.gte(30)) def = def.mul(1+player.d.challenges[11]/100);
     return def;
 }
 
@@ -159,6 +163,7 @@ function getDMG() {
 
     if (player.b.points.gte(21)) dmg = dmg.mul(buyableEffect("h", 12));
     if(hasMilestone("i",16)) dmg = dmg.mul(layers.i.infEff());
+    if (player.b.points.gte(30)) dmg = dmg.mul(1+player.d.challenges[22]/100);
 
 
     return dmg;
