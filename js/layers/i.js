@@ -113,6 +113,21 @@ addLayer("i", {
             done() { return player.i.points.gte(75) }, // Used to determine when to give the milestone
             effectDescription: "Deal 10x damage to bosses.",
         },
+        {
+            requirementDescription: "100 imaginary points",
+            done() { return player.i.points.gte(100) }, // Used to determine when to give the milestone
+            effectDescription: "Remove post-100k additional level scaling.",
+        },
+        {
+            requirementDescription: "125 imaginary points",
+            done() { return player.i.points.gte(125) }, // Used to determine when to give the milestone
+            effectDescription: "Infinity Boss Total Damage effect boost HP gain.",
+        },
+        {
+            requirementDescription: "150 imaginary points",
+            done() { return player.i.points.gte(150) }, // Used to determine when to give the milestone
+            effectDescription: "Infinity Boss Total Damage effect boost ATK.",
+        },
     ],
 tabFormat: {
         "Main Tab": {

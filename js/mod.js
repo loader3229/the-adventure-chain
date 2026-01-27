@@ -65,8 +65,9 @@ function getPointGen() {
     gain = gain.mul(buyableEffect("c", 21));
     if (player.b.points.gte(18)) gain = gain.mul(1.25);
     if (player.b.points.gte(24)) gain = gain.mul(1.25);
-    gain = gain.mul(layers.e.equipmentEff(23));
+    if(hasMilestone("i",13))gain = gain.mul(layers.i.infEff());
 
+    if (player.b.points.gte(24)) gain = gain.mul(1.25);
     if (player.b.points.gte(21)) gain = gain.mul(buyableEffect("h", 12));
 
     return gain
@@ -123,6 +124,7 @@ function getATK() {
 
     atk = atk.mul(layers.e.equipmentEff(21));
     if (player.b.points.gte(21)) atk = atk.mul(buyableEffect("h", 12));
+    if(hasMilestone("i",14)) atk = atk.mul(layers.i.infEff());
 
 
     if (inChallenge("d", 22)) atk = atk.sqrt();
@@ -141,6 +143,7 @@ function getDEF() {
     def = def.mul(layers.e.equipmentEff(22));
 
     if (player.b.points.gte(21)) def = def.mul(buyableEffect("h", 12));
+    if(hasMilestone("i",15)) def = def.mul(layers.i.infEff());
     return def;
 }
 
@@ -155,6 +158,8 @@ function getDMG() {
     dmg = dmg.mul(layers.e.equipmentEff(24));
 
     if (player.b.points.gte(21)) dmg = dmg.mul(buyableEffect("h", 12));
+    if(hasMilestone("i",16)) dmg = dmg.mul(layers.i.infEff());
+
 
     return dmg;
 }
@@ -164,8 +169,8 @@ function getLevel() {
 }
 
 function getLevelCap() {
-    if (player.sac.points.gte(4)) return new Decimal(112000).add(player.i.points.pow(2).mul(10).min(400000));
-    if (player.sac.points.gte(3)) return new Decimal(100000).add(player.i.points.pow(2).mul(10).min(28000));
+    if (player.sac.points.gte(4)) return new Decimal(124000).add(player.i.points.pow(2).mul(10).min(900000));
+    if (player.sac.points.gte(3)) return new Decimal(100000).add(player.i.points.pow(2).mul(10).min(156000));
     if (player.sac.points.gte(2)) return new Decimal(64000);
     if (player.sac.points.gte(1)) return new Decimal(16000);
     if (player.b.points.gte(10)) return new Decimal(4000);
@@ -194,10 +199,15 @@ function getRealLevel() {
 
     let scaling = getLevelScaling();
 
+    if (player.sac.points.gte(4)) {
+        let level = player.a.points.pow(0.0625).div(25).div(getLevelScaling().sqrt()).add(1).log(1.04).mul(getLevelScaling().sqrt()).pow(2).add(1);
+        if (player.a.points.pow(0.125).lte(scaling)) level = player.a.points.pow(0.125).add(1);
+        return level;
+    }
     if (player.sac.points.gte(3)) {
         let level = player.a.points.pow(0.075).div(16).div(scaling.sqrt()).add(1).log(1.0625).mul(scaling.sqrt()).pow(2).add(1);
         if (player.a.points.pow(0.15).lte(scaling)) level = player.a.points.pow(0.15).add(1);
-        if (level.gte(100000)){
+        if (level.gte(100000) && !hasMilestone("i", 12)){
 		if(hasMilestone("i", 9))level = level.root(2.5).mul(1000).min(getLevelCap());
 		else level = level.root(5).mul(10000).min(getLevelCap());
 	}
