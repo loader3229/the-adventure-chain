@@ -294,6 +294,12 @@ addLayer("b", {
             done() { return player[this.layer].points.gte(30) }, // Used to determine when to give the milestone
             effectDescription: "Unlock another reward for each of the first 4 domains.",
         },
+        {
+            requirementDescription: "Beat 31 bosses",
+            unlocked() { return player[this.layer].points.gte(30) },
+            done() { return player[this.layer].points.gte(31) }, // Used to determine when to give the milestone
+            effectDescription: "Max domain completions +5.",
+        },
     ],
     update(diff) {
         if (getLevel().gte(10)) player.b.unlocked = true;

@@ -133,6 +133,11 @@ addLayer("i", {
             done() { return player.i.points.gte(200) }, // Used to determine when to give the milestone
             effectDescription: "Infinity Boss Total Damage effect boost DEF.",
         },
+        {
+            requirementDescription: "250 imaginary points",
+            done() { return player.i.points.gte(250) }, // Used to determine when to give the milestone
+            effectDescription: "Infinity Boss Total Damage effect boost DMG.",
+        },
     ],
 tabFormat: {
         "Main Tab": {

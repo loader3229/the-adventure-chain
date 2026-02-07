@@ -13,7 +13,7 @@ let modInfo = {
 
 // Set your version in num and name
 let VERSION = {
-    num: "9.2",
+    num: "9.3",
     name: "Imaginary",
 }
 
@@ -64,12 +64,10 @@ function getPointGen() {
     if (hasMilestone("c", 2)) gain = gain.mul(1.1);
     gain = gain.mul(buyableEffect("c", 21));
     if (player.b.points.gte(18)) gain = gain.mul(1.25);
-    if (player.b.points.gte(24)) gain = gain.mul(1.25);
-    if(hasMilestone("i",13))gain = gain.mul(layers.i.infEff());
-
-    if (player.b.points.gte(24)) gain = gain.mul(1.25);
     if (player.b.points.gte(21)) gain = gain.mul(buyableEffect("h", 12));
+    if (player.b.points.gte(24)) gain = gain.mul(1.25);
     if (player.b.points.gte(30)) gain = gain.mul(1+player.d.challenges[12]/100);
+    if(hasMilestone("i",13))gain = gain.mul(layers.i.infEff());
 
     return gain
 }
@@ -83,7 +81,7 @@ function addedPlayerData() {
 // Display extra things at the top of the page
 var displayThings = [
     "Mod Author: loader3229",
-    "Endgame: Boss 29 beaten and Level 128000",
+    "Endgame: Boss 31 beaten and Level 256000",
     function () { return "Level: " + formatWhole(getLevel()) + "/" + formatWhole(getLevelCap()) + " (" + format(getLevelProgress().mul(100)) + "%)" },
     function () { return "ATK: " + format(getATK()) },
     function () { if (player.b.points.gte(1)) return "DEF: " + format(getDEF()) },
@@ -93,7 +91,7 @@ var displayThings = [
 
 // Determines when the game "ends"
 function isEndgame() {
-    return player.b.points.gte(29) && getLevel().gte(128000)
+    return player.b.points.gte(31) && getLevel().gte(256000)
 }
 
 
@@ -216,6 +214,7 @@ function getRealLevel() {
 		if(hasMilestone("i", 9))level = level.root(2.5).mul(1000).min(getLevelCap());
 		else level = level.root(5).mul(10000).min(getLevelCap());
 	}
+	level = level.min(getLevelCap());
         return level;
     }
     if (player.sac.points.gte(2)) {
