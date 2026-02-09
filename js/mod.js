@@ -172,7 +172,7 @@ function getLevel() {
 }
 
 function getLevelCap() {
-    if (player.sac.points.gte(4)) return new Decimal(124000).add(player.i.points.pow(2).mul(10).min(900000));
+    if (player.sac.points.gte(4)) return new Decimal(110000).add(player.i.points.pow(1.8).mul(10).floor().min(924000));
     if (player.sac.points.gte(3)) return new Decimal(100000).add(player.i.points.pow(2).mul(10).min(156000));
     if (player.sac.points.gte(2)) return new Decimal(64000);
     if (player.sac.points.gte(1)) return new Decimal(16000);

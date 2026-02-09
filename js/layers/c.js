@@ -19,8 +19,8 @@ addLayer("c", {
     },
     exponent() {
         let ret = new Decimal(2);
+        if (player.b.points.gte(5)) ret = ret.add(player.sac.points.eq(3) ? 0.01 : player.sac.points.gte(2) ? 0.1 : 0.4);
         if (hasMilestone("c", 5)) ret = ret.add(player.sac.points.gte(1) ? 0.1 : 0.6);
-        if (player.b.points.gte(5) && player.sac.points.lte(2)) ret = ret.add(player.sac.points.gte(2) ? 0.1 : 0.4);
         if (hasMilestone("i", 0)) ret = ret.add(0.1);
         return ret;
     },
