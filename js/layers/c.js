@@ -341,7 +341,7 @@ addLayer("c", {
             },
             cost() {
                 let a = player[this.layer].buyables[this.id];
-                a = Decimal.pow((hasUpgrade("c", 44) && player.sac.points.gte(3)) ? 2 : 3, a).mul((hasUpgrade("c", 44) && player.sac.points.gte(3)) ? 1.2 : hasUpgrade("c", 44) ? 1 : 100);
+                a = Decimal.pow((hasUpgrade("c", 44) && player.sac.points.gte(3)) ? 2 : 3, a).mul((hasUpgrade("c", 44) && player.sac.points.gte(4)) ? 1.1 : (hasUpgrade("c", 44) && player.sac.points.gte(3)) ? 1.2 : hasUpgrade("c", 44) ? 1 : 100);
                 return a;
             },
             canAfford() {
@@ -369,7 +369,7 @@ addLayer("c", {
             },
             cost() {
                 let a = player[this.layer].buyables[this.id];
-                a = Decimal.pow((hasUpgrade("c", 44) && player.sac.points.gte(3)) ? 2 : 3, a).mul((hasUpgrade("c", 44) && player.sac.points.gte(3)) ? 1.4 : hasUpgrade("c", 44) ? 1.5 : 150);
+                a = Decimal.pow((hasUpgrade("c", 44) && player.sac.points.gte(3)) ? 2 : 3, a).mul((hasUpgrade("c", 44) && player.sac.points.gte(4)) ? 1.2 : (hasUpgrade("c", 44) && player.sac.points.gte(3)) ? 1.4 : hasUpgrade("c", 44) ? 1.5 : 150);
                 return a;
             },
             canAfford() {
@@ -397,7 +397,7 @@ addLayer("c", {
             },
             cost() {
                 let a = player[this.layer].buyables[this.id];
-                a = Decimal.pow((hasUpgrade("c", 44) && player.sac.points.gte(3)) ? 2 : 3, a).mul((hasUpgrade("c", 44) && player.sac.points.gte(3)) ? 1.6 : hasUpgrade("c", 44) ? 2 : 200);
+                a = Decimal.pow((hasUpgrade("c", 44) && player.sac.points.gte(3)) ? 2 : 3, a).mul((hasUpgrade("c", 44) && player.sac.points.gte(4)) ? 1.3 : (hasUpgrade("c", 44) && player.sac.points.gte(3)) ? 1.6 : hasUpgrade("c", 44) ? 2 : 200);
                 return a;
             },
             canAfford() {
@@ -425,7 +425,7 @@ addLayer("c", {
             },
             cost() {
                 let a = player[this.layer].buyables[this.id];
-                a = Decimal.pow(4, a).mul(1e4);
+                a = Decimal.pow((hasMilestone("i",10) && player.sac.points.gte(3)) ? 2 : 4, a).mul((hasMilestone("i",10) && player.sac.points.gte(4)) ? 1.4 : 1e4);
                 return a;
             },
             canAfford() {
@@ -438,7 +438,6 @@ addLayer("c", {
             },
             effect() {
                 let eff = new Decimal(0).add(player[this.layer].buyables[this.id].div(20));
-                if(hasMilestone("i",10))eff = eff.mul(2)
                 return eff;
             },
             unlocked() { return hasUpgrade("c", 12) }
@@ -467,6 +466,7 @@ addLayer("c", {
             },
             effect() {
                 let eff = new Decimal(1).add(player[this.layer].buyables[this.id]);
+                if (player.sac.points.gte(4)) eff = new Decimal(1).add(player[this.layer].buyables[this.id].div(20));
                 return eff;
             },
             unlocked() { return hasUpgrade("c", 14) }
@@ -495,6 +495,7 @@ addLayer("c", {
             },
             effect() {
                 let eff = new Decimal(1).add(player[this.layer].buyables[this.id]);
+                if (player.sac.points.gte(4)) eff = new Decimal(1).add(player[this.layer].buyables[this.id].div(20));
                 return eff;
             },
             unlocked() { return hasUpgrade("c", 22) }
@@ -511,7 +512,7 @@ addLayer("c", {
             },
             cost() {
                 let a = player[this.layer].buyables[this.id];
-                a = Decimal.pow((hasUpgrade("c", 44) && player.sac.points.gte(3)) ? 2 : 3, a).mul((hasUpgrade("c", 44) && player.sac.points.gte(3)) ? 1.8 : hasUpgrade("c", 44) ? 2.5 : 250);
+                a = Decimal.pow((hasUpgrade("c", 44) && player.sac.points.gte(3)) ? 2 : 3, a).mul((hasUpgrade("c", 44) && player.sac.points.gte(4)) ? 1.7 : (hasUpgrade("c", 44) && player.sac.points.gte(3)) ? 1.8 : hasUpgrade("c", 44) ? 2.5 : 250);
                 return a;
             },
             canAfford() {
@@ -553,6 +554,7 @@ addLayer("c", {
             },
             effect() {
                 let eff = new Decimal(1).add(player[this.layer].buyables[this.id]);
+                if (player.sac.points.gte(4)) eff = new Decimal(1).add(player[this.layer].buyables[this.id].div(20));
                 return eff;
             },
             unlocked() { return hasUpgrade("c", 43) }

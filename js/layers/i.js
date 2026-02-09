@@ -106,7 +106,7 @@ addLayer("i", {
         {
             requirementDescription: "50 imaginary points",
             done() { return player.i.points.gte(50) }, // Used to determine when to give the milestone
-            effectDescription: "Calm buyable 'Level Scaling' effect is doubled.",
+            effectDescription: "Calm buyable 'Level Scaling' is cheaper.",
         },
         {
             requirementDescription: "75 imaginary points",
