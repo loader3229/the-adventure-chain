@@ -218,7 +218,7 @@ addLayer("a", {
     update(diff) {
         if (player.a.hp.lte(0)) {
             layers.e.drop(player.a.level);
-                player.a.bestEPS = layers.a.getEnemyEXP().div(player.a.resetTime+1);
+                player.a.bestEPS = layers.a.getEnemyEXP().div(player.a.resetTime+1).max(player.a.bestEPS);
                   player.a.resetTime = 0;
             player.a.nextEnemyTime = new Decimal(2);
             player.a.hp = layers.a.getEnemyHP();
