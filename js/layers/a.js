@@ -10,6 +10,7 @@ addLayer("a", {
             level: new Decimal(1),
             setLevel: new Decimal(1),
             nextEnemyTime: new Decimal(0),
+            bestEPS: new Decimal(0),
             equipmentShard: false,
         }
     },
@@ -217,6 +218,8 @@ addLayer("a", {
     update(diff) {
         if (player.a.hp.lte(0)) {
             layers.e.drop(player.a.level);
+                player.a.bestEPS = layers.a.getEnemyEXP().div(player.a.resetTime+1);
+                  player.a.resetTime = 0;
             player.a.nextEnemyTime = new Decimal(2);
             player.a.hp = layers.a.getEnemyHP();
             player.a.points = player.a.points.add(layers.a.getEnemyEXP());
@@ -236,6 +239,7 @@ addLayer("a", {
             player.a.points = new Decimal(0);
             player.a.nextEnemyTime = new Decimal(2);
             player.a.hp = layers.a.getEnemyHP();
+            player.a.bestEPS = new Decimal(0);
             updateTemp();
         }
         if (layer == "i") {

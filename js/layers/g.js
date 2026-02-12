@@ -49,37 +49,37 @@ addLayer("g", {
         },
         12: {
             description() { if (player.sac.points.gte(3)) return "Equipment Power +30% in Equipment Shop."; return "Unlock Equipment Shop."; },
-            cost: new Decimal(2000),
+            cost(){if (player.sac.points.gte(4))return new Decimal(1000);return new Decimal(2000);},
         },
         13: {
             description: "Equipment Power +50% for new equipments, additionally +10% in Equipment Shop.",
-            cost: new Decimal(6000),
+            cost(){if (player.sac.points.gte(4))return new Decimal(3000);return new Decimal(6000);},
             unlocked() { return player.sac.points.gte(2) },
         },
         14: {
             description: "Effects of Weapon, Armor, Helmet and Shoes are better.",
-            cost: new Decimal(30000),
+            cost(){if (player.sac.points.gte(4))return new Decimal(10000);return new Decimal(30000);},
             unlocked() { return player.sac.points.gte(2) },
         },
         15: {
             description: "Increase max domain completions.",
-            cost: new Decimal(100000),
+            cost(){if (player.sac.points.gte(4))return new Decimal(30000);return new Decimal(100000);},
             unlocked() { return player.sac.points.gte(2) },
         },
         21: {
             description: "Deal more damage to bosses based on gold upgrades.",
-            cost: new Decimal(3e5),
+            cost(){if (player.sac.points.gte(4))return new Decimal(1e5);return new Decimal(3e5);},
             effect: function () { return Decimal.pow(2, player.g.upgrades.length) },
             effectDisplay: function () { return format(upgradeEffect(this.layer, this.id)) + "x" }
         },
         22: {
             description: "Equipment Power +50% for new equipments, additionally +10% in Equipment Shop.",
-            cost: new Decimal(1e6),
+            cost(){if (player.sac.points.gte(4))return new Decimal(3e5);return new Decimal(1e6);},
             unlocked() { return player.sac.points.gte(2) },
         },
         23: {
             description: "Gain more Equipment Power in Equipment Shop based on your gold.",
-            cost: new Decimal(2e6),
+            cost(){if (player.sac.points.gte(4))return new Decimal(1e6);return new Decimal(2e6);},
             unlocked() { return player.b.points.gte(25) },
         },
     },

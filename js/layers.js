@@ -47,7 +47,7 @@ addLayer("sac", {
             requirementDescription: "Sacrifice 4 times",
             unlocked() { return player[this.layer].points.gte(3) },
             done() { return player[this.layer].points.gte(4) }, // Used to determine when to give the milestone
-            effectDescription: "Increase max level, but increase EXP required to level up.",
+            effectDescription: "Increase max level, but increase EXP required to level up. Domain point 2nd effect is better.",
         },
     ],
     doReset(layer) {

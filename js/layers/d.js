@@ -106,6 +106,7 @@ player.d.points = new Decimal(player.d.challenges[11]).add(player.d.challenges[1
     },
     effect2() {
         let ret = player.d.points.pow(1.5).add(1);
+        if(player.sac.points.gte(4))ret = Decimal.pow(1.1, player.d.points);
         return ret;
     },
     effectDescription() { // Optional text to describe the effects

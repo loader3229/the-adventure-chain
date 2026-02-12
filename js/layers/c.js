@@ -72,7 +72,7 @@ addLayer("c", {
     effect() {
         let ret = player.c.points.add(1);
         if (ret.gte(10)) ret = Decimal.pow(10, ret.log10().sqrt().mul(2).sub(1));
-        if (hasUpgrade("c", 35)) ret = Decimal.pow(10, player.c.points.add(1).log10().sqrt().mul(2));
+        if (hasUpgrade("c", 35) || player.sac.points.gte(4)) ret = Decimal.pow(10, player.c.points.add(1).log10().sqrt().mul(2));
         return ret;
     },
     effectDescription() { // Optional text to describe the effects
@@ -88,7 +88,10 @@ addLayer("c", {
         {
             requirementDescription: "5 calm points",
             done() { return player.c.points.gte(5) }, // Used to determine when to give the milestone
-            effectDescription: "Passively gain EXP based on your level.",
+            effectDescription() {
+                if (player.sac.points.gte(4)) return "Passively gain EXP based on best EXP per second. Currently: "+format(player.a.bestEPS.div(5))+"/s";
+                return "Passively gain EXP based on your level.";
+            },
         },
         {
             requirementDescription: "20 calm points",
@@ -181,7 +184,10 @@ addLayer("c", {
 
     ],
     update(diff) {
-        if (hasMilestone("c", 1)) player.a.points = player.a.points.add(getLevel().pow(player.d.activeChallenge ? 0.5 : 2).pow(player.sac.points.gte(1) ? 1.75 : 1).mul(diff).mul(layers.a.gainMult()));
+        if (hasMilestone("c", 1)){
+	 if(player.sac.points.gte(4))player.a.points = player.a.points.add(player.a.bestEPS.mul(diff).div(5));
+	 else player.a.points = player.a.points.add(getLevel().pow(player.d.activeChallenge ? 0.5 : 2).pow(player.sac.points.gte(1) ? 1.75 : 1).mul(diff).mul(layers.a.gainMult()));
+	}
         if(hasMilestone("i", 0) && layers.c.tabFormat.Buyables.unlocked()){
             for(i in layers.c.buyables){
                 if(layers.c.buyables[i].cost){
