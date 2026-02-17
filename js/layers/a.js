@@ -68,7 +68,6 @@ addLayer("a", {
         gold = gold.mul(layers.g.gainMult());
         return gold;
     },
-
     gainMult() {
         if (!player.c.unlocked) return new Decimal(1);
         let exp = new Decimal(1);
@@ -78,6 +77,13 @@ addLayer("a", {
         if (hasMilestone("c", 8)) exp = exp.mul(layers.f.effect());
         exp = exp.mul(layers.i.effect());
         return exp;
+    },
+    getResetGain(){
+	 if(player.sac.points.gte(4))return player.a.bestEPS.mul(Decimal.sub(1,Decimal.pow(0.8,getLevel().add(10).log10()))).add(getLevel().pow(player.d.activeChallenge ? 1 : 4).mul(layers.a.gainMult()));
+        return getLevel().pow(player.d.activeChallenge ? 0.5 : 2).pow(player.sac.points.gte(1) ? 1.75 : 1).mul(layers.a.gainMult());
+    },
+    passiveGeneration(){
+        if (hasMilestone("c", 1))return 1; return 0;
     },
     tabFormat: [
         "main-display",
