@@ -189,7 +189,7 @@ function getLevelProgress() {
 function getLevelScaling() {
     let scaling = new Decimal(1);
     if (hasMilestone("c", 6)) scaling = scaling.add(hasUpgrade("c", 31) ? 1 : 0.2);
-    if (hasMilestone("c", 7) && player.sac.points.gte(2)) scaling = scaling.add(0.5);
+    if (hasMilestone("c", 7) && player.sac.points.gte(2)) scaling = scaling.add((hasUpgrade("c", 35) && player.sac.points.gte(4)) ? 2 : 0.5);
     if (player.b.points.gte(29)) scaling = scaling.add(player.b.points.div(11.5).pow(2));
     else if (player.b.points.gte(16)) scaling = scaling.add(player.b.points.div(16).pow(2));
     else if (player.b.points.gte(13)) scaling = scaling.add(player.b.points.mul(0.05));

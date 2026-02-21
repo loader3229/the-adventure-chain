@@ -223,7 +223,7 @@ addLayer("a", {
     },
     update(diff) {
         if (player.a.hp.lte(0)) {
-            layers.e.drop(player.a.level);
+            if(player.b.points.gte(8))layers.e.drop(player.a.level);
                 player.a.bestEPS = layers.a.getEnemyEXP().div(player.a.resetTime+1).max(player.a.bestEPS);
                   player.a.resetTime = 0;
             player.a.nextEnemyTime = new Decimal(2);

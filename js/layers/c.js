@@ -271,7 +271,7 @@ addLayer("c", {
             unlocked() { return player.b.points.gte(16) }
         },
         35: {
-            description: "Calm Point effect is better.",
+            description() { if (player.sac.points.gte(4)) return "1e5 Calm Points milestone is better."; return "Calm Point effect is better." },
             cost() { if (player.sac.points.gte(3)) return new Decimal(1e29); return new Decimal(1e24) },
             unlocked() { return player.b.points.gte(16) }
         },
