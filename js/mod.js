@@ -205,6 +205,7 @@ function getRealLevel() {
     if (player.sac.points.gte(4)) {
         let level = player.a.points.pow(0.0625).div(25).div(getLevelScaling().sqrt()).add(1).log(1.04).mul(getLevelScaling().sqrt()).pow(2).add(1);
         if (player.a.points.pow(0.125).lte(scaling)) level = player.a.points.pow(0.125).add(1);
+	level = level.min(getLevelCap());
         return level;
     }
     if (player.sac.points.gte(3)) {

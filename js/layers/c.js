@@ -456,7 +456,7 @@ addLayer("c", {
             },
             cost() {
                 let a = player[this.layer].buyables[this.id];
-                a = Decimal.pow(3, a).mul(1e6);
+                a = Decimal.pow((hasMilestone("i",9) && player.sac.points.gte(4)) ? 2 : 3, a).mul((hasMilestone("i",9) && player.sac.points.gte(4)) ? 1.5 : 1e6);
                 return a;
             },
             canAfford() {
