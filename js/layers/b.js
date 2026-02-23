@@ -300,6 +300,18 @@ addLayer("b", {
             done() { return player[this.layer].points.gte(31) }, // Used to determine when to give the milestone
             effectDescription: "Max domain completions +5.",
         },
+        {
+            requirementDescription: "Beat 32 bosses",
+            unlocked() { return player[this.layer].points.gte(31) },
+            done() { return player[this.layer].points.gte(32) }, // Used to determine when to give the milestone
+            effectDescription: "Unlock 2nd forge.",
+        },
+        {
+            requirementDescription: "Beat 33 bosses",
+            unlocked() { return player[this.layer].points.gte(32) },
+            done() { return player[this.layer].points.gte(33) }, // Used to determine when to give the milestone
+            effectDescription: "1.6x DMG.",
+        },
     ],
     update(diff) {
         if (getLevel().gte(10)) player.b.unlocked = true;

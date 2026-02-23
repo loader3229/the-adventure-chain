@@ -89,6 +89,7 @@ addLayer("c", {
             requirementDescription: "5 calm points",
             done() { return player.c.points.gte(5) }, // Used to determine when to give the milestone
             effectDescription() {
+                if (hasMilestone("c", 17)) return "Passively gain EXP based on highest beaten enemy level, best EXP per second, your level and Passive Gem. Currently: "+format(tmp.a.getResetGain)+"/s";
                 if (player.sac.points.gte(4)) return "Passively gain EXP based on best EXP per second and your level. Currently: "+format(tmp.a.getResetGain)+"/s";
                 return "Passively gain EXP based on your level. Currently: "+format(tmp.a.getResetGain)+"/s";
             },
@@ -180,6 +181,18 @@ addLayer("c", {
             done() { return (player.c.points.gte(1e32) && player.sac.points.gte(3)) }, // Used to determine when to give the milestone
             unlocked() { return player.sac.points.gte(3) },
             effectDescription: "+100% Equipment Power.",
+        },
+        {
+            requirementDescription() { return "1e35 calm points"; },
+            done() { return (player.c.points.gte(1e35) && player.sac.points.gte(4)) }, // Used to determine when to give the milestone
+            unlocked() { return player.sac.points.gte(4) },
+            effectDescription: "The 5 calm points milestone is better.",
+        },
+        {
+            requirementDescription() { return "1e38 calm points"; },
+            done() { return (player.c.points.gte(1e38) && player.sac.points.gte(4)) }, // Used to determine when to give the milestone
+            unlocked() { return player.sac.points.gte(4) },
+            effectDescription: "1.28x HP gain.",
         },
 
     ],
@@ -299,6 +312,11 @@ addLayer("c", {
             description: "1.1x Imaginary Point gain.",
             cost() { return new Decimal(1e34) },
             unlocked() { return player.i.unlocked },
+        },
+        51: {
+            description: "'All Factory Machine Speed' calm buyable is cheaper.",
+            cost() { return new Decimal(1e38) },
+            unlocked() { return player.sac.points.gte(4) },
         },
     },
     buyables: {
@@ -485,7 +503,7 @@ addLayer("c", {
             },
             cost() {
                 let a = player[this.layer].buyables[this.id];
-                a = Decimal.pow(2, a).mul(1e10);
+                a = Decimal.pow(2, a).mul((hasMilestone("i",12) && player.sac.points.gte(4))?1.6:1e10);
                 return a;
             },
             canAfford() {
@@ -543,7 +561,7 @@ addLayer("c", {
             },
             cost() {
                 let a = player[this.layer].buyables[this.id];
-                a = Decimal.pow(10, a).mul(1e25);
+                a = Decimal.pow(hasUpgrade("c", 51)?2 : 10, a).mul(hasUpgrade("c", 51)?1.8 : 1e25);
                 return a;
             },
             canAfford() {

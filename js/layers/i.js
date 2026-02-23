@@ -116,7 +116,7 @@ addLayer("i", {
         {
             requirementDescription: "100 imaginary points",
             done() { return player.i.points.gte(100) }, // Used to determine when to give the milestone
-            effectDescription: "Remove post-100k additional level scaling.",
+            effectDescription(){if(player.sac.points.gte(4))return "Calm buyable 'Equipment Shard Gain' is cheaper.";return "Remove post-100k additional level scaling.";},
         },
         {
             requirementDescription: "125 imaginary points",

@@ -11,6 +11,7 @@ addLayer("a", {
             setLevel: new Decimal(1),
             nextEnemyTime: new Decimal(0),
             bestEPS: new Decimal(0),
+            bestLevel: new Decimal(1),
             equipmentShard: false,
         }
     },
@@ -79,6 +80,7 @@ addLayer("a", {
         return exp;
     },
     getResetGain(){
+	 if(hasMilestone("c", 17))return player.a.bestEPS.add(layers.a.getEnemyEXP(player.a.bestLevel)).mul(Decimal.sub(1,Decimal.pow(0.8,getLevel().add(10).log10()))).add(getLevel().pow(player.d.activeChallenge ? 1 : 4).mul(layers.a.gainMult())).mul(layers.e.equipmentEff(13).max(1));
 	 if(player.sac.points.gte(4))return player.a.bestEPS.mul(Decimal.sub(1,Decimal.pow(0.8,getLevel().add(10).log10()))).add(getLevel().pow(player.d.activeChallenge ? 1 : 4).mul(layers.a.gainMult()));
         return getLevel().pow(player.d.activeChallenge ? 0.5 : 2).pow(player.sac.points.gte(1) ? 1.75 : 1).mul(layers.a.gainMult());
     },
@@ -225,6 +227,8 @@ addLayer("a", {
         if (player.a.hp.lte(0)) {
             if(player.b.points.gte(8))layers.e.drop(player.a.level);
                 player.a.bestEPS = layers.a.getEnemyEXP().div(player.a.resetTime+1).max(player.a.bestEPS);
+                player.a.bestLevel = player.a.bestLevel.max(player.a.level);
+
                   player.a.resetTime = 0;
             player.a.nextEnemyTime = new Decimal(2);
             player.a.hp = layers.a.getEnemyHP();
@@ -246,6 +250,7 @@ addLayer("a", {
             player.a.nextEnemyTime = new Decimal(2);
             player.a.hp = layers.a.getEnemyHP();
             player.a.bestEPS = new Decimal(0);
+            player.a.bestLevel = new Decimal(1);
             updateTemp();
         }
         if (layer == "i") {

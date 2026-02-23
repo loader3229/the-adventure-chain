@@ -180,6 +180,34 @@ addLayer("f", {
             },
             unlocked() { return player.b.points.gte(28) }
         },
+        22: {
+            title() {
+                return "Advanced Forge";
+            },
+            display() {
+                let data = tmp[this.layer].buyables[this.id];
+                return "Level: " + formatWhole(player[this.layer].buyables[this.id]) + "<br>" +
+                    "+" + format(data.effect.sub(1).mul(100)) + "% to Equipment Power<br>" +
+                    "Cost: " + format(data.cost) + " Equipment Shards";
+            },
+            cost() {
+                let a = player[this.layer].buyables[this.id];
+                a = Decimal.pow(10,a.pow(1.5)).mul(1e15);
+                return a;
+            },
+            canAfford() {
+                return player.e.points.gte(layers[this.layer].buyables[this.id].cost())
+            },
+            buy() {
+                player.e.points = player.e.points.sub(layers[this.layer].buyables[this.id].cost())
+                player[this.layer].buyables[this.id] = player[this.layer].buyables[this.id].add(1)
+            },
+            effect() {
+                let eff = player[this.layer].buyables[this.id].pow(0.7).mul(0.5).add(1);
+                return eff;
+            },
+            unlocked() { return player.b.points.gte(32) }
+        },
     },
     doReset(layer) { 
         if (layer == "i") {
