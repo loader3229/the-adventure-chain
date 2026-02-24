@@ -312,6 +312,12 @@ addLayer("b", {
             done() { return player[this.layer].points.gte(33) }, // Used to determine when to give the milestone
             effectDescription: "1.6x DMG.",
         },
+        {
+            requirementDescription: "Beat 34 bosses",
+            unlocked() { return player[this.layer].points.gte(33) },
+            done() { return player[this.layer].points.gte(34) }, // Used to determine when to give the milestone
+            effectDescription: "Current Endgame",
+        },
     ],
     update(diff) {
         if (getLevel().gte(10)) player.b.unlocked = true;
