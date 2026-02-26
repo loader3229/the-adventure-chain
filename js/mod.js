@@ -3,7 +3,7 @@ let modInfo = {
     id: "the-adventure-chain",
     author: "loader3229",
     pointsName: "HP",
-    modFiles: ["layers.js", "layers/a.js", "layers/b.js", "layers/c.js", "layers/d.js", "layers/e.js", "layers/f.js", "layers/g.js", "layers/h.js", "layers/i.js", "tree.js"],
+    modFiles: ["layers.js", "layers/a.js", "layers/b.js", "layers/c.js", "layers/d.js", "layers/e.js", "layers/f.js", "layers/g.js", "layers/h.js", "layers/i.js", "layers/j.js", "tree.js"],
 
 	discordName: "loader3229's Discord Server",
 	discordLink: "https://discord.gg/jztUReQ2vT",
@@ -84,7 +84,7 @@ function addedPlayerData() {
 var displayThings = [
     "Mod Author: loader3229",
     "Endgame: Boss 34 beaten and Level 280000",
-    function () { return "Level: " + formatWhole(getLevel()) + "/" + formatWhole(getLevelCap()) + " (" + format(getLevelProgress().mul(100)) + "%)" },
+    function () { if(getLevel().gte(200000))return "Level: " + formatWhole(getLevel()) + "/" + formatWhole(getLevelCap()) + " (Scaling: " + format(getLevelScaling()) + ")"; return "Level: " + formatWhole(getLevel()) + "/" + formatWhole(getLevelCap()) + " (" + format(getLevelProgress().mul(100)) + "%)" },
     function () { return "ATK: " + format(getATK()) },
     function () { if (player.b.points.gte(1)) return "DEF: " + format(getDEF()) },
     function () { if (player.b.points.gte(13)) return "DMG: " + format(getDMG()) + "x" }
@@ -208,6 +208,9 @@ function getRealLevel() {
     if (player.sac.points.gte(4)) {
         let level = player.a.points.pow(0.0625).div(25).div(getLevelScaling().sqrt()).add(1).log(1.04).mul(getLevelScaling().sqrt()).pow(2).add(1);
         if (player.a.points.pow(0.125).lte(scaling)) level = player.a.points.pow(0.125).add(1);
+	if (level.gte(300000)){
+		level = level.div(3).root(2.5).mul(3000).min(getLevelCap());
+	}
 	level = level.min(getLevelCap());
         return level;
     }

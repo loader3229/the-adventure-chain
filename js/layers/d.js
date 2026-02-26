@@ -125,7 +125,7 @@ player.d.points = new Decimal(player.d.challenges[11]).add(player.d.challenges[1
     },
 
     doReset(layer) { 
-        if (layer == "i") {
+        if (layer == "i" || layer == "j") {
             layerDataReset("d",["challenges"]);
             keepAmount = 0;
             if(hasMilestone("i",1) || player.i.points.gte(2))keepAmount = 0.25 + 0.15 * player.i.points.cbrt().min(5).toNumber();

@@ -236,7 +236,7 @@ addLayer("e", {
         },
     },
     doReset(layer) { 
-        if (layer == "i") {
+        if (layer == "i" || layer == "j") {
             layerDataReset("e");
             if(player.i.points.gte(3) || hasMilestone("i",2))player.e.equipment[13].level=new Decimal(10000),player.e.equipment[13].power=new Decimal(10);
             updateTemp();

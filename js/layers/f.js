@@ -62,6 +62,10 @@ addLayer("f", {
             if (player.f.maxTier.gte(2) && player.b.points.lt(23)) player.f.t2 = player.f.t2.max(1);
             if (player.f.maxTier.gte(3)) player.f.t2 = player.f.t2.root(player.f.maxTier.sub(2)).add(layers.f.gainMultT2().mul(diff)).pow(player.f.maxTier.sub(2));
         }
+        if(hasMilestone("j", 0)){
+            if(player.e.points.gte(layers.f.buyables[11].cost()))player.f.buyables[11]=player.f.buyables[11].add(1);
+            if(player.f.points.gte(layers.f.buyables[13].cost()))player.f.buyables[13]=player.f.buyables[13].add(1);
+        } 
     },
     effect() {
         let base = new Decimal(2);
@@ -92,7 +96,7 @@ addLayer("f", {
                 return player.e.points.gte(layers[this.layer].buyables[this.id].cost())
             },
             buy() {
-                player.e.points = player.e.points.sub(layers[this.layer].buyables[this.id].cost())
+                if(!hasMilestone("j",0))player.e.points = player.e.points.sub(layers[this.layer].buyables[this.id].cost())
                 player[this.layer].buyables[this.id] = player[this.layer].buyables[this.id].add(1)
             },
             effect() {
@@ -143,7 +147,7 @@ addLayer("f", {
                 return player.f.points.gte(layers[this.layer].buyables[this.id].cost())
             },
             buy() {
-                player.f.points = player.f.points.sub(layers[this.layer].buyables[this.id].cost())
+                if(!hasMilestone("j",0))player.f.points = player.f.points.sub(layers[this.layer].buyables[this.id].cost())
                 player[this.layer].buyables[this.id] = player[this.layer].buyables[this.id].add(1)
             },
             effect() {
@@ -210,9 +214,9 @@ addLayer("f", {
         },
     },
     doReset(layer) { 
-        if (layer == "i") {
+        if (layer == "i" || layer == "j") {
             layerDataReset("f");
             updateTemp();
         }
-    },
+    }
 })

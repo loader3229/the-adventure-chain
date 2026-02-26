@@ -316,7 +316,7 @@ addLayer("b", {
             requirementDescription: "Beat 34 bosses",
             unlocked() { return player[this.layer].points.gte(33) },
             done() { return player[this.layer].points.gte(34) }, // Used to determine when to give the milestone
-            effectDescription: "Current Endgame",
+            effectDescription: "Unlock layer J.",
         },
     ],
     update(diff) {
@@ -342,6 +342,7 @@ addLayer("b", {
         let ret = new Decimal(1);
         if (player.sac.points.gte(3)) ret = ret.mul(10);
         if (hasUpgrade("c", 21)) ret = ret.mul(upgradeEffect("c", 21));
+	ret = ret.mul(layers.j.effect());
         return ret;
     },
     doReset(layer) { },

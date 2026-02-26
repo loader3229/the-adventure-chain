@@ -160,7 +160,7 @@ if(player.b.points.gte(29))ret = ret.mul(player.b.points.div(20));
         { key: "h", description: "h: change auto-helper type", onPress() { if (player.b.points.gte(20)) layers.h.clickables[11].onClick(); } },
     ],
     doReset(layer) { 
-        if (layer == "i") {
+        if (layer == "i" || layer == "j") {
             if(player.i.points.gte(4) || hasMilestone("i",3))layerDataReset("h",["points","buyables","upgrades"]);
               else layerDataReset("h",["points","upgrades"]);
             updateTemp();

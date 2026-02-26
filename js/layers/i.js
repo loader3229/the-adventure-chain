@@ -21,6 +21,7 @@ addLayer("i", {
         let ret = new Decimal(1);
         if(player.b.points.gte(27))ret = ret.mul(player.b.points.sub(26).pow(0.6).add(1));
  if (hasUpgrade("c", 45))ret = ret.mul(1.1);
+ if (hasUpgrade("g", 25))ret = ret.mul(1.1);
  if (hasMilestone("i", 4))ret = ret.mul(1.25);
  if (hasMilestone("i", 6))ret = ret.mul(layers.i.infEff());
         return ret;
@@ -138,6 +139,11 @@ addLayer("i", {
             done() { return player.i.points.gte(250) }, // Used to determine when to give the milestone
             effectDescription: "Infinity Boss Total Damage effect boost DMG.",
         },
+        {
+            requirementDescription: "300 imaginary points",
+            done() { return player.i.points.gte(300) }, // Used to determine when to give the milestone
+            effectDescription: "Start with first 15 calm upgrades.",
+        },
     ],
 tabFormat: {
         "Main Tab": {
@@ -224,7 +230,11 @@ infMult(){
 },
 infEff(){
   return Decimal.sub(1200,player.i.y).div(176).pow(1.2).min(10);
-}
+},
+
+    doReset(layer) {
+    },
+
 });
 
 

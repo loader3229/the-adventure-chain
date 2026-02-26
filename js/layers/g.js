@@ -87,6 +87,12 @@ addLayer("g", {
             cost(){return new Decimal(3e6);},
             unlocked() { return player.sac.points.gte(4) },
         },
+        25: {
+            description: "1.1x Imaginary Point gain.",
+            cost(){return new Decimal(1e7);},
+            unlocked() { return player.sac.points.gte(4) },
+        },
+
     },
     clickables: {
         11: {
@@ -142,7 +148,7 @@ addLayer("g", {
         return player.g.shop[x].level.mul(player.g.shop[x].power).pow(1.5).div(100000).add(100);
     },
     doReset(layer) { 
-        if (layer == "i") {
+        if (layer == "i" || layer == "j") {
             layerDataReset("g");
             if(player.i.points.gte(20) || hasMilestone("i",8))player.g.upgrades=[11,12,13,14,15,21,22];
             updateTemp();
