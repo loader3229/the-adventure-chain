@@ -1,0 +1,68 @@
+addLayer("j", {
+    name: "joker",
+    symbol: "J",
+    position: 0,
+    startData() {
+        return {
+            unlocked: false,
+            points: new Decimal(0),
+        }
+    },
+    color: "#993300",
+    resource: "Jokers", // Name of prestige currency
+    type: "normal", // normal: cost to gain currency depends on amount gained. static: cost depends on how much you already have
+    requires() {
+        return new Decimal(1e40);
+    },
+    gainMult() {
+        let ret = new Decimal(1);
+        return ret;
+    },
+    baseResource: "calm points", // Name of resource prestige is based on
+    baseAmount() {
+        return player.c.points;
+    },
+    exponent: 0.2,
+    row: 9, // Row the layer is in on the tree (0 is the first row)
+    branches: ['i'],
+    layerShown() { return player.b.points.gte(26) || player.i.unlocked },
+    hotkeys: [
+        { key: "j", description: "j: reset for jokers", onPress() { if (canReset(this.layer)) doReset(this.layer) } },
+    ],
+    effect() {
+        let ret = player.j.points.add(1);
+        if (ret.gte(10)) ret = Decimal.pow(10, ret.log10().sqrt().mul(2).sub(1));
+        ret = ret.sqrt();
+        return ret;
+    },
+    effectDescription() { // Optional text to describe the effects
+        let eff = this.effect();
+        return "translated to /" + format(eff) + " normal enemy stats and boss ATK"
+    },
+    milestones: [
+        {
+            requirementDescription: "1 joker",
+            done() { return player.j.points.gte(1) }, // Used to determine when to give the milestone
+            effectDescription: "Autobuy Tier 1/2 machines, and buying them doesn't reduce your resources.",
+        },
+        {
+            requirementDescription: "2 jokers",
+            done() { return player.j.points.gte(2) }, // Used to determine when to give the milestone
+            effectDescription: "Auto-helper formula is better.",
+        },
+
+    ],
+
+tabFormat: {
+        "Main Tab": {
+            "content": [
+                "main-display",
+                "prestige-button",
+                "resource-display",
+                ["display-text","J reset is same as I reset except you gain J instead of I. Anything kept in I reset will be kept in J resets."],
+                "upgrades",
+                "milestones"
+            ]
+        }
+    },
+});
