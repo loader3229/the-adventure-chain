@@ -147,6 +147,9 @@ addLayer("g", {
         if (x === undefined) x = 0;
         return player.g.shop[x].level.mul(player.g.shop[x].power).pow(1.5).div(100000).add(100);
     },
+    hotkeys: [
+        { key: "g", description: "g: buy equipment", onPress() { if (player.g.points.gte(layers.g.shopcost(0)) && (hasUpgrade("g", 12) || player.sac.points.gte(3))) layers.g.clickables[12].onClick(); } },
+    ],
     doReset(layer) { 
         if (layer == "i" || layer == "j") {
             layerDataReset("g");

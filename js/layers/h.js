@@ -48,7 +48,7 @@ if(player.b.points.gte(29))ret = ret.mul(player.b.points.div(20));
 
             },
             effect() {
-                let eff = player[this.layer].buyables[this.id].pow(0.5).mul(0.1);
+                let eff = player[this.layer].buyables[this.id].pow(hasMilestone("j",1)?1:0.5).mul(0.1);
                 return eff;
             }
 
