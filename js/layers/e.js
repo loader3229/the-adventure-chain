@@ -125,7 +125,7 @@ addLayer("e", {
             return softcap(softcap(x.div(hasUpgrade("c", 33) ? 50000 : 60000), new Decimal(2)), new Decimal(8), 1/3);
         }
         if (type == 12) {
-            return Decimal.pow(1.01, softcap(x.pow(0.5), new Decimal(1000)));
+            return Decimal.pow(1.01, softcap(x.pow(0.5), new Decimal(1000))).min(x.add(1));
         }
         if (type == 13) {
             if(hasMilestone("i",2))return Decimal.sub(10,Decimal.div(10,x.add(1).log10().pow(1.8).div(200).add(1)));

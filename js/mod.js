@@ -13,11 +13,13 @@ let modInfo = {
 
 // Set your version in num and name
 let VERSION = {
-    num: "9.4",
-    name: "Imaginary",
+    num: "10.0",
+    name: "Joker",
 }
 
 let changelog = `<h1>Changelog:</h1><br>
+    <h3>v10.0</h3><br>
+        - Added layer J.<br>
     <h3>v9.0</h3><br>
         - Added layer I.<br>
     <h3>v8.0</h3><br>
@@ -60,15 +62,16 @@ function getPointGen() {
     if (!canGenPoints())
         return new Decimal(0)
 
-    let gain = getLevel()
+    let gain = getLevel();
     if (hasMilestone("c", 2)) gain = gain.mul(1.1);
     if (player.b.points.gte(18)) gain = gain.mul(1.25);
     if (player.b.points.gte(24)) gain = gain.mul(1.25);
-    if (hasMilestone("c", 18)) gain = gain.mul(1.28);
+    if (hasMilestone("c", 18)) gain = gain.mul(1.28); // 2.2 
 
     gain = gain.mul(buyableEffect("c", 21));
     if (player.b.points.gte(21)) gain = gain.mul(buyableEffect("h", 12));
     if (player.b.points.gte(30)) gain = gain.mul(1+player.d.challenges[12]/100);
+    gain = gain.mul(layers.e.equipmentEff(23));
     if(hasMilestone("i",13))gain = gain.mul(layers.i.infEff());
 
     return gain
@@ -83,7 +86,7 @@ function addedPlayerData() {
 // Display extra things at the top of the page
 var displayThings = [
     "Mod Author: loader3229",
-    "Endgame: Boss 34 beaten and Level 280000",
+    "Endgame: Boss 35 beaten and Level 310000",
     function () { if(getLevel().gte(200000))return "Level: " + formatWhole(getLevel()) + "/" + formatWhole(getLevelCap()) + " (Scaling: " + format(getLevelScaling()) + ")"; return "Level: " + formatWhole(getLevel()) + "/" + formatWhole(getLevelCap()) + " (" + format(getLevelProgress().mul(100)) + "%)" },
     function () { return "ATK: " + format(getATK()) },
     function () { if (player.b.points.gte(1)) return "DEF: " + format(getDEF()) },
@@ -93,7 +96,7 @@ var displayThings = [
 
 // Determines when the game "ends"
 function isEndgame() {
-    return player.b.points.gte(34) && getLevel().gte(280000)
+    return player.b.points.gte(35) && getLevel().gte(310000)
 }
 
 

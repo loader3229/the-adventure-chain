@@ -30,7 +30,7 @@ addLayer("j", {
         { key: "j", description: "j: reset for jokers", onPress() { if (canReset(this.layer)) doReset(this.layer) } },
     ],
     effect() {
-        let ret = player.j.points.add(1);
+        let ret = player.j.points.div(2).add(1);
         if (ret.gte(10)) ret = Decimal.pow(10, ret.log10().sqrt().mul(2).sub(1));
         ret = ret.sqrt();
         return ret;
@@ -50,7 +50,6 @@ addLayer("j", {
             done() { return player.j.points.gte(2) }, // Used to determine when to give the milestone
             effectDescription: "Auto-helper formula is better.",
         },
-
     ],
 
 tabFormat: {
