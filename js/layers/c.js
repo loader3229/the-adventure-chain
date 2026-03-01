@@ -318,6 +318,12 @@ addLayer("c", {
             cost() { return new Decimal(1e38) },
             unlocked() { return player.sac.points.gte(4) },
         },
+        52: {
+            description: "Unlock a new calm buyable.",
+            cost() { return new Decimal(1e40); },
+            unlocked() { return player.b.points.gte(35) },
+        },
+
     },
     buyables: {
         11: {
@@ -345,7 +351,7 @@ addLayer("c", {
             },
             effect() {
                 let eff = new Decimal(1).add(player[this.layer].buyables[this.id]);
-                if (player.sac.points.gte(3)) eff = new Decimal(1).add(player[this.layer].buyables[this.id].div(20));
+                if (player.sac.points.gte(3)) eff = new Decimal(1).add(player[this.layer].buyables[this.id].mul(layers[this.layer].buyables[41].effect().sub(1)));
                 return eff;
             }
         },
@@ -373,7 +379,7 @@ addLayer("c", {
 
             },
             effect() {
-                let eff = new Decimal(1).add(player[this.layer].buyables[this.id].div(20));
+                let eff = new Decimal(1).add(player[this.layer].buyables[this.id].mul(layers[this.layer].buyables[41].effect().sub(1)));
                 return eff;
             }
         },
@@ -401,7 +407,7 @@ addLayer("c", {
 
             },
             effect() {
-                let eff = new Decimal(1).add(player[this.layer].buyables[this.id].div(20));
+                let eff = new Decimal(1).add(player[this.layer].buyables[this.id].mul(layers[this.layer].buyables[41].effect().sub(1)));
                 return eff;
             }
         },
@@ -429,7 +435,7 @@ addLayer("c", {
 
             },
             effect() {
-                let eff = new Decimal(1).add(player[this.layer].buyables[this.id].div(20));
+                let eff = new Decimal(1).add(player[this.layer].buyables[this.id].mul(layers[this.layer].buyables[41].effect().sub(1)));
                 return eff;
             }
         },
@@ -457,7 +463,7 @@ addLayer("c", {
 
             },
             effect() {
-                let eff = new Decimal(0).add(player[this.layer].buyables[this.id].div(20));
+                let eff = player[this.layer].buyables[this.id].mul(layers[this.layer].buyables[41].effect().sub(1));
                 return eff;
             },
             unlocked() { return hasUpgrade("c", 12) }
@@ -486,7 +492,8 @@ addLayer("c", {
             },
             effect() {
                 let eff = new Decimal(1).add(player[this.layer].buyables[this.id]);
-                if (player.sac.points.gte(4)) eff = new Decimal(1).add(player[this.layer].buyables[this.id].div(20));
+                if (player.sac.points.gte(4)) eff = new Decimal(1).add(player[this.layer].buyables[this.id].mul(layers[this.layer].buyables[41].effect().sub(1)));
+
                 return eff;
             },
             unlocked() { return hasUpgrade("c", 14) }
@@ -515,7 +522,7 @@ addLayer("c", {
             },
             effect() {
                 let eff = new Decimal(1).add(player[this.layer].buyables[this.id]);
-                if (player.sac.points.gte(4)) eff = new Decimal(1).add(player[this.layer].buyables[this.id].div(20));
+                if (player.sac.points.gte(4)) eff = new Decimal(1).add(player[this.layer].buyables[this.id].mul(layers[this.layer].buyables[41].effect().sub(1)));
                 return eff;
             },
             unlocked() { return hasUpgrade("c", 22) }
@@ -544,7 +551,7 @@ addLayer("c", {
 
             },
             effect() {
-                let eff = new Decimal(1).add(player[this.layer].buyables[this.id].div(20));
+                let eff = new Decimal(1).add(player[this.layer].buyables[this.id].mul(layers[this.layer].buyables[41].effect().sub(1)));
                 return eff;
             },
             unlocked() { return hasUpgrade("c", 41) }
@@ -574,11 +581,41 @@ addLayer("c", {
             },
             effect() {
                 let eff = new Decimal(1).add(player[this.layer].buyables[this.id]);
-                if (player.sac.points.gte(4)) eff = new Decimal(1).add(player[this.layer].buyables[this.id].div(20));
+                if (player.sac.points.gte(4)) eff = new Decimal(1).add(player[this.layer].buyables[this.id].mul(layers[this.layer].buyables[41].effect().sub(1)));
                 return eff;
             },
             unlocked() { return hasUpgrade("c", 43) }
         },
+        41: {
+            title() {
+                return "Calm Buyable Base";
+            },
+            display() {
+                let data = tmp[this.layer].buyables[this.id];
+                return "Level: " + format(player[this.layer].buyables[this.id]) + "<br>" +
+                    "First 9 Calm Buyable Base: " + format(data.effect.sub(1)) + "<br>" +
+                    "Cost for Next Level: " + format(data.cost) + " Calm Points";
+            },
+            cost() {
+                let a = player[this.layer].buyables[this.id];
+                a = Decimal.pow(10, a).mul(1e35);
+                return a;
+            },
+            canAfford() {
+                return player[this.layer].points.gte(layers[this.layer].buyables[this.id].cost())
+            },
+            buy() {
+                if(!hasMilestone("i",0))player[this.layer].points = player[this.layer].points.sub(layers[this.layer].buyables[this.id].cost())
+                player[this.layer].buyables[this.id] = player[this.layer].buyables[this.id].add(1)
+
+            },
+            effect() {
+                let eff = new Decimal(1.05).add(player[this.layer].buyables[this.id].mul(0.001));
+                return eff;
+            },
+            unlocked() { return hasUpgrade("c", 52) }
+        },
+
     },
 
 

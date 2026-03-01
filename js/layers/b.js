@@ -318,6 +318,12 @@ addLayer("b", {
             done() { return player[this.layer].points.gte(34) }, // Used to determine when to give the milestone
             effectDescription: "Unlock layer J.",
         },
+        {
+            requirementDescription: "Beat 35 bosses",
+            unlocked() { return player[this.layer].points.gte(34) },
+            done() { return player[this.layer].points.gte(35) }, // Used to determine when to give the milestone
+            effectDescription: "Unlock more calm upgrades.",
+        },
     ],
     update(diff) {
         if (getLevel().gte(10)) player.b.unlocked = true;
