@@ -16,6 +16,7 @@ addLayer("j", {
     },
     gainMult() {
         let ret = new Decimal(1);
+	if(hasMilestone("j",2))ret = ret.mul(player.i.points.add(1).pow(0.1));
         return ret;
     },
     baseResource: "calm points", // Name of resource prestige is based on
@@ -49,6 +50,16 @@ addLayer("j", {
             requirementDescription: "2 jokers",
             done() { return player.j.points.gte(2) }, // Used to determine when to give the milestone
             effectDescription: "Auto-helper formula is better.",
+        },
+        {
+            requirementDescription: "4 jokers",
+            done() { return player.j.points.gte(4) }, // Used to determine when to give the milestone
+            effectDescription: "Imaginary points boost jokers.",
+        },
+        {
+            requirementDescription: "8 jokers",
+            done() { return player.j.points.gte(8) }, // Used to determine when to give the milestone
+            effectDescription: "Simple Forge is better.",
         },
     ],
 

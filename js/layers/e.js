@@ -239,6 +239,7 @@ addLayer("e", {
         if (layer == "i" || layer == "j") {
             layerDataReset("e");
             if(player.i.points.gte(3) || hasMilestone("i",2))player.e.equipment[13].level=new Decimal(10000),player.e.equipment[13].power=new Decimal(10);
+            if(player.i.points.gte(500) || hasMilestone("i",19))for(i in layers.e.clickables)if(parseInt(i)<=24)player.e.equipment[i].level=new Decimal(10000),player.e.equipment[i].power=new Decimal(10);
             updateTemp();
         }
     },

@@ -179,7 +179,7 @@ addLayer("f", {
                 player[this.layer].buyables[this.id] = player[this.layer].buyables[this.id].add(1)
             },
             effect() {
-                let eff = player[this.layer].buyables[this.id].pow(0.7).mul(0.2).add(1);
+                let eff = player[this.layer].buyables[this.id].pow(0.7).mul(hasMilestone("j",3)?0.5:0.2).add(1);
                 return eff;
             },
             unlocked() { return player.b.points.gte(28) }

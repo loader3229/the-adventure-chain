@@ -624,6 +624,7 @@ addLayer("c", {
             layerDataReset("c");
             if(player.i.points.gte(3) || hasMilestone("i",2))player.c.milestones=[0,1,2,3,4,5,6,7];
             if(player.i.points.gte(20) || hasMilestone("i",8))player.c.milestones=[0,1,2,3,4,5,6,7,8,9,10,11];
+            if(player.i.points.gte(400) || hasMilestone("i",18))player.c.milestones=[0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15];
             if(player.i.points.gte(300) || hasMilestone("i",17))player.c.upgrades=[11,12,13,14,15,21,22,23,24,25,31,32,33,34,35];
             updateTemp();
         }

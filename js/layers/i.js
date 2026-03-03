@@ -144,6 +144,16 @@ addLayer("i", {
             done() { return player.i.points.gte(300) }, // Used to determine when to give the milestone
             effectDescription: "Start with first 15 calm upgrades.",
         },
+        {
+            requirementDescription: "400 imaginary points",
+            done() { return player.i.points.gte(400) }, // Used to determine when to give the milestone
+            effectDescription: "Start with first 15 calm milestones.",
+        },
+        {
+            requirementDescription: "500 imaginary points",
+            done() { return player.i.points.gte(500) }, // Used to determine when to give the milestone
+            effectDescription: "Start with first 8 types of equipments, level 10k and 1000% power.",
+        },
     ],
 tabFormat: {
         "Main Tab": {
