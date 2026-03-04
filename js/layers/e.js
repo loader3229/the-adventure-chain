@@ -70,6 +70,14 @@ addLayer("e", {
 
         return x;
     },
+    getResetGain(){
+        let power = layers.e.effect().add(layers.e.effect2());
+        let gain = layers.e.gainMult(player.a.bestLevel.max(1).mul(power)).mul(layers.e.equipmentEff(13).max(1));
+        return gain;
+    },
+    passiveGeneration(){
+        if (hasMilestone("c", 19))return 1; return 0;
+    },
     update(diff) {
         if (player.b.points.gte(8)) player.e.unlocked = true;
     },

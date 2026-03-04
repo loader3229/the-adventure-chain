@@ -17,6 +17,7 @@ addLayer("j", {
     gainMult() {
         let ret = new Decimal(1);
 	if(hasMilestone("j",2))ret = ret.mul(player.i.points.add(1).pow(0.1));
+	if(player.b.points.gte(36))ret = ret.mul(player.b.points.sqrt().div(3));
         return ret;
     },
     baseResource: "calm points", // Name of resource prestige is based on
@@ -60,6 +61,11 @@ addLayer("j", {
             requirementDescription: "8 jokers",
             done() { return player.j.points.gte(8) }, // Used to determine when to give the milestone
             effectDescription: "Simple Forge is better.",
+        },
+        {
+            requirementDescription: "16 jokers",
+            done() { return player.j.points.gte(16) }, // Used to determine when to give the milestone
+            effectDescription: "Post-300k level scaling starts 100k later.",
         },
     ],
 

@@ -328,7 +328,7 @@ addLayer("b", {
             requirementDescription: "Beat 36 bosses",
             unlocked() { return player[this.layer].points.gte(35) },
             done() { return player[this.layer].points.gte(36) }, // Used to determine when to give the milestone
-            effectDescription: "Current Endgame",
+            effectDescription: "Increase Jokers gain based on beaten bosses count.",
         },
     ],
     update(diff) {

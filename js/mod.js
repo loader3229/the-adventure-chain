@@ -211,10 +211,7 @@ function getRealLevel() {
     if (player.sac.points.gte(4)) {
         let level = player.a.points.pow(0.0625).div(25).div(getLevelScaling().sqrt()).add(1).log(1.04).mul(getLevelScaling().sqrt()).pow(2).add(1);
         if (player.a.points.pow(0.125).lte(scaling)) level = player.a.points.pow(0.125).add(1);
-	if (level.gte(300000)){
-		level = level.div(3).root(2.5).mul(3000).min(getLevelCap());
-	}
-	level = level.min(getLevelCap());
+	level = softcap(level, new Decimal(hasMilestone("j", 4)?4e5:3e5),new Decimal(0.4)).min(getLevelCap());
         return level;
     }
     if (player.sac.points.gte(3)) {
@@ -224,7 +221,7 @@ function getRealLevel() {
 		if(hasMilestone("i", 9))level = level.root(2.5).mul(1000).min(getLevelCap());
 		else level = level.root(5).mul(10000).min(getLevelCap());
 	}
-	level = level.min(getLevelCap());
+	level = softcap(level, new Decimal(1300000),new Decimal(0.4)).min(getLevelCap());
         return level;
     }
     if (player.sac.points.gte(2)) {

@@ -194,7 +194,14 @@ addLayer("c", {
             unlocked() { return player.sac.points.gte(4) },
             effectDescription: "1.28x HP gain.",
         },
-
+        {
+            requirementDescription() { return "1e41 calm points"; },
+            done() { return (player.c.points.gte(1e41) && player.sac.points.gte(4)) }, // Used to determine when to give the milestone
+            unlocked() { return player.sac.points.gte(4) },
+            effectDescription() {
+                return "Passively gain Equipment Shards based on highest beaten enemy level and Passive Gem. Currently: "+format(tmp.e.getResetGain)+"/s";
+            },
+        },
     ],
     update(diff) {
         if(hasMilestone("i", 0) && layers.c.tabFormat.Buyables.unlocked()){
