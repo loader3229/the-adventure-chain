@@ -130,19 +130,24 @@ addLayer("e", {
         if (type === undefined) return new Decimal(0);
         let x = Decimal.mul(player.e.equipment[type].level, player.e.equipment[type].power);
         if (type == 11) {
+            if (inChallenge("d",31))return new Decimal(0);
             return softcap(softcap(x.div(hasUpgrade("c", 33) ? 50000 : 60000), new Decimal(2)), new Decimal(8), 1/3);
         }
         if (type == 12) {
+            if (inChallenge("d",31))return new Decimal(1);
             return Decimal.pow(1.01, softcap(x.pow(0.5), new Decimal(1000))).min(x.add(1));
         }
         if (type == 13) {
+            if (inChallenge("d",31))return new Decimal(0);
             if(hasMilestone("i",2))return Decimal.sub(10,Decimal.div(10,x.add(1).log10().pow(1.8).div(200).add(1)));
             return new Decimal(1).sub(Decimal.pow(0.995, x.pow(0.5)));
         }
         if (type == 14) {
+            if (inChallenge("d",31))return new Decimal(1);
             return x.div(hasUpgrade("c", 33) ? 2000 : 3000).add(1);
         }
         if (type >= 21 && type <= 24) {
+            if (inChallenge("d",31))return new Decimal(1);
             if (player.sac.points.gte(3)) return Decimal.pow(1.01, x.pow(hasUpgrade("g", 14) ? 0.306 : 0.302));
             if (hasUpgrade("g", 14)) return Decimal.pow(1.01, x.pow(0.3)).max(x.pow(0.3).div(90).add(1));
             return Decimal.pow(1.01, x.pow(0.3).sub(20)).max(x.pow(0.3).div(100).add(1));

@@ -71,6 +71,7 @@ addLayer("f", {
         let base = new Decimal(2);
         if (hasUpgrade("c", 25)) base = base.add(1);
         if (hasMilestone("c", 12)) base = base.add(1);
+	if (hasMilestone("i", 20))base = base.add(1);
         return Decimal.pow(base, player.f.points.add(1).log10().sqrt());
     },
     effectDescription() {

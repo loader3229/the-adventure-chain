@@ -330,6 +330,12 @@ addLayer("c", {
             cost() { return new Decimal(1e40); },
             unlocked() { return player.b.points.gte(35) },
         },
+        53: {
+            description() { return "Domain goal scaling is delayed."; },
+            cost() { return new Decimal(1e42); },
+            unlocked() { return player.b.points.gte(35) }
+        },
+
 
     },
     buyables: {

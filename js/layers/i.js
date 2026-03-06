@@ -154,6 +154,18 @@ addLayer("i", {
             done() { return player.i.points.gte(500) }, // Used to determine when to give the milestone
             effectDescription: "Start with first 8 types of equipments, level 10k and 1000% power.",
         },
+        {
+            requirementDescription: "700 imaginary points",
+            done() { return (player.i.points.gte(700) && player.b.points.gte(37)) }, // Used to determine when to give the milestone
+            unlocked() { return player.b.points.gte(37) },
+            effectDescription: "Scrap effect is better.",
+        },
+        {
+            requirementDescription: "1000 imaginary points",
+            done() { return (player.i.points.gte(1000) && player.b.points.gte(37)) }, // Used to determine when to give the milestone
+            unlocked() { return player.b.points.gte(37) },
+            effectDescription: "Unlock Imaginary Tree. (Currently not available)",
+        },
     ],
 tabFormat: {
         "Main Tab": {

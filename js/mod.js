@@ -86,7 +86,7 @@ function addedPlayerData() {
 // Display extra things at the top of the page
 var displayThings = [
     "Mod Author: loader3229",
-    "Endgame: Boss 37 beaten and Level 420000",
+    "Endgame: Boss 38 beaten and Level 500000",
     function () { if(getLevel().gte(200000))return "Level: " + formatWhole(getLevel()) + "/" + formatWhole(getLevelCap()) + " (Scaling: " + format(getLevelScaling()) + ")"; return "Level: " + formatWhole(getLevel()) + "/" + formatWhole(getLevelCap()) + " (" + format(getLevelProgress().mul(100)) + "%)" },
     function () { return "ATK: " + format(getATK()) },
     function () { if (player.b.points.gte(1)) return "DEF: " + format(getDEF()) },
@@ -96,7 +96,7 @@ var displayThings = [
 
 // Determines when the game "ends"
 function isEndgame() {
-    return player.b.points.gte(37) && getLevel().gte(420000)
+    return player.b.points.gte(38) && getLevel().gte(500000)
 }
 
 
@@ -178,7 +178,7 @@ function getLevel() {
 }
 
 function getLevelCap() {
-    if (player.sac.points.gte(4)) return new Decimal(110000).add(player.i.points.pow(1.8).mul(10).floor().min(924000));
+    if (player.sac.points.gte(4)) return new Decimal(110000).add(player.i.points.pow(1.8).mul(10).floor().min(914000));
     if (player.sac.points.gte(3)) return new Decimal(100000).add(player.i.points.pow(2).mul(10).min(156000));
     if (player.sac.points.gte(2)) return new Decimal(64000);
     if (player.sac.points.gte(1)) return new Decimal(16000);
@@ -193,6 +193,7 @@ function getLevelProgress() {
 }
 
 function getLevelScaling() {
+    if (inChallenge("d",31))return new Decimal(0.03);
     let scaling = new Decimal(1);
     if (hasMilestone("c", 6)) scaling = scaling.add(hasUpgrade("c", 31) ? 1 : 0.2);
     if (hasMilestone("c", 7) && player.sac.points.gte(2)) scaling = scaling.add((hasUpgrade("c", 35) && player.sac.points.gte(4)) ? 2 : 0.5);
@@ -211,7 +212,7 @@ function getRealLevel() {
     if (player.sac.points.gte(4)) {
         let level = player.a.points.pow(0.0625).div(25).div(getLevelScaling().sqrt()).add(1).log(1.04).mul(getLevelScaling().sqrt()).pow(2).add(1);
         if (player.a.points.pow(0.125).lte(scaling)) level = player.a.points.pow(0.125).add(1);
-	level = softcap(level, new Decimal(hasMilestone("j", 4)?4e5:3e5), 0.4).min(getLevelCap());
+	level = softcap(level, new Decimal(hasMilestone("j", 4)?4e5:3e5), hasMilestone("j", 6)?0.8:0.4).min(getLevelCap());
         return level;
     }
     if (player.sac.points.gte(3)) {

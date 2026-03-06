@@ -330,6 +330,18 @@ addLayer("b", {
             done() { return player[this.layer].points.gte(36) }, // Used to determine when to give the milestone
             effectDescription: "Increase Jokers gain based on beaten bosses count.",
         },
+        {
+            requirementDescription: "Beat 37 bosses",
+            unlocked() { return player[this.layer].points.gte(36) },
+            done() { return player[this.layer].points.gte(37) }, // Used to determine when to give the milestone
+            effectDescription: "Unlock more Imaginary Milestones and a new domain.",
+        },
+        {
+            requirementDescription: "Beat 38 bosses",
+            unlocked() { return player[this.layer].points.gte(37) },
+            done() { return player[this.layer].points.gte(38) }, // Used to determine when to give the milestone
+            effectDescription: "Current Endgame",
+        },
     ],
     update(diff) {
         if (getLevel().gte(10)) player.b.unlocked = true;

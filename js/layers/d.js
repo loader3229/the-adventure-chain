@@ -28,6 +28,7 @@ addLayer("d", {
         let base=new Decimal(1.1);
         let sc=new Decimal(25);
         if(hasUpgrade("c",34)&&player.sac.points.gte(3))sc=sc.add(5);
+        if(hasUpgrade("c",42)&&player.sac.points.gte(3))sc=sc.add(5);
         let ret=Decimal.pow(base, softcap(new Decimal(player.d.challenges[x] || 0), sc, 2)).mul(500);
         if(player.sac.points.eq(0) && x==11)ret=ret.mul(1.2);
         if(player.sac.points.eq(0) && x==21)ret=ret.mul(2);
@@ -87,6 +88,20 @@ addLayer("d", {
             },
             unlocked() { return hasUpgrade("c", 34) || player.sac.points.gte(3); }
         },
+        31: {
+            name: "No Equipments and Scaling",
+            challengeDescription() { return "Your equipments has no effect. Level scaling factor is fixed at 0.03<br>Completions: " + formatWhole(player.d.challenges[this.id]) + "/" + layers.d.completionLimit(); },
+            goal() { return layers.d.dgoal(this.id); },
+            goalDescription() { return "Reach Level " + formatWhole(this.goal().ceil()); },
+            currencyDisplayName: "Level",
+            canComplete() { return getLevel().gte(this.goal()) },
+            completionLimit() { return layers.d.completionLimit(); },
+            rewardDescription(){return "1 domain point per completion.";},
+            onEnter() {
+                doReset("c", true);
+            },
+            unlocked() { return player.b.points.gte(37); }
+        },
     },
     completionLimit() {
         let d = 12;
@@ -96,6 +111,7 @@ addLayer("d", {
         if (hasUpgrade("g", 15)) d += 5;
         if (hasMilestone("i", 4)) d += 5;
         if (player.b.points.gte(31)) d += 5;
+        //if (player.b.points.gte(38)) d += 5;
         return d;
     },
     update(diff) {
@@ -107,7 +123,7 @@ addLayer("d", {
                 }
             }
         }
-player.d.points = new Decimal(player.d.challenges[11]).add(player.d.challenges[12]).add(player.d.challenges[21]).add(player.d.challenges[22]);
+player.d.points = new Decimal(player.d.challenges[11]).add(player.d.challenges[12]).add(player.d.challenges[21]).add(player.d.challenges[22]).add(player.d.challenges[31]);
     },
     effect() {
         let ret = Decimal.pow(1.1, player.d.points);
@@ -133,6 +149,8 @@ player.d.points = new Decimal(player.d.challenges[11]).add(player.d.challenges[1
          player.d.challenges[12] = Math.floor(player.d.challenges[12]*keepAmount);
          player.d.challenges[21] = Math.floor(player.d.challenges[21]*keepAmount);
          player.d.challenges[22] = Math.floor(player.d.challenges[22]*keepAmount);
+         player.d.challenges[31] = Math.floor(player.d.challenges[31]*keepAmount);
+
 
             updateTemp();
         }

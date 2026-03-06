@@ -39,7 +39,7 @@ addLayer("a", {
     },
     getEnemyDMG(level) {
         if (level === undefined) level = player.a.level;
-        return level.mul(Decimal.pow(1.01, level.pow(0.5))).mul(0.0001).max(1).div(layers.j.effect());
+        return level.mul(Decimal.pow(1.01, level.pow(0.5))).mul(0.0001).div(layers.j.effect()).max(1);
     },
     getEnemyEXP(level) {
         if (level === undefined) level = player.a.level;

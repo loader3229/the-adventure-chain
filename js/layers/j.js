@@ -67,6 +67,16 @@ addLayer("j", {
             done() { return player.j.points.gte(16) }, // Used to determine when to give the milestone
             effectDescription: "Post-300k level scaling starts 100k later.",
         },
+        {
+            requirementDescription: "32 jokers",
+            done() { return player.j.points.gte(32) }, // Used to determine when to give the milestone
+            effectDescription: "Stat Helper's effect is better.",
+        },
+        {
+            requirementDescription: "64 jokers",
+            done() { return player.j.points.gte(64) }, // Used to determine when to give the milestone
+            effectDescription: "Post-300k level scaling is weaker.",
+        },
     ],
 
 tabFormat: {
