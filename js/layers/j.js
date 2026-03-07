@@ -18,6 +18,7 @@ addLayer("j", {
         let ret = new Decimal(1);
 	if(hasMilestone("j",2))ret = ret.mul(player.i.points.add(1).pow(0.1));
 	if(player.b.points.gte(36))ret = ret.mul(player.b.points.sqrt().div(3));
+	if (getClickableState("i",41) == 1) ret = ret.mul(2);
         return ret;
     },
     baseResource: "calm points", // Name of resource prestige is based on

@@ -6,6 +6,7 @@ addLayer("i", {
         return {
             unlocked: false,
             points: new Decimal(0),
+            power: new Decimal(0),
             y: new Decimal(1024),
             infDmg: new Decimal(0),
             infTime: new Decimal(0),
@@ -155,16 +156,16 @@ addLayer("i", {
             effectDescription: "Start with first 8 types of equipments, level 10k and 1000% power.",
         },
         {
-            requirementDescription: "700 imaginary points",
-            done() { return (player.i.points.gte(700) && player.b.points.gte(37)) }, // Used to determine when to give the milestone
+            requirementDescription: "650 imaginary points",
+            done() { return (player.i.points.gte(650) && player.b.points.gte(37)) }, // Used to determine when to give the milestone
             unlocked() { return player.b.points.gte(37) },
             effectDescription: "Scrap effect is better.",
         },
         {
-            requirementDescription: "1000 imaginary points",
-            done() { return (player.i.points.gte(1000) && player.b.points.gte(37)) }, // Used to determine when to give the milestone
+            requirementDescription: "800 imaginary points",
+            done() { return (player.i.points.gte(800) && player.b.points.gte(37)) }, // Used to determine when to give the milestone
             unlocked() { return player.b.points.gte(37) },
-            effectDescription: "Unlock Imaginary Tree. (Currently not available)",
+            effectDescription: "Unlock Imaginary Power and Imaginary Tree.",
         },
     ],
 tabFormat: {
@@ -191,6 +192,19 @@ tabFormat: {
         ["display-text",function(){return "Total Damage Dealt to Infinity Boss: "+format(Decimal.pow(2,Decimal.sub(1024,player.i.y)).sub(1))}],
         ["display-text",function(){return "Total Damage Dealt to Infinity Boss will increase Imaginary point's effect, and increase Imaginary point gain to "+format(layers.i.infEff())+"x."}],
         ["row", [["clickable", "11"]]],
+            ], unlocked: function () { return hasMilestone("i", 6) }
+        }, "Imaginary Tree": {
+            "content": [
+                "main-display",
+                "prestige-button",
+                "resource-display",
+        ["display-text",function(){return "You have "+format(player.i.power)+" Imaginary Power. (+"+format(layers.i.getPowerGain())+"/s)"}],
+        ["display-text",function(){return "You have "+format(tmp.i.getEssence.sub(tmp.i.usedEssence))+"/"+format(tmp.i.getEssence)+" Imaginary Essence."}],
+        ["clickable",12],"blank",
+        ["clickables",[2]],"blank",
+        ["clickables",[3]],"blank",
+        ["clickables",[4]],"blank",
+
             ], unlocked: function () { return hasMilestone("i", 6) }
         }
     },
@@ -225,6 +239,7 @@ tabFormat: {
     },
     update(diff){
 if(hasMilestone("i", 6))player.i.infTime = player.i.infTime.add(diff);
+if(hasMilestone("i", 21))player.i.power = player.i.power.add(layers.i.getPowerGain().mul(diff));
 },
     clickables: {
         11: {
@@ -244,6 +259,114 @@ if(hasMilestone("i", 6))player.i.infTime = player.i.infTime.add(diff);
             },
             unlocked: true,
         },
+        12: {
+            title() {
+                return "Respec Tree"
+            },
+            display() {
+                return "Force Imaginary Reset";
+            },
+            canClick() {
+                return true;
+            },
+            onClick() {
+                for(i in player.i.clickables)if(player.i.clickables[i]==1)player.i.clickables[i]=0;
+                doReset("i",true);
+            },
+            unlocked: true,
+        },
+        21: {
+            title() {
+                return this.id;
+            },
+            cost() {
+                return new Decimal(3);
+            },
+            display() {
+                return "Max Domain Completions +5.<br>Cost: 3 Imaginary Essence";
+            },
+            canClick() {
+                return tmp.i.getEssence.gte(tmp.i.usedEssence.add(3)) && player.i.clickables[this.id]!=1;
+            },
+            onClick() {
+                if(layers.i.getEssence().gte(layers.i.usedEssence().add(3))){
+			player.i.clickables[this.id]=1;
+		}
+            },
+            unlocked: true,
+            style() { return { 'background-color': (getClickableState(this.layer,this.id)==1)?"#77BF5F":tmp.i.clickables[this.id].canClick?"#00CCCC":"#BF8F8F"}},
+        },
+        31: {
+            title() {
+                return this.id;
+            },
+            cost() {
+                return new Decimal(3);
+            },
+            display() {
+                return "+200% Equipment Power<br>Cost: 3 Imaginary Essence";
+            },
+            canClick() {
+                return tmp.i.getEssence.gte(tmp.i.usedEssence.add(3)) && player.i.clickables[this.id]!=1 && player.i.clickables[21]==1;
+            },
+            onClick() {
+                if(layers.i.getEssence().gte(layers.i.usedEssence().add(3)) && player.i.clickables[21]==1){
+			player.i.clickables[this.id]=1;
+		}
+            },
+            unlocked: true,
+            style() { return { 'background-color': (getClickableState(this.layer,this.id)==1)?"#77BF5F":tmp.i.clickables[this.id].canClick?"#00CCCC":"#BF8F8F"}},
+            branches(){return ["21"]},
+
+        },
+        32: {
+            title() {
+                return this.id;
+            },
+            cost() {
+                return new Decimal(3);
+            },
+            display() {
+                return "+2 Level Scaling<br>Cost: 3 Imaginary Essence";
+            },
+            canClick() {
+                return tmp.i.getEssence.gte(tmp.i.usedEssence.add(3)) && player.i.clickables[this.id]!=1 && player.i.clickables[21]==1;
+            },
+            onClick() {
+                if(layers.i.getEssence().gte(layers.i.usedEssence().add(3)) && player.i.clickables[21]==1){
+			player.i.clickables[this.id]=1;
+		}
+            },
+            unlocked: true,
+            style() { return { 'background-color': (getClickableState(this.layer,this.id)==1)?"#77BF5F":tmp.i.clickables[this.id].canClick?"#00CCCC":"#BF8F8F"}},
+            branches(){return ["21"]},
+
+        },
+        41: {
+            title() {
+                return this.id;
+            },
+            cost() {
+                return new Decimal(3);
+            },
+            display() {
+                return "Joker gain x2<br>Cost: 3 Imaginary Essence";
+            },
+            canClick() {
+                return tmp.i.getEssence.gte(tmp.i.usedEssence.add(3)) && player.i.clickables[this.id]!=1 && player.i.clickables[31]==1 && player.i.clickables[32]==1;
+            },
+            onClick() {
+                if(layers.i.getEssence().gte(layers.i.usedEssence().add(3)) && player.i.clickables[31]==1 && player.i.clickables[32]==1){
+			player.i.clickables[this.id]=1;
+		}
+            },
+            unlocked: true,
+            style() { return { 'background-color': (getClickableState(this.layer,this.id)==1)?"#77BF5F":tmp.i.clickables[this.id].canClick?"#00CCCC":"#BF8F8F"}},
+            branches(){return ["31","32"]},
+
+        },
+
+
 },
 infMult(){
    let ret=layers.b.dmgMult();
@@ -253,7 +376,18 @@ infMult(){
 infEff(){
   return Decimal.sub(1200,player.i.y).div(176).pow(1.2).min(10);
 },
-
+getEssence(){
+  return player.i.points.add(1).log10().mul(player.i.power.add(1).log10());
+},
+getPowerGain(){
+	if (hasMilestone("i", 21))return player.i.points.div(1000).pow(2).mul(layers.i.infEff());
+	return new Decimal(0);
+},
+usedEssence(){
+   let u=new Decimal(0);
+   for(i in player.i.clickables)if(player.i.clickables[i]==1)u=u.add(layers.i.clickables[i].cost());
+   return u;
+},
     doReset(layer) {
     },
 

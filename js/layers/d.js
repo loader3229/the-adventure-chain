@@ -111,7 +111,7 @@ addLayer("d", {
         if (hasUpgrade("g", 15)) d += 5;
         if (hasMilestone("i", 4)) d += 5;
         if (player.b.points.gte(31)) d += 5;
-        //if (player.b.points.gte(38)) d += 5;
+        if (getClickableState("i",21) == 1) d += 5;
         return d;
     },
     update(diff) {

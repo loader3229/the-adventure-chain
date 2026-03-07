@@ -340,7 +340,7 @@ addLayer("b", {
             requirementDescription: "Beat 38 bosses",
             unlocked() { return player[this.layer].points.gte(37) },
             done() { return player[this.layer].points.gte(38) }, // Used to determine when to give the milestone
-            effectDescription: "Current Endgame",
+            effectDescription: "The 10th calm buyable's effect is better.",
         },
     ],
     update(diff) {

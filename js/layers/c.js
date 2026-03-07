@@ -623,7 +623,7 @@ addLayer("c", {
 
             },
             effect() {
-                let eff = new Decimal(1.05).add(player[this.layer].buyables[this.id].mul(0.001));
+                let eff = new Decimal(1.05).add(player[this.layer].buyables[this.id].mul(player.b.points.gte(38)?0.002:0.001));
                 return eff;
             },
             unlocked() { return hasUpgrade("c", 52) }

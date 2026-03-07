@@ -166,6 +166,7 @@ addLayer("e", {
         if (hasMilestone("c", 14)) ret = ret.add(0.5);
         if (hasMilestone("c", 16)) ret = ret.add(1);
         if (hasUpgrade("g", 24)) ret = ret.add(1);
+        if (getClickableState("i",31) == 1) ret = ret.add(2);
         if (player.b.points.gte(14)) ret = ret.add(player.e.points.add(10).log10().div(player.b.points.gte(22) ? 8 : 10));
         if (player.b.points.gte(25)) ret = ret.add(buyableEffect("h",13).sub(1));
         if (player.b.points.gte(28)) ret = ret.add(buyableEffect("f",21).sub(1));
