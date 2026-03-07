@@ -141,7 +141,7 @@ addLayer("f", {
             },
             cost() {
                 let a = player[this.layer].buyables[this.id];
-                a = Decimal.pow(4, a.pow(1.5));
+                a = Decimal.pow(hasUpgrade("c", 54)?3:4, a.pow(hasUpgrade("c", 54)?1.4:1.5));
                 return a;
             },
             canAfford() {

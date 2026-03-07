@@ -202,6 +202,12 @@ addLayer("c", {
                 return "Passively gain Equipment Shards based on highest beaten enemy level and Passive Gem. Currently: "+format(tmp.e.getResetGain)+"/s";
             },
         },
+        {
+            requirementDescription() { return "1e44 calm points"; },
+            done() { return (player.c.points.gte(1e44) && player.sac.points.gte(4)) }, // Used to determine when to give the milestone
+            unlocked() { return player.sac.points.gte(4) },
+            effectDescription: "1.09x HP gain, ATK, DEF and DMG.",
+        },
     ],
     update(diff) {
         if(hasMilestone("i", 0) && layers.c.tabFormat.Buyables.unlocked()){
@@ -333,6 +339,11 @@ addLayer("c", {
         53: {
             description() { return "Domain goal scaling is delayed."; },
             cost() { return new Decimal(1e42); },
+            unlocked() { return player.b.points.gte(35) }
+        },
+        54: {
+            description() { return "Tier 2 machine is cheaper."; },
+            cost() { return new Decimal(1e44); },
             unlocked() { return player.b.points.gte(35) }
         },
 

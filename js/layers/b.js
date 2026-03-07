@@ -342,6 +342,13 @@ addLayer("b", {
             done() { return player[this.layer].points.gte(38) }, // Used to determine when to give the milestone
             effectDescription: "The 10th calm buyable's effect is better.",
         },
+        {
+            requirementDescription: "Beat 39 bosses",
+            unlocked() { return player[this.layer].points.gte(38) },
+            done() { return player[this.layer].points.gte(39) }, // Used to determine when to give the milestone
+            effectDescription: "Current Endgame",
+        },
+
     ],
     update(diff) {
         if (getLevel().gte(10)) player.b.unlocked = true;

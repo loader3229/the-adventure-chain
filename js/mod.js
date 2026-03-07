@@ -13,7 +13,7 @@ let modInfo = {
 
 // Set your version in num and name
 let VERSION = {
-    num: "10.2",
+    num: "10.3",
     name: "Joker",
 }
 
@@ -67,6 +67,7 @@ function getPointGen() {
     if (player.b.points.gte(18)) gain = gain.mul(1.25);
     if (player.b.points.gte(24)) gain = gain.mul(1.25);
     if (hasMilestone("c", 18)) gain = gain.mul(1.28); // 2.2 
+    if (hasMilestone("c", 20)) gain = gain.mul(1.2/1.1); // 2.4
 
     gain = gain.mul(buyableEffect("c", 21));
     if (player.b.points.gte(21)) gain = gain.mul(buyableEffect("h", 12));
@@ -86,7 +87,7 @@ function addedPlayerData() {
 // Display extra things at the top of the page
 var displayThings = [
     "Mod Author: loader3229",
-    "Endgame: Boss 38 beaten and Level 500000",
+    "Endgame: Boss 39 beaten and Level 600000",
     function () { if(getLevel().gte(200000))return "Level: " + formatWhole(getLevel()) + "/" + formatWhole(getLevelCap()) + " (Scaling: " + format(getLevelScaling()) + ")"; return "Level: " + formatWhole(getLevel()) + "/" + formatWhole(getLevelCap()) + " (" + format(getLevelProgress().mul(100)) + "%)" },
     function () { return "ATK: " + format(getATK()) },
     function () { if (player.b.points.gte(1)) return "DEF: " + format(getDEF()) },
@@ -96,7 +97,7 @@ var displayThings = [
 
 // Determines when the game "ends"
 function isEndgame() {
-    return player.b.points.gte(38) && getLevel().gte(500000)
+    return player.b.points.gte(39) && getLevel().gte(600000)
 }
 
 
@@ -123,7 +124,9 @@ function getATK() {
     if (inChallenge("d", 21)) return new Decimal(1);
     let atk = getLevel();
     if (hasMilestone("c", 2)) atk = atk.mul(1.1);
-        if (hasMilestone("c", 15)) atk = atk.mul(1.6); // 1.76
+    if (hasMilestone("c", 15)) atk = atk.mul(1.6); // 1.76
+    if (hasMilestone("c", 20)) atk = atk.mul(1.2/1.1); // 1.92
+
     atk = atk.mul(buyableEffect("c", 12));
 
     atk = atk.mul(layers.e.equipmentEff(21));
@@ -144,6 +147,8 @@ function getDEF() {
     if (player.b.points.gte(21)) def = def.add(getLevel().mul(0.02));
     if (hasMilestone("c", 13)) def = def.add(getLevel().mul(0.01));
     if (hasMilestone("c", 2)) def = def.mul(1.1); // 0.088
+    if (hasMilestone("c", 20)) def = def.mul(1.2/1.1); // 0.096
+
     def = def.mul(buyableEffect("c", 13));
 
     def = def.mul(layers.e.equipmentEff(22));
@@ -161,6 +166,7 @@ function getDMG() {
     if (player.b.points.gte(13)) dmg = dmg.add(getLevel().mul(0.0001));
     if (player.b.points.gte(19)) dmg = dmg.mul(1.1);
     if (player.b.points.gte(33)) dmg = dmg.mul(1.6); // 0.000176
+    if (hasMilestone("c", 20)) dmg = dmg.mul(1.2/1.1); // 0.000192
     dmg = dmg.mul(buyableEffect("c", 32));
 
     dmg = dmg.mul(layers.e.equipmentEff(24));
