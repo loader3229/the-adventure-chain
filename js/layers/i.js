@@ -205,7 +205,7 @@ tabFormat: {
         ["clickables",[3]],"blank",
         ["clickables",[4]],"blank",
 
-            ], unlocked: function () { return hasMilestone("i", 6) }
+            ], unlocked: function () { return hasMilestone("i", 21) }
         }
     },
     bars: {
