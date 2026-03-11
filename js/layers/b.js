@@ -349,6 +349,12 @@ addLayer("b", {
             done() { return player[this.layer].points.gte(39) }, // Used to determine when to give the milestone
             effectDescription: "Unlock another helper.",
         },
+        {
+            requirementDescription: "Beat 40 bosses",
+            unlocked() { return player[this.layer].points.gte(39) },
+            done() { return player[this.layer].points.gte(40) }, // Used to determine when to give the milestone
+            effectDescription: "Current Endgame",
+        },
 
     ],
     update(diff) {
