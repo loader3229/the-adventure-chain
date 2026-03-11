@@ -190,7 +190,7 @@ tabFormat: {
         ["display-text","Damage to boss multiplier is applied to damage to Infinity Boss."],
         ["display-text","Damage multiplier to Infinity Boss has a time factor, that resets on attack."],
         ["display-text",function(){return "Total Damage Dealt to Infinity Boss: "+format(Decimal.pow(2,Decimal.sub(1024,player.i.y)).sub(1))}],
-        ["display-text",function(){return "Total Damage Dealt to Infinity Boss will increase Imaginary point's effect, and increase Imaginary point gain to "+format(layers.i.infEff())+"x."}],
+        ["display-text",function(){return "Total Damage Dealt to Infinity Boss will increase Imaginary point's effect, and increase Imaginary point"+(hasMilestone("i", 21)?", power and essence":"")+" gain to "+format(layers.i.infEff())+"x."}],
         ["row", [["clickable", "11"]]],
             ], unlocked: function () { return hasMilestone("i", 6) }
         }, "Imaginary Tree": {
@@ -280,16 +280,16 @@ if(hasMilestone("i", 21))player.i.power = player.i.power.add(layers.i.getPowerGa
                 return this.id;
             },
             cost() {
-                return new Decimal(3);
+                return new Decimal(4);
             },
             display() {
-                return "Max Domain Completions +5.<br>Cost: 3 Imaginary Essence";
+                return "Max Domain Completions +5.<br>Cost: 4 Imaginary Essence";
             },
             canClick() {
-                return tmp.i.getEssence.gte(tmp.i.usedEssence.add(3)) && player.i.clickables[this.id]!=1;
+                return tmp.i.getEssence.gte(tmp.i.usedEssence.add(this.cost())) && player.i.clickables[this.id]!=1;
             },
             onClick() {
-                if(layers.i.getEssence().gte(layers.i.usedEssence().add(3))){
+                if(layers.i.getEssence().gte(layers.i.usedEssence().add(this.cost()))){
 			player.i.clickables[this.id]=1;
 		}
             },
@@ -301,16 +301,16 @@ if(hasMilestone("i", 21))player.i.power = player.i.power.add(layers.i.getPowerGa
                 return this.id;
             },
             cost() {
-                return new Decimal(3);
+                return new Decimal(4);
             },
             display() {
-                return "+200% Equipment Power<br>Cost: 3 Imaginary Essence";
+                return "+200% Equipment Power<br>Cost: 4 Imaginary Essence";
             },
             canClick() {
-                return tmp.i.getEssence.gte(tmp.i.usedEssence.add(3)) && player.i.clickables[this.id]!=1 && player.i.clickables[21]==1;
+                return tmp.i.getEssence.gte(tmp.i.usedEssence.add(this.cost())) && player.i.clickables[this.id]!=1 && player.i.clickables[21]==1;
             },
             onClick() {
-                if(layers.i.getEssence().gte(layers.i.usedEssence().add(3)) && player.i.clickables[21]==1){
+                if(layers.i.getEssence().gte(layers.i.usedEssence().add(this.cost())) && player.i.clickables[21]==1){
 			player.i.clickables[this.id]=1;
 		}
             },
@@ -324,16 +324,16 @@ if(hasMilestone("i", 21))player.i.power = player.i.power.add(layers.i.getPowerGa
                 return this.id;
             },
             cost() {
-                return new Decimal(3);
+                return new Decimal(4);
             },
             display() {
-                return "+2 Level Scaling<br>Cost: 3 Imaginary Essence";
+                return "+2 Level Scaling<br>Cost: 4 Imaginary Essence";
             },
             canClick() {
-                return tmp.i.getEssence.gte(tmp.i.usedEssence.add(3)) && player.i.clickables[this.id]!=1 && player.i.clickables[21]==1;
+                return tmp.i.getEssence.gte(tmp.i.usedEssence.add(this.cost())) && player.i.clickables[this.id]!=1 && player.i.clickables[21]==1;
             },
             onClick() {
-                if(layers.i.getEssence().gte(layers.i.usedEssence().add(3)) && player.i.clickables[21]==1){
+                if(layers.i.getEssence().gte(layers.i.usedEssence().add(this.cost())) && player.i.clickables[21]==1){
 			player.i.clickables[this.id]=1;
 		}
             },
@@ -347,16 +347,16 @@ if(hasMilestone("i", 21))player.i.power = player.i.power.add(layers.i.getPowerGa
                 return this.id;
             },
             cost() {
-                return new Decimal(3);
+                return new Decimal(4);
             },
             display() {
-                return "Joker gain x2<br>Cost: 3 Imaginary Essence";
+                return "Joker gain x2<br>Cost: 4 Imaginary Essence";
             },
             canClick() {
-                return tmp.i.getEssence.gte(tmp.i.usedEssence.add(3)) && player.i.clickables[this.id]!=1 && player.i.clickables[31]==1 && player.i.clickables[32]==1;
+                return tmp.i.getEssence.gte(tmp.i.usedEssence.add(this.cost())) && player.i.clickables[this.id]!=1 && player.i.clickables[31]==1 && player.i.clickables[32]==1;
             },
             onClick() {
-                if(layers.i.getEssence().gte(layers.i.usedEssence().add(3)) && player.i.clickables[31]==1 && player.i.clickables[32]==1){
+                if(layers.i.getEssence().gte(layers.i.usedEssence().add(this.cost())) && player.i.clickables[31]==1 && player.i.clickables[32]==1){
 			player.i.clickables[this.id]=1;
 		}
             },
@@ -377,7 +377,7 @@ infEff(){
   return Decimal.sub(1200,player.i.y).div(176).pow(1.2).min(10);
 },
 getEssence(){
-  return player.i.points.add(1).log10().mul(player.i.power.add(1).log10());
+  return player.i.points.add(1).log10().mul(player.i.power.add(1).log10()).mul(layers.i.infEff());
 },
 getPowerGain(){
 	if (hasMilestone("i", 21))return player.i.points.div(1000).pow(2).mul(layers.i.infEff());

@@ -21,6 +21,7 @@ addLayer("b", {
         return player.points;
     },
     getBossHP() {
+        if (player.b.points.gte(40)) return Decimal.pow(player.b.points.div(4), player.b.points);
         if (player.b.points.gte(10)) return Decimal.pow(10, player.b.points);
         return Decimal.pow(5, player.b.points).mul(1000);
     },
@@ -346,7 +347,7 @@ addLayer("b", {
             requirementDescription: "Beat 39 bosses",
             unlocked() { return player[this.layer].points.gte(38) },
             done() { return player[this.layer].points.gte(39) }, // Used to determine when to give the milestone
-            effectDescription: "Current Endgame",
+            effectDescription: "Unlock another helper.",
         },
 
     ],

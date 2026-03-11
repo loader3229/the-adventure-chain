@@ -66,6 +66,10 @@ addLayer("f", {
             if(player.e.points.gte(layers.f.buyables[11].cost()))player.f.buyables[11]=player.f.buyables[11].add(1);
             if(player.f.points.gte(layers.f.buyables[13].cost()))player.f.buyables[13]=player.f.buyables[13].add(1);
         } 
+        if(hasMilestone("j", 7)){
+            if(player.e.points.gte(layers.f.buyables[12].cost()))player.f.buyables[12]=player.f.buyables[12].add(1);
+        } 
+
     },
     effect() {
         let base = new Decimal(2);
@@ -117,14 +121,14 @@ addLayer("f", {
             },
             cost() {
                 let a = player[this.layer].buyables[this.id];
-                a = Decimal.pow(10, a.pow(2)).mul(1e6);
+                a = Decimal.pow(10, a.pow(2)).mul(hasMilestone("j",7)?1e4:1e6);
                 return a;
             },
             canAfford() {
                 return player.e.points.gte(layers[this.layer].buyables[this.id].cost())
             },
             buy() {
-                player.e.points = player.e.points.sub(layers[this.layer].buyables[this.id].cost())
+                if(!hasMilestone("j",7))player.e.points = player.e.points.sub(layers[this.layer].buyables[this.id].cost())
                 player[this.layer].buyables[this.id] = player[this.layer].buyables[this.id].add(1)
             },
             unlocked() { return hasUpgrade("c", 23) }
