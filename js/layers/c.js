@@ -65,6 +65,7 @@ addLayer("c", {
         ret = ret.mul(layers.f.effect());
         if (hasMilestone("i", 0)) ret = ret.mul(2);
         if (hasMilestone("i", 5)) ret = ret.mul(layers.i.effect());
+        if (player.b.points.gte(41)) ret = ret.mul(buyableEffect("h",22));
         if (player.sac.points.gte(3)) ret = ret.div(1000);
         else if (player.sac.points.gte(1)) ret = ret.div(12);
         return ret;
@@ -344,6 +345,11 @@ addLayer("c", {
         54: {
             description() { return "Tier 2 machine is cheaper."; },
             cost() { return new Decimal(1e44); },
+            unlocked() { return player.b.points.gte(35) }
+        },
+        55: {
+            description() { return "First 9 calm buyable bases +0.02"; },
+            cost() { return new Decimal(1e46); },
             unlocked() { return player.b.points.gte(35) }
         },
 
@@ -634,7 +640,7 @@ addLayer("c", {
 
             },
             effect() {
-                let eff = new Decimal(1.05).add(player[this.layer].buyables[this.id].mul(player.b.points.gte(38)?0.002:0.001));
+                let eff = new Decimal(hasUpgrade("c",55)?1.07:1.05).add(player[this.layer].buyables[this.id].mul(player.b.points.gte(38)?0.002:0.001));
                 return eff;
             },
             unlocked() { return hasUpgrade("c", 52) }

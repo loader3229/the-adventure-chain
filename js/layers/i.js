@@ -25,6 +25,7 @@ addLayer("i", {
  if (hasUpgrade("g", 25))ret = ret.mul(1.1);
  if (hasMilestone("i", 4))ret = ret.mul(1.25);
  if (hasMilestone("i", 6))ret = ret.mul(layers.i.infEff());
+	if(hasMilestone("j",9))ret = ret.mul(player.j.points.add(1).pow(0.02));
         return ret;
     },
     getResetGain() {

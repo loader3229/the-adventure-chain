@@ -353,7 +353,13 @@ addLayer("b", {
             requirementDescription: "Beat 40 bosses",
             unlocked() { return player[this.layer].points.gte(39) },
             done() { return player[this.layer].points.gte(40) }, // Used to determine when to give the milestone
-            effectDescription: "Current Endgame",
+            effectDescription: "You can sell current equipments when you buy equipments in Equipment Shop. (You can't sell when enemy drop equipments) Also, 5th domain's level scaling is 0.05",
+        },
+        {
+            requirementDescription: "Beat 41 bosses",
+            unlocked() { return player[this.layer].points.gte(40) },
+            done() { return player[this.layer].points.gte(41) }, // Used to determine when to give the milestone
+            effectDescription: "Unlock another helper.",
         },
 
     ],

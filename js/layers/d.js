@@ -90,7 +90,7 @@ addLayer("d", {
         },
         31: {
             name: "No Equipments and Scaling",
-            challengeDescription() { return "Your equipments has no effect. Level scaling factor is fixed at 0.03<br>Completions: " + formatWhole(player.d.challenges[this.id]) + "/" + layers.d.completionLimit(); },
+            challengeDescription() { return "Your equipments has no effect. Level scaling factor is fixed at "+(player.b.points.gte(40)?0.05:0.03)+"<br>Completions: " + formatWhole(player.d.challenges[this.id]) + "/" + layers.d.completionLimit(); },
             goal() { return layers.d.dgoal(this.id); },
             goalDescription() { return "Reach Level " + formatWhole(this.goal().ceil()); },
             currencyDisplayName: "Level",

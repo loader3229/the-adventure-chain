@@ -83,6 +83,21 @@ addLayer("j", {
             done() { return player.j.points.gte(128) }, // Used to determine when to give the milestone
             effectDescription: "Autobuy increase machine max tier, and it is cheaper, buying it doesn't reduce your Equipment Shard.",
         },
+        {
+            requirementDescription: "256 jokers",
+            done() { return player.j.points.gte(256) }, // Used to determine when to give the milestone
+            effectDescription: "Calm Gem's effect is better.",
+        },
+        {
+            requirementDescription: "512 jokers",
+            done() { return player.j.points.gte(512) }, // Used to determine when to give the milestone
+            effectDescription: "Jokers boost Imaginary points.",
+        },
+        {
+            requirementDescription: "1024 jokers",
+            done() { return player.j.points.gte(1024) }, // Used to determine when to give the milestone
+            effectDescription: "Post-300k level scaling starts 100k later.",
+        },
     ],
 
 tabFormat: {

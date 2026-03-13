@@ -136,6 +136,34 @@ if(player.b.points.gte(29))ret = ret.mul(player.b.points.div(20));
                 return eff;
             }, unlocked() { return player.b.points.gte(39) }
 
+        },
+        22: {
+            title() {
+                return "Calm Helper";
+            },
+            display() {
+                let data = tmp[this.layer].buyables[this.id];
+                return "Level: " + format(player[this.layer].buyables[this.id]) + "<br>" +
+                    "Calm Point Gain x" + format(data.effect) + " (based on helper points)<br>" +
+                    "Cost for Next Level: " + format(data.cost) + " Gold";
+            },
+            cost() {
+                let a = player[this.layer].buyables[this.id];
+                a = Decimal.pow(6, a).mul(1e8);
+                return a;
+            },
+            canAfford() {
+                return player.g.points.gte(layers[this.layer].buyables[this.id].cost())
+            },
+            buy() {
+                player.g.points = player.g.points.sub(layers[this.layer].buyables[this.id].cost())
+                player[this.layer].buyables[this.id] = player[this.layer].buyables[this.id].add(1)
+            },
+            effect() {
+                let eff = player[this.layer].buyables[this.id].mul(player[this.layer].points.add(10).log10().pow(1.5)).div(100).add(1);
+                return eff;
+            }, unlocked() { return player.b.points.gte(41) }
+
         }
 
     },

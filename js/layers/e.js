@@ -144,7 +144,7 @@ addLayer("e", {
         }
         if (type == 14) {
             if (inChallenge("d",31))return new Decimal(1);
-            return x.div(hasUpgrade("c", 33) ? 2000 : 3000).add(1);
+            return x.div(hasMilestone("j", 8) ? 1000 : hasUpgrade("c", 33) ? 2000 : 3000).add(1);
         }
         if (type >= 21 && type <= 24) {
             if (inChallenge("d",31))return new Decimal(1);

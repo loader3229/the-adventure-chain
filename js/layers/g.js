@@ -9,6 +9,7 @@ addLayer("g", {
             shop: [
                 { type: 11, level: new Decimal(1), power: new Decimal(1) }
             ],
+            shopmode: false,
         }
     },
     color: "#FFFF00",
@@ -36,7 +37,7 @@ addLayer("g", {
                 "main-display",
                 ["display-text", function () { return layers.e.clickables[player.g.shop[0].type].title + " Level " + formatWhole(player.g.shop[0].level) + ", Power: " + formatWhole(player.g.shop[0].power.mul(100)) + "%" }],
                 ["display-text", function () { return "Cost: " + formatWhole(layers.g.shopcost(0)) + " gold" }],
-                ["row", [["clickable", 11], ["clickable", 12]]]
+                ["clickables", [1]]
             ], unlocked: function () { return hasUpgrade("g", 12) || player.sac.points.gte(3) }
         }
     },
@@ -132,13 +133,42 @@ addLayer("g", {
             },
             onClick() {
                 player.g.points = player.g.points.sub(layers.g.shopcost(0));
-                layers.e.equip(player.g.shop[0].type, player.g.shop[0].level, player.g.shop[0].power);
+                if(player.g.shopmode){
+                    let x = Decimal.mul(player.e.equipment[player.g.shop[0].type].level, player.e.equipment[player.g.shop[0].type].power);
+                    let y = player.g.shop[0].level.mul(player.g.shop[0].power);
+                    if (y.gte(x)) {
+                        player.e.equipment[player.g.shop[0].type].level = player.g.shop[0].level;
+                        player.e.equipment[player.g.shop[0].type].power = player.g.shop[0].power;
+                    }
+                    player.g.points = player.g.points.add(x.min(y).pow(1.5).div(100000).add(100));
+                }else layers.e.equip(player.g.shop[0].type, player.g.shop[0].level, player.g.shop[0].power);
                 layers.g.clickables[11].onClick();
             },
             canClick() {
                 return player.g.points.gte(layers.g.shopcost(0));
             },
             unlocked: true,
+
+        },
+        13: {
+            title() {
+                return "Shop Mode"
+            },
+            display(){
+                if(player.g.shopmode){
+                    return "Buy and sell old equipment";
+                }else{
+                    return "Buy and convert to Equipment Shards";
+                }
+            },
+            onClick() {
+                player.g.shopmode = !player.g.shopmode;
+                tmp.g.clickables[13].display = layers.g.clickables[13].display();
+            },
+            
+            canClick(){return player.b.points.gte(40)},
+
+            unlocked(){return player.b.points.gte(40)},
 
         },
 

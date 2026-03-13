@@ -199,12 +199,13 @@ function getLevelProgress() {
 }
 
 function getLevelScaling() {
-    if (inChallenge("d",31))return new Decimal(0.03);
+    if (inChallenge("d",31))return new Decimal(player.b.points.gte(40)?0.05:0.03);
     let scaling = new Decimal(1);
     if (hasMilestone("c", 6)) scaling = scaling.add(hasUpgrade("c", 31) ? 1 : 0.2);
     if (hasMilestone("c", 7) && player.sac.points.gte(2)) scaling = scaling.add((hasUpgrade("c", 35) && player.sac.points.gte(4)) ? 2 : 0.5);
     if (getClickableState("i",32) == 1) scaling = scaling.add(2);
-    if (player.b.points.gte(29)) scaling = scaling.add(player.b.points.div(11.5).pow(2));
+    if (player.b.points.gte(40)) scaling = scaling.add(player.b.points.div(10).pow(2));
+    else if (player.b.points.gte(29)) scaling = scaling.add(player.b.points.div(11.5).pow(2));
     else if (player.b.points.gte(16)) scaling = scaling.add(player.b.points.div(16).pow(2));
     else if (player.b.points.gte(13)) scaling = scaling.add(player.b.points.mul(0.05));
     else if (player.b.points.gte(7)) scaling = scaling.add(player.b.points.sub(5).mul(0.05));
@@ -219,7 +220,7 @@ function getRealLevel() {
     if (player.sac.points.gte(4)) {
         let level = player.a.points.pow(0.0625).div(25).div(getLevelScaling().sqrt()).add(1).log(1.04).mul(getLevelScaling().sqrt()).pow(2).add(1);
         if (player.a.points.pow(0.125).lte(scaling)) level = player.a.points.pow(0.125).add(1);
-	level = softcap(level, new Decimal(hasMilestone("j", 4)?4e5:3e5), hasMilestone("j", 6)?0.8:0.4).min(getLevelCap());
+	level = softcap(level, new Decimal(hasMilestone("j", 10)?5e5:hasMilestone("j", 4)?4e5:3e5), hasMilestone("j", 6)?0.8:0.4).min(getLevelCap());
         return level;
     }
     if (player.sac.points.gte(3)) {
