@@ -361,6 +361,12 @@ addLayer("b", {
             done() { return player[this.layer].points.gte(41) }, // Used to determine when to give the milestone
             effectDescription: "Unlock another helper.",
         },
+        {
+            requirementDescription: "Beat 42 bosses",
+            unlocked() { return player[this.layer].points.gte(41) },
+            done() { return player[this.layer].points.gte(42) }, // Used to determine when to give the milestone
+            effectDescription: "1.04x HP gain, ATK, DEF and DMG.",
+        },
 
     ],
     update(diff) {
