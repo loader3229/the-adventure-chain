@@ -162,7 +162,7 @@ if(player.b.points.gte(29))ret = ret.mul(player.b.points.div(20));
             effect() {
                 let eff = player[this.layer].buyables[this.id].mul(player[this.layer].points.add(10).log10().pow(1.5)).div(100).add(1);
                 return eff;
-            }, unlocked() { return player.b.points.gte(41) }
+            }, unlocked() { return player.b.points.gte(42) }
 
         }
 

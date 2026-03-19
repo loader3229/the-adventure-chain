@@ -68,7 +68,7 @@ function getPointGen() {
     if (player.b.points.gte(24)) gain = gain.mul(1.25);
     if (hasMilestone("c", 18)) gain = gain.mul(1.28); // 2.2 
     if (hasMilestone("c", 20)) gain = gain.mul(1.2/1.1); // 2.4
-    if (player.b.points.gte(42)) gain = gain.mul(1.25/1.2); // 2.5
+    if (player.b.points.gte(41)) gain = gain.mul(1.25/1.2); // 2.5
 
     gain = gain.mul(buyableEffect("c", 21));
     if (player.b.points.gte(21)) gain = gain.mul(buyableEffect("h", 12));
@@ -127,7 +127,7 @@ function getATK() {
     if (hasMilestone("c", 2)) atk = atk.mul(1.1);
     if (hasMilestone("c", 15)) atk = atk.mul(1.6); // 1.76
     if (hasMilestone("c", 20)) atk = atk.mul(1.2/1.1); // 1.92
-    if (player.b.points.gte(42)) atk = atk.mul(1.25/1.2); // 2
+    if (player.b.points.gte(41)) atk = atk.mul(1.25/1.2); // 2
 
 
     atk = atk.mul(buyableEffect("c", 12));
@@ -151,7 +151,7 @@ function getDEF() {
     if (hasMilestone("c", 13)) def = def.add(getLevel().mul(0.01));
     if (hasMilestone("c", 2)) def = def.mul(1.1); // 0.088
     if (hasMilestone("c", 20)) def = def.mul(1.2/1.1); // 0.096
-    if (player.b.points.gte(42)) def = def.mul(1.25/1.2); // 0.1
+    if (player.b.points.gte(41)) def = def.mul(1.25/1.2); // 0.1
 
     def = def.mul(buyableEffect("c", 13));
 
@@ -171,7 +171,7 @@ function getDMG() {
     if (player.b.points.gte(19)) dmg = dmg.mul(1.1);
     if (player.b.points.gte(33)) dmg = dmg.mul(1.6); // 0.000176
     if (hasMilestone("c", 20)) dmg = dmg.mul(1.2/1.1); // 0.000192
-    if (player.b.points.gte(42)) dmg = dmg.mul(1.25/1.2); // 0.0002
+    if (player.b.points.gte(41)) dmg = dmg.mul(1.25/1.2); // 0.0002
 
     dmg = dmg.mul(buyableEffect("c", 32));
 
