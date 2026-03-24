@@ -190,6 +190,7 @@ function getLevel() {
 }
 
 function getLevelCap() {
+    if (player.sac.points.gte(5)) return new Decimal(196000).add(player.i.points.pow(1.5).mul(10).floor().min(3900000));
     if (player.sac.points.gte(4)) return new Decimal(110000).add(player.i.points.pow(1.8).mul(10).floor().min(914000));
     if (player.sac.points.gte(3)) return new Decimal(100000).add(player.i.points.pow(2).mul(10).min(156000));
     if (player.sac.points.gte(2)) return new Decimal(64000);
@@ -209,6 +210,7 @@ function getLevelScaling() {
     let scaling = new Decimal(1);
     if (hasMilestone("c", 6)) scaling = scaling.add(hasUpgrade("c", 31) ? 1 : 0.2);
     if (hasMilestone("c", 7) && player.sac.points.gte(2)) scaling = scaling.add((hasUpgrade("c", 35) && player.sac.points.gte(4)) ? 2 : 0.5);
+    if(player.sac.points.gte(5))scaling = scaling.mul(2);
     if (getClickableState("i",32) == 1) scaling = scaling.add(2);
     if (player.b.points.gte(40)) scaling = scaling.add(player.b.points.div(10).pow(2));
     else if (player.b.points.gte(29)) scaling = scaling.add(player.b.points.div(11.5).pow(2));
@@ -223,6 +225,11 @@ function getRealLevel() {
 
     let scaling = getLevelScaling();
 
+    if (player.sac.points.gte(5)) {
+        let level = player.a.points.pow(0.06).div(25).div(getLevelScaling().sqrt()).add(1).log(1.04).mul(getLevelScaling().sqrt()).pow(2).add(1);
+        if (player.a.points.pow(0.12).lte(scaling)) level = player.a.points.pow(0.12).add(1);
+        return level;
+    }
     if (player.sac.points.gte(4)) {
         let level = player.a.points.pow(0.0625).div(25).div(getLevelScaling().sqrt()).add(1).log(1.04).mul(getLevelScaling().sqrt()).pow(2).add(1);
         if (player.a.points.pow(0.125).lte(scaling)) level = player.a.points.pow(0.125).add(1);

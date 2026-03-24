@@ -139,6 +139,7 @@ addLayer("e", {
         }
         if (type == 13) {
             if (inChallenge("d",31))return new Decimal(0);
+            if(player.sac.points.gte(5))return Decimal.sub(10,Decimal.div(10,x.add(1).log10().pow(2).div(200).add(1)));
             if(hasMilestone("i",2))return Decimal.sub(10,Decimal.div(10,x.add(1).log10().pow(1.8).div(200).add(1)));
             return new Decimal(1).sub(Decimal.pow(0.995, x.pow(0.5)));
         }

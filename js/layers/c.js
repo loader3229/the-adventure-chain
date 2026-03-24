@@ -19,7 +19,7 @@ addLayer("c", {
     },
     exponent() {
         let ret = new Decimal(2);
-        if (player.b.points.gte(5)) ret = new Decimal([2.4, 2.4, 2.1, 2, 2.2][player.sac.points.toNumber()]);
+        if (player.b.points.gte(5)) ret = new Decimal([2.4, 2.4, 2.1, 2, 2.2, 2.4][player.sac.points.toNumber()]);
         if (hasMilestone("c", 5)) ret = ret.add(player.sac.points.gte(1) ? 0.1 : 0.6);
         if (hasMilestone("i", 0)) ret = ret.add(0.1);
         return ret;
@@ -225,13 +225,13 @@ addLayer("c", {
     upgrades: {
         11: {
             description: "Each calm upgrade double calm point gain.",
-            cost: new Decimal(1e4),
+            cost() { if (player.sac.points.gte(5)) return new Decimal(1e2); return new Decimal(1e4) },
             effect: function () { return Decimal.pow(2, player.c.upgrades.length) },
             effectDisplay: function () { return format(upgradeEffect(this.layer, this.id)) + "x" }
         },
         12: {
             description: "Unlock a new calm buyable.",
-            cost: new Decimal(1e5)
+            cost() { if (player.sac.points.gte(5)) return new Decimal(1e4); return new Decimal(1e5) }
         },
         13: {
             description: "Deal more damage to bosses based on calm upgrades.",
@@ -241,40 +241,40 @@ addLayer("c", {
         },
         14: {
             description: "Unlock a new calm buyable.",
-            cost: new Decimal(1e7),
+            cost() { if (player.sac.points.gte(5)) return new Decimal(1e8); return new Decimal(1e7) },
             unlocked() { return player.b.points.gte(7) }
         },
         15: {
             description() { if (player.sac.points.gte(3)) return "Equipment shard effect is better."; return "Unlock a new equipment type, equipment shard effect is better."; },
-            cost() { if (player.sac.points.gte(3)) return new Decimal(1e9); return new Decimal(3e8) },
+            cost() { if (player.sac.points.gte(5)) return new Decimal(1e10); if (player.sac.points.gte(3)) return new Decimal(1e9); return new Decimal(3e8) },
             unlocked() { return player.e.unlocked }
         },
         21: {
             description() { if (player.sac.points.gte(3)) return "Domain Points reduce damage taken when attacking boss."; return  "Unlock a new domain. Domain Points reduce damage taken when attacking boss."; },
-            cost() { if (player.sac.points.gte(3)) return new Decimal(1e11); return new Decimal(1e10) },
+            cost() { if (player.sac.points.gte(5)) return new Decimal(1e12); if (player.sac.points.gte(3)) return new Decimal(1e11); return new Decimal(1e10) },
             unlocked() { return player.e.unlocked },
             effect: function () { return player.d.points.mul(0.05).add(1) },
             effectDisplay: function () { return "/" + format(upgradeEffect(this.layer, this.id)) }
         },
         22: {
             description() { if (player.sac.points.gte(3)) return "Unlock a new calm buyable."; return "Unlock a new equipment type and a new calm buyable."; },
-            cost() { if (player.sac.points.gte(3)) return new Decimal(1e13); return new Decimal(3e11) },
+            cost() { if (player.sac.points.gte(5)) return new Decimal(1e14); if (player.sac.points.gte(3)) return new Decimal(1e13); return new Decimal(3e11) },
 
             unlocked() { return player.e.unlocked },
         },
         23: {
             description: "Unlock more tiers of machines.",
-            cost() { if (player.sac.points.gte(3)) return new Decimal(1e15); return new Decimal(2e13) },
+            cost() { if (player.sac.points.gte(5)) return new Decimal(1e16); if (player.sac.points.gte(3)) return new Decimal(1e15); return new Decimal(2e13) },
             unlocked() { return player.f.unlocked },
         },
         24: {
             description: "Equipment Power +50% for new equipments.",
-            cost() { if (player.sac.points.gte(3)) return new Decimal(1e17); return new Decimal(5e14) },
+            cost() { if (player.sac.points.gte(5)) return new Decimal(1e18); if (player.sac.points.gte(3)) return new Decimal(1e17); return new Decimal(5e14) },
             unlocked() { return player.f.unlocked },
         },
         25: {
             description: "Scrap effect is better.",
-            cost() { if (player.sac.points.gte(3)) return new Decimal(1e19); return new Decimal(3e10) },
+            cost() { if (player.sac.points.gte(5)) return new Decimal(1e20); if (player.sac.points.gte(3)) return new Decimal(1e19); return new Decimal(3e10) },
             unlocked() { return player.sac.points.gte(1) },
         },
         31: {

@@ -60,6 +60,7 @@ addLayer("sac", {
             layerDataReset("g");
             layerDataReset("h");
             layerDataReset("i");
+            layerDataReset("j");
 
             updateTemp();
             updateTemp();
