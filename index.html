@@ -1,6 +1,7 @@
-<!DOCTYPE html>
-
-<head>
+﻿<!DOCTYPE html>
+<html>
+<head><meta charset="utf-8">
+	<script src="/js/sha512.js"></script>
 
 	<link rel="stylesheet" type="text/css" href="css/system-style.css" />
 	<link rel="stylesheet" type="text/css" href="css/bars.css" />
@@ -35,10 +36,13 @@
 	<script src="js/utils/save.js"></script>
 	<script src="js/utils/themes.js"></script>
 
+
+	<script src="/supporter_code_check.js"></script>
 </head>
 
 
 <body onload="load()" onmousemove="updateMouse(event)">
+	<script>setInterval('document.title=modInfo.name+" v"+VERSION.num',100);</script>
 	<div id="app">
 		<canvas id="treeCanvas" class="canvas" v-if="!(tmp.gameEnded && !player.keepGoing)"></canvas>
 
@@ -137,3 +141,4 @@
 
 	</div>
 </body>
+</html>
