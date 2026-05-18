@@ -16,11 +16,11 @@ addLayer("a", {
         }
     },
     color: "#FF6666",
-    resource: "EXP", // Name of prestige currency
+    resource() { return modInfo.useChinese ? "经验" : "EXP"; }, // Name of prestige currency
     type: "none", // normal: cost to gain currency depends on amount gained. static: cost depends on how much you already have
     row: 0, // Row the layer is in on the tree (0 is the first row)
     layerShown() { return true },
-    baseResource: "HP", // Name of resource prestige is based on
+    baseResource() { return modInfo.useChinese ? "生命值" : "HP"; }, // Name of resource prestige is based on
     baseAmount() {
         return player.points;
     },
@@ -90,8 +90,8 @@ addLayer("a", {
     },
     tabFormat: [
         "main-display",
-        ["row", [["display-text", function () { return "Set Enemy Level: " }], ["text-input", "setLevel"], ["clickable", 21], ["clickable", 22]]],
-        ["row", [["display-text", function () { return "Current Enemy Level: " + formatWhole(player.a.level) }]]],
+        ["row", [["display-text", function () { return modInfo.useChinese ? "设置敌人等级：" : "Set Enemy Level: " }], ["text-input", "setLevel"], ["clickable", 21], ["clickable", 22]]],
+        ["row", [["display-text", function () { return (modInfo.useChinese ? "当前敌人等级：" : "Current Enemy Level: ") + formatWhole(player.a.level) }]]],
         ["bar", "hp"],
         ["display-text", function () { return "ATK: " + format(layers.a.getEnemyATK()) }],
         ["display-text", function () { if (player.a.level.gte(20)) return "DEF: " + format(layers.a.getEnemyDEF()) }],
@@ -126,7 +126,7 @@ addLayer("a", {
             },
             display() {
                 if (player.a.nextEnemyTime.gte(0)) {
-                    return "Next enemy in " + format(player.a.nextEnemyTime) + " seconds"
+                    return (modInfo.useChinese ? "下一个敌人在" : "Next enemy in ") + format(player.a.nextEnemyTime) + (modInfo.useChinese ? "秒后出现" : " seconds")
                 }
                 return `${format(player.a.hp)} / ${format(layers.a.getEnemyHP())}`
             },
@@ -136,10 +136,10 @@ addLayer("a", {
     clickables: {
         11: {
             title() {
-                return "Attack"
+                return (modInfo.useChinese ? "攻击" : "Attack")
             },
             display() {
-                return "Use " + format(layers.a.getEnemyATK().mul(layers.a.getEnemyDMG()).div(getDEF().add(1))) + " HP to deal " + format(getATK().mul(getDMG()).div(layers.a.getEnemyDEF().add(1))) + " damage"
+                return (modInfo.useChinese ? "使用" : "Use ") + format(layers.a.getEnemyATK().mul(layers.a.getEnemyDMG()).div(getDEF().add(1))) + (modInfo.useChinese ? "生命值造成" : " HP to deal ") + format(getATK().mul(getDMG()).div(layers.a.getEnemyDEF().add(1))) + (modInfo.useChinese ? "伤害" : " damage")
             },
             canClick() {
                 return player.points.gte(layers.a.getEnemyATK().mul(layers.a.getEnemyDMG()).div(getDEF().add(1))) && player.a.nextEnemyTime.lte(0);
@@ -155,7 +155,7 @@ addLayer("a", {
         },
         12: {
             title() {
-                return "Attack x" + formatWhole(this.bulk());
+                return (modInfo.useChinese ? "攻击" : "Attack") + " x" + formatWhole(this.bulk());
             },
             bulk() {
                 if (inChallenge("d", 22)) return new Decimal(1);
@@ -165,7 +165,7 @@ addLayer("a", {
                 return bulk;
             },
             display() {
-                return "Use " + format(layers.a.getEnemyATK().mul(layers.a.getEnemyDMG()).div(getDEF().add(1)).mul(this.bulk())) + " HP to deal " + format(getATK().mul(getDMG()).div(layers.a.getEnemyDEF().add(1)).mul(this.bulk())) + " damage"
+                return (modInfo.useChinese ? "使用" : "Use ") + format(layers.a.getEnemyATK().mul(layers.a.getEnemyDMG()).div(getDEF().add(1)).mul(this.bulk())) + (modInfo.useChinese ? "生命值造成" : " HP to deal ") + format(getATK().mul(getDMG()).div(layers.a.getEnemyDEF().add(1)).mul(this.bulk())) + (modInfo.useChinese ? "伤害" : " damage")
             },
             canClick() {
                 return player.points.gte(layers.a.getEnemyATK().mul(layers.a.getEnemyDMG()).div(getDEF().add(1))) && player.a.nextEnemyTime.lte(0);

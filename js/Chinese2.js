@@ -69,6 +69,11 @@ var cnItems = {
 	'Input Supporter Code To Gain Bonuses!': '输入捐赠码获取加成！捐赠码可以通过爱发电捐赠后联系我获取哦！',
 	'Buy me a coffee in Ko-Fi.com': '',
 	'Patreon Donation': '',
+'Afdian.com Donation': '用爱发电（捐赠）',
+    'loader3229\'s Discord Server': 'loader3229的Discord服务器',
+    'The Modding Tree Discord': '模组树Discord服务器',
+    'The Modding Tree\n							Discord': '模组树Discord服务器',
+    'Main Prestige Tree server': '声望树Discord服务器',
     //原样
     '': '',
     '': '',
