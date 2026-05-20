@@ -1,7 +1,7 @@
 modInfo.name = "冒险链";
 modInfo.pointsName = "生命值";
 VERSION.name = "作者汉化版（基于22222的汉化版修改）";
-VERSION.cnum = "1.1";
+VERSION.cnum = "2.0";
 VERSION.withoutName = "v" + VERSION.num + "c" + VERSION.cnum;
 VERSION.withName = "v" + VERSION.num + "c" + VERSION.cnum + " 作者汉化版（基于22222的汉化版修改）";
 modInfo.useChinese = true;

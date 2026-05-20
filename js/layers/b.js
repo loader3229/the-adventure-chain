@@ -11,12 +11,12 @@ addLayer("b", {
         }
     },
     color: "#FFCC66",
-    resource: "Beaten Bosses", // Name of prestige currency
+    resource() { return modInfo.useChinese ? "已打败的首领" : "Beaten Bosses"; }, // Name of prestige currency
     type: "none", // normal: cost to gain currency depends on amount gained. static: cost depends on how much you already have
     row: 1, // Row the layer is in on the tree (0 is the first row)
     branches: ['a'],
     layerShown() { return player.b.points.gte(1) || getLevel().gte(10) },
-    baseResource: "HP", // Name of resource prestige is based on
+    baseResource() { return modInfo.useChinese ? "生命值" : "HP"; }, // Name of resource prestige is based on
     baseAmount() {
         return player.points;
     },
@@ -71,10 +71,10 @@ addLayer("b", {
     clickables: {
         11: {
             title() {
-                return "Attack"
+                return (modInfo.useChinese ? "攻击" : "Attack")
             },
             display() {
-                return "Use " + format(layers.b.getBossATK().div(getDEF().add(1))) + " HP to attack"
+                return (modInfo.useChinese ? "使用" : "Use ") + format(layers.b.getBossATK().div(getDEF().add(1))) + (modInfo.useChinese ? "生命值进行攻击" : " HP to attack")
             },
             canClick() {
                 return player.points.gte(layers.b.getBossATK().div(getDEF().add(1)));
@@ -90,14 +90,14 @@ addLayer("b", {
         },
         12: {
             title() {
-                return "Attack x" + formatWhole(this.bulk());
+                return (modInfo.useChinese ? "攻击" : "Attack") + " x" + formatWhole(this.bulk());
             },
             bulk() {
                 let bulk = player.points.div(layers.b.getBossATK().div(getDEF().add(1))).floor().max(1);
                 return bulk;
             },
             display() {
-                return "Use " + format(layers.b.getBossATK().div(getDEF().add(1)).mul(this.bulk())) + " HP to attack"
+                return (modInfo.useChinese ? "使用" : "Use ") + format(layers.b.getBossATK().div(getDEF().add(1)).mul(this.bulk())) + (modInfo.useChinese ? "生命值进行攻击" : " HP to attack")
             },
             canClick() {
                 return player.points.gte(layers.b.getBossATK().div(getDEF().add(1)));

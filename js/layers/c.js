@@ -9,7 +9,7 @@ addLayer("c", {
         }
     },
     color: "#66FF66",
-    resource: "Calm Points", // Name of prestige currency
+    resource() { return modInfo.useChinese ? "平静点数" : "Calm Points"; }, // Name of prestige currency
     type: "normal", // normal: cost to gain currency depends on amount gained. static: cost depends on how much you already have
     requires() {
         if (player.sac.points.gte(3)) return new Decimal(1);
@@ -24,7 +24,7 @@ addLayer("c", {
         if (hasMilestone("i", 0)) ret = ret.add(0.1);
         return ret;
     },
-    baseResource: "levels", // Name of resource prestige is based on
+    baseResource() { return modInfo.useChinese ? "等级" : "levels"; }, // Name of resource prestige is based on
     baseAmount() {
         return getLevel();
     },
@@ -78,7 +78,7 @@ addLayer("c", {
     },
     effectDescription() { // Optional text to describe the effects
         let eff = this.effect();
-        return "translated to a " + format(eff) + "x multiplier to EXP gain"
+        return (modInfo.useChinese ? "经验获取变为原来的" : "translated to a ") + format(eff) + (modInfo.useChinese ? "倍" : "x multiplier to EXP gain")
     },
     milestones: [
         {

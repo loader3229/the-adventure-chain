@@ -46,9 +46,9 @@ var cnItems = {
     'Single-Tab Mode: ALWAYS': '单标签页模式：总是启用',
 	
 	'Hotkeys': '热键',
-	'M: Get Milestone': 'M：获得里程碑',
-	'P: Reset for prestige points': 'P：重置以获得声望点数',
-	'S: Reset for super-prestige points': 'S：重置以获得超级声望点数',
+	'a: attack enemy': 'A：攻击敌人',
+	'`: sacrifice': '`：进行献祭',
+	'b: attack boss': 'B：攻击首领',
 	'Shift+M: Get Meta-Milestone': 'Shift+M：获得元里程碑',
 	'B: Reset for prestige boosts': 'B：重置以获得声望加成',
 	'H: Reset for hyper-prestige points': 'H：重置以获得第三级声望点数',
