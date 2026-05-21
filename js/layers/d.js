@@ -28,7 +28,7 @@ addLayer("d", {
         let base=new Decimal(1.1);
         let sc=new Decimal(25);
         if(hasUpgrade("c",34)&&player.sac.points.gte(3))sc=sc.add(5);
-        if(hasUpgrade("c",42)&&player.sac.points.gte(3))sc=sc.add(5);
+        if(hasUpgrade("c",53)&&player.sac.points.gte(3))sc=sc.add(5);
         let ret=Decimal.pow(base, softcap(new Decimal(player.d.challenges[x] || 0), sc, 2)).mul(500);
         if(player.sac.points.eq(0) && x==11)ret=ret.mul(1.2);
         if(player.sac.points.eq(0) && x==21)ret=ret.mul(2);

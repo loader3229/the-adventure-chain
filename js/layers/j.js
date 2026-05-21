@@ -17,6 +17,7 @@ addLayer("j", {
     gainMult() {
         let ret = new Decimal(1);
 	if(hasMilestone("j",2))ret = ret.mul(player.i.points.add(1).pow(0.1));
+	if(hasUpgrade("g",31))ret = ret.mul(1.5);
 	if(player.b.points.gte(36))ret = ret.mul(player.b.points.sqrt().div(3));
 	if (getClickableState("i",41) == 1) ret = ret.mul(2);
         return ret;
@@ -35,6 +36,7 @@ addLayer("j", {
     effect() {
         let ret = player.j.points.div(2).add(1);
         if (ret.gte(10)) ret = Decimal.pow(10, ret.log10().sqrt().mul(2).sub(1));
+	if (player.sac.points.gte(5) && hasMilestone("j",6) && ret.gte(10)) ret = Decimal.pow(10, player.j.points.add(1).log10().sqrt().mul(2).sub(0.8));
         ret = ret.sqrt();
         return ret;
     },
@@ -66,7 +68,10 @@ addLayer("j", {
         {
             requirementDescription: "16 jokers",
             done() { return player.j.points.gte(16) }, // Used to determine when to give the milestone
-            effectDescription: "Post-300k level scaling starts 100k later.",
+            effectDescription(){
+                   if(player.sac.points.gte(5))return "Autobuy and sell equipments.";
+                   return "Post-300k level scaling starts 100k later.";
+            },
         },
         {
             requirementDescription: "32 jokers",
@@ -76,7 +81,10 @@ addLayer("j", {
         {
             requirementDescription: "64 jokers",
             done() { return player.j.points.gte(64) }, // Used to determine when to give the milestone
-            effectDescription: "Post-300k level scaling is weaker.",
+            effectDescription(){
+                   if(player.sac.points.gte(5))return "Joker effect is better.";
+                   return "Post-300k level scaling is weaker.";
+            },
         },
         {
             requirementDescription: "128 jokers",

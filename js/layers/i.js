@@ -168,6 +168,24 @@ addLayer("i", {
             unlocked() { return player.b.points.gte(37) },
             effectDescription: "Unlock Imaginary Power and Imaginary Tree.",
         },
+        {
+            requirementDescription: "1000 imaginary points",
+            done() { return (player.i.points.gte(1000) && player.sac.points.gte(5)) }, // Used to determine when to give the milestone
+            unlocked() { return player.sac.points.gte(5) },
+            effectDescription: "Keep automation status in Helper layer.",
+        },
+        {
+            requirementDescription: "1500 imaginary points",
+            done() { return (player.i.points.gte(1500) && player.sac.points.gte(5)) }, // Used to determine when to give the milestone
+            unlocked() { return player.sac.points.gte(5) },
+            effectDescription: "Start with first 10 gold upgrades.",
+        },
+        {
+            requirementDescription: "2000 imaginary points",
+            done() { return (player.i.points.gte(2000) && player.sac.points.gte(5)) }, // Used to determine when to give the milestone
+            unlocked() { return player.sac.points.gte(5) },
+            effectDescription: "Start with first 20 calm upgrades.",
+        },
     ],
 tabFormat: {
         "Main Tab": {

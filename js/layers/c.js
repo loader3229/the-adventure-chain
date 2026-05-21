@@ -279,77 +279,77 @@ addLayer("c", {
         },
         31: {
             description: "4000 Calm Points milestone is better.",
-            cost() { if (player.sac.points.gte(3)) return new Decimal(1e21); return new Decimal(1e17) },
+            cost() { if (player.sac.points.gte(5)) return new Decimal(1e22); if (player.sac.points.gte(3)) return new Decimal(1e21); return new Decimal(1e17) },
             unlocked() { return player.b.points.gte(13) }
         },
         32: {
             description: "Increase max domain completions.",
-            cost() { if (player.sac.points.gte(3)) return new Decimal(1e23); return new Decimal(3e18) },
+            cost() { if (player.sac.points.gte(5)) return new Decimal(1e24); if (player.sac.points.gte(3)) return new Decimal(1e23); return new Decimal(3e18) },
             unlocked() { return player.b.points.gte(13) }
         },
         33: {
             description: "Level Gem and Calm Gem effects are better.",
-            cost() { if (player.sac.points.gte(3)) return new Decimal(1e25); return new Decimal(4e20) },
+            cost() { if (player.sac.points.gte(5)) return new Decimal(1e26); if (player.sac.points.gte(3)) return new Decimal(1e25); return new Decimal(4e20) },
             unlocked() { return player.b.points.gte(13) }
         },
         34: {
             description() { if (player.sac.points.gte(3)) return "Domain goal scaling is delayed."; return "Unlock a new domain." },
-            cost() { if (player.sac.points.gte(3)) return new Decimal(1e27); return new Decimal(2e22) },
+            cost() { if (player.sac.points.gte(5)) return new Decimal(1e28); if (player.sac.points.gte(3)) return new Decimal(1e27); return new Decimal(2e22) },
             unlocked() { return player.b.points.gte(16) }
         },
         35: {
             description() { if (player.sac.points.gte(4)) return "1e5 Calm Points milestone is better."; return "Calm Point effect is better." },
-            cost() { if (player.sac.points.gte(3)) return new Decimal(1e29); return new Decimal(1e24) },
+            cost() { if (player.sac.points.gte(5)) return new Decimal(1e30); if (player.sac.points.gte(3)) return new Decimal(1e29);  },
             unlocked() { return player.b.points.gte(16) }
         },
         41: {
             description: "Unlock a new calm buyable.",
-            cost: new Decimal(1e26),
+            cost() { if (player.sac.points.gte(5)) return new Decimal(1e32); return new Decimal(1e26) },
             unlocked() { return player.sac.points.gte(2) },
         },
         42: {
             description: "You can let enemies drop equipment shards instead of equipments in adventure. Equipment shards drop in this mode is more than equipment shards from equipments.",
-            cost: new Decimal(1e28),
+            cost() { if (player.sac.points.gte(5)) return new Decimal(1e34); return new Decimal(1e28) },
             unlocked() { return player.sac.points.gte(2) },
         },
         43: {
             description: "Unlock a new calm buyable.",
-            cost() { if (player.sac.points.gte(3)) return new Decimal(1e30); return new Decimal(2e29) },
+            cost() { if (player.sac.points.gte(5)) return new Decimal(1e36); if (player.sac.points.gte(3)) return new Decimal(1e30); return new Decimal(2e29) },
             unlocked() { return player.sac.points.gte(2) },
         },
         44: {
             description: "HP gain, ATK, DEF and DMG calm buyables are cheaper.",
-            cost() { if (player.sac.points.gte(3)) return new Decimal(1e32); return new Decimal(2e31) },
+            cost() { if (player.sac.points.gte(5)) return new Decimal(1e38); if (player.sac.points.gte(3)) return new Decimal(1e32); return new Decimal(2e31) },
             unlocked() { return player.sac.points.gte(2) },
         },
         45: {
             description: "1.1x Imaginary Point gain.",
-            cost() { return new Decimal(1e34) },
+            cost() { if (player.sac.points.gte(5)) return new Decimal(1e40); return new Decimal(1e34) },
             unlocked() { return player.i.unlocked },
         },
         51: {
             description: "'All Factory Machine Speed' calm buyable is cheaper.",
-            cost() { return new Decimal(1e38) },
+            cost() { if (player.sac.points.gte(5)) return new Decimal(1e42); return new Decimal(1e38) },
             unlocked() { return player.sac.points.gte(4) },
         },
         52: {
             description: "Unlock a new calm buyable.",
-            cost() { return new Decimal(1e40); },
+            cost() { if (player.sac.points.gte(5)) return new Decimal(1e44); return new Decimal(1e40); },
             unlocked() { return player.b.points.gte(35) },
         },
         53: {
             description() { return "Domain goal scaling is delayed."; },
-            cost() { return new Decimal(1e42); },
+            cost() { if (player.sac.points.gte(5)) return new Decimal(1e46); return new Decimal(1e42); },
             unlocked() { return player.b.points.gte(35) }
         },
         54: {
             description() { return "Tier 2 machine is cheaper."; },
-            cost() { return new Decimal(1e44); },
+            cost() { if (player.sac.points.gte(5)) return new Decimal(1e48); return new Decimal(1e44); },
             unlocked() { return player.b.points.gte(35) }
         },
         55: {
             description() { return "First 9 calm buyable bases +0.02"; },
-            cost() { return new Decimal(1e46); },
+            cost() { if (player.sac.points.gte(5)) return new Decimal(1e50); return new Decimal(1e46); },
             unlocked() { return player.b.points.gte(35) }
         },
 
@@ -656,6 +656,7 @@ addLayer("c", {
             if(player.i.points.gte(20) || hasMilestone("i",8))player.c.milestones=[0,1,2,3,4,5,6,7,8,9,10,11];
             if(player.i.points.gte(400) || hasMilestone("i",18))player.c.milestones=[0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15];
             if(player.i.points.gte(300) || hasMilestone("i",17))player.c.upgrades=[11,12,13,14,15,21,22,23,24,25,31,32,33,34,35];
+		if((player.i.points.gte(2000) && player.sac.points.gte(5)) || hasMilestone("i",24))player.c.upgrades=[11,12,13,14,15,21,22,23,24,25,31,32,33,34,35,41,42,43,44,45];
             updateTemp();
         }
     },

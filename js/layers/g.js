@@ -24,6 +24,12 @@ addLayer("g", {
     },
     update(diff) {
         if (player.b.points.gte(16)) player.g.unlocked = true;
+        if (player.sac.points.gte(5) && hasMilestone("j",4) && player.g.points.gte(layers.g.shopcost(0))){
+            let tmp=player.g.shopmode;
+            player.g.shopmode=true;
+            layers.g.clickables[12].onClick();
+            player.g.shopmode=tmp;
+        }
     },
     tabFormat: {
         "Main Tab": {
@@ -93,7 +99,11 @@ addLayer("g", {
             cost(){return new Decimal(1e7);},
             unlocked() { return player.sac.points.gte(4) },
         },
-
+        31: {
+            description: "1.5x Joker gain.",
+            cost(){return new Decimal(3e7);},
+            unlocked() { return player.sac.points.gte(5) },
+        },
     },
     clickables: {
         11: {
@@ -132,6 +142,7 @@ addLayer("g", {
                 return "Buy"
             },
             onClick() {
+                if(player.g.points.lt(layers.g.shopcost(0)))return;
                 player.g.points = player.g.points.sub(layers.g.shopcost(0));
                 if(player.g.shopmode){
                     let x = Decimal.mul(player.e.equipment[player.g.shop[0].type].level, player.e.equipment[player.g.shop[0].type].power);
@@ -184,6 +195,7 @@ addLayer("g", {
         if (layer == "i" || layer == "j") {
             layerDataReset("g");
             if(player.i.points.gte(20) || hasMilestone("i",8))player.g.upgrades=[11,12,13,14,15,21,22];
+            if((player.i.points.gte(1500) && player.sac.points.gte(5)) || hasMilestone("i",23))player.g.upgrades=[11,12,13,14,15,21,22,23,24,25];
             updateTemp();
         }
     },

@@ -385,12 +385,14 @@ addLayer("b", {
         ret = ret.mul(layers.i.effect());
         if (player.sac.points.gte(1)) ret = ret.mul(10);
         if (player.sac.points.gte(2)) ret = ret.mul(100);
+        if (player.sac.points.gte(4)) ret = ret.mul(10);
         if (hasMilestone("i", 11)) ret = ret.mul(10);
         return ret;
     },
     dmgDivide() {
         let ret = new Decimal(1);
         if (player.sac.points.gte(3)) ret = ret.mul(10);
+        if (player.sac.points.gte(4)) ret = ret.mul(10);
         if (hasUpgrade("c", 21)) ret = ret.mul(upgradeEffect("c", 21));
 	ret = ret.mul(layers.j.effect());
         return ret;

@@ -232,6 +232,28 @@ addLayer("a", {
 
                   player.a.resetTime = 0;
             player.a.nextEnemyTime = new Decimal(2);
+		if(player.sac.points.gte(3)){
+			player.h.points = player.h.points.add(layers.h.gainMult());
+			player.a.nextEnemyTime = player.a.nextEnemyTime.mul(buyableEffect("h", 23));
+			if (player.h.clickables[12].eq(0)) player.h.points = player.h.points.add(player.h.autoProgress.mul(layers.h.gainMult()));
+			else if (player.h.clickables[12].gte(1)) {
+				function getTimeToBeatEnemy(x){
+					if(inChallenge("d", 22))return layers.a.getEnemyHP(x).mul(layers.a.getEnemyDEF(x).add(1)).div(getATK()).div(getDMG());
+					if(inChallenge("d", 12))return layers.a.getEnemyHP(x).mul(layers.a.getEnemyDEF(x).add(1)).div(getATK()).div(getDMG()).ceil().mul(layers.a.getEnemyATK(x)).mul(layers.a.getEnemyDMG(x)).div(getDEF().add(1));
+					return layers.a.getEnemyHP(x).mul(layers.a.getEnemyDEF(x).add(1)).div(getATK()).div(getDMG()).ceil().mul(layers.a.getEnemyATK(x)).mul(layers.a.getEnemyDMG(x)).div(getDEF().add(1)).sub(player.points.div(10)).div(getPointGen());
+				}
+				let compTime = player.a.nextEnemyTime;
+				if (player.h.clickables[12].eq(2))compTime = compTime.max(buyableEffect("h", 11).max(0.01).pow(-1)).add(0.1)
+				if(inChallenge("d", 12) || inChallenge("d", 22))compTime = new Decimal(1);
+				let l = new Decimal(1), r = new Decimal(player.a.level.mul(2).add(getLevel()).add(1000).floor());
+				for(let i=0;i<30;i++){
+					let m=l.add(r).div(2).floor();
+					console.log(l.toNumber()," ",r.toNumber()," ",m.toNumber()," ",getTimeToBeatEnemy(m).toNumber());
+					if(getTimeToBeatEnemy(m).lt(compTime))l=m; else r=m;
+				}
+				player.a.setLevel = player.a.level = l;
+			}
+		}
             player.a.hp = layers.a.getEnemyHP();
             player.a.points = player.a.points.add(layers.a.getEnemyEXP());
             player.g.points = player.g.points.add(layers.a.getEnemyGold());
@@ -253,10 +275,13 @@ addLayer("a", {
             player.a.hp = layers.a.getEnemyHP();
             player.a.bestEPS = new Decimal(0);
             player.a.bestLevel = new Decimal(1);
+            player.a.level = new Decimal(1);
+            player.a.setLevel = new Decimal(1);
             updateTemp();
         }
         if (layer == "i" || layer == "j") {
-            layerDataReset("a");
+		if((player.i.points.gte(2000) && player.sac.points.gte(5)) || hasMilestone("i",24))layerDataReset("a",["equipmentShard"]);
+            else layerDataReset("a");
             updateTemp();
         }
     },

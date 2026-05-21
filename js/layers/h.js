@@ -7,7 +7,7 @@ addLayer("h", {
             unlocked: false,
             points: new Decimal(0),
             autoProgress: new Decimal(0),
-            clickables: { 11: new Decimal(0) },
+            clickables: { 11: new Decimal(0), 12: new Decimal(0) },
         }
     },
     color: "#FF00FF",
@@ -164,6 +164,35 @@ if(player.b.points.gte(29))ret = ret.mul(player.b.points.div(20));
                 return eff;
             }, unlocked() { return player.b.points.gte(42) }
 
+        },
+        23: {
+            title() {
+                return "Respawn Helper";
+            },
+            display() {
+                let data = tmp[this.layer].buyables[this.id];
+                return "Level: " + format(player[this.layer].buyables[this.id]) + "<br>" +
+                    "Enemy Respawn Time x" + format(data.effect,4) + " (based on helper points)<br>" +
+                    "Also provide automation for enemy level<br>" +
+                    "Cost for Next Level: " + format(data.cost) + " Gold";
+            },
+            cost() {
+                let a = player[this.layer].buyables[this.id];
+                a = Decimal.pow(10, a);
+                return a;
+            },
+            canAfford() {
+                return player.g.points.gte(layers[this.layer].buyables[this.id].cost())
+            },
+            buy() {
+                player.g.points = player.g.points.sub(layers[this.layer].buyables[this.id].cost())
+                player[this.layer].buyables[this.id] = player[this.layer].buyables[this.id].add(1)
+            },
+            effect() {
+                let eff = player[this.layer].buyables[this.id].mul(player[this.layer].points.add(10).log10().pow(1.5)).div(1000).add(1).pow(-0.5);
+                return eff;
+            }, unlocked() { return player.sac.points.gte(3) }
+
         }
 
     },
@@ -199,6 +228,38 @@ if(player.b.points.gte(29))ret = ret.mul(player.b.points.div(20));
                 }
             },
             unlocked: true,
+        },
+        12: {
+            title() {
+                return "Change Respawn Helper Type"
+            },
+            display() {
+                if (player.h.clickables[12].eq(0)) {
+                    return "Current Type: None. Gain 2 base helper points per enemy.";
+                } else if (player.h.clickables[12].eq(1)) {
+                    return "Current Type: Autoset enemy level based on enemy spawn time after enemy defeated. Gain 1 base helper point per enemy.";
+                } else if (player.h.clickables[12].eq(2)) {
+                    return "Current Type: Autoset enemy level based on auto-helper time after enemy defeated. Gain 1 base helper point per enemy.";
+                }
+            },
+            canClick() {
+                return true;
+            },
+            onClick() {
+                player.h.clickables[12] = new Decimal((player.h.clickables[12].toNumber() + 1) % 3);
+            },
+            style() {
+                if (player.h.clickables[12].eq(0)) {
+                    return { "background-color": layers.h.color };
+                } else if (player.h.clickables[12].eq(1)) {
+                    return { "background-color": layers.a.color };
+                } else if (player.h.clickables[12].eq(2)) {
+                    return { "background-color": layers.b.color };
+                }
+            },
+            unlocked(){
+		return player.sac.points.gte(3);
+		},
         }
     },
     update(diff) {
@@ -217,7 +278,8 @@ if(player.b.points.gte(29))ret = ret.mul(player.b.points.div(20));
     ],
     doReset(layer) { 
         if (layer == "i" || layer == "j") {
-            if(player.i.points.gte(4) || hasMilestone("i",3))layerDataReset("h",["points","buyables","upgrades"]);
+            if((player.i.points.gte(1000) && player.sac.points.gte(5)) || hasMilestone("i",22))layerDataReset("h",["points","clickables","buyables","upgrades"]);
+              else if(player.i.points.gte(4) || hasMilestone("i",3))layerDataReset("h",["points","buyables","upgrades"]);
               else layerDataReset("h",["points","upgrades"]);
             updateTemp();
         }

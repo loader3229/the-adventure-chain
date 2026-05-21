@@ -10,7 +10,7 @@ addLayer("sac", {
     },
     color: "#FFFFFF",
     requires() {
-        if (player.sac.points.gte(4)) return new Decimal("10^^10");
+        if (player.sac.points.gte(5)) return new Decimal("10^^10");
         return new Decimal(4000);
     }, // Can be a function that takes requirement increases into account
     resource: "sacrifices", // Name of prestige currency
@@ -41,13 +41,13 @@ addLayer("sac", {
             requirementDescription: "Sacrifice 3 times",
             unlocked() { return player[this.layer].points.gte(2) },
             done() { return player[this.layer].points.gte(3) }, // Used to determine when to give the milestone
-            effectDescription: "Increase max level and EXP gain, but increase EXP required to level up. Reduce Enemy DEF when level > 1000. Reduce Tier 1 machine cost in layer F. Unlock all 8 current equipment types and all 4 current domains at the start of the sacrifice. Reduce damage taken from bosses to 0.1x.",
+            effectDescription: "Increase max level and EXP gain, but increase EXP required to level up. Reduce Enemy DEF when level > 1000. Reduce Tier 1 machine cost in layer F. Unlock all 8 current equipment types and all 4 current domains at the start of the sacrifice. Reduce damage taken from bosses to 0.1x. Unlock new buyable in layer H.",
         },
         {
             requirementDescription: "Sacrifice 4 times",
             unlocked() { return player[this.layer].points.gte(3) },
             done() { return player[this.layer].points.gte(4) }, // Used to determine when to give the milestone
-            effectDescription: "Increase max level, but increase EXP required to level up. Domain point 2nd effect is better.",
+            effectDescription: "Increase max level, but increase EXP required to level up. Domain point 2nd effect is better. Reduce damage taken from bosses to 0.1x. Deal 10x damage to bosses.",
         },
     ],
     doReset(layer) {
