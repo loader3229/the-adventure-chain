@@ -104,7 +104,10 @@ addLayer("j", {
         {
             requirementDescription: "1024 jokers",
             done() { return player.j.points.gte(1024) }, // Used to determine when to give the milestone
-            effectDescription: "Post-300k level scaling starts 100k later.",
+            effectDescription(){
+                   if(player.sac.points.gte(5))return "+5 Max Domain Completions";
+                   return "Post-300k level scaling starts 100k later.";
+            },
         },
     ],
 

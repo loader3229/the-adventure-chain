@@ -209,6 +209,12 @@ addLayer("c", {
             unlocked() { return player.sac.points.gte(4) },
             effectDescription: "1.09x HP gain, ATK, DEF and DMG.",
         },
+        {
+            requirementDescription() { return "1e47 calm points"; },
+            done() { return (player.c.points.gte(1e47) && player.sac.points.gte(5)) }, // Used to determine when to give the milestone
+            unlocked() { return player.sac.points.gte(5) },
+            effectDescription: "+100% Equipment Power.",
+        },
     ],
     update(diff) {
         if(hasMilestone("i", 0) && layers.c.tabFormat.Buyables.unlocked()){

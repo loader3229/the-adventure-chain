@@ -26,6 +26,7 @@ addLayer("i", {
  if (hasMilestone("i", 4))ret = ret.mul(1.25);
  if (hasMilestone("i", 6))ret = ret.mul(layers.i.infEff());
 	if(hasMilestone("j",9))ret = ret.mul(player.j.points.add(1).pow(0.02));
+	if (getClickableState("i",42) == 1) ret = ret.mul(1.1);
         return ret;
     },
     getResetGain() {
@@ -384,6 +385,53 @@ if(hasMilestone("i", 21))player.i.power = player.i.power.add(layers.i.getPowerGa
             branches(){return ["31","32"]},
 
         },
+        42: {
+            title() {
+                return this.id;
+            },
+            cost() {
+                return new Decimal(4);
+            },
+            display() {
+                return "Imaginary Point gain x1.1<br>Cost: 4 Imaginary Essence";
+            },
+            canClick() {
+                return tmp.i.getEssence.gte(tmp.i.usedEssence.add(this.cost())) && player.i.clickables[this.id]!=1 && player.i.clickables[31]==1 && player.i.clickables[32]==1;
+            },
+            onClick() {
+                if(layers.i.getEssence().gte(layers.i.usedEssence().add(this.cost())) && player.i.clickables[31]==1 && player.i.clickables[32]==1){
+			player.i.clickables[this.id]=1;
+		}
+            },
+            unlocked(){return player.sac.points.gte(5)},
+            style() { return { 'background-color': (getClickableState(this.layer,this.id)==1)?"#77BF5F":tmp.i.clickables[this.id].canClick?"#00CCCC":"#BF8F8F"}},
+            branches(){return ["31","32"]},
+
+        },
+        43: {
+            title() {
+                return this.id;
+            },
+            cost() {
+                return new Decimal(4);
+            },
+            display() {
+                return "Helper Point gain x3<br>Cost: 4 Imaginary Essence";
+            },
+            canClick() {
+                return tmp.i.getEssence.gte(tmp.i.usedEssence.add(this.cost())) && player.i.clickables[this.id]!=1 && player.i.clickables[31]==1 && player.i.clickables[32]==1;
+            },
+            onClick() {
+                if(layers.i.getEssence().gte(layers.i.usedEssence().add(this.cost())) && player.i.clickables[31]==1 && player.i.clickables[32]==1){
+			player.i.clickables[this.id]=1;
+		}
+            },
+            unlocked(){return player.sac.points.gte(5)},
+            style() { return { 'background-color': (getClickableState(this.layer,this.id)==1)?"#77BF5F":tmp.i.clickables[this.id].canClick?"#00CCCC":"#BF8F8F"}},
+            branches(){return ["31","32"]},
+
+        },
+
 
 
 },
