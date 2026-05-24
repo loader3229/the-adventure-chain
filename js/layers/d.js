@@ -29,6 +29,7 @@ addLayer("d", {
         let sc=new Decimal(25);
         if(hasUpgrade("c",34)&&player.sac.points.gte(3))sc=sc.add(5);
         if(hasUpgrade("c",53)&&player.sac.points.gte(3))sc=sc.add(5);
+	if (hasMilestone("c", 17) && player.sac.points.gte(5))sc = sc.add(5);
         let ret=Decimal.pow(base, softcap(new Decimal(player.d.challenges[x] || 0), sc, 2)).mul(500);
         if(player.sac.points.eq(0) && x==11)ret=ret.mul(1.2);
         if(player.sac.points.eq(0) && x==21)ret=ret.mul(2);
@@ -112,7 +113,7 @@ addLayer("d", {
         if (hasMilestone("i", 4)) d += 5;
         if (player.b.points.gte(31)) d += 5;
         if (getClickableState("i",21) == 1) d += 5;
-        if (hasMilestone("j", 10) && player.sac.points.gte(5)) d += 5;
+        if (hasMilestone("j", 10) && player.sac.points.gte(5)) d += 10;
         return d;
     },
     update(diff) {

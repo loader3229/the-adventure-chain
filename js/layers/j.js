@@ -37,6 +37,7 @@ addLayer("j", {
         let ret = player.j.points.div(2).add(1);
         if (ret.gte(10)) ret = Decimal.pow(10, ret.log10().sqrt().mul(2).sub(1));
 	if (player.sac.points.gte(5) && hasMilestone("j",6) && ret.gte(10)) ret = Decimal.pow(10, player.j.points.add(1).log10().sqrt().mul(2).sub(0.8));
+	if (player.sac.points.gte(5) && hasMilestone("j",12) && ret.gte(10)) ret = Decimal.pow(10, player.j.points.add(1).log10().sqrt().mul(2).sub(0.6));
         ret = ret.sqrt();
         return ret;
     },
@@ -105,9 +106,21 @@ addLayer("j", {
             requirementDescription: "1024 jokers",
             done() { return player.j.points.gte(1024) }, // Used to determine when to give the milestone
             effectDescription(){
-                   if(player.sac.points.gte(5))return "+5 Max Domain Completions";
+                   if(player.sac.points.gte(5))return "+10 Max Domain Completions";
                    return "Post-300k level scaling starts 100k later.";
             },
+        },
+        {
+            requirementDescription: "2048 jokers",
+            done() { return player.j.points.gte(2048) && player.sac.points.gte(5) }, // Used to determine when to give the milestone
+            unlocked() { return player.sac.points.gte(5) },
+            effectDescription: "The 8th gold upgrade is slightly better.",
+        },
+        {
+            requirementDescription: "4096 jokers",
+            done() { return player.j.points.gte(4096) && player.sac.points.gte(5)  }, // Used to determine when to give the milestone
+            unlocked() { return player.sac.points.gte(5) },
+            effectDescription: "Joker effect is better.",
         },
     ],
 

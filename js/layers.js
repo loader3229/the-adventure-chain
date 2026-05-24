@@ -47,7 +47,13 @@ addLayer("sac", {
             requirementDescription: "Sacrifice 4 times",
             unlocked() { return player[this.layer].points.gte(3) },
             done() { return player[this.layer].points.gte(4) }, // Used to determine when to give the milestone
-            effectDescription: "Increase max level, but increase EXP required to level up. Domain point 2nd effect is better. Reduce damage taken from bosses to 0.1x. Deal 10x damage to bosses.",
+            effectDescription: "Increase max level, but increase EXP required to level up. Domain point 2nd effect is better.",
+        },
+        {
+            requirementDescription: "Sacrifice 5 times",
+            unlocked() { return player[this.layer].points.gte(4) },
+            done() { return player[this.layer].points.gte(5) }, // Used to determine when to give the milestone
+            effectDescription: "Increase max level, but increase EXP required to level up. Reduce damage taken from bosses to 0.1x. Deal 10x damage to bosses.",
         },
     ],
     doReset(layer) {

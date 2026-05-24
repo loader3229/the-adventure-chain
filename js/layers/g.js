@@ -104,6 +104,11 @@ addLayer("g", {
             cost(){return new Decimal(3e7);},
             unlocked() { return player.sac.points.gte(5) },
         },
+        32: {
+            description: "Equipment Power +100% for new equipments.",
+            cost(){return new Decimal(1e8);},
+            unlocked() { return player.sac.points.gte(5) },
+        },
     },
     clickables: {
         11: {
@@ -126,7 +131,7 @@ addLayer("g", {
                     if (hasUpgrade("g", 13)) power = power.add(0.1);
                     if (hasUpgrade("g", 22)) power = power.add(0.1);
                     if (hasUpgrade("g", 24)) power = power.add(0.5);
-                    if (hasUpgrade("g", 23)) power = power.mul(player.g.points.div(level.mul(power).pow(1.5).div(100000).add(100)).max(1).pow(0.05));
+                    if (hasUpgrade("g", 23)) power = power.mul(player.g.points.div(level.mul(power).pow(1.5).div(100000).add(100)).max(1).pow(hasMilestone("j",11)?0.06:0.05));
                     i++;
                 }
                 player.g.shop[0].type = type;

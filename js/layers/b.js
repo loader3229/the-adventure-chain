@@ -367,6 +367,12 @@ addLayer("b", {
             done() { return player[this.layer].points.gte(42) }, // Used to determine when to give the milestone
             effectDescription: "Unlock another helper.",
         },
+        {
+            requirementDescription: "Beat 43 bosses",
+            unlocked() { return player[this.layer].points.gte(42) },
+            done() { return player[this.layer].points.gte(43) }, // Used to determine when to give the milestone
+            effectDescription: "Unlock another forge.",
+        },
 
     ],
     update(diff) {
@@ -385,14 +391,14 @@ addLayer("b", {
         ret = ret.mul(layers.i.effect());
         if (player.sac.points.gte(1)) ret = ret.mul(10);
         if (player.sac.points.gte(2)) ret = ret.mul(100);
-        if (player.sac.points.gte(4)) ret = ret.mul(10);
+        if (player.sac.points.gte(5)) ret = ret.mul(10);
         if (hasMilestone("i", 11)) ret = ret.mul(10);
         return ret;
     },
     dmgDivide() {
         let ret = new Decimal(1);
         if (player.sac.points.gte(3)) ret = ret.mul(10);
-        if (player.sac.points.gte(4)) ret = ret.mul(10);
+        if (player.sac.points.gte(5)) ret = ret.mul(10);
         if (hasUpgrade("c", 21)) ret = ret.mul(upgradeEffect("c", 21));
 	ret = ret.mul(layers.j.effect());
         return ret;

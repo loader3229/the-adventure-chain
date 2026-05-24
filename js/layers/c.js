@@ -64,6 +64,7 @@ addLayer("c", {
         ret = ret.mul(layers.e.equipmentEff(14));
         ret = ret.mul(layers.f.effect());
         if (hasMilestone("i", 0)) ret = ret.mul(2);
+	if (getClickableState("i",52) == 1) ret = ret.mul(2);
         if (hasMilestone("i", 5)) ret = ret.mul(layers.i.effect());
         if (player.b.points.gte(41)) ret = ret.mul(buyableEffect("h",22));
         if (player.sac.points.gte(3)) ret = ret.div(1000);
@@ -187,7 +188,7 @@ addLayer("c", {
             requirementDescription() { return "1e35 calm points"; },
             done() { return (player.c.points.gte(1e35) && player.sac.points.gte(4)) }, // Used to determine when to give the milestone
             unlocked() { return player.sac.points.gte(4) },
-            effectDescription: "The 5 calm points milestone is better.",
+            effectDescription(){ if(player.sac.points.gte(5))return "The 5 calm points milestone is better, domain goal scaling is delayed;"; return "The 5 calm points milestone is better."},
         },
         {
             requirementDescription() { return "1e38 calm points"; },
@@ -663,6 +664,8 @@ addLayer("c", {
             if(player.i.points.gte(400) || hasMilestone("i",18))player.c.milestones=[0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15];
             if(player.i.points.gte(300) || hasMilestone("i",17))player.c.upgrades=[11,12,13,14,15,21,22,23,24,25,31,32,33,34,35];
 		if((player.i.points.gte(2000) && player.sac.points.gte(5)) || hasMilestone("i",24))player.c.upgrades=[11,12,13,14,15,21,22,23,24,25,31,32,33,34,35,41,42,43,44,45];
+            if((player.i.points.gte(3000) && player.sac.points.gte(5)) || hasMilestone("i",25))player.c.milestones=[0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19];
+
             updateTemp();
         }
     },

@@ -30,7 +30,7 @@ addLayer("f", {
             ]
         }, "Forge": {
             "content": [
-                "main-display",["row", [["buyable", 21], ["buyable", 22]]],
+                "main-display",["row", [["buyables", [2]]]],
 		], unlocked: function () { return player.b.points.gte(28) }
         }
     },
@@ -216,6 +216,34 @@ addLayer("f", {
                 return eff;
             },
             unlocked() { return player.b.points.gte(32) }
+        },
+        23: {
+            title() {
+                return "Golden Forge";
+            },
+            display() {
+                let data = tmp[this.layer].buyables[this.id];
+                return "Level: " + formatWhole(player[this.layer].buyables[this.id]) + "<br>" +
+                    "+" + format(data.effect.sub(1).mul(100)) + "% to Equipment Power<br>" +
+                    "Cost: " + format(data.cost) + " Gold";
+            },
+            cost() {
+                let a = player[this.layer].buyables[this.id];
+                a = Decimal.pow(10,a.pow(1.5)).mul(1e5);
+                return a;
+            },
+            canAfford() {
+                return player.g.points.gte(layers[this.layer].buyables[this.id].cost())
+            },
+            buy() {
+                player.g.points = player.g.points.sub(layers[this.layer].buyables[this.id].cost())
+                player[this.layer].buyables[this.id] = player[this.layer].buyables[this.id].add(1)
+            },
+            effect() {
+                let eff = player[this.layer].buyables[this.id].pow(0.7).mul(0.5).add(1);
+                return eff;
+            },
+            unlocked() { return player.b.points.gte(43) }
         },
     },
     doReset(layer) { 

@@ -187,6 +187,12 @@ addLayer("i", {
             unlocked() { return player.sac.points.gte(5) },
             effectDescription: "Start with first 20 calm upgrades.",
         },
+        {
+            requirementDescription: "3000 imaginary points",
+            done() { return (player.i.points.gte(3000) && player.sac.points.gte(5)) }, // Used to determine when to give the milestone
+            unlocked() { return player.sac.points.gte(5) },
+            effectDescription: "Start with first 20 calm milestones.",
+        },
     ],
 tabFormat: {
         "Main Tab": {
@@ -224,6 +230,7 @@ tabFormat: {
         ["clickables",[2]],"blank",
         ["clickables",[3]],"blank",
         ["clickables",[4]],"blank",
+        ["clickables",[5]],"blank",
 
             ], unlocked: function () { return hasMilestone("i", 21) }
         }
@@ -429,6 +436,97 @@ if(hasMilestone("i", 21))player.i.power = player.i.power.add(layers.i.getPowerGa
             unlocked(){return player.sac.points.gte(5)},
             style() { return { 'background-color': (getClickableState(this.layer,this.id)==1)?"#77BF5F":tmp.i.clickables[this.id].canClick?"#00CCCC":"#BF8F8F"}},
             branches(){return ["31","32"]},
+
+        },
+        51: {
+            title() {
+                return this.id;
+            },
+            cost() {
+                return new Decimal(4);
+            },
+            display() {
+                return "+200% Equipment Power<br>Cost: 4 Imaginary Essence";
+            },
+            canClick() {
+                return tmp.i.getEssence.gte(tmp.i.usedEssence.add(this.cost())) && player.i.clickables[this.id]!=1 && player.i.clickables[41]==1;
+            },
+            onClick() {
+                if(layers.i.getEssence().gte(layers.i.usedEssence().add(this.cost())) && player.i.clickables[41]==1){
+			player.i.clickables[this.id]=1;
+		}
+            },
+            unlocked: true,
+            style() { return { 'background-color': (getClickableState(this.layer,this.id)==1)?"#77BF5F":tmp.i.clickables[this.id].canClick?"#00CCCC":"#BF8F8F"}},
+            branches(){return ["41"]},
+
+        },
+        52: {
+            title() {
+                return this.id;
+            },
+            cost() {
+                return new Decimal(4);
+            },
+            display() {
+                return "Calm Point gain x2<br>Cost: 4 Imaginary Essence";
+            },
+            canClick() {
+                return tmp.i.getEssence.gte(tmp.i.usedEssence.add(this.cost())) && player.i.clickables[this.id]!=1 && player.i.clickables[41]==1 && player.i.clickables[42]==1;
+            },
+            onClick() {
+                if(layers.i.getEssence().gte(layers.i.usedEssence().add(this.cost())) && player.i.clickables[41]==1 && player.i.clickables[42]==1){
+			player.i.clickables[this.id]=1;
+		}
+            },
+            unlocked(){return player.sac.points.gte(5)},
+            style() { return { 'background-color': (getClickableState(this.layer,this.id)==1)?"#77BF5F":tmp.i.clickables[this.id].canClick?"#00CCCC":"#BF8F8F"}},
+            branches(){return ["41","42"]},
+
+        },
+        53: {
+            title() {
+                return this.id;
+            },
+            cost() {
+                return new Decimal(4);
+            },
+            display() {
+                return "EXP gain x3<br>Cost: 4 Imaginary Essence";
+            },
+            canClick() {
+                return tmp.i.getEssence.gte(tmp.i.usedEssence.add(this.cost())) && player.i.clickables[this.id]!=1 && player.i.clickables[42]==1 && player.i.clickables[43]==1;
+            },
+            onClick() {
+                if(layers.i.getEssence().gte(layers.i.usedEssence().add(this.cost())) && player.i.clickables[42]==1 && player.i.clickables[43]==1){
+			player.i.clickables[this.id]=1;
+		}
+            },
+            unlocked(){return player.sac.points.gte(5)},
+            style() { return { 'background-color': (getClickableState(this.layer,this.id)==1)?"#77BF5F":tmp.i.clickables[this.id].canClick?"#00CCCC":"#BF8F8F"}},
+            branches(){return ["42","43"]},
+        },
+        54: {
+            title() {
+                return this.id;
+            },
+            cost() {
+                return new Decimal(4);
+            },
+            display() {
+                return "+2 Level Scaling<br>Cost: 4 Imaginary Essence";
+            },
+            canClick() {
+                return tmp.i.getEssence.gte(tmp.i.usedEssence.add(this.cost())) && player.i.clickables[this.id]!=1 && player.i.clickables[43]==1;
+            },
+            onClick() {
+                if(layers.i.getEssence().gte(layers.i.usedEssence().add(this.cost())) && player.i.clickables[43]==1){
+			player.i.clickables[this.id]=1;
+		}
+            },
+            unlocked: true,
+            style() { return { 'background-color': (getClickableState(this.layer,this.id)==1)?"#77BF5F":tmp.i.clickables[this.id].canClick?"#00CCCC":"#BF8F8F"}},
+            branches(){return ["43"]},
 
         },
 
