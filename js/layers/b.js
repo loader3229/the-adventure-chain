@@ -373,6 +373,12 @@ addLayer("b", {
             done() { return player[this.layer].points.gte(43) }, // Used to determine when to give the milestone
             effectDescription: "Unlock another forge.",
         },
+        {
+            requirementDescription: "Beat 44 bosses",
+            unlocked() { return player[this.layer].points.gte(43) },
+            done() { return player[this.layer].points.gte(44) }, // Used to determine when to give the milestone
+            effectDescription: "Current Endgame",
+        },
 
     ],
     update(diff) {
