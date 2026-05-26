@@ -24,15 +24,15 @@ addLayer("d", {
             ]
         }
     },
-    dgoal(x){
-        let base=new Decimal(1.1);
-        let sc=new Decimal(25);
-        if(hasUpgrade("c",34)&&player.sac.points.gte(3))sc=sc.add(5);
-        if(hasUpgrade("c",53)&&player.sac.points.gte(3))sc=sc.add(5);
-	if (hasMilestone("c", 17) && player.sac.points.gte(5))sc = sc.add(5);
-        let ret=Decimal.pow(base, softcap(new Decimal(player.d.challenges[x] || 0), sc, 2)).mul(500);
-        if(player.sac.points.eq(0) && x==11)ret=ret.mul(1.2);
-        if(player.sac.points.eq(0) && x==21)ret=ret.mul(2);
+    dgoal(x) {
+        let base = new Decimal(1.1);
+        let sc = new Decimal(25);
+        if (hasUpgrade("c", 34) && player.sac.points.gte(3)) sc = sc.add(5);
+        if (hasUpgrade("c", 53) && player.sac.points.gte(3)) sc = sc.add(5);
+        if (hasMilestone("c", 17) && player.sac.points.gte(5)) sc = sc.add(5);
+        let ret = Decimal.pow(base, softcap(new Decimal(player.d.challenges[x] || 0), sc, 2)).mul(500);
+        if (player.sac.points.eq(0) && x == 11) ret = ret.mul(1.2);
+        if (player.sac.points.eq(0) && x == 21) ret = ret.mul(2);
         return ret;
     },
     challenges: {
@@ -44,7 +44,7 @@ addLayer("d", {
             currencyDisplayName: "Level",
             canComplete() { return getLevel().gte(this.goal()) },
             completionLimit() { return layers.d.completionLimit(); },
-            rewardDescription(){if(player.b.points.gte(30))return "1 domain point and +1% DEF per completion.";return "1 domain point per completion.";},
+            rewardDescription() { if (player.b.points.gte(30)) return "1 domain point and +1% DEF per completion."; return "1 domain point per completion."; },
             onEnter() { doReset("c", true); }
         },
         12: {
@@ -55,7 +55,7 @@ addLayer("d", {
             currencyDisplayName: "Level",
             canComplete() { return getLevel().gte(this.goal()) },
             completionLimit() { return layers.d.completionLimit(); },
-            rewardDescription(){if(player.b.points.gte(30))return "1 domain point and +1% HP gain per completion.";return "1 domain point per completion.";},
+            rewardDescription() { if (player.b.points.gte(30)) return "1 domain point and +1% HP gain per completion."; return "1 domain point per completion."; },
             onEnter() {
                 doReset("c", true);
                 player.points = new Decimal(100);
@@ -69,7 +69,7 @@ addLayer("d", {
             currencyDisplayName: "Level",
             canComplete() { return getLevel().gte(this.goal()) },
             completionLimit() { return layers.d.completionLimit(); },
-            rewardDescription(){if(player.b.points.gte(30))return "1 domain point and +1% ATK per completion.";return "1 domain point per completion.";},
+            rewardDescription() { if (player.b.points.gte(30)) return "1 domain point and +1% ATK per completion."; return "1 domain point per completion."; },
             onEnter() {
                 doReset("c", true);
             },
@@ -83,7 +83,7 @@ addLayer("d", {
             currencyDisplayName: "Level",
             canComplete() { return getLevel().gte(this.goal()) },
             completionLimit() { return layers.d.completionLimit(); },
-            rewardDescription(){if(player.b.points.gte(30))return "1 domain point and +1% DMG per completion.";return "1 domain point per completion.";},
+            rewardDescription() { if (player.b.points.gte(30)) return "1 domain point and +1% DMG per completion."; return "1 domain point per completion."; },
             onEnter() {
                 doReset("c", true);
             },
@@ -91,13 +91,13 @@ addLayer("d", {
         },
         31: {
             name: "No Equipments and Scaling",
-            challengeDescription() { return "Your equipments has no effect. Level scaling factor is fixed at "+(player.b.points.gte(40)?0.05:0.03)+"<br>Completions: " + formatWhole(player.d.challenges[this.id]) + "/" + layers.d.completionLimit(); },
+            challengeDescription() { return "Your equipments has no effect. Level scaling factor is fixed at " + (player.b.points.gte(40) ? 0.05 : 0.03) + "<br>Completions: " + formatWhole(player.d.challenges[this.id]) + "/" + layers.d.completionLimit(); },
             goal() { return layers.d.dgoal(this.id); },
             goalDescription() { return "Reach Level " + formatWhole(this.goal().ceil()); },
             currencyDisplayName: "Level",
             canComplete() { return getLevel().gte(this.goal()) },
             completionLimit() { return layers.d.completionLimit(); },
-            rewardDescription(){return "1 domain point per completion.";},
+            rewardDescription() { return "1 domain point per completion."; },
             onEnter() {
                 doReset("c", true);
             },
@@ -112,7 +112,7 @@ addLayer("d", {
         if (hasUpgrade("g", 15)) d += 5;
         if (hasMilestone("i", 4)) d += 5;
         if (player.b.points.gte(31)) d += 5;
-        if (getClickableState("i",21) == 1) d += 5;
+        if (getClickableState("i", 21) == 1) d += 5;
         if (hasMilestone("j", 10) && player.sac.points.gte(5)) d += 10;
         return d;
     },
@@ -125,7 +125,7 @@ addLayer("d", {
                 }
             }
         }
-player.d.points = new Decimal(player.d.challenges[11]).add(player.d.challenges[12]).add(player.d.challenges[21]).add(player.d.challenges[22]).add(player.d.challenges[31]);
+        player.d.points = new Decimal(player.d.challenges[11]).add(player.d.challenges[12]).add(player.d.challenges[21]).add(player.d.challenges[22]).add(player.d.challenges[31]);
     },
     effect() {
         let ret = Decimal.pow(1.1, player.d.points);
@@ -133,7 +133,7 @@ player.d.points = new Decimal(player.d.challenges[11]).add(player.d.challenges[1
     },
     effect2() {
         let ret = player.d.points.pow(1.5).add(1);
-        if(player.sac.points.gte(4))ret = Decimal.pow(1.1, player.d.points);
+        if (player.sac.points.gte(4)) ret = Decimal.pow(1.1, player.d.points);
         return ret;
     },
     effectDescription() { // Optional text to describe the effects
@@ -142,16 +142,16 @@ player.d.points = new Decimal(player.d.challenges[11]).add(player.d.challenges[1
         return "translated to a " + format(eff) + "x multiplier to Calm Point gain and " + format(eff2) + "x multiplier to Boss Damage";
     },
 
-    doReset(layer) { 
-        if (layer == "i" || layer == "j") {
-            layerDataReset("d",["challenges"]);
+    doReset(layer) {
+        if (layer == "i" || layer == "j" || layer == "k") {
+            layerDataReset("d", ["challenges"]);
             keepAmount = 0;
-            if(hasMilestone("i",1) || player.i.points.gte(2))keepAmount = 0.25 + 0.15 * player.i.points.cbrt().min(5).toNumber();
-         player.d.challenges[11] = Math.floor(player.d.challenges[11]*keepAmount);
-         player.d.challenges[12] = Math.floor(player.d.challenges[12]*keepAmount);
-         player.d.challenges[21] = Math.floor(player.d.challenges[21]*keepAmount);
-         player.d.challenges[22] = Math.floor(player.d.challenges[22]*keepAmount);
-         player.d.challenges[31] = Math.floor(player.d.challenges[31]*keepAmount);
+            if (hasMilestone("i", 1) || player.i.points.gte(2)) keepAmount = 0.25 + 0.15 * player.i.points.cbrt().min(5).toNumber();
+            player.d.challenges[11] = Math.floor(player.d.challenges[11] * keepAmount);
+            player.d.challenges[12] = Math.floor(player.d.challenges[12] * keepAmount);
+            player.d.challenges[21] = Math.floor(player.d.challenges[21] * keepAmount);
+            player.d.challenges[22] = Math.floor(player.d.challenges[22] * keepAmount);
+            player.d.challenges[31] = Math.floor(player.d.challenges[31] * keepAmount);
 
 
             updateTemp();

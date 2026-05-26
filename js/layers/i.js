@@ -20,18 +20,18 @@ addLayer("i", {
     },
     gainMult() {
         let ret = new Decimal(1);
-        if(player.b.points.gte(27))ret = ret.mul(player.b.points.sub(26).pow(0.6).add(1));
- if (hasUpgrade("c", 45))ret = ret.mul(1.1);
- if (hasUpgrade("g", 25))ret = ret.mul(1.1);
- if (hasMilestone("i", 4))ret = ret.mul(1.25);
- if (hasMilestone("i", 6))ret = ret.mul(layers.i.infEff());
-	if(hasMilestone("j",9))ret = ret.mul(player.j.points.add(1).pow(0.02));
-	if (getClickableState("i",42) == 1) ret = ret.mul(1.1);
+        if (player.b.points.gte(27)) ret = ret.mul(player.b.points.sub(26).pow(0.6).add(1));
+        if (hasUpgrade("c", 45)) ret = ret.mul(1.1);
+        if (hasUpgrade("g", 25)) ret = ret.mul(1.1);
+        if (hasMilestone("i", 4)) ret = ret.mul(1.25);
+        if (hasMilestone("i", 6)) ret = ret.mul(layers.i.infEff());
+        if (hasMilestone("j", 9)) ret = ret.mul(player.j.points.add(1).pow(0.02));
+        if (getClickableState("i", 42) == 1) ret = ret.mul(1.1);
         return ret;
     },
     getResetGain() {
-        if(getLevel().lt(1e5))return new Decimal(0);
-        let ret=getLevel().sub(1e5).div(1e3).root(3).add(1).mul(layers.i.gainMult()).floor();
+        if (getLevel().lt(1e5)) return new Decimal(0);
+        let ret = getLevel().sub(1e5).div(1e3).root(3).add(1).mul(layers.i.gainMult()).floor();
         return ret;
     },
     getNextAt() {
@@ -105,7 +105,7 @@ addLayer("i", {
         {
             requirementDescription: "30 imaginary points",
             done() { return player.i.points.gte(30) }, // Used to determine when to give the milestone
-            effectDescription(){if(player.sac.points.gte(4))return "Calm buyable 'EXP Gain' is cheaper.";return "Reduce post-100k additional level scaling.";},
+            effectDescription() { if (player.sac.points.gte(4)) return "Calm buyable 'EXP Gain' is cheaper."; return "Reduce post-100k additional level scaling."; },
         },
         {
             requirementDescription: "50 imaginary points",
@@ -120,7 +120,7 @@ addLayer("i", {
         {
             requirementDescription: "100 imaginary points",
             done() { return player.i.points.gte(100) }, // Used to determine when to give the milestone
-            effectDescription(){if(player.sac.points.gte(4))return "Calm buyable 'Equipment Shard Gain' is cheaper.";return "Remove post-100k additional level scaling.";},
+            effectDescription() { if (player.sac.points.gte(4)) return "Calm buyable 'Equipment Shard Gain' is cheaper."; return "Remove post-100k additional level scaling."; },
         },
         {
             requirementDescription: "125 imaginary points",
@@ -194,7 +194,7 @@ addLayer("i", {
             effectDescription: "Start with first 20 calm milestones.",
         },
     ],
-tabFormat: {
+    tabFormat: {
         "Main Tab": {
             "content": [
                 "main-display",
@@ -208,29 +208,29 @@ tabFormat: {
                 "main-display",
                 "prestige-button",
                 "resource-display",
-["column", [["raw-html", function () {
-            let y = Math.ceil(player.i.y.toNumber());
-            return "<div style=width:400px;text-align:right;>x" + y + "</div>";
-        }], ["bar", "hp"]]],
-	"blank",
-        ["display-text","Damage to boss multiplier is applied to damage to Infinity Boss."],
-        ["display-text","Damage multiplier to Infinity Boss has a time factor, that resets on attack."],
-        ["display-text",function(){return "Total Damage Dealt to Infinity Boss: "+format(Decimal.pow(2,Decimal.sub(1024,player.i.y)).sub(1))}],
-        ["display-text",function(){return "Total Damage Dealt to Infinity Boss will increase Imaginary point's effect, and increase Imaginary point"+(hasMilestone("i", 21)?", power and essence":"")+" gain to "+format(layers.i.infEff())+"x."}],
-        ["row", [["clickable", "11"]]],
+                ["column", [["raw-html", function () {
+                    let y = Math.ceil(player.i.y.toNumber());
+                    return "<div style=width:400px;text-align:right;>x" + y + "</div>";
+                }], ["bar", "hp"]]],
+                "blank",
+                ["display-text", "Damage to boss multiplier is applied to damage to Infinity Boss."],
+                ["display-text", "Damage multiplier to Infinity Boss has a time factor, that resets on attack."],
+                ["display-text", function () { return "Total Damage Dealt to Infinity Boss: " + format(Decimal.pow(2, Decimal.sub(1024, player.i.y)).sub(1)) }],
+                ["display-text", function () { return "Total Damage Dealt to Infinity Boss will increase Imaginary point's effect, and increase Imaginary point" + (hasMilestone("i", 21) ? ", power and essence" : "") + " gain to " + format(layers.i.infEff()) + "x." }],
+                ["row", [["clickable", "11"]]],
             ], unlocked: function () { return hasMilestone("i", 6) }
         }, "Imaginary Tree": {
             "content": [
                 "main-display",
                 "prestige-button",
                 "resource-display",
-        ["display-text",function(){return "You have "+format(player.i.power)+" Imaginary Power. (+"+format(layers.i.getPowerGain())+"/s)"}],
-        ["display-text",function(){return "You have "+format(tmp.i.getEssence.sub(tmp.i.usedEssence))+"/"+format(tmp.i.getEssence)+" Imaginary Essence."}],
-        ["clickable",12],"blank",
-        ["clickables",[2]],"blank",
-        ["clickables",[3]],"blank",
-        ["clickables",[4]],"blank",
-        ["clickables",[5]],"blank",
+                ["display-text", function () { return "You have " + format(player.i.power) + " Imaginary Power. (+" + format(layers.i.getPowerGain()) + "/s)" }],
+                ["display-text", function () { return "You have " + format(tmp.i.getEssence.sub(tmp.i.usedEssence)) + "/" + format(tmp.i.getEssence) + " Imaginary Essence." }],
+                ["clickable", 12], "blank",
+                ["clickables", [2]], "blank",
+                ["clickables", [3]], "blank",
+                ["clickables", [4]], "blank",
+                ["clickables", [5]], "blank",
 
             ], unlocked: function () { return hasMilestone("i", 21) }
         }
@@ -260,21 +260,21 @@ tabFormat: {
             },
             unlocked: true, instant: true,
             display() {
-                return `${format(Decimal.pow(2,1024).sub(Decimal.pow(2,Decimal.sub(1024,player.i.y)).sub(1)))} / ${format(Decimal.pow(2,1024))}`
+                return `${format(Decimal.pow(2, 1024).sub(Decimal.pow(2, Decimal.sub(1024, player.i.y)).sub(1)))} / ${format(Decimal.pow(2, 1024))}`
             },
         }
     },
-    update(diff){
-if(hasMilestone("i", 6))player.i.infTime = player.i.infTime.add(diff);
-if(hasMilestone("i", 21))player.i.power = player.i.power.add(layers.i.getPowerGain().mul(diff));
-},
+    update(diff) {
+        if (hasMilestone("i", 6)) player.i.infTime = player.i.infTime.add(diff);
+        if (hasMilestone("i", 21)) player.i.power = player.i.power.add(layers.i.getPowerGain().mul(diff));
+    },
     clickables: {
         11: {
             title() {
                 return "Attack"
             },
             display() {
-                return "Damage multiplier: "+format(layers.i.infMult(),2,true)+"x";
+                return "Damage multiplier: " + format(layers.i.infMult(), 2, true) + "x";
             },
             canClick() {
                 return true;
@@ -282,7 +282,7 @@ if(hasMilestone("i", 21))player.i.power = player.i.power.add(layers.i.getPowerGa
             onClick() {
                 if (!layers[this.layer].clickables[this.id].canClick()) return;
                 player.i.infDmg = player.i.infDmg.add(getATK().mul(getDMG()).mul(layers.i.infMult()));
-                player.i.infTime=new Decimal(0);
+                player.i.infTime = new Decimal(0);
             },
             unlocked: true,
         },
@@ -297,8 +297,8 @@ if(hasMilestone("i", 21))player.i.power = player.i.power.add(layers.i.getPowerGa
                 return true;
             },
             onClick() {
-                for(i in player.i.clickables)if(player.i.clickables[i]==1)player.i.clickables[i]=0;
-                doReset("i",true);
+                for (i in player.i.clickables) if (player.i.clickables[i] == 1) player.i.clickables[i] = 0;
+                doReset("i", true);
             },
             unlocked: true,
         },
@@ -313,15 +313,15 @@ if(hasMilestone("i", 21))player.i.power = player.i.power.add(layers.i.getPowerGa
                 return "Max Domain Completions +5.<br>Cost: 4 Imaginary Essence";
             },
             canClick() {
-                return tmp.i.getEssence.gte(tmp.i.usedEssence.add(this.cost())) && player.i.clickables[this.id]!=1;
+                return tmp.i.getEssence.gte(tmp.i.usedEssence.add(this.cost())) && player.i.clickables[this.id] != 1;
             },
             onClick() {
-                if(layers.i.getEssence().gte(layers.i.usedEssence().add(this.cost()))){
-			player.i.clickables[this.id]=1;
-		}
+                if (layers.i.getEssence().gte(layers.i.usedEssence().add(this.cost()))) {
+                    player.i.clickables[this.id] = 1;
+                }
             },
             unlocked: true,
-            style() { return { 'background-color': (getClickableState(this.layer,this.id)==1)?"#77BF5F":tmp.i.clickables[this.id].canClick?"#00CCCC":"#BF8F8F"}},
+            style() { return { 'background-color': (getClickableState(this.layer, this.id) == 1) ? "#77BF5F" : tmp.i.clickables[this.id].canClick ? "#00CCCC" : "#BF8F8F" } },
         },
         31: {
             title() {
@@ -334,16 +334,16 @@ if(hasMilestone("i", 21))player.i.power = player.i.power.add(layers.i.getPowerGa
                 return "+200% Equipment Power<br>Cost: 4 Imaginary Essence";
             },
             canClick() {
-                return tmp.i.getEssence.gte(tmp.i.usedEssence.add(this.cost())) && player.i.clickables[this.id]!=1 && player.i.clickables[21]==1;
+                return tmp.i.getEssence.gte(tmp.i.usedEssence.add(this.cost())) && player.i.clickables[this.id] != 1 && player.i.clickables[21] == 1;
             },
             onClick() {
-                if(layers.i.getEssence().gte(layers.i.usedEssence().add(this.cost())) && player.i.clickables[21]==1){
-			player.i.clickables[this.id]=1;
-		}
+                if (layers.i.getEssence().gte(layers.i.usedEssence().add(this.cost())) && player.i.clickables[21] == 1) {
+                    player.i.clickables[this.id] = 1;
+                }
             },
             unlocked: true,
-            style() { return { 'background-color': (getClickableState(this.layer,this.id)==1)?"#77BF5F":tmp.i.clickables[this.id].canClick?"#00CCCC":"#BF8F8F"}},
-            branches(){return ["21"]},
+            style() { return { 'background-color': (getClickableState(this.layer, this.id) == 1) ? "#77BF5F" : tmp.i.clickables[this.id].canClick ? "#00CCCC" : "#BF8F8F" } },
+            branches() { return ["21"] },
 
         },
         32: {
@@ -357,16 +357,16 @@ if(hasMilestone("i", 21))player.i.power = player.i.power.add(layers.i.getPowerGa
                 return "+2 Level Scaling<br>Cost: 4 Imaginary Essence";
             },
             canClick() {
-                return tmp.i.getEssence.gte(tmp.i.usedEssence.add(this.cost())) && player.i.clickables[this.id]!=1 && player.i.clickables[21]==1;
+                return tmp.i.getEssence.gte(tmp.i.usedEssence.add(this.cost())) && player.i.clickables[this.id] != 1 && player.i.clickables[21] == 1;
             },
             onClick() {
-                if(layers.i.getEssence().gte(layers.i.usedEssence().add(this.cost())) && player.i.clickables[21]==1){
-			player.i.clickables[this.id]=1;
-		}
+                if (layers.i.getEssence().gte(layers.i.usedEssence().add(this.cost())) && player.i.clickables[21] == 1) {
+                    player.i.clickables[this.id] = 1;
+                }
             },
             unlocked: true,
-            style() { return { 'background-color': (getClickableState(this.layer,this.id)==1)?"#77BF5F":tmp.i.clickables[this.id].canClick?"#00CCCC":"#BF8F8F"}},
-            branches(){return ["21"]},
+            style() { return { 'background-color': (getClickableState(this.layer, this.id) == 1) ? "#77BF5F" : tmp.i.clickables[this.id].canClick ? "#00CCCC" : "#BF8F8F" } },
+            branches() { return ["21"] },
 
         },
         41: {
@@ -380,16 +380,16 @@ if(hasMilestone("i", 21))player.i.power = player.i.power.add(layers.i.getPowerGa
                 return "Joker gain x2<br>Cost: 4 Imaginary Essence";
             },
             canClick() {
-                return tmp.i.getEssence.gte(tmp.i.usedEssence.add(this.cost())) && player.i.clickables[this.id]!=1 && player.i.clickables[31]==1 && player.i.clickables[32]==1;
+                return tmp.i.getEssence.gte(tmp.i.usedEssence.add(this.cost())) && player.i.clickables[this.id] != 1 && player.i.clickables[31] == 1 && player.i.clickables[32] == 1;
             },
             onClick() {
-                if(layers.i.getEssence().gte(layers.i.usedEssence().add(this.cost())) && player.i.clickables[31]==1 && player.i.clickables[32]==1){
-			player.i.clickables[this.id]=1;
-		}
+                if (layers.i.getEssence().gte(layers.i.usedEssence().add(this.cost())) && player.i.clickables[31] == 1 && player.i.clickables[32] == 1) {
+                    player.i.clickables[this.id] = 1;
+                }
             },
             unlocked: true,
-            style() { return { 'background-color': (getClickableState(this.layer,this.id)==1)?"#77BF5F":tmp.i.clickables[this.id].canClick?"#00CCCC":"#BF8F8F"}},
-            branches(){return ["31","32"]},
+            style() { return { 'background-color': (getClickableState(this.layer, this.id) == 1) ? "#77BF5F" : tmp.i.clickables[this.id].canClick ? "#00CCCC" : "#BF8F8F" } },
+            branches() { return ["31", "32"] },
 
         },
         42: {
@@ -403,16 +403,16 @@ if(hasMilestone("i", 21))player.i.power = player.i.power.add(layers.i.getPowerGa
                 return "Imaginary Point gain x1.1<br>Cost: 4 Imaginary Essence";
             },
             canClick() {
-                return tmp.i.getEssence.gte(tmp.i.usedEssence.add(this.cost())) && player.i.clickables[this.id]!=1 && player.i.clickables[31]==1 && player.i.clickables[32]==1;
+                return tmp.i.getEssence.gte(tmp.i.usedEssence.add(this.cost())) && player.i.clickables[this.id] != 1 && player.i.clickables[31] == 1 && player.i.clickables[32] == 1;
             },
             onClick() {
-                if(layers.i.getEssence().gte(layers.i.usedEssence().add(this.cost())) && player.i.clickables[31]==1 && player.i.clickables[32]==1){
-			player.i.clickables[this.id]=1;
-		}
+                if (layers.i.getEssence().gte(layers.i.usedEssence().add(this.cost())) && player.i.clickables[31] == 1 && player.i.clickables[32] == 1) {
+                    player.i.clickables[this.id] = 1;
+                }
             },
-            unlocked(){return player.sac.points.gte(5)},
-            style() { return { 'background-color': (getClickableState(this.layer,this.id)==1)?"#77BF5F":tmp.i.clickables[this.id].canClick?"#00CCCC":"#BF8F8F"}},
-            branches(){return ["31","32"]},
+            unlocked() { return player.sac.points.gte(5) },
+            style() { return { 'background-color': (getClickableState(this.layer, this.id) == 1) ? "#77BF5F" : tmp.i.clickables[this.id].canClick ? "#00CCCC" : "#BF8F8F" } },
+            branches() { return ["31", "32"] },
 
         },
         43: {
@@ -426,16 +426,16 @@ if(hasMilestone("i", 21))player.i.power = player.i.power.add(layers.i.getPowerGa
                 return "Helper Point gain x3<br>Cost: 4 Imaginary Essence";
             },
             canClick() {
-                return tmp.i.getEssence.gte(tmp.i.usedEssence.add(this.cost())) && player.i.clickables[this.id]!=1 && player.i.clickables[31]==1 && player.i.clickables[32]==1;
+                return tmp.i.getEssence.gte(tmp.i.usedEssence.add(this.cost())) && player.i.clickables[this.id] != 1 && player.i.clickables[31] == 1 && player.i.clickables[32] == 1;
             },
             onClick() {
-                if(layers.i.getEssence().gte(layers.i.usedEssence().add(this.cost())) && player.i.clickables[31]==1 && player.i.clickables[32]==1){
-			player.i.clickables[this.id]=1;
-		}
+                if (layers.i.getEssence().gte(layers.i.usedEssence().add(this.cost())) && player.i.clickables[31] == 1 && player.i.clickables[32] == 1) {
+                    player.i.clickables[this.id] = 1;
+                }
             },
-            unlocked(){return player.sac.points.gte(5)},
-            style() { return { 'background-color': (getClickableState(this.layer,this.id)==1)?"#77BF5F":tmp.i.clickables[this.id].canClick?"#00CCCC":"#BF8F8F"}},
-            branches(){return ["31","32"]},
+            unlocked() { return player.sac.points.gte(5) },
+            style() { return { 'background-color': (getClickableState(this.layer, this.id) == 1) ? "#77BF5F" : tmp.i.clickables[this.id].canClick ? "#00CCCC" : "#BF8F8F" } },
+            branches() { return ["31", "32"] },
 
         },
         51: {
@@ -449,16 +449,16 @@ if(hasMilestone("i", 21))player.i.power = player.i.power.add(layers.i.getPowerGa
                 return "+200% Equipment Power<br>Cost: 4 Imaginary Essence";
             },
             canClick() {
-                return tmp.i.getEssence.gte(tmp.i.usedEssence.add(this.cost())) && player.i.clickables[this.id]!=1 && player.i.clickables[41]==1;
+                return tmp.i.getEssence.gte(tmp.i.usedEssence.add(this.cost())) && player.i.clickables[this.id] != 1 && player.i.clickables[41] == 1;
             },
             onClick() {
-                if(layers.i.getEssence().gte(layers.i.usedEssence().add(this.cost())) && player.i.clickables[41]==1){
-			player.i.clickables[this.id]=1;
-		}
+                if (layers.i.getEssence().gte(layers.i.usedEssence().add(this.cost())) && player.i.clickables[41] == 1) {
+                    player.i.clickables[this.id] = 1;
+                }
             },
             unlocked: true,
-            style() { return { 'background-color': (getClickableState(this.layer,this.id)==1)?"#77BF5F":tmp.i.clickables[this.id].canClick?"#00CCCC":"#BF8F8F"}},
-            branches(){return ["41"]},
+            style() { return { 'background-color': (getClickableState(this.layer, this.id) == 1) ? "#77BF5F" : tmp.i.clickables[this.id].canClick ? "#00CCCC" : "#BF8F8F" } },
+            branches() { return ["41"] },
 
         },
         52: {
@@ -472,16 +472,16 @@ if(hasMilestone("i", 21))player.i.power = player.i.power.add(layers.i.getPowerGa
                 return "Calm Point gain x2<br>Cost: 4 Imaginary Essence";
             },
             canClick() {
-                return tmp.i.getEssence.gte(tmp.i.usedEssence.add(this.cost())) && player.i.clickables[this.id]!=1 && player.i.clickables[41]==1 && player.i.clickables[42]==1;
+                return tmp.i.getEssence.gte(tmp.i.usedEssence.add(this.cost())) && player.i.clickables[this.id] != 1 && player.i.clickables[41] == 1 && player.i.clickables[42] == 1;
             },
             onClick() {
-                if(layers.i.getEssence().gte(layers.i.usedEssence().add(this.cost())) && player.i.clickables[41]==1 && player.i.clickables[42]==1){
-			player.i.clickables[this.id]=1;
-		}
+                if (layers.i.getEssence().gte(layers.i.usedEssence().add(this.cost())) && player.i.clickables[41] == 1 && player.i.clickables[42] == 1) {
+                    player.i.clickables[this.id] = 1;
+                }
             },
-            unlocked(){return player.sac.points.gte(5)},
-            style() { return { 'background-color': (getClickableState(this.layer,this.id)==1)?"#77BF5F":tmp.i.clickables[this.id].canClick?"#00CCCC":"#BF8F8F"}},
-            branches(){return ["41","42"]},
+            unlocked() { return player.sac.points.gte(5) },
+            style() { return { 'background-color': (getClickableState(this.layer, this.id) == 1) ? "#77BF5F" : tmp.i.clickables[this.id].canClick ? "#00CCCC" : "#BF8F8F" } },
+            branches() { return ["41", "42"] },
 
         },
         53: {
@@ -495,16 +495,16 @@ if(hasMilestone("i", 21))player.i.power = player.i.power.add(layers.i.getPowerGa
                 return "EXP gain x3<br>Cost: 4 Imaginary Essence";
             },
             canClick() {
-                return tmp.i.getEssence.gte(tmp.i.usedEssence.add(this.cost())) && player.i.clickables[this.id]!=1 && player.i.clickables[42]==1 && player.i.clickables[43]==1;
+                return tmp.i.getEssence.gte(tmp.i.usedEssence.add(this.cost())) && player.i.clickables[this.id] != 1 && player.i.clickables[42] == 1 && player.i.clickables[43] == 1;
             },
             onClick() {
-                if(layers.i.getEssence().gte(layers.i.usedEssence().add(this.cost())) && player.i.clickables[42]==1 && player.i.clickables[43]==1){
-			player.i.clickables[this.id]=1;
-		}
+                if (layers.i.getEssence().gte(layers.i.usedEssence().add(this.cost())) && player.i.clickables[42] == 1 && player.i.clickables[43] == 1) {
+                    player.i.clickables[this.id] = 1;
+                }
             },
-            unlocked(){return player.sac.points.gte(5)},
-            style() { return { 'background-color': (getClickableState(this.layer,this.id)==1)?"#77BF5F":tmp.i.clickables[this.id].canClick?"#00CCCC":"#BF8F8F"}},
-            branches(){return ["42","43"]},
+            unlocked() { return player.sac.points.gte(5) },
+            style() { return { 'background-color': (getClickableState(this.layer, this.id) == 1) ? "#77BF5F" : tmp.i.clickables[this.id].canClick ? "#00CCCC" : "#BF8F8F" } },
+            branches() { return ["42", "43"] },
         },
         54: {
             title() {
@@ -517,42 +517,42 @@ if(hasMilestone("i", 21))player.i.power = player.i.power.add(layers.i.getPowerGa
                 return "+2 Level Scaling<br>Cost: 4 Imaginary Essence";
             },
             canClick() {
-                return tmp.i.getEssence.gte(tmp.i.usedEssence.add(this.cost())) && player.i.clickables[this.id]!=1 && player.i.clickables[43]==1;
+                return tmp.i.getEssence.gte(tmp.i.usedEssence.add(this.cost())) && player.i.clickables[this.id] != 1 && player.i.clickables[43] == 1;
             },
             onClick() {
-                if(layers.i.getEssence().gte(layers.i.usedEssence().add(this.cost())) && player.i.clickables[43]==1){
-			player.i.clickables[this.id]=1;
-		}
+                if (layers.i.getEssence().gte(layers.i.usedEssence().add(this.cost())) && player.i.clickables[43] == 1) {
+                    player.i.clickables[this.id] = 1;
+                }
             },
             unlocked: true,
-            style() { return { 'background-color': (getClickableState(this.layer,this.id)==1)?"#77BF5F":tmp.i.clickables[this.id].canClick?"#00CCCC":"#BF8F8F"}},
-            branches(){return ["43"]},
+            style() { return { 'background-color': (getClickableState(this.layer, this.id) == 1) ? "#77BF5F" : tmp.i.clickables[this.id].canClick ? "#00CCCC" : "#BF8F8F" } },
+            branches() { return ["43"] },
 
         },
 
 
 
-},
-infMult(){
-   let ret=layers.b.dmgMult();
-  ret = ret.mul(1-Math.pow(0.99996,player.i.infTime.toNumber()**2));
-  return ret.max(0).div(1e20);
-},
-infEff(){
-  return Decimal.sub(1200,player.i.y).div(176).pow(1.2).min(10);
-},
-getEssence(){
-  return player.i.points.add(1).log10().mul(player.i.power.add(1).log10()).mul(layers.i.infEff());
-},
-getPowerGain(){
-	if (hasMilestone("i", 21))return player.i.points.div(1000).pow(2).mul(layers.i.infEff());
-	return new Decimal(0);
-},
-usedEssence(){
-   let u=new Decimal(0);
-   for(i in player.i.clickables)if(player.i.clickables[i]==1)u=u.add(layers.i.clickables[i].cost());
-   return u;
-},
+    },
+    infMult() {
+        let ret = layers.b.dmgMult();
+        ret = ret.mul(1 - Math.pow(0.99996, player.i.infTime.toNumber() ** 2));
+        return ret.max(0).div(1e20);
+    },
+    infEff() {
+        return Decimal.sub(1200, player.i.y).div(176).pow(1.2).min(10);
+    },
+    getEssence() {
+        return player.i.points.add(1).log10().mul(player.i.power.add(1).log10()).mul(layers.i.infEff());
+    },
+    getPowerGain() {
+        if (hasMilestone("i", 21)) return player.i.points.div(1000).pow(2).mul(layers.i.infEff());
+        return new Decimal(0);
+    },
+    usedEssence() {
+        let u = new Decimal(0);
+        for (i in player.i.clickables) if (player.i.clickables[i] == 1) u = u.add(layers.i.clickables[i].cost());
+        return u;
+    },
     doReset(layer) {
     },
 
@@ -560,5 +560,5 @@ usedEssence(){
 
 
 setInterval(function () {
-    if (player.i && player.i.y && player.i.infDmg && layers.i) player.i.y = Decimal.sub(1024,player.i.infDmg.add(1).log2()).mul(0.001).add(player.i.y.mul(0.999)).max(0), tmp.i.bars.hp.fillStyle = layers.i.bars.hp.fillStyle(), tmp.i.bars.hp.baseStyle = layers.i.bars.hp.baseStyle(), tmp.i.bars.hp.progress = layers.i.bars.hp.progress(), constructBarStyle("i", "hp");
+    if (player.i && player.i.y && player.i.infDmg && layers.i) player.i.y = Decimal.sub(1024, player.i.infDmg.add(1).log2()).mul(0.001).add(player.i.y.mul(0.999)).max(0), tmp.i.bars.hp.fillStyle = layers.i.bars.hp.fillStyle(), tmp.i.bars.hp.baseStyle = layers.i.bars.hp.baseStyle(), tmp.i.bars.hp.progress = layers.i.bars.hp.progress(), constructBarStyle("i", "hp");
 }, 10);

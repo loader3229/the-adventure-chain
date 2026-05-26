@@ -30,8 +30,8 @@ addLayer("f", {
             ]
         }, "Forge": {
             "content": [
-                "main-display",["row", [["buyables", [2]]]],
-		], unlocked: function () { return player.b.points.gte(28) }
+                "main-display", ["row", [["buyables", [2]]]],
+            ], unlocked: function () { return player.b.points.gte(28) }
         }
     },
     gainMult() {
@@ -62,20 +62,20 @@ addLayer("f", {
             if (player.f.maxTier.gte(2) && player.b.points.lt(23)) player.f.t2 = player.f.t2.max(1);
             if (player.f.maxTier.gte(3)) player.f.t2 = player.f.t2.root(player.f.maxTier.sub(2)).add(layers.f.gainMultT2().mul(diff)).pow(player.f.maxTier.sub(2));
         }
-        if(hasMilestone("j", 0)){
-            if(player.e.points.gte(layers.f.buyables[11].cost()))player.f.buyables[11]=player.f.buyables[11].add(1);
-            if(player.f.points.gte(layers.f.buyables[13].cost()))player.f.buyables[13]=player.f.buyables[13].add(1);
-        } 
-        if(hasMilestone("j", 7)){
-            if(player.e.points.gte(layers.f.buyables[12].cost()))player.f.buyables[12]=player.f.buyables[12].add(1);
-        } 
+        if (hasMilestone("j", 0)) {
+            if (player.e.points.gte(layers.f.buyables[11].cost())) player.f.buyables[11] = player.f.buyables[11].add(1);
+            if (player.f.points.gte(layers.f.buyables[13].cost())) player.f.buyables[13] = player.f.buyables[13].add(1);
+        }
+        if (hasMilestone("j", 7)) {
+            if (player.e.points.gte(layers.f.buyables[12].cost())) player.f.buyables[12] = player.f.buyables[12].add(1);
+        }
 
     },
     effect() {
         let base = new Decimal(2);
         if (hasUpgrade("c", 25)) base = base.add(1);
         if (hasMilestone("c", 12)) base = base.add(1);
-	if (hasMilestone("i", 20))base = base.add(1);
+        if (hasMilestone("i", 20)) base = base.add(1);
         return Decimal.pow(base, player.f.points.add(1).log10().sqrt());
     },
     effectDescription() {
@@ -101,7 +101,7 @@ addLayer("f", {
                 return player.e.points.gte(layers[this.layer].buyables[this.id].cost())
             },
             buy() {
-                if(!hasMilestone("j",0))player.e.points = player.e.points.sub(layers[this.layer].buyables[this.id].cost())
+                if (!hasMilestone("j", 0)) player.e.points = player.e.points.sub(layers[this.layer].buyables[this.id].cost())
                 player[this.layer].buyables[this.id] = player[this.layer].buyables[this.id].add(1)
             },
             effect() {
@@ -121,14 +121,14 @@ addLayer("f", {
             },
             cost() {
                 let a = player[this.layer].buyables[this.id];
-                a = Decimal.pow(10, a.pow(2)).mul(hasMilestone("j",7)?1e4:1e6);
+                a = Decimal.pow(10, a.pow(2)).mul(hasMilestone("j", 7) ? 1e4 : 1e6);
                 return a;
             },
             canAfford() {
                 return player.e.points.gte(layers[this.layer].buyables[this.id].cost())
             },
             buy() {
-                if(!hasMilestone("j",7))player.e.points = player.e.points.sub(layers[this.layer].buyables[this.id].cost())
+                if (!hasMilestone("j", 7)) player.e.points = player.e.points.sub(layers[this.layer].buyables[this.id].cost())
                 player[this.layer].buyables[this.id] = player[this.layer].buyables[this.id].add(1)
             },
             unlocked() { return hasUpgrade("c", 23) }
@@ -145,14 +145,14 @@ addLayer("f", {
             },
             cost() {
                 let a = player[this.layer].buyables[this.id];
-                a = Decimal.pow(hasUpgrade("c", 54)?3:4, a.pow(hasUpgrade("c", 54)?1.4:1.5));
+                a = Decimal.pow(hasUpgrade("c", 54) ? 3 : 4, a.pow(hasUpgrade("c", 54) ? 1.4 : 1.5));
                 return a;
             },
             canAfford() {
                 return player.f.points.gte(layers[this.layer].buyables[this.id].cost())
             },
             buy() {
-                if(!hasMilestone("j",0))player.f.points = player.f.points.sub(layers[this.layer].buyables[this.id].cost())
+                if (!hasMilestone("j", 0)) player.f.points = player.f.points.sub(layers[this.layer].buyables[this.id].cost())
                 player[this.layer].buyables[this.id] = player[this.layer].buyables[this.id].add(1)
             },
             effect() {
@@ -173,7 +173,7 @@ addLayer("f", {
             },
             cost() {
                 let a = player[this.layer].buyables[this.id];
-                a = Decimal.pow(10,a.pow(1.5)).mul(1e30);
+                a = Decimal.pow(10, a.pow(1.5)).mul(1e30);
                 return a;
             },
             canAfford() {
@@ -184,7 +184,7 @@ addLayer("f", {
                 player[this.layer].buyables[this.id] = player[this.layer].buyables[this.id].add(1)
             },
             effect() {
-                let eff = player[this.layer].buyables[this.id].pow(0.7).mul(hasMilestone("j",3)?0.5:0.2).add(1);
+                let eff = player[this.layer].buyables[this.id].pow(0.7).mul(hasMilestone("j", 3) ? 0.5 : 0.2).add(1);
                 return eff;
             },
             unlocked() { return player.b.points.gte(28) }
@@ -201,7 +201,7 @@ addLayer("f", {
             },
             cost() {
                 let a = player[this.layer].buyables[this.id];
-                a = Decimal.pow(10,a.pow(1.5)).mul(1e15);
+                a = Decimal.pow(10, a.pow(1.5)).mul(1e15);
                 return a;
             },
             canAfford() {
@@ -229,7 +229,7 @@ addLayer("f", {
             },
             cost() {
                 let a = player[this.layer].buyables[this.id];
-                a = Decimal.pow(10,a.pow(1.5)).mul(1e5);
+                a = Decimal.pow(10, a.pow(1.5)).mul(1e5);
                 return a;
             },
             canAfford() {
@@ -246,8 +246,8 @@ addLayer("f", {
             unlocked() { return player.b.points.gte(43) }
         },
     },
-    doReset(layer) { 
-        if (layer == "i" || layer == "j") {
+    doReset(layer) {
+        if (layer == "i" || layer == "j" || layer == "k") {
             layerDataReset("f");
             updateTemp();
         }

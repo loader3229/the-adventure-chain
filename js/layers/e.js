@@ -70,13 +70,13 @@ addLayer("e", {
 
         return x;
     },
-    getResetGain(){
+    getResetGain() {
         let power = layers.e.effect().add(layers.e.effect2());
         let gain = layers.e.gainMult(player.a.bestLevel.max(1).mul(power)).mul(layers.e.equipmentEff(13).max(1));
         return gain;
     },
-    passiveGeneration(){
-        if (hasMilestone("c", 19))return 1; return 0;
+    passiveGeneration() {
+        if (hasMilestone("c", 19)) return 1; return 0;
     },
     update(diff) {
         if (player.b.points.gte(8)) player.e.unlocked = true;
@@ -130,25 +130,25 @@ addLayer("e", {
         if (type === undefined) return new Decimal(0);
         let x = Decimal.mul(player.e.equipment[type].level, player.e.equipment[type].power);
         if (type == 11) {
-            if (inChallenge("d",31))return new Decimal(0);
-            return softcap(softcap(x.div(hasUpgrade("c", 33) ? 50000 : 60000), new Decimal(2)), new Decimal(8), 1/3);
+            if (inChallenge("d", 31)) return new Decimal(0);
+            return softcap(softcap(x.div(hasUpgrade("c", 33) ? 50000 : 60000), new Decimal(2)), new Decimal(8), 1 / 3);
         }
         if (type == 12) {
-            if (inChallenge("d",31))return new Decimal(1);
+            if (inChallenge("d", 31)) return new Decimal(1);
             return Decimal.pow(1.01, softcap(x.pow(0.5), new Decimal(1000))).min(x.add(1));
         }
         if (type == 13) {
-            if (inChallenge("d",31))return new Decimal(0);
-            if(player.sac.points.gte(5))return Decimal.sub(10,Decimal.div(10,x.add(1).log10().pow(2).div(200).add(1)));
-            if(hasMilestone("i",2))return Decimal.sub(10,Decimal.div(10,x.add(1).log10().pow(1.8).div(200).add(1)));
+            if (inChallenge("d", 31)) return new Decimal(0);
+            if (player.sac.points.gte(5)) return Decimal.sub(10, Decimal.div(10, x.add(1).log10().pow(2).div(200).add(1)));
+            if (hasMilestone("i", 2)) return Decimal.sub(10, Decimal.div(10, x.add(1).log10().pow(1.8).div(200).add(1)));
             return new Decimal(1).sub(Decimal.pow(0.995, x.pow(0.5)));
         }
         if (type == 14) {
-            if (inChallenge("d",31))return new Decimal(1);
+            if (inChallenge("d", 31)) return new Decimal(1);
             return x.div(hasMilestone("j", 8) ? 1000 : hasUpgrade("c", 33) ? 2000 : 3000).add(1);
         }
         if (type >= 21 && type <= 24) {
-            if (inChallenge("d",31))return new Decimal(1);
+            if (inChallenge("d", 31)) return new Decimal(1);
             if (player.sac.points.gte(3)) return Decimal.pow(1.01, x.pow(hasUpgrade("g", 14) ? 0.306 : 0.302));
             if (hasUpgrade("g", 14)) return Decimal.pow(1.01, x.pow(0.3)).max(x.pow(0.3).div(90).add(1));
             return Decimal.pow(1.01, x.pow(0.3).sub(20)).max(x.pow(0.3).div(100).add(1));
@@ -167,15 +167,15 @@ addLayer("e", {
         if (hasMilestone("c", 14)) ret = ret.add(0.5);
         if (hasMilestone("c", 16)) ret = ret.add(1);
         if (hasUpgrade("g", 24)) ret = ret.add(1);
-	if (hasMilestone("c", 21)) ret = ret.add(1);
+        if (hasMilestone("c", 21)) ret = ret.add(1);
         if (hasUpgrade("g", 32)) ret = ret.add(1);
-        if (getClickableState("i",31) == 1) ret = ret.add(2);
-        if (getClickableState("i",51) == 1) ret = ret.add(2);
+        if (getClickableState("i", 31) == 1) ret = ret.add(2);
+        if (getClickableState("i", 51) == 1) ret = ret.add(2);
         if (player.b.points.gte(14)) ret = ret.add(player.e.points.add(10).log10().div(player.b.points.gte(22) ? 8 : 10));
-        if (player.b.points.gte(25)) ret = ret.add(buyableEffect("h",13).sub(1));
-        if (player.b.points.gte(28)) ret = ret.add(buyableEffect("f",21).sub(1));
-        if (player.b.points.gte(32)) ret = ret.add(buyableEffect("f",22).sub(1));
-        if (player.b.points.gte(43)) ret = ret.add(buyableEffect("f",23).sub(1));
+        if (player.b.points.gte(25)) ret = ret.add(buyableEffect("h", 13).sub(1));
+        if (player.b.points.gte(28)) ret = ret.add(buyableEffect("f", 21).sub(1));
+        if (player.b.points.gte(32)) ret = ret.add(buyableEffect("f", 22).sub(1));
+        if (player.b.points.gte(43)) ret = ret.add(buyableEffect("f", 23).sub(1));
         return ret;
     },
     effectDescription() {
@@ -254,11 +254,11 @@ addLayer("e", {
             unlocked() { return player.b.points.gte(19); }
         },
     },
-    doReset(layer) { 
-        if (layer == "i" || layer == "j") {
+    doReset(layer) {
+        if (layer == "i" || layer == "j" || layer == "k") {
             layerDataReset("e");
-            if(player.i.points.gte(3) || hasMilestone("i",2))player.e.equipment[13].level=new Decimal(10000),player.e.equipment[13].power=new Decimal(10);
-            if(player.i.points.gte(500) || hasMilestone("i",19))for(i in layers.e.clickables)if(parseInt(i)<=24)player.e.equipment[i].level=new Decimal(10000),player.e.equipment[i].power=new Decimal(10);
+            if (player.i.points.gte(3) || hasMilestone("i", 2)) player.e.equipment[13].level = new Decimal(10000), player.e.equipment[13].power = new Decimal(10);
+            if (player.i.points.gte(500) || hasMilestone("i", 19)) for (i in layers.e.clickables) if (parseInt(i) <= 24) player.e.equipment[i].level = new Decimal(10000), player.e.equipment[i].power = new Decimal(10);
             updateTemp();
         }
     },

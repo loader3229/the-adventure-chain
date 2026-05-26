@@ -24,11 +24,11 @@ addLayer("g", {
     },
     update(diff) {
         if (player.b.points.gte(16)) player.g.unlocked = true;
-        if (player.sac.points.gte(5) && hasMilestone("j",4) && player.g.points.gte(layers.g.shopcost(0))){
-            let tmp=player.g.shopmode;
-            player.g.shopmode=true;
+        if (player.sac.points.gte(5) && hasMilestone("j", 4) && player.g.points.gte(layers.g.shopcost(0))) {
+            let tmp = player.g.shopmode;
+            player.g.shopmode = true;
             layers.g.clickables[12].onClick();
-            player.g.shopmode=tmp;
+            player.g.shopmode = tmp;
         }
     },
     tabFormat: {
@@ -56,57 +56,57 @@ addLayer("g", {
         },
         12: {
             description() { if (player.sac.points.gte(3)) return "Equipment Power +30% in Equipment Shop."; return "Unlock Equipment Shop."; },
-            cost(){if (player.sac.points.gte(4))return new Decimal(1000);return new Decimal(2000);},
+            cost() { if (player.sac.points.gte(4)) return new Decimal(1000); return new Decimal(2000); },
         },
         13: {
             description: "Equipment Power +50% for new equipments, additionally +10% in Equipment Shop.",
-            cost(){if (player.sac.points.gte(4))return new Decimal(3000);return new Decimal(6000);},
+            cost() { if (player.sac.points.gte(4)) return new Decimal(3000); return new Decimal(6000); },
             unlocked() { return player.sac.points.gte(2) },
         },
         14: {
             description: "Effects of Weapon, Armor, Helmet and Shoes are better.",
-            cost(){if (player.sac.points.gte(4))return new Decimal(10000);return new Decimal(30000);},
+            cost() { if (player.sac.points.gte(4)) return new Decimal(10000); return new Decimal(30000); },
             unlocked() { return player.sac.points.gte(2) },
         },
         15: {
             description: "Increase max domain completions.",
-            cost(){if (player.sac.points.gte(4))return new Decimal(30000);return new Decimal(100000);},
+            cost() { if (player.sac.points.gte(4)) return new Decimal(30000); return new Decimal(100000); },
             unlocked() { return player.sac.points.gte(2) },
         },
         21: {
             description: "Deal more damage to bosses based on gold upgrades.",
-            cost(){if (player.sac.points.gte(4))return new Decimal(1e5);return new Decimal(3e5);},
+            cost() { if (player.sac.points.gte(4)) return new Decimal(1e5); return new Decimal(3e5); },
             effect: function () { return Decimal.pow(2, player.g.upgrades.length) },
             effectDisplay: function () { return format(upgradeEffect(this.layer, this.id)) + "x" }
         },
         22: {
             description: "Equipment Power +50% for new equipments, additionally +10% in Equipment Shop.",
-            cost(){if (player.sac.points.gte(4))return new Decimal(3e5);return new Decimal(1e6);},
+            cost() { if (player.sac.points.gte(4)) return new Decimal(3e5); return new Decimal(1e6); },
             unlocked() { return player.sac.points.gte(2) },
         },
         23: {
             description: "Gain more Equipment Power in Equipment Shop based on your gold.",
-            cost(){if (player.sac.points.gte(4))return new Decimal(1e6);return new Decimal(2e6);},
+            cost() { if (player.sac.points.gte(4)) return new Decimal(1e6); return new Decimal(2e6); },
             unlocked() { return player.b.points.gte(25) },
         },
         24: {
             description: "Equipment Power +100% for new equipments, additionally +50% in Equipment Shop.",
-            cost(){return new Decimal(3e6);},
+            cost() { return new Decimal(3e6); },
             unlocked() { return player.sac.points.gte(4) },
         },
         25: {
             description: "1.1x Imaginary Point gain.",
-            cost(){return new Decimal(1e7);},
+            cost() { return new Decimal(1e7); },
             unlocked() { return player.sac.points.gte(4) },
         },
         31: {
             description: "1.5x Joker gain.",
-            cost(){return new Decimal(3e7);},
+            cost() { return new Decimal(3e7); },
             unlocked() { return player.sac.points.gte(5) },
         },
         32: {
             description: "Equipment Power +100% for new equipments.",
-            cost(){return new Decimal(1e8);},
+            cost() { return new Decimal(1e8); },
             unlocked() { return player.sac.points.gte(5) },
         },
     },
@@ -131,7 +131,7 @@ addLayer("g", {
                     if (hasUpgrade("g", 13)) power = power.add(0.1);
                     if (hasUpgrade("g", 22)) power = power.add(0.1);
                     if (hasUpgrade("g", 24)) power = power.add(0.5);
-                    if (hasUpgrade("g", 23)) power = power.mul(player.g.points.div(level.mul(power).pow(1.5).div(100000).add(100)).max(1).pow(hasMilestone("j",11)?0.06:0.05));
+                    if (hasUpgrade("g", 23)) power = power.mul(player.g.points.div(level.mul(power).pow(1.5).div(100000).add(100)).max(1).pow(hasMilestone("j", 11) ? 0.06 : 0.05));
                     i++;
                 }
                 player.g.shop[0].type = type;
@@ -147,9 +147,9 @@ addLayer("g", {
                 return "Buy"
             },
             onClick() {
-                if(player.g.points.lt(layers.g.shopcost(0)))return;
+                if (player.g.points.lt(layers.g.shopcost(0))) return;
                 player.g.points = player.g.points.sub(layers.g.shopcost(0));
-                if(player.g.shopmode){
+                if (player.g.shopmode) {
                     let x = Decimal.mul(player.e.equipment[player.g.shop[0].type].level, player.e.equipment[player.g.shop[0].type].power);
                     let y = player.g.shop[0].level.mul(player.g.shop[0].power);
                     if (y.gte(x)) {
@@ -157,7 +157,7 @@ addLayer("g", {
                         player.e.equipment[player.g.shop[0].type].power = player.g.shop[0].power;
                     }
                     player.g.points = player.g.points.add(x.min(y).pow(1.5).div(100000).add(100));
-                }else layers.e.equip(player.g.shop[0].type, player.g.shop[0].level, player.g.shop[0].power);
+                } else layers.e.equip(player.g.shop[0].type, player.g.shop[0].level, player.g.shop[0].power);
                 layers.g.clickables[11].onClick();
             },
             canClick() {
@@ -170,10 +170,10 @@ addLayer("g", {
             title() {
                 return "Shop Mode"
             },
-            display(){
-                if(player.g.shopmode){
+            display() {
+                if (player.g.shopmode) {
                     return "Buy and sell old equipment";
-                }else{
+                } else {
                     return "Buy and convert to Equipment Shards";
                 }
             },
@@ -181,10 +181,10 @@ addLayer("g", {
                 player.g.shopmode = !player.g.shopmode;
                 tmp.g.clickables[13].display = layers.g.clickables[13].display();
             },
-            
-            canClick(){return player.b.points.gte(40)},
 
-            unlocked(){return player.b.points.gte(40)},
+            canClick() { return player.b.points.gte(40) },
+
+            unlocked() { return player.b.points.gte(40) },
 
         },
 
@@ -196,11 +196,11 @@ addLayer("g", {
     hotkeys: [
         { key: "g", description: "g: buy equipment", onPress() { if (player.g.points.gte(layers.g.shopcost(0)) && (hasUpgrade("g", 12) || player.sac.points.gte(3))) layers.g.clickables[12].onClick(); } },
     ],
-    doReset(layer) { 
-        if (layer == "i" || layer == "j") {
+    doReset(layer) {
+        if (layer == "i" || layer == "j" || layer == "k") {
             layerDataReset("g");
-            if(player.i.points.gte(20) || hasMilestone("i",8))player.g.upgrades=[11,12,13,14,15,21,22];
-            if((player.i.points.gte(1500) && player.sac.points.gte(5)) || hasMilestone("i",23))player.g.upgrades=[11,12,13,14,15,21,22,23,24,25];
+            if (player.i.points.gte(20) || hasMilestone("i", 8)) player.g.upgrades = [11, 12, 13, 14, 15, 21, 22];
+            if ((player.i.points.gte(1500) && player.sac.points.gte(5)) || hasMilestone("i", 23)) player.g.upgrades = [11, 12, 13, 14, 15, 21, 22, 23, 24, 25];
             updateTemp();
         }
     },

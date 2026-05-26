@@ -64,9 +64,9 @@ addLayer("c", {
         ret = ret.mul(layers.e.equipmentEff(14));
         ret = ret.mul(layers.f.effect());
         if (hasMilestone("i", 0)) ret = ret.mul(2);
-	if (getClickableState("i",52) == 1) ret = ret.mul(2);
+        if (getClickableState("i", 52) == 1) ret = ret.mul(2);
         if (hasMilestone("i", 5)) ret = ret.mul(layers.i.effect());
-        if (player.b.points.gte(41)) ret = ret.mul(buyableEffect("h",22));
+        if (player.b.points.gte(41)) ret = ret.mul(buyableEffect("h", 22));
         if (player.sac.points.gte(3)) ret = ret.div(1000);
         else if (player.sac.points.gte(1)) ret = ret.div(12);
         return ret;
@@ -91,9 +91,9 @@ addLayer("c", {
             requirementDescription: "5 calm points",
             done() { return player.c.points.gte(5) }, // Used to determine when to give the milestone
             effectDescription() {
-                if (hasMilestone("c", 17)) return "Passively gain EXP based on highest beaten enemy level, best EXP per second, your level and Passive Gem. Currently: "+format(tmp.a.getResetGain)+"/s";
-                if (player.sac.points.gte(4)) return "Passively gain EXP based on best EXP per second and your level. Currently: "+format(tmp.a.getResetGain)+"/s";
-                return "Passively gain EXP based on your level. Currently: "+format(tmp.a.getResetGain)+"/s";
+                if (hasMilestone("c", 17)) return "Passively gain EXP based on highest beaten enemy level, best EXP per second, your level and Passive Gem. Currently: " + format(tmp.a.getResetGain) + "/s";
+                if (player.sac.points.gte(4)) return "Passively gain EXP based on best EXP per second and your level. Currently: " + format(tmp.a.getResetGain) + "/s";
+                return "Passively gain EXP based on your level. Currently: " + format(tmp.a.getResetGain) + "/s";
             },
         },
         {
@@ -188,7 +188,7 @@ addLayer("c", {
             requirementDescription() { return "1e35 calm points"; },
             done() { return (player.c.points.gte(1e35) && player.sac.points.gte(4)) }, // Used to determine when to give the milestone
             unlocked() { return player.sac.points.gte(4) },
-            effectDescription(){ if(player.sac.points.gte(5))return "The 5 calm points milestone is better, domain goal scaling is delayed;"; return "The 5 calm points milestone is better."},
+            effectDescription() { if (player.sac.points.gte(5)) return "The 5 calm points milestone is better, domain goal scaling is delayed;"; return "The 5 calm points milestone is better." },
         },
         {
             requirementDescription() { return "1e38 calm points"; },
@@ -201,7 +201,7 @@ addLayer("c", {
             done() { return (player.c.points.gte(1e41) && player.sac.points.gte(4)) }, // Used to determine when to give the milestone
             unlocked() { return player.sac.points.gte(4) },
             effectDescription() {
-                return "Passively gain Equipment Shards based on highest beaten enemy level and Passive Gem. Currently: "+format(tmp.e.getResetGain)+"/s";
+                return "Passively gain Equipment Shards based on highest beaten enemy level and Passive Gem. Currently: " + format(tmp.e.getResetGain) + "/s";
             },
         },
         {
@@ -216,18 +216,24 @@ addLayer("c", {
             unlocked() { return player.sac.points.gte(5) },
             effectDescription: "+100% Equipment Power.",
         },
+        {
+            requirementDescription() { return "1e50 calm points"; },
+            done() { return (player.c.points.gte(1e50) && player.sac.points.gte(5)) }, // Used to determine when to give the milestone
+            unlocked() { return player.sac.points.gte(5) },
+            effectDescription: "1.12x HP gain.",
+        },
     ],
     update(diff) {
-        if(hasMilestone("i", 0) && layers.c.tabFormat.Buyables.unlocked()){
-            for(i in layers.c.buyables){
-                if(layers.c.buyables[i].cost){
-                    if(typeof layers.c.buyables[i].unlocked == "function" && (layers.c.buyables[i].unlocked() == false)){
+        if (hasMilestone("i", 0) && layers.c.tabFormat.Buyables.unlocked()) {
+            for (i in layers.c.buyables) {
+                if (layers.c.buyables[i].cost) {
+                    if (typeof layers.c.buyables[i].unlocked == "function" && (layers.c.buyables[i].unlocked() == false)) {
                         continue;
                     }
-                    if(player.c.points.gte(layers.c.buyables[i].cost()))player.c.buyables[i]=player.c.buyables[i].add(1);
+                    if (player.c.points.gte(layers.c.buyables[i].cost())) player.c.buyables[i] = player.c.buyables[i].add(1);
                 }
             }
-        } 
+        }
     },
     upgrades: {
         11: {
@@ -257,7 +263,7 @@ addLayer("c", {
             unlocked() { return player.e.unlocked }
         },
         21: {
-            description() { if (player.sac.points.gte(3)) return "Domain Points reduce damage taken when attacking boss."; return  "Unlock a new domain. Domain Points reduce damage taken when attacking boss."; },
+            description() { if (player.sac.points.gte(3)) return "Domain Points reduce damage taken when attacking boss."; return "Unlock a new domain. Domain Points reduce damage taken when attacking boss."; },
             cost() { if (player.sac.points.gte(5)) return new Decimal(1e12); if (player.sac.points.gte(3)) return new Decimal(1e11); return new Decimal(1e10) },
             unlocked() { return player.e.unlocked },
             effect: function () { return player.d.points.mul(0.05).add(1) },
@@ -306,7 +312,7 @@ addLayer("c", {
         },
         35: {
             description() { if (player.sac.points.gte(4)) return "1e5 Calm Points milestone is better."; return "Calm Point effect is better." },
-            cost() { if (player.sac.points.gte(5)) return new Decimal(1e30); if (player.sac.points.gte(3)) return new Decimal(1e29);  },
+            cost() { if (player.sac.points.gte(5)) return new Decimal(1e30); if (player.sac.points.gte(3)) return new Decimal(1e29); },
             unlocked() { return player.b.points.gte(16) }
         },
         41: {
@@ -375,14 +381,14 @@ addLayer("c", {
             },
             cost() {
                 let a = player[this.layer].buyables[this.id];
-                a = Decimal.pow(2, a).mul((hasUpgrade("c", 44) && player.sac.points.gte(3)) ? 1 :100);
+                a = Decimal.pow(2, a).mul((hasUpgrade("c", 44) && player.sac.points.gte(3)) ? 1 : 100);
                 return a;
             },
             canAfford() {
                 return player[this.layer].points.gte(layers[this.layer].buyables[this.id].cost())
             },
             buy() {
-                if(!hasMilestone("i",0))player[this.layer].points = player[this.layer].points.sub(layers[this.layer].buyables[this.id].cost())
+                if (!hasMilestone("i", 0)) player[this.layer].points = player[this.layer].points.sub(layers[this.layer].buyables[this.id].cost())
                 player[this.layer].buyables[this.id] = player[this.layer].buyables[this.id].add(1)
 
             },
@@ -411,7 +417,7 @@ addLayer("c", {
                 return player[this.layer].points.gte(layers[this.layer].buyables[this.id].cost())
             },
             buy() {
-                if(!hasMilestone("i",0))player[this.layer].points = player[this.layer].points.sub(layers[this.layer].buyables[this.id].cost())
+                if (!hasMilestone("i", 0)) player[this.layer].points = player[this.layer].points.sub(layers[this.layer].buyables[this.id].cost())
                 player[this.layer].buyables[this.id] = player[this.layer].buyables[this.id].add(1)
 
             },
@@ -439,7 +445,7 @@ addLayer("c", {
                 return player[this.layer].points.gte(layers[this.layer].buyables[this.id].cost())
             },
             buy() {
-                if(!hasMilestone("i",0))player[this.layer].points = player[this.layer].points.sub(layers[this.layer].buyables[this.id].cost())
+                if (!hasMilestone("i", 0)) player[this.layer].points = player[this.layer].points.sub(layers[this.layer].buyables[this.id].cost())
                 player[this.layer].buyables[this.id] = player[this.layer].buyables[this.id].add(1)
 
             },
@@ -467,7 +473,7 @@ addLayer("c", {
                 return player[this.layer].points.gte(layers[this.layer].buyables[this.id].cost())
             },
             buy() {
-                if(!hasMilestone("i",0))player[this.layer].points = player[this.layer].points.sub(layers[this.layer].buyables[this.id].cost())
+                if (!hasMilestone("i", 0)) player[this.layer].points = player[this.layer].points.sub(layers[this.layer].buyables[this.id].cost())
                 player[this.layer].buyables[this.id] = player[this.layer].buyables[this.id].add(1)
 
             },
@@ -488,14 +494,14 @@ addLayer("c", {
             },
             cost() {
                 let a = player[this.layer].buyables[this.id];
-                a = Decimal.pow((hasMilestone("i",10) && player.sac.points.gte(3)) ? 2 : 4, a).mul((hasMilestone("i",10) && player.sac.points.gte(4)) ? 1.4 : 1e4);
+                a = Decimal.pow((hasMilestone("i", 10) && player.sac.points.gte(3)) ? 2 : 4, a).mul((hasMilestone("i", 10) && player.sac.points.gte(4)) ? 1.4 : 1e4);
                 return a;
             },
             canAfford() {
                 return player[this.layer].points.gte(layers[this.layer].buyables[this.id].cost())
             },
             buy() {
-                if(!hasMilestone("i",0))player[this.layer].points = player[this.layer].points.sub(layers[this.layer].buyables[this.id].cost())
+                if (!hasMilestone("i", 0)) player[this.layer].points = player[this.layer].points.sub(layers[this.layer].buyables[this.id].cost())
                 player[this.layer].buyables[this.id] = player[this.layer].buyables[this.id].add(1)
 
             },
@@ -517,14 +523,14 @@ addLayer("c", {
             },
             cost() {
                 let a = player[this.layer].buyables[this.id];
-                a = Decimal.pow((hasMilestone("i",9) && player.sac.points.gte(4)) ? 2 : 3, a).mul((hasMilestone("i",9) && player.sac.points.gte(4)) ? 1.5 : 1e6);
+                a = Decimal.pow((hasMilestone("i", 9) && player.sac.points.gte(4)) ? 2 : 3, a).mul((hasMilestone("i", 9) && player.sac.points.gte(4)) ? 1.5 : 1e6);
                 return a;
             },
             canAfford() {
                 return player[this.layer].points.gte(layers[this.layer].buyables[this.id].cost())
             },
             buy() {
-                if(!hasMilestone("i",0))player[this.layer].points = player[this.layer].points.sub(layers[this.layer].buyables[this.id].cost())
+                if (!hasMilestone("i", 0)) player[this.layer].points = player[this.layer].points.sub(layers[this.layer].buyables[this.id].cost())
                 player[this.layer].buyables[this.id] = player[this.layer].buyables[this.id].add(1)
             },
             effect() {
@@ -547,14 +553,14 @@ addLayer("c", {
             },
             cost() {
                 let a = player[this.layer].buyables[this.id];
-                a = Decimal.pow(2, a).mul((hasMilestone("i",12) && player.sac.points.gte(4))?1.6:1e10);
+                a = Decimal.pow(2, a).mul((hasMilestone("i", 12) && player.sac.points.gte(4)) ? 1.6 : 1e10);
                 return a;
             },
             canAfford() {
                 return player[this.layer].points.gte(layers[this.layer].buyables[this.id].cost())
             },
             buy() {
-                if(!hasMilestone("i",0))player[this.layer].points = player[this.layer].points.sub(layers[this.layer].buyables[this.id].cost())
+                if (!hasMilestone("i", 0)) player[this.layer].points = player[this.layer].points.sub(layers[this.layer].buyables[this.id].cost())
                 player[this.layer].buyables[this.id] = player[this.layer].buyables[this.id].add(1)
             },
             effect() {
@@ -583,7 +589,7 @@ addLayer("c", {
                 return player[this.layer].points.gte(layers[this.layer].buyables[this.id].cost())
             },
             buy() {
-                if(!hasMilestone("i",0))player[this.layer].points = player[this.layer].points.sub(layers[this.layer].buyables[this.id].cost())
+                if (!hasMilestone("i", 0)) player[this.layer].points = player[this.layer].points.sub(layers[this.layer].buyables[this.id].cost())
                 player[this.layer].buyables[this.id] = player[this.layer].buyables[this.id].add(1)
 
             },
@@ -605,14 +611,14 @@ addLayer("c", {
             },
             cost() {
                 let a = player[this.layer].buyables[this.id];
-                a = Decimal.pow(hasUpgrade("c", 51)?2 : 10, a).mul(hasUpgrade("c", 51)?1.8 : 1e25);
+                a = Decimal.pow(hasUpgrade("c", 51) ? 2 : 10, a).mul(hasUpgrade("c", 51) ? 1.8 : 1e25);
                 return a;
             },
             canAfford() {
                 return player[this.layer].points.gte(layers[this.layer].buyables[this.id].cost())
             },
             buy() {
-                if(!hasMilestone("i",0))player[this.layer].points = player[this.layer].points.sub(layers[this.layer].buyables[this.id].cost())
+                if (!hasMilestone("i", 0)) player[this.layer].points = player[this.layer].points.sub(layers[this.layer].buyables[this.id].cost())
                 player[this.layer].buyables[this.id] = player[this.layer].buyables[this.id].add(1)
 
             },
@@ -642,12 +648,12 @@ addLayer("c", {
                 return player[this.layer].points.gte(layers[this.layer].buyables[this.id].cost())
             },
             buy() {
-                if(!hasMilestone("i",0))player[this.layer].points = player[this.layer].points.sub(layers[this.layer].buyables[this.id].cost())
+                if (!hasMilestone("i", 0)) player[this.layer].points = player[this.layer].points.sub(layers[this.layer].buyables[this.id].cost())
                 player[this.layer].buyables[this.id] = player[this.layer].buyables[this.id].add(1)
 
             },
             effect() {
-                let eff = new Decimal(hasUpgrade("c",55)?1.07:1.05).add(player[this.layer].buyables[this.id].mul(player.b.points.gte(38)?0.002:0.001));
+                let eff = new Decimal(hasUpgrade("c", 55) ? 1.07 : 1.05).add(player[this.layer].buyables[this.id].mul(player.b.points.gte(38) ? 0.002 : 0.001));
                 return eff;
             },
             unlocked() { return hasUpgrade("c", 52) }
@@ -656,15 +662,15 @@ addLayer("c", {
     },
 
 
-    doReset(layer) { 
-        if (layer == "i" || layer == "j") {
+    doReset(layer) {
+        if (layer == "i" || layer == "j" || layer == "k") {
             layerDataReset("c");
-            if(player.i.points.gte(3) || hasMilestone("i",2))player.c.milestones=[0,1,2,3,4,5,6,7];
-            if(player.i.points.gte(20) || hasMilestone("i",8))player.c.milestones=[0,1,2,3,4,5,6,7,8,9,10,11];
-            if(player.i.points.gte(400) || hasMilestone("i",18))player.c.milestones=[0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15];
-            if(player.i.points.gte(300) || hasMilestone("i",17))player.c.upgrades=[11,12,13,14,15,21,22,23,24,25,31,32,33,34,35];
-		if((player.i.points.gte(2000) && player.sac.points.gte(5)) || hasMilestone("i",24))player.c.upgrades=[11,12,13,14,15,21,22,23,24,25,31,32,33,34,35,41,42,43,44,45];
-            if((player.i.points.gte(3000) && player.sac.points.gte(5)) || hasMilestone("i",25))player.c.milestones=[0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19];
+            if (player.i.points.gte(3) || hasMilestone("i", 2)) player.c.milestones = [0, 1, 2, 3, 4, 5, 6, 7];
+            if (player.i.points.gte(20) || hasMilestone("i", 8)) player.c.milestones = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11];
+            if (player.i.points.gte(400) || hasMilestone("i", 18)) player.c.milestones = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15];
+            if (player.i.points.gte(300) || hasMilestone("i", 17)) player.c.upgrades = [11, 12, 13, 14, 15, 21, 22, 23, 24, 25, 31, 32, 33, 34, 35];
+            if ((player.i.points.gte(2000) && player.sac.points.gte(5)) || hasMilestone("i", 24)) player.c.upgrades = [11, 12, 13, 14, 15, 21, 22, 23, 24, 25, 31, 32, 33, 34, 35, 41, 42, 43, 44, 45];
+            if ((player.i.points.gte(3000) && player.sac.points.gte(5)) || hasMilestone("i", 25)) player.c.milestones = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19];
 
             updateTemp();
         }

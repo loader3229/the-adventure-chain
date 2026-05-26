@@ -5,8 +5,8 @@ let modInfo = {
     pointsName: "HP",
     modFiles: ["layers.js", "layers/a.js", "layers/b.js", "layers/c.js", "layers/d.js", "layers/e.js", "layers/f.js", "layers/g.js", "layers/h.js", "layers/i.js", "layers/j.js", "tree.js"],
 
-	discordName: "loader3229's Discord Server",
-	discordLink: "https://discord.gg/jztUReQ2vT",
+    discordName: "loader3229's Discord Server",
+    discordLink: "https://discord.gg/jztUReQ2vT",
     initialStartPoints: new Decimal(0), // Used for hard resets and new players
     offlineLimit: 1,  // In hours
 }
@@ -67,14 +67,15 @@ function getPointGen() {
     if (player.b.points.gte(18)) gain = gain.mul(1.25);
     if (player.b.points.gte(24)) gain = gain.mul(1.25);
     if (hasMilestone("c", 18)) gain = gain.mul(1.28); // 2.2 
-    if (hasMilestone("c", 20)) gain = gain.mul(1.2/1.1); // 2.4
-    if (player.b.points.gte(41)) gain = gain.mul(1.25/1.2); // 2.5
+    if (hasMilestone("c", 20)) gain = gain.mul(1.2 / 1.1); // 2.4
+    if (player.b.points.gte(41)) gain = gain.mul(1.25 / 1.2); // 2.5
+    if (hasMilestone("c", 22)) gain = gain.mul(1.4 / 1.25); // 2.8
 
     gain = gain.mul(buyableEffect("c", 21));
     if (player.b.points.gte(21)) gain = gain.mul(buyableEffect("h", 12));
-    if (player.b.points.gte(30)) gain = gain.mul(1+player.d.challenges[12]/100);
+    if (player.b.points.gte(30)) gain = gain.mul(1 + player.d.challenges[12] / 100);
     gain = gain.mul(layers.e.equipmentEff(23));
-    if(hasMilestone("i",13))gain = gain.mul(layers.i.infEff());
+    if (hasMilestone("i", 13)) gain = gain.mul(layers.i.infEff());
 
     return gain
 }
@@ -89,7 +90,7 @@ function addedPlayerData() {
 var displayThings = [
     "Mod Author: loader3229",
     "Endgame: Boss 44 beaten and Level 1350000",
-    function () { if(getLevel().gte(200000))return "Level: " + formatWhole(getLevel()) + "/" + formatWhole(getLevelCap()) + " (Scaling: " + format(getLevelScaling()) + ")"; return "Level: " + formatWhole(getLevel()) + "/" + formatWhole(getLevelCap()) + " (" + format(getLevelProgress().mul(100)) + "%)" },
+    function () { if (getLevel().gte(200000)) return "Level: " + formatWhole(getLevel()) + "/" + formatWhole(getLevelCap()) + " (Scaling: " + format(getLevelScaling()) + ")"; return "Level: " + formatWhole(getLevel()) + "/" + formatWhole(getLevelCap()) + " (" + format(getLevelProgress().mul(100)) + "%)" },
     function () { return "ATK: " + format(getATK()) },
     function () { if (player.b.points.gte(1)) return "DEF: " + format(getDEF()) },
     function () { if (player.b.points.gte(13)) return "DMG: " + format(getDMG()) + "x" }
@@ -126,16 +127,16 @@ function getATK() {
     let atk = getLevel();
     if (hasMilestone("c", 2)) atk = atk.mul(1.1);
     if (hasMilestone("c", 15)) atk = atk.mul(1.6); // 1.76
-    if (hasMilestone("c", 20)) atk = atk.mul(1.2/1.1); // 1.92
-    if (player.b.points.gte(41)) atk = atk.mul(1.25/1.2); // 2
+    if (hasMilestone("c", 20)) atk = atk.mul(1.2 / 1.1); // 1.92
+    if (player.b.points.gte(41)) atk = atk.mul(1.25 / 1.2); // 2
 
 
     atk = atk.mul(buyableEffect("c", 12));
 
     atk = atk.mul(layers.e.equipmentEff(21));
     if (player.b.points.gte(21)) atk = atk.mul(buyableEffect("h", 12));
-    if(hasMilestone("i",14)) atk = atk.mul(layers.i.infEff());
-    if (player.b.points.gte(30)) atk = atk.mul(1+player.d.challenges[21]/100);
+    if (hasMilestone("i", 14)) atk = atk.mul(layers.i.infEff());
+    if (player.b.points.gte(30)) atk = atk.mul(1 + player.d.challenges[21] / 100);
 
 
 
@@ -150,16 +151,16 @@ function getDEF() {
     if (player.b.points.gte(21)) def = def.add(getLevel().mul(0.02));
     if (hasMilestone("c", 13)) def = def.add(getLevel().mul(0.01));
     if (hasMilestone("c", 2)) def = def.mul(1.1); // 0.088
-    if (hasMilestone("c", 20)) def = def.mul(1.2/1.1); // 0.096
-    if (player.b.points.gte(41)) def = def.mul(1.25/1.2); // 0.1
+    if (hasMilestone("c", 20)) def = def.mul(1.2 / 1.1); // 0.096
+    if (player.b.points.gte(41)) def = def.mul(1.25 / 1.2); // 0.1
 
     def = def.mul(buyableEffect("c", 13));
 
     def = def.mul(layers.e.equipmentEff(22));
 
     if (player.b.points.gte(21)) def = def.mul(buyableEffect("h", 12));
-    if(hasMilestone("i",15)) def = def.mul(layers.i.infEff());
-    if (player.b.points.gte(30)) def = def.mul(1+player.d.challenges[11]/100);
+    if (hasMilestone("i", 15)) def = def.mul(layers.i.infEff());
+    if (player.b.points.gte(30)) def = def.mul(1 + player.d.challenges[11] / 100);
     return def;
 }
 
@@ -170,16 +171,16 @@ function getDMG() {
     if (player.b.points.gte(13)) dmg = dmg.add(getLevel().mul(0.0001));
     if (player.b.points.gte(19)) dmg = dmg.mul(1.1);
     if (player.b.points.gte(33)) dmg = dmg.mul(1.6); // 0.000176
-    if (hasMilestone("c", 20)) dmg = dmg.mul(1.2/1.1); // 0.000192
-    if (player.b.points.gte(41)) dmg = dmg.mul(1.25/1.2); // 0.0002
+    if (hasMilestone("c", 20)) dmg = dmg.mul(1.2 / 1.1); // 0.000192
+    if (player.b.points.gte(41)) dmg = dmg.mul(1.25 / 1.2); // 0.0002
 
     dmg = dmg.mul(buyableEffect("c", 32));
 
     dmg = dmg.mul(layers.e.equipmentEff(24));
 
     if (player.b.points.gte(21)) dmg = dmg.mul(buyableEffect("h", 12));
-    if(hasMilestone("i",16)) dmg = dmg.mul(layers.i.infEff());
-    if (player.b.points.gte(30)) dmg = dmg.mul(1+player.d.challenges[22]/100);
+    if (hasMilestone("i", 16)) dmg = dmg.mul(layers.i.infEff());
+    if (player.b.points.gte(30)) dmg = dmg.mul(1 + player.d.challenges[22] / 100);
 
 
     return dmg;
@@ -206,13 +207,13 @@ function getLevelProgress() {
 }
 
 function getLevelScaling() {
-    if (inChallenge("d",31))return new Decimal(player.b.points.gte(40)?0.05:0.03);
+    if (inChallenge("d", 31)) return new Decimal(player.b.points.gte(40) ? 0.05 : 0.03);
     let scaling = new Decimal(1);
     if (hasMilestone("c", 6)) scaling = scaling.add(hasUpgrade("c", 31) ? 1 : 0.2);
     if (hasMilestone("c", 7) && player.sac.points.gte(2)) scaling = scaling.add((hasUpgrade("c", 35) && player.sac.points.gte(4)) ? 2 : 0.5);
-    if(player.sac.points.gte(5))scaling = scaling.mul(2);
-    if (getClickableState("i",32) == 1) scaling = scaling.add(2);
-    if (getClickableState("i",54) == 1) scaling = scaling.add(2);
+    if (player.sac.points.gte(5)) scaling = scaling.mul(2);
+    if (getClickableState("i", 32) == 1) scaling = scaling.add(2);
+    if (getClickableState("i", 54) == 1) scaling = scaling.add(2);
     if (player.b.points.gte(40)) scaling = scaling.add(player.b.points.div(10).pow(2));
     else if (player.b.points.gte(29)) scaling = scaling.add(player.b.points.div(11.5).pow(2));
     else if (player.b.points.gte(16)) scaling = scaling.add(player.b.points.div(16).pow(2));
@@ -234,13 +235,13 @@ function getRealLevel() {
     if (player.sac.points.gte(4)) {
         let level = player.a.points.pow(0.0625).div(25).div(getLevelScaling().sqrt()).add(1).log(1.04).mul(getLevelScaling().sqrt()).pow(2).add(1);
         if (player.a.points.pow(0.125).lte(scaling)) level = player.a.points.pow(0.125).add(1);
-	level = softcap(level, new Decimal(hasMilestone("j", 10)?5e5:hasMilestone("j", 4)?4e5:3e5), hasMilestone("j", 6)?0.8:0.4).min(getLevelCap());
+        level = softcap(level, new Decimal(hasMilestone("j", 10) ? 5e5 : hasMilestone("j", 4) ? 4e5 : 3e5), hasMilestone("j", 6) ? 0.8 : 0.4).min(getLevelCap());
         return level;
     }
     if (player.sac.points.gte(3)) {
         let level = player.a.points.pow(0.075).div(16).div(scaling.sqrt()).add(1).log(1.0625).mul(scaling.sqrt()).pow(2).add(1);
         if (player.a.points.pow(0.15).lte(scaling)) level = player.a.points.pow(0.15).add(1);
-	level = softcap(level, new Decimal(1e5), hasMilestone("i", 12)?1:hasMilestone("i", 9)?0.4:0.2).min(getLevelCap());
+        level = softcap(level, new Decimal(1e5), hasMilestone("i", 12) ? 1 : hasMilestone("i", 9) ? 0.4 : 0.2).min(getLevelCap());
         return level;
     }
     if (player.sac.points.gte(2)) {

@@ -18,10 +18,10 @@ addLayer("h", {
     branches: ['g'],
     layerShown() { return player.b.points.gte(20) || player.g.unlocked },
     gainMult() {
-		let ret=new Decimal(1);
-if(player.i.points.gte(4) || hasMilestone("i",3)) ret = ret.mul(3);
-	if (getClickableState("i",43) == 1) ret = ret.mul(3);
-if(player.b.points.gte(29))ret = ret.mul(player.b.points.div(20));
+        let ret = new Decimal(1);
+        if (player.i.points.gte(4) || hasMilestone("i", 3)) ret = ret.mul(3);
+        if (getClickableState("i", 43) == 1) ret = ret.mul(3);
+        if (player.b.points.gte(29)) ret = ret.mul(player.b.points.div(20));
         return ret;
     },
     buyables: {
@@ -49,7 +49,7 @@ if(player.b.points.gte(29))ret = ret.mul(player.b.points.div(20));
 
             },
             effect() {
-                let eff = player[this.layer].buyables[this.id].pow(hasMilestone("j",1)?1:0.5).mul(0.1);
+                let eff = player[this.layer].buyables[this.id].pow(hasMilestone("j", 1) ? 1 : 0.5).mul(0.1);
                 return eff;
             }
 
@@ -77,7 +77,7 @@ if(player.b.points.gte(29))ret = ret.mul(player.b.points.div(20));
                 player[this.layer].buyables[this.id] = player[this.layer].buyables[this.id].add(1)
             },
             effect() {
-                let eff = player[this.layer].buyables[this.id].mul(player[this.layer].points.add(10).log10()).div(hasMilestone("j",5)?80:100).add(1);
+                let eff = player[this.layer].buyables[this.id].mul(player[this.layer].points.add(10).log10()).div(hasMilestone("j", 5) ? 80 : 100).add(1);
                 return eff;
             }, unlocked() { return player.b.points.gte(21) }
 
@@ -105,7 +105,7 @@ if(player.b.points.gte(29))ret = ret.mul(player.b.points.div(20));
                 player[this.layer].buyables[this.id] = player[this.layer].buyables[this.id].add(1)
             },
             effect() {
-                let eff = player[this.layer].buyables[this.id].mul(player[this.layer].points.add(10).log10().pow(1.5)).div(player.sac.points.gte(4)?40:100).add(1);
+                let eff = player[this.layer].buyables[this.id].mul(player[this.layer].points.add(10).log10().pow(1.5)).div(player.sac.points.gte(4) ? 40 : 100).add(1);
                 return eff;
             }, unlocked() { return player.b.points.gte(25) }
 
@@ -173,7 +173,7 @@ if(player.b.points.gte(29))ret = ret.mul(player.b.points.div(20));
             display() {
                 let data = tmp[this.layer].buyables[this.id];
                 return "Level: " + format(player[this.layer].buyables[this.id]) + "<br>" +
-                    "Enemy Respawn Time x" + format(data.effect,4) + " (based on helper points)<br>" +
+                    "Enemy Respawn Time x" + format(data.effect, 4) + " (based on helper points)<br>" +
                     "Also provide automation for enemy level<br>" +
                     "Cost for Next Level: " + format(data.cost) + " Gold";
             },
@@ -258,9 +258,9 @@ if(player.b.points.gte(29))ret = ret.mul(player.b.points.div(20));
                     return { "background-color": layers.b.color };
                 }
             },
-            unlocked(){
-		return player.sac.points.gte(3);
-		},
+            unlocked() {
+                return player.sac.points.gte(3);
+            },
         }
     },
     update(diff) {
@@ -277,11 +277,11 @@ if(player.b.points.gte(29))ret = ret.mul(player.b.points.div(20));
     hotkeys: [
         { key: "h", description: "h: change auto-helper type", onPress() { if (player.b.points.gte(20)) layers.h.clickables[11].onClick(); } },
     ],
-    doReset(layer) { 
-        if (layer == "i" || layer == "j") {
-            if((player.i.points.gte(1000) && player.sac.points.gte(5)) || hasMilestone("i",22))layerDataReset("h",["points","clickables","buyables","upgrades"]);
-              else if(player.i.points.gte(4) || hasMilestone("i",3))layerDataReset("h",["points","buyables","upgrades"]);
-              else layerDataReset("h",["points","upgrades"]);
+    doReset(layer) {
+        if (layer == "i" || layer == "j" || layer == "k") {
+            if ((player.i.points.gte(1000) && player.sac.points.gte(5)) || hasMilestone("i", 22)) layerDataReset("h", ["points", "clickables", "buyables", "upgrades"]);
+            else if (player.i.points.gte(4) || hasMilestone("i", 3)) layerDataReset("h", ["points", "buyables", "upgrades"]);
+            else layerDataReset("h", ["points", "upgrades"]);
             updateTemp();
         }
     },

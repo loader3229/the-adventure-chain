@@ -16,10 +16,10 @@ addLayer("j", {
     },
     gainMult() {
         let ret = new Decimal(1);
-	if(hasMilestone("j",2))ret = ret.mul(player.i.points.add(1).pow(0.1));
-	if(hasUpgrade("g",31))ret = ret.mul(1.5);
-	if(player.b.points.gte(36))ret = ret.mul(player.b.points.sqrt().div(3));
-	if (getClickableState("i",41) == 1) ret = ret.mul(2);
+        if (hasMilestone("j", 2)) ret = ret.mul(player.i.points.add(1).pow(0.1));
+        if (hasUpgrade("g", 31)) ret = ret.mul(1.5);
+        if (player.b.points.gte(36)) ret = ret.mul(player.b.points.sqrt().div(3));
+        if (getClickableState("i", 41) == 1) ret = ret.mul(2);
         return ret;
     },
     baseResource: "calm points", // Name of resource prestige is based on
@@ -36,8 +36,8 @@ addLayer("j", {
     effect() {
         let ret = player.j.points.div(2).add(1);
         if (ret.gte(10)) ret = Decimal.pow(10, ret.log10().sqrt().mul(2).sub(1));
-	if (player.sac.points.gte(5) && hasMilestone("j",6) && ret.gte(10)) ret = Decimal.pow(10, player.j.points.add(1).log10().sqrt().mul(2).sub(0.8));
-	if (player.sac.points.gte(5) && hasMilestone("j",12) && ret.gte(10)) ret = Decimal.pow(10, player.j.points.add(1).log10().sqrt().mul(2).sub(0.6));
+        if (player.sac.points.gte(5) && hasMilestone("j", 6) && ret.gte(10)) ret = Decimal.pow(10, player.j.points.add(1).log10().sqrt().mul(2).sub(0.8));
+        if (player.sac.points.gte(5) && hasMilestone("j", 12) && ret.gte(10)) ret = Decimal.pow(10, player.j.points.add(1).log10().sqrt().mul(2).sub(0.6));
         ret = ret.sqrt();
         return ret;
     },
@@ -69,9 +69,9 @@ addLayer("j", {
         {
             requirementDescription: "16 jokers",
             done() { return player.j.points.gte(16) }, // Used to determine when to give the milestone
-            effectDescription(){
-                   if(player.sac.points.gte(5))return "Autobuy and sell equipments.";
-                   return "Post-300k level scaling starts 100k later.";
+            effectDescription() {
+                if (player.sac.points.gte(5)) return "Autobuy and sell equipments.";
+                return "Post-300k level scaling starts 100k later.";
             },
         },
         {
@@ -82,9 +82,9 @@ addLayer("j", {
         {
             requirementDescription: "64 jokers",
             done() { return player.j.points.gte(64) }, // Used to determine when to give the milestone
-            effectDescription(){
-                   if(player.sac.points.gte(5))return "Joker effect is better.";
-                   return "Post-300k level scaling is weaker.";
+            effectDescription() {
+                if (player.sac.points.gte(5)) return "Joker effect is better.";
+                return "Post-300k level scaling is weaker.";
             },
         },
         {
@@ -105,9 +105,9 @@ addLayer("j", {
         {
             requirementDescription: "1024 jokers",
             done() { return player.j.points.gte(1024) }, // Used to determine when to give the milestone
-            effectDescription(){
-                   if(player.sac.points.gte(5))return "+10 Max Domain Completions";
-                   return "Post-300k level scaling starts 100k later.";
+            effectDescription() {
+                if (player.sac.points.gte(5)) return "+10 Max Domain Completions";
+                return "Post-300k level scaling starts 100k later.";
             },
         },
         {
@@ -118,22 +118,24 @@ addLayer("j", {
         },
         {
             requirementDescription: "4096 jokers",
-            done() { return player.j.points.gte(4096) && player.sac.points.gte(5)  }, // Used to determine when to give the milestone
+            done() { return player.j.points.gte(4096) && player.sac.points.gte(5) }, // Used to determine when to give the milestone
             unlocked() { return player.sac.points.gte(5) },
             effectDescription: "Joker effect is better.",
         },
     ],
 
-tabFormat: {
+    tabFormat: {
         "Main Tab": {
             "content": [
                 "main-display",
                 "prestige-button",
                 "resource-display",
-                ["display-text","J reset is same as I reset except you gain J instead of I. Anything kept in I reset will be kept in J resets."],
+                ["display-text", "J reset is same as I reset except you gain J instead of I. Anything kept in I reset will be kept in J resets."],
                 "upgrades",
                 "milestones"
             ]
         }
+    },
+    doReset(layer) {
     },
 });

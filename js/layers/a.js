@@ -65,7 +65,7 @@ addLayer("a", {
     getEnemyGold(level) {
         if (level === undefined) level = player.a.level;
         let gold = level.div(1000).mul(player.b.points.sub(15).max(0).pow(0.5)).add(1).pow(1.5).mul(player.b.points.sub(15).max(0).pow(0.5));
-        if(player.b.points.gte(25))gold = level.div(1500).mul(player.b.points.pow(0.5)).add(1).pow(1.5).mul(player.b.points.pow(0.5));
+        if (player.b.points.gte(25)) gold = level.div(1500).mul(player.b.points.pow(0.5)).add(1).pow(1.5).mul(player.b.points.pow(0.5));
         gold = gold.mul(layers.g.gainMult());
         return gold;
     },
@@ -77,17 +77,17 @@ addLayer("a", {
         exp = exp.mul(layers.e.equipmentEff(12));
         if (hasMilestone("c", 8)) exp = exp.mul(layers.f.effect());
         exp = exp.mul(layers.i.effect());
-        if (player.b.points.gte(39)) exp = exp.mul(buyableEffect("h",21));
-	if (getClickableState("i",53) == 1) exp = exp.mul(3);
+        if (player.b.points.gte(39)) exp = exp.mul(buyableEffect("h", 21));
+        if (getClickableState("i", 53) == 1) exp = exp.mul(3);
         return exp;
     },
-    getResetGain(){
-	 if(hasMilestone("c", 17))return player.a.bestEPS.add(layers.a.getEnemyEXP(player.a.bestLevel)).mul(Decimal.sub(1,Decimal.pow(0.8,getLevel().add(10).log10()))).add(getLevel().pow(player.d.activeChallenge ? 1 : 4).mul(layers.a.gainMult())).mul(layers.e.equipmentEff(13).max(1));
-	 if(player.sac.points.gte(4))return player.a.bestEPS.mul(Decimal.sub(1,Decimal.pow(0.8,getLevel().add(10).log10()))).add(getLevel().pow(player.d.activeChallenge ? 1 : 4).mul(layers.a.gainMult()));
+    getResetGain() {
+        if (hasMilestone("c", 17)) return player.a.bestEPS.add(layers.a.getEnemyEXP(player.a.bestLevel)).mul(Decimal.sub(1, Decimal.pow(0.8, getLevel().add(10).log10()))).add(getLevel().pow(player.d.activeChallenge ? 1 : 4).mul(layers.a.gainMult())).mul(layers.e.equipmentEff(13).max(1));
+        if (player.sac.points.gte(4)) return player.a.bestEPS.mul(Decimal.sub(1, Decimal.pow(0.8, getLevel().add(10).log10()))).add(getLevel().pow(player.d.activeChallenge ? 1 : 4).mul(layers.a.gainMult()));
         return getLevel().pow(player.d.activeChallenge ? 0.5 : 2).pow(player.sac.points.gte(1) ? 1.75 : 1).mul(layers.a.gainMult());
     },
-    passiveGeneration(){
-        if (hasMilestone("c", 1))return 1; return 0;
+    passiveGeneration() {
+        if (hasMilestone("c", 1)) return 1; return 0;
     },
     tabFormat: [
         "main-display",
@@ -227,34 +227,34 @@ addLayer("a", {
     },
     update(diff) {
         if (player.a.hp.lte(0)) {
-            if(player.b.points.gte(8))layers.e.drop(player.a.level);
-                player.a.bestEPS = layers.a.getEnemyEXP().div(player.a.resetTime+1).max(player.a.bestEPS);
-                player.a.bestLevel = player.a.bestLevel.max(player.a.level);
+            if (player.b.points.gte(8)) layers.e.drop(player.a.level);
+            player.a.bestEPS = layers.a.getEnemyEXP().div(player.a.resetTime + 1).max(player.a.bestEPS);
+            player.a.bestLevel = player.a.bestLevel.max(player.a.level);
 
-                  player.a.resetTime = 0;
+            player.a.resetTime = 0;
             player.a.nextEnemyTime = new Decimal(2);
-		if(player.sac.points.gte(3)){
-			player.h.points = player.h.points.add(layers.h.gainMult());
-			player.a.nextEnemyTime = player.a.nextEnemyTime.mul(buyableEffect("h", 23));
-			if (player.h.clickables[12].eq(0)) player.h.points = player.h.points.add(player.h.autoProgress.mul(layers.h.gainMult()));
-			else if (player.h.clickables[12].gte(1)) {
-				function getTimeToBeatEnemy(x){
-					if(inChallenge("d", 22))return layers.a.getEnemyHP(x).mul(layers.a.getEnemyDEF(x).add(1)).div(getATK()).div(getDMG());
-					if(inChallenge("d", 12))return layers.a.getEnemyHP(x).mul(layers.a.getEnemyDEF(x).add(1)).div(getATK()).div(getDMG()).ceil().mul(layers.a.getEnemyATK(x)).mul(layers.a.getEnemyDMG(x)).div(getDEF().add(1));
-					return layers.a.getEnemyHP(x).mul(layers.a.getEnemyDEF(x).add(1)).div(getATK()).div(getDMG()).ceil().mul(layers.a.getEnemyATK(x)).mul(layers.a.getEnemyDMG(x)).div(getDEF().add(1)).sub(player.points.div(10)).div(getPointGen());
-				}
-				let compTime = player.a.nextEnemyTime;
-				if (player.h.clickables[12].eq(2))compTime = compTime.max(buyableEffect("h", 11).max(0.01).pow(-1)).add(0.1)
-				if(inChallenge("d", 12) || inChallenge("d", 22))compTime = new Decimal(1);
-				let l = new Decimal(1), r = new Decimal(player.a.level.mul(2).add(getLevel()).add(1000).floor());
-				for(let i=0;i<30;i++){
-					let m=l.add(r).div(2).floor();
-					console.log(l.toNumber()," ",r.toNumber()," ",m.toNumber()," ",getTimeToBeatEnemy(m).toNumber());
-					if(getTimeToBeatEnemy(m).lt(compTime))l=m; else r=m;
-				}
-				player.a.setLevel = player.a.level = l;
-			}
-		}
+            if (player.sac.points.gte(3)) {
+                player.h.points = player.h.points.add(layers.h.gainMult());
+                player.a.nextEnemyTime = player.a.nextEnemyTime.mul(buyableEffect("h", 23));
+                if (player.h.clickables[12].eq(0)) player.h.points = player.h.points.add(player.h.autoProgress.mul(layers.h.gainMult()));
+                else if (player.h.clickables[12].gte(1)) {
+                    function getTimeToBeatEnemy(x) {
+                        if (inChallenge("d", 22)) return layers.a.getEnemyHP(x).mul(layers.a.getEnemyDEF(x).add(1)).div(getATK()).div(getDMG());
+                        if (inChallenge("d", 12)) return layers.a.getEnemyHP(x).mul(layers.a.getEnemyDEF(x).add(1)).div(getATK()).div(getDMG()).ceil().mul(layers.a.getEnemyATK(x)).mul(layers.a.getEnemyDMG(x)).div(getDEF().add(1));
+                        return layers.a.getEnemyHP(x).mul(layers.a.getEnemyDEF(x).add(1)).div(getATK()).div(getDMG()).ceil().mul(layers.a.getEnemyATK(x)).mul(layers.a.getEnemyDMG(x)).div(getDEF().add(1)).sub(player.points.div(10)).div(getPointGen());
+                    }
+                    let compTime = player.a.nextEnemyTime;
+                    if (player.h.clickables[12].eq(2)) compTime = compTime.max(buyableEffect("h", 11).max(0.01).pow(-1)).add(0.1)
+                    if (inChallenge("d", 12) || inChallenge("d", 22)) compTime = new Decimal(1);
+                    let l = new Decimal(1), r = new Decimal(player.a.level.mul(2).add(getLevel()).add(1000).floor());
+                    for (let i = 0; i < 30; i++) {
+                        let m = l.add(r).div(2).floor();
+                        console.log(l.toNumber(), " ", r.toNumber(), " ", m.toNumber(), " ", getTimeToBeatEnemy(m).toNumber());
+                        if (getTimeToBeatEnemy(m).lt(compTime)) l = m; else r = m;
+                    }
+                    player.a.setLevel = player.a.level = l;
+                }
+            }
             player.a.hp = layers.a.getEnemyHP();
             player.a.points = player.a.points.add(layers.a.getEnemyEXP());
             player.g.points = player.g.points.add(layers.a.getEnemyGold());
@@ -280,8 +280,8 @@ addLayer("a", {
             player.a.setLevel = new Decimal(1);
             updateTemp();
         }
-        if (layer == "i" || layer == "j") {
-		if((player.i.points.gte(2000) && player.sac.points.gte(5)) || hasMilestone("i",24))layerDataReset("a",["equipmentShard"]);
+        if (layer == "i" || layer == "j" || layer == "k") {
+            if ((player.i.points.gte(2000) && player.sac.points.gte(5)) || hasMilestone("i", 24)) layerDataReset("a", ["equipmentShard"]);
             else layerDataReset("a");
             updateTemp();
         }

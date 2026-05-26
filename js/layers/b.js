@@ -406,7 +406,7 @@ addLayer("b", {
         if (player.sac.points.gte(3)) ret = ret.mul(10);
         if (player.sac.points.gte(5)) ret = ret.mul(10);
         if (hasUpgrade("c", 21)) ret = ret.mul(upgradeEffect("c", 21));
-	ret = ret.mul(layers.j.effect());
+        ret = ret.mul(layers.j.effect());
         return ret;
     },
     doReset(layer) { },
