@@ -182,7 +182,7 @@ addLayer("a", {
         },
         13: {
             title() {
-                return "Enemy Drop Mode";
+                return (modInfo.useChinese ? "敌人掉落模式" : "Enemy Drop Mode");
             },
             display() { if (player.a.equipmentShard) return "Equipment Shard"; return "Equipment"; },
             canClick() {

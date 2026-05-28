@@ -29,7 +29,7 @@ addLayer("j", {
     exponent: 0.2,
     row: 9, // Row the layer is in on the tree (0 is the first row)
     branches: ['i'],
-    layerShown() { return player.b.points.gte(26) || player.i.unlocked },
+    layerShown() { return player.b.points.gte(34) || player.j.unlocked },
     hotkeys: [
         { key: "j", description: "j: reset for jokers", onPress() { if (canReset(this.layer)) doReset(this.layer) } },
     ],
@@ -38,6 +38,7 @@ addLayer("j", {
         if (ret.gte(10)) ret = Decimal.pow(10, ret.log10().sqrt().mul(2).sub(1));
         if (player.sac.points.gte(5) && hasMilestone("j", 6) && ret.gte(10)) ret = Decimal.pow(10, player.j.points.add(1).log10().sqrt().mul(2).sub(0.8));
         if (player.sac.points.gte(5) && hasMilestone("j", 12) && ret.gte(10)) ret = Decimal.pow(10, player.j.points.add(1).log10().sqrt().mul(2).sub(0.6));
+        if (player.sac.points.gte(5) && hasMilestone("j", 13) && ret.gte(10)) ret = Decimal.pow(10, player.j.points.add(1).log10().sqrt().mul(2).sub(0.3));
         ret = ret.sqrt();
         return ret;
     },
@@ -122,6 +123,12 @@ addLayer("j", {
             unlocked() { return player.sac.points.gte(5) },
             effectDescription: "Joker effect is better.",
         },
+        {
+            requirementDescription: "8192 jokers",
+            done() { return player.j.points.gte(8192) && player.sac.points.gte(5) }, // Used to determine when to give the milestone
+            unlocked() { return player.sac.points.gte(5) },
+            effectDescription: "Joker effect is better.",
+        },
     ],
 
     tabFormat: {
@@ -137,5 +144,10 @@ addLayer("j", {
         }
     },
     doReset(layer) {
+        if (layer == "j") {
+            if(hasMilestone("k", 0)){
+                addPoints("i", tmp.i.resetGain);
+            }
+        }
     },
 });

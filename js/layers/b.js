@@ -377,9 +377,14 @@ addLayer("b", {
             requirementDescription: "Beat 44 bosses",
             unlocked() { return player[this.layer].points.gte(43) },
             done() { return player[this.layer].points.gte(44) }, // Used to determine when to give the milestone
+            effectDescription: "Unlock layer K.",
+        },
+        {
+            requirementDescription: "Beat 45 bosses",
+            unlocked() { return player[this.layer].points.gte(44) },
+            done() { return player[this.layer].points.gte(45) }, // Used to determine when to give the milestone
             effectDescription: "Current Endgame",
         },
-
     ],
     update(diff) {
         if (getLevel().gte(10)) player.b.unlocked = true;
@@ -395,6 +400,7 @@ addLayer("b", {
         if (hasUpgrade("g", 21)) ret = ret.mul(upgradeEffect("g", 21));
         ret = ret.mul(layers.d.effect2());
         ret = ret.mul(layers.i.effect());
+        ret = ret.mul(layers.k.effect());
         if (player.sac.points.gte(1)) ret = ret.mul(10);
         if (player.sac.points.gte(2)) ret = ret.mul(100);
         if (player.sac.points.gte(5)) ret = ret.mul(10);

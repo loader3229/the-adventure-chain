@@ -554,6 +554,11 @@ addLayer("i", {
         return u;
     },
     doReset(layer) {
+        if (layer == "i") {
+            if(hasMilestone("k", 0)){
+                addPoints("j", tmp.j.resetGain);
+            }
+        }
     },
 
 });

@@ -63,6 +63,7 @@ addLayer("c", {
         ret = ret.mul(layers.d.effect());
         ret = ret.mul(layers.e.equipmentEff(14));
         ret = ret.mul(layers.f.effect());
+        ret = ret.mul(layers.k.effect());
         if (hasMilestone("i", 0)) ret = ret.mul(2);
         if (getClickableState("i", 52) == 1) ret = ret.mul(2);
         if (hasMilestone("i", 5)) ret = ret.mul(layers.i.effect());

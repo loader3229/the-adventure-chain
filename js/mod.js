@@ -3,7 +3,7 @@ let modInfo = {
     id: "the-adventure-chain",
     author: "loader3229",
     pointsName: "HP",
-    modFiles: ["layers.js", "layers/a.js", "layers/b.js", "layers/c.js", "layers/d.js", "layers/e.js", "layers/f.js", "layers/g.js", "layers/h.js", "layers/i.js", "layers/j.js", "tree.js"],
+    modFiles: ["layers.js", "layers/a.js", "layers/b.js", "layers/c.js", "layers/d.js", "layers/e.js", "layers/f.js", "layers/g.js", "layers/h.js", "layers/i.js", "layers/j.js", "layers/k.js", "tree.js"],
 
     discordName: "loader3229's Discord Server",
     discordLink: "https://discord.gg/jztUReQ2vT",
@@ -13,11 +13,13 @@ let modInfo = {
 
 // Set your version in num and name
 let VERSION = {
-    num: "10.7",
-    name: "Joker",
+    num: "11.1",
+    name: "Keys",
 }
 
 let changelog = `<h1>Changelog:</h1><br>
+    <h3>v11.0</h3><br>
+        - Added layer K.<br>
     <h3>v10.0</h3><br>
         - Added layer J.<br>
     <h3>v9.0</h3><br>
@@ -89,7 +91,7 @@ function addedPlayerData() {
 // Display extra things at the top of the page
 var displayThings = [
     "Mod Author: loader3229",
-    "Endgame: Boss 44 beaten and Level 1350000",
+    "Endgame: Boss 45 beaten and Level 1500000",
     function () { if (getLevel().gte(200000)) return "Level: " + formatWhole(getLevel()) + "/" + formatWhole(getLevelCap()) + " (Scaling: " + format(getLevelScaling()) + ")"; return "Level: " + formatWhole(getLevel()) + "/" + formatWhole(getLevelCap()) + " (" + format(getLevelProgress().mul(100)) + "%)" },
     function () { return "ATK: " + format(getATK()) },
     function () { if (player.b.points.gte(1)) return "DEF: " + format(getDEF()) },
@@ -99,7 +101,7 @@ var displayThings = [
 
 // Determines when the game "ends"
 function isEndgame() {
-    return player.b.points.gte(44) && getLevel().gte(1350000)
+    return player.b.points.gte(45) && getLevel().gte(1500000)
 }
 
 
@@ -230,6 +232,7 @@ function getRealLevel() {
     if (player.sac.points.gte(5)) {
         let level = player.a.points.pow(0.06).div(25).div(getLevelScaling().sqrt()).add(1).log(1.04).mul(getLevelScaling().sqrt()).pow(2).add(1).min(getLevelCap());
         if (player.a.points.pow(0.12).lte(scaling)) level = player.a.points.pow(0.12).add(1);
+        level = softcap(level, new Decimal(1.5e6), 0.4).min(getLevelCap());
         return level;
     }
     if (player.sac.points.gte(4)) {
