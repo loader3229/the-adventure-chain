@@ -39,6 +39,7 @@ addLayer("j", {
         if (player.sac.points.gte(5) && hasMilestone("j", 6) && ret.gte(10)) ret = Decimal.pow(10, player.j.points.add(1).log10().sqrt().mul(2).sub(0.8));
         if (player.sac.points.gte(5) && hasMilestone("j", 12) && ret.gte(10)) ret = Decimal.pow(10, player.j.points.add(1).log10().sqrt().mul(2).sub(0.6));
         if (player.sac.points.gte(5) && hasMilestone("j", 13) && ret.gte(10)) ret = Decimal.pow(10, player.j.points.add(1).log10().sqrt().mul(2).sub(0.3));
+        if (player.sac.points.gte(5) && hasMilestone("j", 14)) ret = Decimal.pow(10, player.j.points.add(1).log10().sqrt().mul(2));
         ret = ret.sqrt();
         return ret;
     },
@@ -126,6 +127,12 @@ addLayer("j", {
         {
             requirementDescription: "8192 jokers",
             done() { return player.j.points.gte(8192) && player.sac.points.gte(5) }, // Used to determine when to give the milestone
+            unlocked() { return player.sac.points.gte(5) },
+            effectDescription: "Joker effect is better.",
+        },
+        {
+            requirementDescription: "16384 jokers",
+            done() { return player.j.points.gte(16384) && player.sac.points.gte(5) }, // Used to determine when to give the milestone
             unlocked() { return player.sac.points.gte(5) },
             effectDescription: "Joker effect is better.",
         },

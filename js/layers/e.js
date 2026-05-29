@@ -157,6 +157,7 @@ addLayer("e", {
     },
     effect() {
         let ret = player.e.points.add(10).log10().div(hasUpgrade("c", 15) ? 4 : 10);
+        if (hasMilestone("k", 2)) ret = ret.add(player.e.points.add(10).log10().div(8));
         return ret;
     },
     effect2() {

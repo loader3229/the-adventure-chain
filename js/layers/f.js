@@ -37,11 +37,13 @@ addLayer("f", {
     gainMult() {
         let ret = buyableEffect("f", 11);
         if (hasUpgrade("c", 43)) ret = ret.mul(buyableEffect("c", 33));
+        if (hasMilestone("k", 3)) ret = ret.mul(2);
         return ret;
     },
     gainMultT1() {
         let ret = buyableEffect("f", 13);
         if (hasUpgrade("c", 43)) ret = ret.mul(buyableEffect("c", 33));
+        if (hasMilestone("k", 3)) ret = ret.mul(2);
         return ret;
 
 
@@ -49,6 +51,7 @@ addLayer("f", {
     gainMultT2() {
         let ret = new Decimal(1);
         if (hasUpgrade("c", 43)) ret = ret.mul(buyableEffect("c", 33));
+        if (hasMilestone("k", 3)) ret = ret.mul(2);
         return ret;
 
 

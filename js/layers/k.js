@@ -49,6 +49,16 @@ addLayer("k", {
             done() { return player.k.points.gte(2) }, // Used to determine when to give the milestone
             effectDescription: "+100% Equipment Power.",
         },
+        {
+            requirementDescription: "4 keys",
+            done() { return player.k.points.gte(4) }, // Used to determine when to give the milestone
+            effectDescription: "Equipment Shard effect is better.",
+        },
+        {
+            requirementDescription: "8 keys",
+            done() { return player.k.points.gte(8) }, // Used to determine when to give the milestone
+            effectDescription: "All factory machine speed x2.",
+        },
     ],
 
     tabFormat: {

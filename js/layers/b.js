@@ -383,7 +383,7 @@ addLayer("b", {
             requirementDescription: "Beat 45 bosses",
             unlocked() { return player[this.layer].points.gte(44) },
             done() { return player[this.layer].points.gte(45) }, // Used to determine when to give the milestone
-            effectDescription: "Current Endgame",
+            effectDescription: "5th domain's level scaling is 0.1",
         },
     ],
     update(diff) {

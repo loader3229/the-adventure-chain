@@ -209,7 +209,7 @@ function getLevelProgress() {
 }
 
 function getLevelScaling() {
-    if (inChallenge("d", 31)) return new Decimal(player.b.points.gte(40) ? 0.05 : 0.03);
+    if (inChallenge("d", 31)) return new Decimal(player.b.points.gte(45) ? 0.1 : player.b.points.gte(40) ? 0.05 : 0.03);
     let scaling = new Decimal(1);
     if (hasMilestone("c", 6)) scaling = scaling.add(hasUpgrade("c", 31) ? 1 : 0.2);
     if (hasMilestone("c", 7) && player.sac.points.gte(2)) scaling = scaling.add((hasUpgrade("c", 35) && player.sac.points.gte(4)) ? 2 : 0.5);
