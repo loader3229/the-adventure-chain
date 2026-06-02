@@ -385,6 +385,12 @@ addLayer("b", {
             done() { return player[this.layer].points.gte(45) }, // Used to determine when to give the milestone
             effectDescription: "5th domain's level scaling is 0.1",
         },
+        {
+            requirementDescription: "Beat 46 bosses",
+            unlocked() { return player[this.layer].points.gte(45) },
+            done() { return player[this.layer].points.gte(46) }, // Used to determine when to give the milestone
+            effectDescription: "Increase keys gain based on beaten bosses count.",
+        },
     ],
     update(diff) {
         if (getLevel().gte(10)) player.b.unlocked = true;

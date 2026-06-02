@@ -558,6 +558,9 @@ addLayer("i", {
             if(hasMilestone("k", 0)){
                 addPoints("j", tmp.j.resetGain);
             }
+            if(hasMilestone("k", 4)){
+                addPoints("k", tmp.k.resetGain);
+            }
         }
     },
 

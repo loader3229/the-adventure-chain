@@ -16,6 +16,7 @@ addLayer("k", {
     },
     gainMult() {
         let ret = new Decimal(1);
+        if (player.b.points.gte(46)) ret = ret.mul(player.b.points.pow(0.75).div(10));
         return ret;
     },
     baseResource: "scraps", // Name of resource prestige is based on
@@ -59,6 +60,11 @@ addLayer("k", {
             done() { return player.k.points.gte(8) }, // Used to determine when to give the milestone
             effectDescription: "All factory machine speed x2.",
         },
+        {
+            requirementDescription: "16 keys",
+            done() { return player.k.points.gte(16) }, // Used to determine when to give the milestone
+            effectDescription: "When you do an I, J or K reset, you will gain I, J and K at once.",
+        },
     ],
 
     tabFormat: {
@@ -74,5 +80,13 @@ addLayer("k", {
         }
     },
     doReset(layer) {
+        if (layer == "k") {
+            if(hasMilestone("k", 4)){
+                addPoints("i", tmp.i.resetGain);
+            }
+            if(hasMilestone("k", 4)){
+                addPoints("j", tmp.j.resetGain);
+            }
+        }
     },
 });
