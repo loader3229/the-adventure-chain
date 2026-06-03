@@ -64,6 +64,7 @@ addLayer("c", {
         ret = ret.mul(layers.e.equipmentEff(14));
         ret = ret.mul(layers.f.effect());
         ret = ret.mul(layers.k.effect());
+        ret = ret.mul(layers.k.getBonus(2));
         if (hasMilestone("i", 0)) ret = ret.mul(2);
         if (getClickableState("i", 52) == 1) ret = ret.mul(2);
         if (hasMilestone("i", 5)) ret = ret.mul(layers.i.effect());
@@ -642,7 +643,7 @@ addLayer("c", {
             },
             cost() {
                 let a = player[this.layer].buyables[this.id];
-                a = Decimal.pow(10, a).mul(1e35);
+                a = Decimal.pow(10, a).mul(hasMilestone("k", 5)?1e30:1e35);
                 return a;
             },
             canAfford() {

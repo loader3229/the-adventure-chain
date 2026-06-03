@@ -6,6 +6,11 @@ addLayer("k", {
         return {
             unlocked: false,
             points: new Decimal(0),
+            bonuses: [
+		new Decimal(0), new Decimal(0), new Decimal(0), new Decimal(0), new Decimal(0)
+            ],
+            best: new Decimal(0),
+            total: new Decimal(0),
         }
     },
     color: "#CC9933",
@@ -65,6 +70,16 @@ addLayer("k", {
             done() { return player.k.points.gte(16) }, // Used to determine when to give the milestone
             effectDescription: "When you do an I, J or K reset, you will gain I, J and K at once.",
         },
+        {
+            requirementDescription: "32 keys",
+            done() { return player.k.points.gte(32) }, // Used to determine when to give the milestone
+            effectDescription: "Calm Buyable 'Calm Buyable Base' is cheaper.",
+        },
+        {
+            requirementDescription: "64 keys",
+            done() { return player.k.points.gte(64) }, // Used to determine when to give the milestone
+            effectDescription: "Unlock Bonus Boxes.",
+        },
     ],
 
     tabFormat: {
@@ -77,7 +92,24 @@ addLayer("k", {
                 "upgrades",
                 "milestones"
             ]
-        }
+        }, "Bonus Boxes": {
+            "content": [
+                "main-display",
+                "prestige-button",
+                "resource-display",
+                ["display-text", function(){return "You have "+formatWhole(player.k.bonuses[0])+" Stat Bonuses, multiplying HP gain, ATK, DEF, DMG by "+format(layers.k.getBonus(0))}],
+                ["display-text", function(){return "You have "+formatWhole(player.k.bonuses[1])+" EXP Bonuses, multiplying EXP  by "+format(layers.k.getBonus(1))}],
+                ["display-text", function(){return "You have "+formatWhole(player.k.bonuses[2])+" Calm Bonuses, multiplying Calm Points by "+format(layers.k.getBonus(2))}],
+                ["display-text", function(){return "You have "+formatWhole(player.k.bonuses[3])+" Equipment Shard Bonuses, multiplying Equipment Shard by "+format(layers.k.getBonus(3))}],
+                ["display-text", function(){return "You have "+formatWhole(player.k.bonuses[4])+" Factory Bonuses, multiplying all machine speed by "+format(layers.k.getBonus(4))}],
+                ["display-text", "You can use your keys to unlock Bonus Boxes now."],
+                ["row", [["clickable", "11"]]],
+            ], unlocked: function () { return hasMilestone("k", 6) }
+        },
+    },
+    getBonus(id=0){
+        let base=[new Decimal(1.1),new Decimal(1.8),new Decimal(2),new Decimal(3),new Decimal(1.5)][id];
+        return Decimal.pow(base, player.k.bonuses[id].add(1).log10().sqrt());
     },
     doReset(layer) {
         if (layer == "k") {
@@ -89,4 +121,22 @@ addLayer("k", {
             }
         }
     },
+    clickables: {
+        11: {
+            title: "Open a box",
+            display: function () {
+                return "Cost: 1 key";
+            },
+            canClick(){return player.k.points.gte(1)},
+            onClick() {
+                if (player.k.points.gte(1)){
+			player.k.points = player.k.points.sub(1)
+			a = Math.floor(Math.random()*5)
+			player.k.bonuses[a] = player.k.bonuses[a].add(1)
+		}
+            },
+
+
+        },
+},
 });

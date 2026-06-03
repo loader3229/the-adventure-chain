@@ -77,6 +77,7 @@ function getPointGen() {
     if (player.b.points.gte(21)) gain = gain.mul(buyableEffect("h", 12));
     if (player.b.points.gte(30)) gain = gain.mul(1 + player.d.challenges[12] / 100);
     gain = gain.mul(layers.e.equipmentEff(23));
+    gain = gain.mul(layers.k.getBonus(0));
     if (hasMilestone("i", 13)) gain = gain.mul(layers.i.infEff());
 
     return gain
@@ -139,6 +140,7 @@ function getATK() {
     if (player.b.points.gte(21)) atk = atk.mul(buyableEffect("h", 12));
     if (hasMilestone("i", 14)) atk = atk.mul(layers.i.infEff());
     if (player.b.points.gte(30)) atk = atk.mul(1 + player.d.challenges[21] / 100);
+    atk = atk.mul(layers.k.getBonus(0));
 
 
 
@@ -163,6 +165,8 @@ function getDEF() {
     if (player.b.points.gte(21)) def = def.mul(buyableEffect("h", 12));
     if (hasMilestone("i", 15)) def = def.mul(layers.i.infEff());
     if (player.b.points.gte(30)) def = def.mul(1 + player.d.challenges[11] / 100);
+    def = def.mul(layers.k.getBonus(0));
+
     return def;
 }
 
@@ -183,6 +187,7 @@ function getDMG() {
     if (player.b.points.gte(21)) dmg = dmg.mul(buyableEffect("h", 12));
     if (hasMilestone("i", 16)) dmg = dmg.mul(layers.i.infEff());
     if (player.b.points.gte(30)) dmg = dmg.mul(1 + player.d.challenges[22] / 100);
+    dmg = dmg.mul(layers.k.getBonus(0));
 
 
     return dmg;
@@ -232,7 +237,7 @@ function getRealLevel() {
     if (player.sac.points.gte(5)) {
         let level = player.a.points.pow(0.06).div(25).div(getLevelScaling().sqrt()).add(1).log(1.04).mul(getLevelScaling().sqrt()).pow(2).add(1).min(getLevelCap());
         if (player.a.points.pow(0.12).lte(scaling)) level = player.a.points.pow(0.12).add(1);
-        level = softcap(level, new Decimal(1.5e6), 0.4).min(getLevelCap());
+        level = softcap(level, new Decimal(hasMilestone("j", 15) ? 1.6e6 : 1.5e6), hasMilestone("j", 16) ? 0.6 : 0.4).min(getLevelCap());
         return level;
     }
     if (player.sac.points.gte(4)) {

@@ -136,6 +136,18 @@ addLayer("j", {
             unlocked() { return player.sac.points.gte(5) },
             effectDescription: "Joker effect is better.",
         },
+        {
+            requirementDescription: "32768 jokers",
+            done() { return player.j.points.gte(32768) && player.sac.points.gte(5) }, // Used to determine when to give the milestone
+            unlocked() { return player.sac.points.gte(5) },
+            effectDescription: "Post-1.5M level scaling starts later.",
+        },
+        {
+            requirementDescription: "65536 jokers",
+            done() { return player.j.points.gte(65536) && player.sac.points.gte(5) }, // Used to determine when to give the milestone
+            unlocked() { return player.sac.points.gte(5) },
+            effectDescription: "Post-1.5M level scaling is weaker.",
+        },
     ],
 
     tabFormat: {

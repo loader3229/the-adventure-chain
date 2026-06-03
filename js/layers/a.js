@@ -75,6 +75,7 @@ addLayer("a", {
         exp = exp.mul(layers.c.effect());
         exp = exp.mul(buyableEffect("c", 23));
         exp = exp.mul(layers.e.equipmentEff(12));
+        exp = exp.mul(layers.k.getBonus(1));
         if (hasMilestone("c", 8)) exp = exp.mul(layers.f.effect());
         exp = exp.mul(layers.i.effect());
         if (player.b.points.gte(39)) exp = exp.mul(buyableEffect("h", 21));

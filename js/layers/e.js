@@ -67,6 +67,7 @@ addLayer("e", {
         if (player.b.points.gte(11)) x = x.mul(player.b.points);
         x = x.mul(layers.f.effect());
         if (hasMilestone("i", 7)) x = x.mul(layers.i.effect());
+        x = x.mul(layers.k.getBonus(3));
 
         return x;
     },
