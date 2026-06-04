@@ -367,8 +367,11 @@ addLayer("c", {
             cost() { if (player.sac.points.gte(5)) return new Decimal(1e50); return new Decimal(1e46); },
             unlocked() { return player.b.points.gte(35) }
         },
-
-
+        61: {
+            description() { return "Unlock a new calm buyable."; },
+            cost() { return new Decimal(1e54); },
+            unlocked() { return player.b.points.gte(47) }
+        },
     },
     buyables: {
         11: {
@@ -659,6 +662,35 @@ addLayer("c", {
                 return eff;
             },
             unlocked() { return hasUpgrade("c", 52) }
+        },
+        42: {
+            title() {
+                return "Level Power";
+            },
+            display() {
+                let data = tmp[this.layer].buyables[this.id];
+                return "Level: " + format(player[this.layer].buyables[this.id]) + "<br>" +
+                    "Level Power: ^" + format(data.effect) + "<br>" +
+                    "Cost for Next Level: " + format(data.cost) + " Calm Points";
+            },
+            cost() {
+                let a = player[this.layer].buyables[this.id];
+                a = Decimal.pow(50, a).mul(1e50);
+                return a;
+            },
+            canAfford() {
+                return player[this.layer].points.gte(layers[this.layer].buyables[this.id].cost())
+            },
+            buy() {
+                if (!hasMilestone("i", 0)) player[this.layer].points = player[this.layer].points.sub(layers[this.layer].buyables[this.id].cost())
+                player[this.layer].buyables[this.id] = player[this.layer].buyables[this.id].add(1)
+
+            },
+            effect() {
+                let eff = new Decimal(1).add(player[this.layer].buyables[this.id].mul(0.01));
+                return eff;
+            },
+            unlocked() { return hasUpgrade("c", 61) }
         },
 
     },

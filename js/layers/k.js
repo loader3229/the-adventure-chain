@@ -80,6 +80,17 @@ addLayer("k", {
             done() { return player.k.points.gte(64) }, // Used to determine when to give the milestone
             effectDescription: "Unlock Bonus Boxes.",
         },
+        {
+            requirementDescription: "128 keys",
+            done() { return player.k.points.gte(128) }, // Used to determine when to give the milestone
+            effectDescription: "Unlock bulk open bonus boxes.",
+        },
+        {
+            requirementDescription: "256 keys",
+            done() { return player.k.points.gte(256) }, // Used to determine when to give the milestone
+            effectDescription: "5x helper points from Respawn Helper.",
+        },
+
     ],
 
     tabFormat: {
@@ -103,7 +114,7 @@ addLayer("k", {
                 ["display-text", function(){return "You have "+formatWhole(player.k.bonuses[3])+" Equipment Shard Bonuses, multiplying Equipment Shard by "+format(layers.k.getBonus(3))}],
                 ["display-text", function(){return "You have "+formatWhole(player.k.bonuses[4])+" Factory Bonuses, multiplying all machine speed by "+format(layers.k.getBonus(4))}],
                 ["display-text", "You can use your keys to unlock Bonus Boxes now."],
-                ["row", [["clickable", "11"]]],
+                ["row", [["clickable", "11"],["clickable", "12"]]],
             ], unlocked: function () { return hasMilestone("k", 6) }
         },
     },
@@ -135,8 +146,27 @@ addLayer("k", {
 			player.k.bonuses[a] = player.k.bonuses[a].add(1)
 		}
             },
+		unlocked(){return hasMilestone("k", 6)}
 
 
         },
+        12: {
+            title(){return "Open x"+formatWhole(player.k.points.div(50).floor().mul(5))},
+            display: function () {
+                return "Cost: "+formatWhole(player.k.points.div(50).floor().mul(5))+" keys";
+            },
+            canClick(){return player.k.points.gte(50)},
+            onClick() {
+                if (player.k.points.gte(50)){
+			let tmp = player.k.points.div(50).floor();
+			player.k.points = player.k.points.sub(tmp.mul(5))
+			for(let i=0;i<5;i++)player.k.bonuses[i] = player.k.bonuses[i].add(tmp)
+		}
+            },
+		unlocked(){return hasMilestone("k", 7)}
+
+
+        },
+
 },
 });

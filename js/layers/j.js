@@ -148,6 +148,13 @@ addLayer("j", {
             unlocked() { return player.sac.points.gte(5) },
             effectDescription: "Post-1.5M level scaling is weaker.",
         },
+        {
+            requirementDescription: "131072 jokers",
+            done() { return player.j.points.gte(131072) && player.sac.points.gte(5) }, // Used to determine when to give the milestone
+            unlocked() { return player.sac.points.gte(5) },
+            effectDescription: "EXP helper is cheaper.",
+        },
+
     ],
 
     tabFormat: {

@@ -13,7 +13,7 @@ let modInfo = {
 
 // Set your version in num and name
 let VERSION = {
-    num: "11.1",
+    num: "11.2",
     name: "Keys",
 }
 
@@ -74,6 +74,8 @@ function getPointGen() {
     if (hasMilestone("c", 22)) gain = gain.mul(1.4 / 1.25); // 2.8
 
     gain = gain.mul(buyableEffect("c", 21));
+    gain = gain.mul(getLevel().pow(buyableEffect("c", 42).sub(1)));
+    
     if (player.b.points.gte(21)) gain = gain.mul(buyableEffect("h", 12));
     if (player.b.points.gte(30)) gain = gain.mul(1 + player.d.challenges[12] / 100);
     gain = gain.mul(layers.e.equipmentEff(23));
@@ -92,7 +94,7 @@ function addedPlayerData() {
 // Display extra things at the top of the page
 var displayThings = [
     "Mod Author: loader3229",
-    "Endgame: Boss 45 beaten and Level 1500000",
+    "Endgame: Boss 48 beaten and Level 2000000",
     function () { if (getLevel().gte(200000)) return "Level: " + formatWhole(getLevel()) + "/" + formatWhole(getLevelCap()) + " (Scaling: " + format(getLevelScaling()) + ")"; return "Level: " + formatWhole(getLevel()) + "/" + formatWhole(getLevelCap()) + " (" + format(getLevelProgress().mul(100)) + "%)" },
     function () { return "ATK: " + format(getATK()) },
     function () { if (player.b.points.gte(1)) return "DEF: " + format(getDEF()) },
@@ -102,7 +104,7 @@ var displayThings = [
 
 // Determines when the game "ends"
 function isEndgame() {
-    return player.b.points.gte(45) && getLevel().gte(1500000)
+    return player.b.points.gte(48) && getLevel().gte(2000000)
 }
 
 
@@ -135,6 +137,7 @@ function getATK() {
 
 
     atk = atk.mul(buyableEffect("c", 12));
+    atk = atk.mul(getLevel().pow(buyableEffect("c", 42).sub(1)));
 
     atk = atk.mul(layers.e.equipmentEff(21));
     if (player.b.points.gte(21)) atk = atk.mul(buyableEffect("h", 12));
@@ -159,6 +162,7 @@ function getDEF() {
     if (player.b.points.gte(41)) def = def.mul(1.25 / 1.2); // 0.1
 
     def = def.mul(buyableEffect("c", 13));
+    def = def.mul(getLevel().pow(buyableEffect("c", 42).sub(1)));
 
     def = def.mul(layers.e.equipmentEff(22));
 
@@ -181,6 +185,7 @@ function getDMG() {
     if (player.b.points.gte(41)) dmg = dmg.mul(1.25 / 1.2); // 0.0002
 
     dmg = dmg.mul(buyableEffect("c", 32));
+    dmg = dmg.mul(getLevel().pow(buyableEffect("c", 42).sub(1)));
 
     dmg = dmg.mul(layers.e.equipmentEff(24));
 

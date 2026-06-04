@@ -235,7 +235,7 @@ addLayer("a", {
             player.a.resetTime = 0;
             player.a.nextEnemyTime = new Decimal(2);
             if (player.sac.points.gte(3)) {
-                player.h.points = player.h.points.add(layers.h.gainMult());
+                player.h.points = player.h.points.add(layers.h.gainMult().mul(hasMilestone("k", 8)?5:1));
                 player.a.nextEnemyTime = player.a.nextEnemyTime.mul(buyableEffect("h", 23));
                 if (player.h.clickables[12].eq(0)) player.h.points = player.h.points.add(player.h.autoProgress.mul(layers.h.gainMult()));
                 else if (player.h.clickables[12].gte(1)) {

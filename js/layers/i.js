@@ -456,7 +456,7 @@ addLayer("i", {
                     player.i.clickables[this.id] = 1;
                 }
             },
-            unlocked: true,
+            unlocked() { return player.sac.points.gte(5) },
             style() { return { 'background-color': (getClickableState(this.layer, this.id) == 1) ? "#77BF5F" : tmp.i.clickables[this.id].canClick ? "#00CCCC" : "#BF8F8F" } },
             branches() { return ["41"] },
 
@@ -524,7 +524,7 @@ addLayer("i", {
                     player.i.clickables[this.id] = 1;
                 }
             },
-            unlocked: true,
+            unlocked() { return player.sac.points.gte(5) },
             style() { return { 'background-color': (getClickableState(this.layer, this.id) == 1) ? "#77BF5F" : tmp.i.clickables[this.id].canClick ? "#00CCCC" : "#BF8F8F" } },
             branches() { return ["43"] },
 

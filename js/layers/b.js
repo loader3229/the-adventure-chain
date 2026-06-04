@@ -26,6 +26,7 @@ addLayer("b", {
         return Decimal.pow(5, player.b.points).mul(1000);
     },
     getBossATK() {
+        if (player.b.points.gte(47)) return Decimal.pow(4, player.b.points.sub(8)).div(layers.b.dmgDivide());
         if (player.b.points.gte(26)) return Decimal.pow(3, player.b.points.sub(26)).mul(1e13).div(layers.b.dmgDivide());
         if (player.b.points.gte(16)) return Decimal.pow(2.5, player.b.points.sub(16)).mul(1e9).div(layers.b.dmgDivide());
         if (player.b.points.gte(10)) return Decimal.pow(2, player.b.points.sub(7)).mul(1e6).div(layers.b.dmgDivide());
@@ -390,6 +391,12 @@ addLayer("b", {
             unlocked() { return player[this.layer].points.gte(45) },
             done() { return player[this.layer].points.gte(46) }, // Used to determine when to give the milestone
             effectDescription: "Increase keys gain based on beaten bosses count.",
+        },
+        {
+            requirementDescription: "Beat 47 bosses",
+            unlocked() { return player[this.layer].points.gte(46) },
+            done() { return player[this.layer].points.gte(47) }, // Used to determine when to give the milestone
+            effectDescription: "Unlock more calm upgrades.",
         },
     ],
     update(diff) {
