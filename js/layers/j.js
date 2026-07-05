@@ -154,6 +154,12 @@ addLayer("j", {
             unlocked() { return player.sac.points.gte(5) },
             effectDescription: "EXP helper is cheaper.",
         },
+        {
+            requirementDescription: "262144 jokers",
+            done() { return player.j.points.gte(262144) && player.sac.points.gte(5) }, // Used to determine when to give the milestone
+            unlocked() { return player.sac.points.gte(5) },
+            effectDescription: "Calm point gain is better.",
+        },
 
     ],
 

@@ -248,9 +248,11 @@ addLayer("a", {
                     if (player.h.clickables[12].eq(2)) compTime = compTime.max(buyableEffect("h", 11).max(0.01).pow(-1)).add(0.1)
                     if (inChallenge("d", 12) || inChallenge("d", 22)) compTime = new Decimal(1);
                     let l = new Decimal(1), r = new Decimal(player.a.level.mul(2).add(getLevel()).add(1000).floor());
+			for (let i = 0; i < 30; i++) {
+				if (getTimeToBeatEnemy(r).lt(compTime)) r = r.mul(i+2);
+			}
                     for (let i = 0; i < 30; i++) {
                         let m = l.add(r).div(2).floor();
-                        console.log(l.toNumber(), " ", r.toNumber(), " ", m.toNumber(), " ", getTimeToBeatEnemy(m).toNumber());
                         if (getTimeToBeatEnemy(m).lt(compTime)) l = m; else r = m;
                     }
                     player.a.setLevel = player.a.level = l;

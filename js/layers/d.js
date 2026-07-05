@@ -103,6 +103,20 @@ addLayer("d", {
             },
             unlocked() { return player.b.points.gte(37); }
         },
+        32: {
+            name: "Useless Level",
+            challengeDescription() { return "Level Power is 0. Level Scaling is divided by 5000.<br>Completions: " + formatWhole(player.d.challenges[this.id]) + "/" + layers.d.completionLimit(); },
+            goal() { return layers.d.dgoal(this.id); },
+            goalDescription() { return "Reach Level " + formatWhole(this.goal().ceil()); },
+            currencyDisplayName: "Level",
+            canComplete() { return getLevel().gte(this.goal()) },
+            completionLimit() { return layers.d.completionLimit(); },
+            rewardDescription() { return "1 domain point per completion."; },
+            onEnter() {
+                doReset("c", true);
+            },
+            unlocked() { return player.b.points.gte(48); }
+        },
     },
     completionLimit() {
         let d = 12;
@@ -125,7 +139,7 @@ addLayer("d", {
                 }
             }
         }
-        player.d.points = new Decimal(player.d.challenges[11]).add(player.d.challenges[12]).add(player.d.challenges[21]).add(player.d.challenges[22]).add(player.d.challenges[31]);
+        player.d.points = new Decimal(player.d.challenges[11]).add(player.d.challenges[12]).add(player.d.challenges[21]).add(player.d.challenges[22]).add(player.d.challenges[31]).add(player.d.challenges[32]);
     },
     effect() {
         let ret = Decimal.pow(1.1, player.d.points);

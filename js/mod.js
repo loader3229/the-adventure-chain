@@ -178,14 +178,13 @@ function getDMG() {
     if (inChallenge("d", 21)) return new Decimal(1);
 
     let dmg = new Decimal(1);
-    if (player.b.points.gte(13)) dmg = dmg.add(getLevel().mul(0.0001));
+    if (player.b.points.gte(13)) dmg = dmg.add(getLevel().pow(buyableEffect("c", 42)).mul(0.0001));
     if (player.b.points.gte(19)) dmg = dmg.mul(1.1);
     if (player.b.points.gte(33)) dmg = dmg.mul(1.6); // 0.000176
     if (hasMilestone("c", 20)) dmg = dmg.mul(1.2 / 1.1); // 0.000192
     if (player.b.points.gte(41)) dmg = dmg.mul(1.25 / 1.2); // 0.0002
 
     dmg = dmg.mul(buyableEffect("c", 32));
-    dmg = dmg.mul(getLevel().pow(buyableEffect("c", 42).sub(1)));
 
     dmg = dmg.mul(layers.e.equipmentEff(24));
 
@@ -233,6 +232,7 @@ function getLevelScaling() {
     else if (player.b.points.gte(7)) scaling = scaling.add(player.b.points.sub(5).mul(0.05));
     scaling = scaling.add(buyableEffect("c", 22));
     scaling = scaling.add(layers.e.equipmentEff(11));
+    if (inChallenge("d", 32)) scaling = scaling.div(5000);
     return scaling;
 }
 function getRealLevel() {

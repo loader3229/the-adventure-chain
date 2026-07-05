@@ -90,6 +90,12 @@ addLayer("k", {
             done() { return player.k.points.gte(256) }, // Used to determine when to give the milestone
             effectDescription: "5x helper points from Respawn Helper.",
         },
+        {
+            requirementDescription: "512 keys",
+            done() { return player.k.points.gte(512) }, // Used to determine when to give the milestone
+            effectDescription: "Calm Helper is cheaper.",
+        },
+
 
     ],
 

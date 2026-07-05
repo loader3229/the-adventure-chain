@@ -132,7 +132,7 @@ addLayer("e", {
         let x = Decimal.mul(player.e.equipment[type].level, player.e.equipment[type].power);
         if (type == 11) {
             if (inChallenge("d", 31)) return new Decimal(0);
-            return softcap(softcap(x.div(hasUpgrade("c", 33) ? 50000 : 60000), new Decimal(2)), new Decimal(8), 1 / 3);
+            return softcap(softcap(x.div(hasUpgrade("c", 33) ? 50000 : 60000), new Decimal(2), hasUpgrade("c",62) ? 0.6 : 0.5), new Decimal(8), 1 / 3);
         }
         if (type == 12) {
             if (inChallenge("d", 31)) return new Decimal(1);
@@ -146,7 +146,7 @@ addLayer("e", {
         }
         if (type == 14) {
             if (inChallenge("d", 31)) return new Decimal(1);
-            return x.div(hasMilestone("j", 8) ? 1000 : hasUpgrade("c", 33) ? 2000 : 3000).add(1);
+            return x.div(hasUpgrade("c",62) ? 300 : hasMilestone("j", 8) ? 1000 : hasUpgrade("c", 33) ? 2000 : 3000).add(1);
         }
         if (type >= 21 && type <= 24) {
             if (inChallenge("d", 31)) return new Decimal(1);

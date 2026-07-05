@@ -22,6 +22,7 @@ addLayer("c", {
         if (player.b.points.gte(5)) ret = new Decimal([2.4, 2.4, 2.1, 2, 2.2, 2.4][player.sac.points.toNumber()]);
         if (hasMilestone("c", 5)) ret = ret.add(player.sac.points.gte(1) ? 0.1 : 0.6);
         if (hasMilestone("i", 0)) ret = ret.add(0.1);
+        if (hasMilestone("j", 18)) ret = ret.add(0.1);
         return ret;
     },
     baseResource() { return modInfo.useChinese ? "等级" : "levels"; }, // Name of resource prestige is based on
@@ -372,6 +373,11 @@ addLayer("c", {
             cost() { return new Decimal(1e54); },
             unlocked() { return player.b.points.gte(47) }
         },
+        62: {
+            description() { return "Level Gem and Calm Gem effects are better."; },
+            cost() { return new Decimal(1e57); },
+            unlocked() { return player.b.points.gte(47) }
+        },
     },
     buyables: {
         11: {
@@ -687,6 +693,7 @@ addLayer("c", {
 
             },
             effect() {
+		if(inChallenge("d",32))return new Decimal(0);
                 let eff = new Decimal(1).add(player[this.layer].buyables[this.id].mul(0.01));
                 return eff;
             },
