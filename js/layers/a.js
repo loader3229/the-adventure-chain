@@ -26,20 +26,20 @@ addLayer("a", {
     },
     getEnemyHP(level) {
         if (level === undefined) level = player.a.level;
-        return level.mul(Decimal.pow(1.01, level.pow(0.5))).mul(5).div(layers.j.effect());
+        return level.pow(hasUpgrade("c",63)?0.99:1).mul(Decimal.pow(1.01, level.pow(0.5))).mul(5).div(layers.j.effect());
     },
     getEnemyATK(level) {
         if (level === undefined) level = player.a.level;
-        return level.mul(Decimal.pow(1.01, level.pow(0.5))).div(layers.j.effect());
+        return level.pow(hasUpgrade("c",63)?0.99:1).mul(Decimal.pow(1.01, level.pow(0.5))).div(layers.j.effect());
     },
     getEnemyDEF(level) {
         if (level === undefined) level = player.a.level;
-        if (player.sac.points.gte(3)) return level.mul(Decimal.pow(1.01, level.pow(0.5))).mul(0.05).sub(1.05).max(0).div(layers.j.effect());
+        if (player.sac.points.gte(3)) return level.pow(hasUpgrade("c",63)?0.99:1).mul(Decimal.pow(1.01, level.pow(0.5))).mul(0.05).sub(1.05).max(0).div(layers.j.effect());
         return level.mul(Decimal.pow(1.01, level.pow(0.5))).mul(0.05).sub(1.05).max(0).max(level.mul(Decimal.pow(1.01, level.pow(0.5))).mul(0.1).sub(70));
     },
     getEnemyDMG(level) {
         if (level === undefined) level = player.a.level;
-        return level.mul(Decimal.pow(1.01, level.pow(0.5))).mul(0.0001).div(layers.j.effect()).max(1);
+        return level.pow(hasUpgrade("c",63)?0.99:1).mul(Decimal.pow(1.01, level.pow(0.5))).mul(0.0001).div(layers.j.effect()).max(1);
     },
     getEnemyEXP(level) {
         if (level === undefined) level = player.a.level;
@@ -79,7 +79,7 @@ addLayer("a", {
         if (hasMilestone("c", 8)) exp = exp.mul(layers.f.effect());
         exp = exp.mul(layers.i.effect());
         if (player.b.points.gte(39)) exp = exp.mul(buyableEffect("h", 21));
-        if (getClickableState("i", 53) == 1) exp = exp.mul(3);
+        if (getClickableState("i", 53) == 1) exp = exp.mul(player.b.points.gte(49)?tmp.i.getEssence.cbrt().add(1):3);
         return exp;
     },
     getResetGain() {

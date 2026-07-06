@@ -22,6 +22,7 @@ addLayer("k", {
     gainMult() {
         let ret = new Decimal(1);
         if (player.b.points.gte(46)) ret = ret.mul(player.b.points.pow(0.75).div(10));
+        if (getClickableState("i", 63) == 1) ret = ret.mul(2);
         return ret;
     },
     baseResource: "scraps", // Name of resource prestige is based on
@@ -94,6 +95,11 @@ addLayer("k", {
             requirementDescription: "512 keys",
             done() { return player.k.points.gte(512) }, // Used to determine when to give the milestone
             effectDescription: "Calm Helper is cheaper.",
+        },
+        {
+            requirementDescription: "1024 keys",
+            done() { return player.k.points.gte(1024) }, // Used to determine when to give the milestone
+            effectDescription: "Equipment Shard effect is better.",
         },
 
 

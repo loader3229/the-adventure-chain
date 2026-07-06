@@ -404,6 +404,12 @@ addLayer("b", {
             done() { return player[this.layer].points.gte(48) }, // Used to determine when to give the milestone
             effectDescription: "Unlock a new domain.",
         },
+        {
+            requirementDescription: "Beat 49 bosses",
+            unlocked() { return player[this.layer].points.gte(48) },
+            done() { return player[this.layer].points.gte(49) }, // Used to determine when to give the milestone
+            effectDescription: "Some of Imaginary Tree Upgrades are better, and unlock more.",
+        },
     ],
     update(diff) {
         if (getLevel().gte(10)) player.b.unlocked = true;

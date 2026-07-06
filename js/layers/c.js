@@ -67,7 +67,7 @@ addLayer("c", {
         ret = ret.mul(layers.k.effect());
         ret = ret.mul(layers.k.getBonus(2));
         if (hasMilestone("i", 0)) ret = ret.mul(2);
-        if (getClickableState("i", 52) == 1) ret = ret.mul(2);
+        if (getClickableState("i", 52) == 1) ret = ret.mul(player.b.points.gte(49)?tmp.i.getEssence.cbrt().div(2).add(1):2);
         if (hasMilestone("i", 5)) ret = ret.mul(layers.i.effect());
         if (player.b.points.gte(41)) ret = ret.mul(buyableEffect("h", 22));
         if (player.sac.points.gte(3)) ret = ret.div(1000);
@@ -376,6 +376,11 @@ addLayer("c", {
         62: {
             description() { return "Level Gem and Calm Gem effects are better."; },
             cost() { return new Decimal(1e57); },
+            unlocked() { return player.b.points.gte(47) }
+        },
+        63: {
+            description() { return "Divide Enemy stats by (enemy level^0.01)"; },
+            cost() { return new Decimal(1e59); },
             unlocked() { return player.b.points.gte(47) }
         },
     },

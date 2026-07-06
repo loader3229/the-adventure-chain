@@ -13,7 +13,7 @@ let modInfo = {
 
 // Set your version in num and name
 let VERSION = {
-    num: "11.2",
+    num: "11.3",
     name: "Keys",
 }
 
@@ -94,7 +94,7 @@ function addedPlayerData() {
 // Display extra things at the top of the page
 var displayThings = [
     "Mod Author: loader3229",
-    "Endgame: Boss 48 beaten and Level 2000000",
+    "Endgame: Boss 50 beaten and Level 2500000",
     function () { if (getLevel().gte(200000)) return "Level: " + formatWhole(getLevel()) + "/" + formatWhole(getLevelCap()) + " (Scaling: " + format(getLevelScaling()) + ")"; return "Level: " + formatWhole(getLevel()) + "/" + formatWhole(getLevelCap()) + " (" + format(getLevelProgress().mul(100)) + "%)" },
     function () { return "ATK: " + format(getATK()) },
     function () { if (player.b.points.gte(1)) return "DEF: " + format(getDEF()) },
@@ -104,7 +104,7 @@ var displayThings = [
 
 // Determines when the game "ends"
 function isEndgame() {
-    return player.b.points.gte(48) && getLevel().gte(2000000)
+    return player.b.points.gte(50) && getLevel().gte(2500000)
 }
 
 
@@ -223,8 +223,9 @@ function getLevelScaling() {
     if (hasMilestone("c", 6)) scaling = scaling.add(hasUpgrade("c", 31) ? 1 : 0.2);
     if (hasMilestone("c", 7) && player.sac.points.gte(2)) scaling = scaling.add((hasUpgrade("c", 35) && player.sac.points.gte(4)) ? 2 : 0.5);
     if (player.sac.points.gte(5)) scaling = scaling.mul(2);
-    if (getClickableState("i", 32) == 1) scaling = scaling.add(2);
-    if (getClickableState("i", 54) == 1) scaling = scaling.add(2);
+    if (getClickableState("i", 32) == 1) scaling = scaling.add(player.b.points.gte(49)?tmp.i.getEssence.cbrt():2);
+    if (getClickableState("i", 54) == 1) scaling = scaling.add(player.b.points.gte(49)?tmp.i.getEssence.cbrt():2);
+    if (getClickableState("i", 72) == 1) scaling = scaling.add(tmp.i.getEssence.cbrt());
     if (player.b.points.gte(40)) scaling = scaling.add(player.b.points.div(10).pow(2));
     else if (player.b.points.gte(29)) scaling = scaling.add(player.b.points.div(11.5).pow(2));
     else if (player.b.points.gte(16)) scaling = scaling.add(player.b.points.div(16).pow(2));

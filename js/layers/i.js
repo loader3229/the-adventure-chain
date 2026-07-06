@@ -27,6 +27,7 @@ addLayer("i", {
         if (hasMilestone("i", 6)) ret = ret.mul(layers.i.infEff());
         if (hasMilestone("j", 9)) ret = ret.mul(player.j.points.add(1).pow(0.02));
         if (getClickableState("i", 42) == 1) ret = ret.mul(1.1);
+        if (getClickableState("i", 61) == 1) ret = ret.mul(1.1);
         return ret;
     },
     getResetGain() {
@@ -231,6 +232,9 @@ addLayer("i", {
                 ["clickables", [3]], "blank",
                 ["clickables", [4]], "blank",
                 ["clickables", [5]], "blank",
+                ["clickables", [6]], "blank",
+                ["clickables", [7]], "blank",
+
 
             ], unlocked: function () { return hasMilestone("i", 21) }
         }
@@ -331,6 +335,7 @@ addLayer("i", {
                 return new Decimal(4);
             },
             display() {
+		if(player.b.points.gte(49))return "+"+format(tmp.i.getEssence.cbrt().mul(100))+"% Equipment Power<br>(Based on total Imaginary Essence)<br>Cost: 4 Imaginary Essence";
                 return "+200% Equipment Power<br>Cost: 4 Imaginary Essence";
             },
             canClick() {
@@ -354,6 +359,7 @@ addLayer("i", {
                 return new Decimal(4);
             },
             display() {
+		if(player.b.points.gte(49))return "+"+format(tmp.i.getEssence.cbrt())+" Level Scaling<br>(Based on total Imaginary Essence)<br>Cost: 4 Imaginary Essence";
                 return "+2 Level Scaling<br>Cost: 4 Imaginary Essence";
             },
             canClick() {
@@ -446,6 +452,7 @@ addLayer("i", {
                 return new Decimal(4);
             },
             display() {
+		if(player.b.points.gte(49))return "+"+format(tmp.i.getEssence.cbrt().mul(100))+"% Equipment Power<br>(Based on total Imaginary Essence)<br>Cost: 4 Imaginary Essence";
                 return "+200% Equipment Power<br>Cost: 4 Imaginary Essence";
             },
             canClick() {
@@ -469,6 +476,7 @@ addLayer("i", {
                 return new Decimal(4);
             },
             display() {
+		if(player.b.points.gte(49))return "Calm Point gain x"+format(tmp.i.getEssence.cbrt().div(2).add(1))+"<br>(Based on total Imaginary Essence)<br>Cost: 4 Imaginary Essence";
                 return "Calm Point gain x2<br>Cost: 4 Imaginary Essence";
             },
             canClick() {
@@ -492,6 +500,7 @@ addLayer("i", {
                 return new Decimal(4);
             },
             display() {
+		if(player.b.points.gte(49))return "EXP gain x"+format(tmp.i.getEssence.cbrt().add(1))+"<br>(Based on total Imaginary Essence)<br>Cost: 4 Imaginary Essence";
                 return "EXP gain x3<br>Cost: 4 Imaginary Essence";
             },
             canClick() {
@@ -514,6 +523,7 @@ addLayer("i", {
                 return new Decimal(4);
             },
             display() {
+		if(player.b.points.gte(49))return "+"+format(tmp.i.getEssence.cbrt())+" Level Scaling<br>(Based on total Imaginary Essence)<br>Cost: 4 Imaginary Essence";
                 return "+2 Level Scaling<br>Cost: 4 Imaginary Essence";
             },
             canClick() {
@@ -527,6 +537,121 @@ addLayer("i", {
             unlocked() { return player.sac.points.gte(5) },
             style() { return { 'background-color': (getClickableState(this.layer, this.id) == 1) ? "#77BF5F" : tmp.i.clickables[this.id].canClick ? "#00CCCC" : "#BF8F8F" } },
             branches() { return ["43"] },
+
+        },
+        61: {
+            title() {
+                return this.id;
+            },
+            cost() {
+                return new Decimal(4);
+            },
+            display() {
+                return "Imaginary Point gain x1.1<br>Cost: 4 Imaginary Essence";
+            },
+            canClick() {
+                return tmp.i.getEssence.gte(tmp.i.usedEssence.add(this.cost())) && player.i.clickables[this.id] != 1 && player.i.clickables[51] == 1 && player.i.clickables[52] == 1;
+            },
+            onClick() {
+                if (layers.i.getEssence().gte(layers.i.usedEssence().add(this.cost())) && player.i.clickables[51] == 1 && player.i.clickables[52] == 1) {
+                    player.i.clickables[this.id] = 1;
+                }
+            },
+            unlocked() { return player.b.points.gte(49) },
+            style() { return { 'background-color': (getClickableState(this.layer, this.id) == 1) ? "#77BF5F" : tmp.i.clickables[this.id].canClick ? "#00CCCC" : "#BF8F8F" } },
+            branches() { return ["51", "52"] },
+
+        },
+        62: {
+            title() {
+                return this.id;
+            },
+            cost() {
+                return new Decimal(4);
+            },
+            display() {
+                return "Joker gain x2<br>Cost: 4 Imaginary Essence";
+            },
+            canClick() {
+                return tmp.i.getEssence.gte(tmp.i.usedEssence.add(this.cost())) && player.i.clickables[this.id] != 1 && player.i.clickables[52] == 1 && player.i.clickables[53] == 1;
+            },
+            onClick() {
+                if (layers.i.getEssence().gte(layers.i.usedEssence().add(this.cost())) && player.i.clickables[52] == 1 && player.i.clickables[53] == 1) {
+                    player.i.clickables[this.id] = 1;
+                }
+            },
+            unlocked() { return player.b.points.gte(49) },
+            style() { return { 'background-color': (getClickableState(this.layer, this.id) == 1) ? "#77BF5F" : tmp.i.clickables[this.id].canClick ? "#00CCCC" : "#BF8F8F" } },
+            branches() { return ["52", "53"] },
+
+        },
+        63: {
+            title() {
+                return this.id;
+            },
+            cost() {
+                return new Decimal(4);
+            },
+            display() {
+                return "Keys gain x2<br>Cost: 4 Imaginary Essence";
+            },
+            canClick() {
+                return tmp.i.getEssence.gte(tmp.i.usedEssence.add(this.cost())) && player.i.clickables[this.id] != 1 && player.i.clickables[53] == 1 && player.i.clickables[54] == 1;
+            },
+            onClick() {
+                if (layers.i.getEssence().gte(layers.i.usedEssence().add(this.cost())) && player.i.clickables[53] == 1 && player.i.clickables[54] == 1) {
+                    player.i.clickables[this.id] = 1;
+                }
+            },
+            unlocked() { return player.b.points.gte(49) },
+            style() { return { 'background-color': (getClickableState(this.layer, this.id) == 1) ? "#77BF5F" : tmp.i.clickables[this.id].canClick ? "#00CCCC" : "#BF8F8F" } },
+            branches() { return ["53", "54"] },
+
+        },
+        71: {
+            title() {
+                return this.id;
+            },
+            cost() {
+                return new Decimal(4);
+            },
+            display() {
+		return "+"+format(tmp.i.getEssence.cbrt().mul(100))+"% Equipment Power<br>(Based on total Imaginary Essence)<br>Cost: 4 Imaginary Essence";
+            },
+            canClick() {
+                return tmp.i.getEssence.gte(tmp.i.usedEssence.add(this.cost())) && player.i.clickables[this.id] != 1 && player.i.clickables[61] == 1 && player.i.clickables[62] == 1 && player.i.clickables[63] == 1;
+            },
+            onClick() {
+                if (layers.i.getEssence().gte(layers.i.usedEssence().add(this.cost())) && player.i.clickables[61] == 1 && player.i.clickables[62] == 1 && player.i.clickables[63] == 1) {
+                    player.i.clickables[this.id] = 1;
+                }
+            },
+            unlocked() { return player.b.points.gte(49) },
+            style() { return { 'background-color': (getClickableState(this.layer, this.id) == 1) ? "#77BF5F" : tmp.i.clickables[this.id].canClick ? "#00CCCC" : "#BF8F8F" } },
+            branches() { return ["61","62","63"] },
+
+        },
+        72: {
+            title() {
+                return this.id;
+            },
+            cost() {
+                return new Decimal(4);
+            },
+            display() {
+		return "+"+format(tmp.i.getEssence.cbrt())+" Level Scaling<br>(Based on total Imaginary Essence)<br>Cost: 4 Imaginary Essence";
+            },
+            canClick() {
+                return tmp.i.getEssence.gte(tmp.i.usedEssence.add(this.cost())) && player.i.clickables[this.id] != 1 && player.i.clickables[61] == 1 && player.i.clickables[62] == 1 && player.i.clickables[63] == 1;
+            },
+            onClick() {
+                if (layers.i.getEssence().gte(layers.i.usedEssence().add(this.cost())) && player.i.clickables[61] == 1 && player.i.clickables[62] == 1 && player.i.clickables[63] == 1) {
+                    player.i.clickables[this.id] = 1;
+                }
+            },
+            unlocked() { return player.b.points.gte(49) },
+            style() { return { 'background-color': (getClickableState(this.layer, this.id) == 1) ? "#77BF5F" : tmp.i.clickables[this.id].canClick ? "#00CCCC" : "#BF8F8F" } },
+            branches() { return ["61","62","63"] },
 
         },
 
@@ -563,6 +688,11 @@ addLayer("i", {
             }
         }
     },
+  passiveGeneration(){
+	let a=0;
+	if(hasMilestone("j",19))a += 0.2;
+return a;
+}
 
 });
 

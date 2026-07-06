@@ -20,6 +20,7 @@ addLayer("j", {
         if (hasUpgrade("g", 31)) ret = ret.mul(1.5);
         if (player.b.points.gte(36)) ret = ret.mul(player.b.points.sqrt().div(3));
         if (getClickableState("i", 41) == 1) ret = ret.mul(2);
+        if (getClickableState("i", 62) == 1) ret = ret.mul(2);
         return ret;
     },
     baseResource: "calm points", // Name of resource prestige is based on
@@ -159,6 +160,18 @@ addLayer("j", {
             done() { return player.j.points.gte(262144) && player.sac.points.gte(5) }, // Used to determine when to give the milestone
             unlocked() { return player.sac.points.gte(5) },
             effectDescription: "Calm point gain is better.",
+        },
+        {
+            requirementDescription: "524288 jokers",
+            done() { return player.j.points.gte(524288) && player.sac.points.gte(5) }, // Used to determine when to give the milestone
+            unlocked() { return player.sac.points.gte(5) },
+            effectDescription: "Gain 20% of Imaginary Point gain per second.",
+        },
+        {
+            requirementDescription: "1048576 jokers",
+            done() { return player.j.points.gte(1048576) && player.sac.points.gte(5) }, // Used to determine when to give the milestone
+            unlocked() { return player.sac.points.gte(5) },
+            effectDescription: "Calm Helper is better.",
         },
 
     ],

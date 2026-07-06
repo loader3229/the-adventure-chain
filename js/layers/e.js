@@ -159,6 +159,7 @@ addLayer("e", {
     effect() {
         let ret = player.e.points.add(10).log10().div(hasUpgrade("c", 15) ? 4 : 10);
         if (hasMilestone("k", 2)) ret = ret.add(player.e.points.add(10).log10().div(8));
+        if (hasMilestone("k", 10)) ret = ret.add(player.e.points.add(10).log10().div(8));
         return ret;
     },
     effect2() {
@@ -171,8 +172,9 @@ addLayer("e", {
         if (hasUpgrade("g", 24)) ret = ret.add(1);
         if (hasMilestone("c", 21)) ret = ret.add(1);
         if (hasUpgrade("g", 32)) ret = ret.add(1);
-        if (getClickableState("i", 31) == 1) ret = ret.add(2);
-        if (getClickableState("i", 51) == 1) ret = ret.add(2);
+        if (getClickableState("i", 31) == 1) ret = ret.add(player.b.points.gte(49)?tmp.i.getEssence.cbrt():2);
+        if (getClickableState("i", 51) == 1) ret = ret.add(player.b.points.gte(49)?tmp.i.getEssence.cbrt():2);
+        if (getClickableState("i", 71) == 1) ret = ret.add(tmp.i.getEssence.cbrt());
         if (hasMilestone("k", 1)) ret = ret.add(1);
         if (player.b.points.gte(14)) ret = ret.add(player.e.points.add(10).log10().div(player.b.points.gte(22) ? 8 : 10));
         if (player.b.points.gte(25)) ret = ret.add(buyableEffect("h", 13).sub(1));
