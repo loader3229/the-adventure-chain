@@ -10,6 +10,7 @@ addLayer("g", {
                 { type: 11, level: new Decimal(1), power: new Decimal(1) }
             ],
             shopmode: false,
+            safe_check: 2,
         }
     },
     color: "#FFFF00",
@@ -132,6 +133,10 @@ addLayer("g", {
                     if (hasUpgrade("g", 22)) power = power.add(0.1);
                     if (hasUpgrade("g", 24)) power = power.add(0.5);
                     if (hasUpgrade("g", 23)) power = power.mul(player.g.points.div(level.mul(power).pow(1.5).div(100000).add(100)).max(1).pow(hasMilestone("j", 11) ? 0.06 : 0.05));
+            if (player.g.points.div(player.g.safe_check).lt(level.mul(power).pow(1.5).div(100000))){
+                power = player.g.points.div(player.g.safe_check).mul(100000).root(1.5).div(level).max(1);
+                level = player.g.points.div(player.g.safe_check).mul(100000).root(1.5).div(power).max(1);
+            }
                     i++;
                 }
                 player.g.shop[0].type = type;
@@ -185,6 +190,23 @@ addLayer("g", {
             canClick() { return player.b.points.gte(40) },
 
             unlocked() { return player.b.points.gte(40) },
+
+        },
+        14: {
+            title() {
+                return "Max Shop Price"
+            },
+            display() {
+                return "Gold/"+player.g.safe_check+" + 100"
+            },
+            onClick() {
+                player.g.safe_check = player.g.safe_check * 2;
+                if(player.g.safe_check >= 10)player.g.safe_check = 2;
+            },
+            canClick() {
+                return true;
+            },
+
 
         },
 
