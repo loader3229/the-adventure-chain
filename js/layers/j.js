@@ -141,7 +141,7 @@ addLayer("j", {
             requirementDescription: "32768 jokers",
             done() { return player.j.points.gte(32768) && player.sac.points.gte(5) }, // Used to determine when to give the milestone
             unlocked() { return player.sac.points.gte(5) },
-            effectDescription: "Post-1.5M level scaling starts later.",
+            effectDescription: "Post-1.5M level scaling starts 100k later.",
         },
         {
             requirementDescription: "65536 jokers",
@@ -172,6 +172,12 @@ addLayer("j", {
             done() { return player.j.points.gte(1048576) && player.sac.points.gte(5) }, // Used to determine when to give the milestone
             unlocked() { return player.sac.points.gte(5) },
             effectDescription: "Calm Helper is better.",
+        },
+        {
+            requirementDescription: "2097152 jokers",
+            done() { return player.j.points.gte(2097152) && player.sac.points.gte(5) }, // Used to determine when to give the milestone
+            unlocked() { return player.sac.points.gte(5) },
+            effectDescription: "Respawn Helper is cheaper.",
         },
 
     ],

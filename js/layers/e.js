@@ -157,9 +157,11 @@ addLayer("e", {
         return new Decimal(0);
     },
     effect() {
-        let ret = player.e.points.add(10).log10().div(hasUpgrade("c", 15) ? 4 : 10);
-        if (hasMilestone("k", 2)) ret = ret.add(player.e.points.add(10).log10().div(8));
-        if (hasMilestone("k", 10)) ret = ret.add(player.e.points.add(10).log10().div(8));
+        let ret = player.e.points.add(10).log10().mul(0.1);
+        if (hasUpgrade("c", 15)) ret = ret.add(player.e.points.add(10).log10().mul(0.15));
+        if (hasUpgrade("c", 64)) ret = ret.add(player.e.points.add(10).log10().mul(0.125));
+        if (hasMilestone("k", 2)) ret = ret.add(player.e.points.add(10).log10().mul(0.125));
+        if (hasMilestone("k", 10)) ret = ret.add(player.e.points.add(10).log10().mul(0.125));
         return ret;
     },
     effect2() {

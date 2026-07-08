@@ -179,7 +179,7 @@ addLayer("h", {
             },
             cost() {
                 let a = player[this.layer].buyables[this.id];
-                a = Decimal.pow(10, a);
+                a = Decimal.pow(hasMilestone("j", 21)?7:10, a);
                 return a;
             },
             canAfford() {

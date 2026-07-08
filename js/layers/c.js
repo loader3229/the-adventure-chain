@@ -383,6 +383,11 @@ addLayer("c", {
             cost() { return new Decimal(1e59); },
             unlocked() { return player.b.points.gte(47) }
         },
+        64: {
+            description() { return "Equipment shard effect is better."; },
+            cost() { return new Decimal(1e61); },
+            unlocked() { return player.b.points.gte(47) }
+        },
     },
     buyables: {
         11: {

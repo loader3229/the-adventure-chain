@@ -243,7 +243,7 @@ function getRealLevel() {
     if (player.sac.points.gte(5)) {
         let level = player.a.points.pow(0.06).div(25).div(getLevelScaling().sqrt()).add(1).log(1.04).mul(getLevelScaling().sqrt()).pow(2).add(1).min(getLevelCap());
         if (player.a.points.pow(0.12).lte(scaling)) level = player.a.points.pow(0.12).add(1);
-        level = softcap(level, new Decimal(hasMilestone("j", 15) ? 1.6e6 : 1.5e6), hasMilestone("j", 16) ? 0.6 : 0.4).min(getLevelCap());
+        level = softcap(level, new Decimal(hasMilestone("j", 15) ? 1.6e6 : 1.5e6), hasMilestone("k", 11) ? 0.64 : hasMilestone("j", 16) ? 0.6 : 0.4).min(getLevelCap());
         return level;
     }
     if (player.sac.points.gte(4)) {

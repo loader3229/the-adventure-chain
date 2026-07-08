@@ -22,7 +22,13 @@ addLayer("k", {
     gainMult() {
         let ret = new Decimal(1);
         if (player.b.points.gte(46)) ret = ret.mul(player.b.points.pow(0.75).div(10));
+        if (hasUpgrade("g", 34)) ret = ret.mul(1.5);
         if (getClickableState("i", 63) == 1) ret = ret.mul(2);
+        return ret;
+    },
+    gainMult2() {
+        let ret = new Decimal(1);
+        if (hasMilestone("k", 12))ret = ret.mul(2);
         return ret;
     },
     baseResource: "scraps", // Name of resource prestige is based on
@@ -101,6 +107,17 @@ addLayer("k", {
             done() { return player.k.points.gte(1024) }, // Used to determine when to give the milestone
             effectDescription: "Equipment Shard effect is better.",
         },
+        {
+            requirementDescription: "2048 keys",
+            done() { return player.k.points.gte(2048) }, // Used to determine when to give the milestone
+            effectDescription: "Post-1.5M level scaling is weaker.",
+        },
+        {
+            requirementDescription: "4096 keys",
+            done() { return player.k.points.gte(4096) }, // Used to determine when to give the milestone
+            effectDescription: "Double Bonus Boxes reward.",
+        },
+
 
 
     ],
@@ -155,7 +172,7 @@ addLayer("k", {
                 if (player.k.points.gte(1)){
 			player.k.points = player.k.points.sub(1)
 			a = Math.floor(Math.random()*5)
-			player.k.bonuses[a] = player.k.bonuses[a].add(1)
+			player.k.bonuses[a] = player.k.bonuses[a].add(layers.k.gainMult2())
 		}
             },
 		unlocked(){return hasMilestone("k", 6)}
@@ -172,7 +189,7 @@ addLayer("k", {
                 if (player.k.points.gte(50)){
 			let tmp = player.k.points.div(50).floor();
 			player.k.points = player.k.points.sub(tmp.mul(5))
-			for(let i=0;i<5;i++)player.k.bonuses[i] = player.k.bonuses[i].add(tmp)
+			for(let i=0;i<5;i++)player.k.bonuses[i] = player.k.bonuses[i].add(tmp.mul(layers.k.gainMult2()))
 		}
             },
 		unlocked(){return hasMilestone("k", 7)}

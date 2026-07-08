@@ -110,6 +110,18 @@ addLayer("g", {
             cost() { return new Decimal(1e8); },
             unlocked() { return player.sac.points.gte(5) },
         },
+        33: {
+            description: "The max level in Equipment Shop is boosted by your Gold Upgrades.",
+            cost() { return new Decimal(3e8); },
+            unlocked() { return player.b.points.gte(50) },
+            effect: function () { return Math.max(player.g.upgrades.length,12.5)/10 },
+            effectDisplay: function () { return format(upgradeEffect(this.layer, this.id)) + "x player level = " + formatWhole(getLevel().mul(upgradeEffect(this.layer, this.id))) }
+        },
+        34: {
+            description: "1.5x Keys gain.",
+            cost() { return new Decimal(1e9); },
+            unlocked() { return player.b.points.gte(50) },
+        },
     },
     clickables: {
         11: {
@@ -126,6 +138,7 @@ addLayer("g", {
                 while (i <= 5 && level.mul(power).lt(x)) {
                     type = types[Math.floor(types.length * Math.random())];
                     level = getLevel().mul(Math.random() * 0.25 + 1);
+                   if(hasUpgrade("g",33))level = getLevel().mul(Math.random() * (upgradeEffect("g",33)-1) + 1);
                     x = Decimal.mul(player.e.equipment[type].level, player.e.equipment[type].power).max(1);
                     power = x.mul(Math.random() * 0.1 + 1.05).div(level).max(layers.e.effect2().add(layers.e.effect().mul(Math.random() * 0.5))).min(layers.e.effect().add(layers.e.effect2()).mul(Math.random() * 0.05 + 1));
                     if (hasUpgrade("g", 12) && player.sac.points.gte(3)) power = power.add(0.3);
