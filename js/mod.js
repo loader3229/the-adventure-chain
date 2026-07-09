@@ -72,6 +72,7 @@ function getPointGen() {
     if (hasMilestone("c", 20)) gain = gain.mul(1.2 / 1.1); // 2.4
     if (player.b.points.gte(41)) gain = gain.mul(1.25 / 1.2); // 2.5
     if (hasMilestone("c", 22)) gain = gain.mul(1.4 / 1.25); // 2.8
+    if (player.b.points.gte(53)) gain = gain.mul(1.5); // 4.2
 
     gain = gain.mul(buyableEffect("c", 21));
     gain = gain.mul(getLevel().pow(buyableEffect("c", 42).sub(1)));
@@ -218,7 +219,7 @@ function getLevelProgress() {
 }
 
 function getLevelScaling() {
-    if (inChallenge("d", 31)) return new Decimal(player.b.points.gte(45) ? 0.1 : player.b.points.gte(40) ? 0.05 : 0.03);
+    if (inChallenge("d", 31)) return new Decimal(player.b.points.gte(51) ? 0.2 : player.b.points.gte(45) ? 0.1 : player.b.points.gte(40) ? 0.05 : 0.03);
     let scaling = new Decimal(1);
     if (hasMilestone("c", 6)) scaling = scaling.add(hasUpgrade("c", 31) ? 1 : 0.2);
     if (hasMilestone("c", 7) && player.sac.points.gte(2)) scaling = scaling.add((hasUpgrade("c", 35) && player.sac.points.gte(4)) ? 2 : 0.5);
@@ -241,9 +242,9 @@ function getRealLevel() {
     let scaling = getLevelScaling();
 
     if (player.sac.points.gte(5)) {
-        let level = player.a.points.pow(0.06).div(25).div(getLevelScaling().sqrt()).add(1).log(1.04).mul(getLevelScaling().sqrt()).pow(2).add(1).min(getLevelCap());
+        let level = player.a.points.pow(0.06).div(25).div(getLevelScaling().sqrt()).add(1).log(1.04).mul(getLevelScaling().sqrt()).pow(2).add(1);
         if (player.a.points.pow(0.12).lte(scaling)) level = player.a.points.pow(0.12).add(1);
-        level = softcap(level, new Decimal(hasMilestone("j", 15) ? 1.6e6 : 1.5e6), hasMilestone("k", 11) ? 0.64 : hasMilestone("j", 16) ? 0.6 : 0.4).min(getLevelCap());
+        level = softcap(level, new Decimal(hasMilestone("j", 15) ? 1.6e6 : 1.5e6), hasMilestone("k", 16) ? 0.7 : hasMilestone("k", 13) ? 0.68 : hasMilestone("k", 11) ? 0.64 : hasMilestone("j", 16) ? 0.6 : 0.4).min(getLevelCap());
         return level;
     }
     if (player.sac.points.gte(4)) {

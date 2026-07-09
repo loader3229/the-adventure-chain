@@ -70,6 +70,7 @@ addLayer("c", {
         if (getClickableState("i", 52) == 1) ret = ret.mul(player.b.points.gte(49)?tmp.i.getEssence.cbrt().div(2).add(1):2);
         if (hasMilestone("i", 5)) ret = ret.mul(layers.i.effect());
         if (player.b.points.gte(41)) ret = ret.mul(buyableEffect("h", 22));
+        ret = ret.mul(Decimal.pow(2, layers.j.getCardLevel(3)));
         if (player.sac.points.gte(3)) ret = ret.div(1000);
         else if (player.sac.points.gte(1)) ret = ret.div(12);
         return ret;
@@ -386,6 +387,11 @@ addLayer("c", {
         64: {
             description() { return "Equipment shard effect is better."; },
             cost() { return new Decimal(1e61); },
+            unlocked() { return player.b.points.gte(47) }
+        },
+        65: {
+            description() { return "Divide Enemy stats by (enemy level^0.02)"; },
+            cost() { return new Decimal(1e64); },
             unlocked() { return player.b.points.gte(47) }
         },
     },

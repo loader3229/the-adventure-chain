@@ -117,6 +117,26 @@ addLayer("k", {
             done() { return player.k.points.gte(4096) }, // Used to determine when to give the milestone
             effectDescription: "Double Bonus Boxes reward.",
         },
+        {
+            requirementDescription: "8192 keys",
+            done() { return player.k.points.gte(8192) }, // Used to determine when to give the milestone
+            effectDescription: "Post-1.5M level scaling is weaker.",
+        },
+        {
+            requirementDescription: "16384 keys",
+            done() { return player.k.points.gte(16384) }, // Used to determine when to give the milestone
+            effectDescription: "Bonus effect from Bonus Boxes are better.",
+        },
+        {
+            requirementDescription: "32768 keys",
+            done() { return player.k.points.gte(32768) }, // Used to determine when to give the milestone
+            effectDescription: "Bonus effect from Bonus Boxes are better.",
+        },
+        {
+            requirementDescription: "65536 keys",
+            done() { return player.k.points.gte(65536) }, // Used to determine when to give the milestone
+            effectDescription: "Post-1.5M level scaling is weaker.",
+        },
 
 
 
@@ -149,6 +169,8 @@ addLayer("k", {
     },
     getBonus(id=0){
         let base=[new Decimal(1.1),new Decimal(1.8),new Decimal(2),new Decimal(3),new Decimal(1.5)][id];
+        if (hasMilestone("k", 14))base = base.add(0.1);
+        if (hasMilestone("k", 15))base = base.add(0.1);
         return Decimal.pow(base, player.k.bonuses[id].add(1).log10().sqrt());
     },
     doReset(layer) {

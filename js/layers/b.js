@@ -416,6 +416,24 @@ addLayer("b", {
             done() { return player[this.layer].points.gte(50) }, // Used to determine when to give the milestone
             effectDescription: "Unlock more gold upgrades.",
         },
+        {
+            requirementDescription: "Beat 51 bosses",
+            unlocked() { return player[this.layer].points.gte(50) },
+            done() { return player[this.layer].points.gte(51) }, // Used to determine when to give the milestone
+            effectDescription: "5th domain's level scaling is 0.2",
+        },
+        {
+            requirementDescription: "Beat 52 bosses",
+            unlocked() { return player[this.layer].points.gte(51) },
+            done() { return player[this.layer].points.gte(52) }, // Used to determine when to give the milestone
+            effectDescription: "Unlock Cards in layer J.",
+        },
+        {
+            requirementDescription: "Beat 53 bosses",
+            unlocked() { return player[this.layer].points.gte(52) },
+            done() { return player[this.layer].points.gte(53) }, // Used to determine when to give the milestone
+            effectDescription: "1.5x HP gain.",
+        },
     ],
     update(diff) {
         if (getLevel().gte(10)) player.b.unlocked = true;
@@ -436,6 +454,7 @@ addLayer("b", {
         if (player.sac.points.gte(2)) ret = ret.mul(100);
         if (player.sac.points.gte(5)) ret = ret.mul(10);
         if (hasMilestone("i", 11)) ret = ret.mul(10);
+        ret = ret.mul(Decimal.pow(2, layers.j.getCardLevel(2)));
         return ret;
     },
     dmgDivide() {

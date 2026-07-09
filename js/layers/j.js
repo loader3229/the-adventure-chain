@@ -6,6 +6,7 @@ addLayer("j", {
         return {
             unlocked: false,
             points: new Decimal(0),
+            unused: new Decimal(0),
         }
     },
     color: "#993300",
@@ -179,6 +180,12 @@ addLayer("j", {
             unlocked() { return player.sac.points.gte(5) },
             effectDescription: "Respawn Helper is cheaper.",
         },
+        {
+            requirementDescription: "4194304 jokers",
+            done() { return player.j.points.gte(4194304) && player.sac.points.gte(5) }, // Used to determine when to give the milestone
+            unlocked() { return player.sac.points.gte(5) },
+            effectDescription: "Machine max tier is cheaper.",
+        },
 
     ],
 
@@ -189,10 +196,19 @@ addLayer("j", {
                 "prestige-button",
                 "resource-display",
                 ["display-text", "J reset is same as I reset except you gain J instead of I. Anything kept in I reset will be kept in J resets."],
-                "upgrades",
                 "milestones"
             ]
-        }
+        }, "Cards": {
+            "content": [
+                "main-display",
+                "prestige-button",
+                "resource-display",
+                ["buyable",11],"blank",
+                ["display-text", function(){return "You have "+formatWhole(player.j.unused)+" Unused Cards."}],"blank",
+                ["clickable",11],"blank",
+                "upgrades",
+            ], unlocked: function () { return player.b.points.gte(52) }
+        },
     },
     doReset(layer) {
         if (layer == "j") {
@@ -204,4 +220,158 @@ addLayer("j", {
             }
         }
     },
+    clickables: {
+        11: {
+            title() {
+                return "Respec Cards"
+            },
+            display() {
+                return "Force Joker Reset";
+            },
+            canClick() {
+                return true;
+            },
+            onClick() {
+                player.j.upgrades=[];
+                doReset("j", true);
+            },
+            unlocked: true,
+        },
+   },
+   buyables: {
+	11:  {
+            title() {
+                return "Card";
+            },
+            display() {
+                let data = tmp[this.layer].buyables[this.id];
+                return "Amount: " +formatWhole(player[this.layer].unused)+" / " + formatWhole(player[this.layer].buyables[this.id]) + "<br>" +
+                    "Cost: " + format(data.cost) + " Jokers";
+            },
+            cost() {
+                let a = player[this.layer].buyables[this.id];
+                a = Decimal.pow(4, a.add(10));
+                return a;
+            },
+            canAfford() {
+                return player[this.layer].points.gte(layers[this.layer].buyables[this.id].cost())
+            },
+            buy() {
+		player[this.layer].points = player[this.layer].points.sub(layers[this.layer].buyables[this.id].cost())
+                player[this.layer].buyables[this.id] = player[this.layer].buyables[this.id].add(1)
+
+            }
+        },
+
+	},
+  getCardLevel(x){
+    return player.j.upgrades.filter(function(a){return a>=x*10 && a < (x+1)*10}).length;
+  },
+  upgrades: {
+        11: {
+	title: "♠A",
+            description: "EXP gain x2.",
+            cost() { return new Decimal(1); },
+            currencyLayer: "j",
+            currencyDisplayName: "Unused Card",
+            currencyInternalName: "unused",
+        },
+        12: {
+	title: "♥A",
+            description: "EXP gain x2.",
+            cost() { return new Decimal(1); },
+            currencyLayer: "j",
+            currencyDisplayName: "Unused Card",
+            currencyInternalName: "unused",
+        },
+        13: {
+	title: "♦A",
+            description: "EXP gain x2.",
+            cost() { return new Decimal(1); },
+            currencyLayer: "j",
+            currencyDisplayName: "Unused Card",
+            currencyInternalName: "unused",unlocked: false,
+        },
+        14: {
+	title: "♣A",
+            description: "EXP gain x2.",
+            cost() { return new Decimal(1); },
+            currencyLayer: "j",
+            currencyDisplayName: "Unused Card",
+            currencyInternalName: "unused",unlocked: false,
+        },
+        21: {
+	title: "♠2",
+            description: "Deal 2x damage to bosses.",
+            cost() { return new Decimal(1); },
+            currencyLayer: "j",
+            currencyDisplayName: "Unused Card",
+            currencyInternalName: "unused",
+        },
+        22: {
+	title: "♥2",
+            description: "Deal 2x damage to bosses.",
+            cost() { return new Decimal(1); },
+            currencyLayer: "j",
+            currencyDisplayName: "Unused Card",
+            currencyInternalName: "unused",
+        },
+        23: {
+	title: "♦2",
+            description: "Deal 2x damage to bosses.",
+            cost() { return new Decimal(1); },
+            currencyLayer: "j",
+            currencyDisplayName: "Unused Card",
+            currencyInternalName: "unused",unlocked: false,
+        },
+        24: {
+	title: "♣2",
+            description: "Deal 2x damage to bosses.",
+            cost() { return new Decimal(1); },
+            currencyLayer: "j",
+            currencyDisplayName: "Unused Card",
+            currencyInternalName: "unused",unlocked: false,
+        },
+        31: {
+	title: "♠3",
+            description: "Calm Point gain x2.",
+            cost() { return new Decimal(1); },
+            currencyLayer: "j",
+            currencyDisplayName: "Unused Card",
+            currencyInternalName: "unused",
+        },
+        32: {
+	title: "♥3",
+            description: "Calm Point gain x2.",
+            cost() { return new Decimal(1); },
+            currencyLayer: "j",
+            currencyDisplayName: "Unused Card",
+            currencyInternalName: "unused",
+        },
+        33: {
+	title: "♦3",
+            description: "Calm Point gain x2.",
+            cost() { return new Decimal(1); },
+            currencyLayer: "j",
+            currencyDisplayName: "Unused Card",
+            currencyInternalName: "unused",unlocked: false,
+        },
+        34: {
+	title: "♣3",
+            description: "Calm Point gain x2.",
+            cost() { return new Decimal(1); },
+            currencyLayer: "j",
+            currencyDisplayName: "Unused Card",
+            currencyInternalName: "unused",unlocked: false,
+        },
+  },
+   update(diff){
+player.j.unused = player.j.buyables[11].sub(player.j.upgrades.length);
+if(player.j.unused.lt(0)){
+player.j.upgrades=[];
+                doReset("j", true);
+}
+    },
+   
+
 });
