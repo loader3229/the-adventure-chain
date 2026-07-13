@@ -122,6 +122,12 @@ addLayer("g", {
             cost() { return new Decimal(1e9); },
             unlocked() { return player.b.points.gte(50) },
         },
+        35: {
+            description: "+20 Level Scaling.",
+            cost() { return new Decimal(3e9); },
+            unlocked() { return player.b.points.gte(50) },
+        },
+
     },
     clickables: {
         11: {

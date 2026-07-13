@@ -453,6 +453,7 @@ addLayer("b", {
         if (player.sac.points.gte(1)) ret = ret.mul(10);
         if (player.sac.points.gte(2)) ret = ret.mul(100);
         if (player.sac.points.gte(5)) ret = ret.mul(10);
+        if (player.sac.points.gte(6)) ret = ret.mul(1000);
         if (hasMilestone("i", 11)) ret = ret.mul(10);
         ret = ret.mul(Decimal.pow(2, layers.j.getCardLevel(2)));
         return ret;

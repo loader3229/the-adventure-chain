@@ -13,7 +13,7 @@ let modInfo = {
 
 // Set your version in num and name
 let VERSION = {
-    num: "11.3",
+    num: "11.4.514",
     name: "Keys",
 }
 
@@ -95,7 +95,7 @@ function addedPlayerData() {
 // Display extra things at the top of the page
 var displayThings = [
     "Mod Author: loader3229",
-    "Endgame: Boss 50 beaten and Level 2500000",
+    "Endgame: Boss 54 beaten and Level 4096000",
     function () { if (getLevel().gte(200000)) return "Level: " + formatWhole(getLevel()) + "/" + formatWhole(getLevelCap()) + " (Scaling: " + format(getLevelScaling()) + ")"; return "Level: " + formatWhole(getLevel()) + "/" + formatWhole(getLevelCap()) + " (" + format(getLevelProgress().mul(100)) + "%)" },
     function () { return "ATK: " + format(getATK()) },
     function () { if (player.b.points.gte(1)) return "DEF: " + format(getDEF()) },
@@ -105,7 +105,7 @@ var displayThings = [
 
 // Determines when the game "ends"
 function isEndgame() {
-    return player.b.points.gte(50) && getLevel().gte(2500000)
+    return player.b.points.gte(54) && getLevel().gte(4096000)
 }
 
 
@@ -232,6 +232,7 @@ function getLevelScaling() {
     else if (player.b.points.gte(16)) scaling = scaling.add(player.b.points.div(16).pow(2));
     else if (player.b.points.gte(13)) scaling = scaling.add(player.b.points.mul(0.05));
     else if (player.b.points.gte(7)) scaling = scaling.add(player.b.points.sub(5).mul(0.05));
+    if (hasUpgrade("g", 35)) scaling = scaling.add(20);
     scaling = scaling.add(buyableEffect("c", 22));
     scaling = scaling.add(layers.e.equipmentEff(11));
     if (inChallenge("d", 32)) scaling = scaling.div(5000);
