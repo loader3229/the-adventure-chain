@@ -26,20 +26,20 @@ addLayer("a", {
     },
     getEnemyHP(level) {
         if (level === undefined) level = player.a.level;
-        return level.pow(hasUpgrade("c",65)?0.97:hasUpgrade("c",63)?0.99:1).mul(Decimal.pow(1.01, level.pow(0.5))).mul(5).div(layers.j.effect());
+        return level.pow(hasUpgrade("c",73)?0.94:hasUpgrade("c",65)?0.97:hasUpgrade("c",63)?0.99:1).mul(Decimal.pow(1.01, level.pow(0.5))).mul(5).div(layers.j.effect());
     },
     getEnemyATK(level) {
         if (level === undefined) level = player.a.level;
-        return level.pow(hasUpgrade("c",65)?0.97:hasUpgrade("c",63)?0.99:1).mul(Decimal.pow(1.01, level.pow(0.5))).div(layers.j.effect());
+        return level.pow(hasUpgrade("c",73)?0.94:hasUpgrade("c",65)?0.97:hasUpgrade("c",63)?0.99:1).mul(Decimal.pow(1.01, level.pow(0.5))).div(layers.j.effect());
     },
     getEnemyDEF(level) {
         if (level === undefined) level = player.a.level;
-        if (player.sac.points.gte(3)) return level.pow(hasUpgrade("c",65)?0.97:hasUpgrade("c",63)?0.99:1).mul(Decimal.pow(1.01, level.pow(0.5))).mul(0.05).sub(1.05).max(0).div(layers.j.effect());
+        if (player.sac.points.gte(3)) return level.pow(hasUpgrade("c",73)?0.94:hasUpgrade("c",65)?0.97:hasUpgrade("c",63)?0.99:1).mul(Decimal.pow(1.01, level.pow(0.5))).mul(0.05).sub(1.05).max(0).div(layers.j.effect());
         return level.mul(Decimal.pow(1.01, level.pow(0.5))).mul(0.05).sub(1.05).max(0).max(level.mul(Decimal.pow(1.01, level.pow(0.5))).mul(0.1).sub(70));
     },
     getEnemyDMG(level) {
         if (level === undefined) level = player.a.level;
-        return level.pow(hasUpgrade("c",65)?0.97:hasUpgrade("c",63)?0.99:1).mul(Decimal.pow(1.01, level.pow(0.5))).mul(0.0001).div(layers.j.effect()).max(1);
+        return level.pow(hasUpgrade("c",73)?0.94:hasUpgrade("c",65)?0.97:hasUpgrade("c",63)?0.99:1).mul(Decimal.pow(1.01, level.pow(0.5))).mul(0.0001).div(layers.j.effect()).max(1);
     },
     getEnemyEXP(level) {
         if (level === undefined) level = player.a.level;
@@ -68,6 +68,12 @@ addLayer("a", {
         if (player.b.points.gte(25)) gold = level.div(1500).mul(player.b.points.pow(0.5)).add(1).pow(1.5).mul(player.b.points.pow(0.5));
         gold = gold.mul(layers.g.gainMult());
         return gold;
+    },
+    getEnemyLoot(level) {
+        if (level === undefined) level = player.a.level;
+        let loot = level.max(1).log10().mul(3).div(20).pow(50);
+	//loot = loot.mul(layers.l.gainMult());
+        return loot;
     },
     gainMult() {
         if (!player.c.unlocked) return new Decimal(1);
@@ -101,6 +107,7 @@ addLayer("a", {
         ["display-text", function () { if (player.a.level.gte(4960)) return "DMG: " + format(layers.a.getEnemyDMG()) + "x" }],
         ["display-text", function () { return "EXP: " + format(layers.a.getEnemyEXP()) }],
         ["display-text", function () { if (player.b.points.gte(16)) return "Gold: " + format(layers.a.getEnemyGold()) }],
+        ["display-text", function () { if (player.b.points.gte(56)) return "Loot: " + format(layers.a.getEnemyLoot()) }],
         ["display-text", function () { if (!player.b.unlocked) return "Reach Level 10 to unlock layer B" }],
         ["row", [["clickable", "11"], ["clickable", "12"]]],
         "resource-display",
@@ -232,6 +239,8 @@ addLayer("a", {
             if (player.b.points.gte(8)) layers.e.drop(player.a.level);
             player.a.bestEPS = layers.a.getEnemyEXP().div(player.a.resetTime + 1).max(player.a.bestEPS);
             player.a.bestLevel = player.a.bestLevel.max(player.a.level);
+            player.a.points = player.a.points.add(layers.a.getEnemyEXP());
+            player.g.points = player.g.points.add(layers.a.getEnemyGold());
 
             player.a.resetTime = 0;
             player.a.nextEnemyTime = new Decimal(2);
@@ -260,8 +269,6 @@ addLayer("a", {
                 }
             }
             player.a.hp = layers.a.getEnemyHP();
-            player.a.points = player.a.points.add(layers.a.getEnemyEXP());
-            player.g.points = player.g.points.add(layers.a.getEnemyGold());
         } else if (inChallenge("d", 22)) player.a.hp = layers.a.getEnemyHP();
         player.a.hp = player.a.hp.min(layers.a.getEnemyHP());
 

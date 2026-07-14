@@ -19,7 +19,7 @@ addLayer("c", {
     },
     exponent() {
         let ret = new Decimal(2);
-        if (player.b.points.gte(5)) ret = new Decimal([2.4, 2.4, 2.1, 2, 2.2, 2.4][player.sac.points.toNumber()]);
+        if (player.b.points.gte(5)) ret = new Decimal([2.4, 2.4, 2.1, 2, 2.2, 2.4, 2.6][player.sac.points.toNumber()]);
         if (hasMilestone("c", 5)) ret = ret.add(player.sac.points.gte(1) ? 0.1 : 0.6);
         if (hasMilestone("i", 0)) ret = ret.add(0.1);
         if (hasMilestone("j", 18)) ret = ret.add(0.1);
@@ -71,7 +71,8 @@ addLayer("c", {
         if (hasMilestone("i", 5)) ret = ret.mul(layers.i.effect());
         if (player.b.points.gte(41)) ret = ret.mul(buyableEffect("h", 22));
         ret = ret.mul(Decimal.pow(2, layers.j.getCardLevel(3)));
-        if (player.sac.points.gte(3)) ret = ret.div(1000);
+        if (player.sac.points.gte(6)) ret = ret.div(500);
+        else if (player.sac.points.gte(3)) ret = ret.div(1000);
         else if (player.sac.points.gte(1)) ret = ret.div(12);
         return ret;
     },
@@ -226,6 +227,36 @@ addLayer("c", {
             unlocked() { return player.sac.points.gte(5) },
             effectDescription: "1.12x HP gain.",
         },
+        {
+            requirementDescription() { return "1e53 calm points"; },
+            done() { return (player.c.points.gte(1e53) && player.sac.points.gte(6)) }, // Used to determine when to give the milestone
+            unlocked() { return player.sac.points.gte(6) },
+            effectDescription: "Your equipments add to 1e41 calm points effect.",
+        },
+        {
+            requirementDescription() { return "1e56 calm points"; },
+            done() { return (player.c.points.gte(1e56) && player.sac.points.gte(5)) }, // Used to determine when to give the milestone
+            unlocked() { return player.sac.points.gte(5) },
+            effectDescription: "1.19x HP gain.",
+        },
+        {
+            requirementDescription() { return "1e59 calm points"; },
+            done() { return (player.c.points.gte(1e59) && player.sac.points.gte(5)) }, // Used to determine when to give the milestone
+            unlocked() { return player.sac.points.gte(5) },
+            effectDescription: "+100% Equipment Power.",
+        },
+        {
+            requirementDescription() { return "1e62 calm points"; },
+            done() { return (player.c.points.gte(1e62) && player.sac.points.gte(5)) }, // Used to determine when to give the milestone
+            unlocked() { return player.sac.points.gte(5) },
+            effectDescription: "4000 Calm Points milestone is better.",
+        },
+        {
+            requirementDescription() { return "1e65 calm points"; },
+            done() { return (player.c.points.gte(1e65) && player.sac.points.gte(5)) }, // Used to determine when to give the milestone
+            unlocked() { return player.sac.points.gte(5) },
+            effectDescription: "+100% Equipment Power.",
+        },
     ],
     update(diff) {
         if (hasMilestone("i", 0) && layers.c.tabFormat.Buyables.unlocked()) {
@@ -371,29 +402,45 @@ addLayer("c", {
         },
         61: {
             description() { return "Unlock a new calm buyable."; },
-            cost() { return new Decimal(1e54); },
+            cost() { if (player.sac.points.gte(6)) return new Decimal(1e52); return new Decimal(1e54); },
             unlocked() { return player.b.points.gte(47) }
         },
         62: {
             description() { return "Level Gem and Calm Gem effects are better."; },
-            cost() { return new Decimal(1e57); },
+            cost() { if (player.sac.points.gte(6)) return new Decimal(1e54); return new Decimal(1e57); },
             unlocked() { return player.b.points.gte(47) }
         },
         63: {
             description() { return "Divide Enemy stats by (enemy level^0.01)"; },
-            cost() { return new Decimal(1e59); },
+            cost() { if (player.sac.points.gte(6)) return new Decimal(1e56); return new Decimal(1e59); },
             unlocked() { return player.b.points.gte(47) }
         },
         64: {
             description() { return "Equipment shard effect is better."; },
-            cost() { return new Decimal(1e61); },
+            cost() { if (player.sac.points.gte(6)) return new Decimal(1e58); return new Decimal(1e61); },
             unlocked() { return player.b.points.gte(47) }
         },
         65: {
             description() { return "Divide Enemy stats by (enemy level^0.02)"; },
-            cost() { return new Decimal(1e64); },
+            cost() { if (player.sac.points.gte(6)) return new Decimal(1e60); return new Decimal(1e64); },
             unlocked() { return player.b.points.gte(47) }
         },
+        71: {
+            description() { return "Domain goal scaling is delayed."; },
+            cost() { return new Decimal(1e62); },
+            unlocked() { return player.sac.points.gte(6) }
+        },
+        72: {
+            description() { return "First 9 calm buyable bases +0.03"; },
+            cost() { return new Decimal(1e64); },
+            unlocked() { return player.sac.points.gte(6) }
+        },
+        73: {
+            description() { return "Divide Enemy stats by (enemy level^0.03)"; },
+            cost() { return new Decimal(1e66); },
+            unlocked() { return player.sac.points.gte(6) }
+        },
+
     },
     buyables: {
         11: {
@@ -680,7 +727,7 @@ addLayer("c", {
 
             },
             effect() {
-                let eff = new Decimal(hasUpgrade("c", 55) ? 1.07 : 1.05).add(player[this.layer].buyables[this.id].mul(player.b.points.gte(38) ? 0.002 : 0.001));
+                let eff = new Decimal(hasUpgrade("c", 72) ? 1.1 : hasUpgrade("c", 55) ? 1.07 : 1.05).add(player[this.layer].buyables[this.id].mul(player.b.points.gte(38) ? 0.002 : 0.001));
                 return eff;
             },
             unlocked() { return hasUpgrade("c", 52) }
@@ -727,6 +774,7 @@ addLayer("c", {
             if (player.i.points.gte(400) || hasMilestone("i", 18)) player.c.milestones = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15];
             if (player.i.points.gte(300) || hasMilestone("i", 17)) player.c.upgrades = [11, 12, 13, 14, 15, 21, 22, 23, 24, 25, 31, 32, 33, 34, 35];
             if ((player.i.points.gte(2000) && player.sac.points.gte(5)) || hasMilestone("i", 24)) player.c.upgrades = [11, 12, 13, 14, 15, 21, 22, 23, 24, 25, 31, 32, 33, 34, 35, 41, 42, 43, 44, 45];
+            if ((player.i.points.gte(10000) && player.sac.points.gte(6)) || hasMilestone("i", 28)) player.c.upgrades = [11, 12, 13, 14, 15, 21, 22, 23, 24, 25, 31, 32, 33, 34, 35, 41, 42, 43, 44, 45, 51, 52, 53, 54, 55];
             if ((player.i.points.gte(3000) && player.sac.points.gte(5)) || hasMilestone("i", 25)) player.c.milestones = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19];
 
             updateTemp();

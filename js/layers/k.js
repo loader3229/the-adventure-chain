@@ -110,7 +110,7 @@ addLayer("k", {
         {
             requirementDescription: "2048 keys",
             done() { return player.k.points.gte(2048) }, // Used to determine when to give the milestone
-            effectDescription: "Post-1.5M level scaling is weaker.",
+            effectDescription(){if(player.sac.points.gte(6))return "Effects of Weapon, Armor, Helmet and Shoes are better."; return "Post-1.5M level scaling is weaker.";},
         },
         {
             requirementDescription: "4096 keys",
@@ -120,7 +120,7 @@ addLayer("k", {
         {
             requirementDescription: "8192 keys",
             done() { return player.k.points.gte(8192) }, // Used to determine when to give the milestone
-            effectDescription: "Post-1.5M level scaling is weaker.",
+            effectDescription(){if(player.sac.points.gte(6))return "Keys boost Imaginary Points."; return "Post-1.5M level scaling is weaker.";},
         },
         {
             requirementDescription: "16384 keys",
@@ -135,7 +135,7 @@ addLayer("k", {
         {
             requirementDescription: "65536 keys",
             done() { return player.k.points.gte(65536) }, // Used to determine when to give the milestone
-            effectDescription: "Post-1.5M level scaling is weaker.",
+            effectDescription(){if(player.sac.points.gte(6))return "Bonus effect from Bonus Boxes are better."; return "Post-1.5M level scaling is weaker.";},
         },
 
 
@@ -171,6 +171,7 @@ addLayer("k", {
         let base=[new Decimal(1.1),new Decimal(1.8),new Decimal(2),new Decimal(3),new Decimal(1.5)][id];
         if (hasMilestone("k", 14))base = base.add(0.1);
         if (hasMilestone("k", 15))base = base.add(0.1);
+        if (hasMilestone("k", 16) && player.sac.points.gte(6))base = base.add(0.1);
         return Decimal.pow(base, player.k.bonuses[id].add(1).log10().sqrt());
     },
     doReset(layer) {

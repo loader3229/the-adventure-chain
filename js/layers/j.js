@@ -142,13 +142,19 @@ addLayer("j", {
             requirementDescription: "32768 jokers",
             done() { return player.j.points.gte(32768) && player.sac.points.gte(5) }, // Used to determine when to give the milestone
             unlocked() { return player.sac.points.gte(5) },
-            effectDescription: "Post-1.5M level scaling starts 100k later.",
+            effectDescription() {
+                if (player.sac.points.gte(6)) return "Stat Helper is cheaper.";
+                return "Post-1.5M level scaling starts 100k later.";
+            },
         },
         {
             requirementDescription: "65536 jokers",
             done() { return player.j.points.gte(65536) && player.sac.points.gte(5) }, // Used to determine when to give the milestone
             unlocked() { return player.sac.points.gte(5) },
-            effectDescription: "Post-1.5M level scaling is weaker.",
+            effectDescription() {
+                if (player.sac.points.gte(6)) return "Equipment Helper is cheaper.";
+                return "Post-1.5M level scaling is weaker.";
+            },
         },
         {
             requirementDescription: "131072 jokers",
@@ -185,6 +191,24 @@ addLayer("j", {
             done() { return player.j.points.gte(4194304) && player.sac.points.gte(5) }, // Used to determine when to give the milestone
             unlocked() { return player.sac.points.gte(5) },
             effectDescription: "Machine max tier is cheaper.",
+        },
+        {
+            requirementDescription: "8388608 jokers",
+            done() { return player.j.points.gte(8388608) && player.sac.points.gte(6) }, // Used to determine when to give the milestone
+            unlocked() { return player.sac.points.gte(6) },
+            effectDescription: "Helper Points boost Auto Helper.",
+        },
+        {
+            requirementDescription: "16777216 jokers",
+            done() { return player.j.points.gte(16777216) && player.sac.points.gte(6) }, // Used to determine when to give the milestone
+            unlocked() { return player.sac.points.gte(6) },
+            effectDescription: "Autobuy Simple Forge.",
+        },
+        {
+            requirementDescription: "33554432 jokers",
+            done() { return player.j.points.gte(33554432) && player.sac.points.gte(6) }, // Used to determine when to give the milestone
+            unlocked() { return player.sac.points.gte(6) },
+            effectDescription: "Autobuy Advanced Forge.",
         },
 
     ],

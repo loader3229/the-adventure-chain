@@ -74,6 +74,15 @@ addLayer("e", {
     getResetGain() {
         let power = layers.e.effect().add(layers.e.effect2());
         let gain = layers.e.gainMult(player.a.bestLevel.max(1).mul(power)).mul(layers.e.equipmentEff(13).max(1));
+	if (hasMilestone("c", 23)){
+		gain = gain.add(layers.e.gainMult(player.e.equipment[11].level.mul(player.e.equipment[11].power)).mul(layers.e.equipmentEff(13).max(1)).div(10));gain = gain.add(layers.e.gainMult(player.e.equipment[12].level.mul(player.e.equipment[12].power)).mul(layers.e.equipmentEff(13).max(1)).div(10));
+gain = gain.add(layers.e.gainMult(player.e.equipment[13].level.mul(player.e.equipment[13].power)).mul(layers.e.equipmentEff(13).max(1)).div(10));
+gain = gain.add(layers.e.gainMult(player.e.equipment[14].level.mul(player.e.equipment[14].power)).mul(layers.e.equipmentEff(13).max(1)).div(10));gain = gain.add(layers.e.gainMult(player.e.equipment[21].level.mul(player.e.equipment[21].power)).mul(layers.e.equipmentEff(13).max(1)).div(10));gain = gain.add(layers.e.gainMult(player.e.equipment[22].level.mul(player.e.equipment[22].power)).mul(layers.e.equipmentEff(13).max(1)).div(10));
+gain = gain.add(layers.e.gainMult(player.e.equipment[23].level.mul(player.e.equipment[23].power)).mul(layers.e.equipmentEff(13).max(1)).div(10));
+gain = gain.add(layers.e.gainMult(player.e.equipment[24].level.mul(player.e.equipment[24].power)).mul(layers.e.equipmentEff(13).max(1)).div(10));
+
+
+	}
         return gain;
     },
     passiveGeneration() {
@@ -150,7 +159,7 @@ addLayer("e", {
         }
         if (type >= 21 && type <= 24) {
             if (inChallenge("d", 31)) return new Decimal(1);
-            if (player.sac.points.gte(3)) return Decimal.pow(1.01, x.pow(hasUpgrade("g", 14) ? 0.306 : 0.302));
+            if (player.sac.points.gte(3)) return Decimal.pow(1.01, x.pow((player.sac.points.gte(6) && hasMilestone("k",11)) ? 0.31 : hasUpgrade("g", 14) ? 0.306 : 0.302));
             if (hasUpgrade("g", 14)) return Decimal.pow(1.01, x.pow(0.3)).max(x.pow(0.3).div(90).add(1));
             return Decimal.pow(1.01, x.pow(0.3).sub(20)).max(x.pow(0.3).div(100).add(1));
         }
@@ -174,10 +183,12 @@ addLayer("e", {
         if (hasUpgrade("g", 24)) ret = ret.add(1);
         if (hasMilestone("c", 21)) ret = ret.add(1);
         if (hasUpgrade("g", 32)) ret = ret.add(1);
+        if (hasMilestone("k", 1)) ret = ret.add(1);
+        if (hasMilestone("c", 25)) ret = ret.add(1);
+        if (hasMilestone("c", 27)) ret = ret.add(1);
         if (getClickableState("i", 31) == 1) ret = ret.add(player.b.points.gte(49)?tmp.i.getEssence.cbrt():2);
         if (getClickableState("i", 51) == 1) ret = ret.add(player.b.points.gte(49)?tmp.i.getEssence.cbrt():2);
         if (getClickableState("i", 71) == 1) ret = ret.add(tmp.i.getEssence.cbrt());
-        if (hasMilestone("k", 1)) ret = ret.add(1);
         if (player.b.points.gte(14)) ret = ret.add(player.e.points.add(10).log10().div(player.b.points.gte(22) ? 8 : 10));
         if (player.b.points.gte(25)) ret = ret.add(buyableEffect("h", 13).sub(1));
         if (player.b.points.gte(28)) ret = ret.add(buyableEffect("f", 21).sub(1));

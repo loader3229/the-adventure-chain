@@ -24,8 +24,9 @@ addLayer("i", {
         if (hasUpgrade("c", 45)) ret = ret.mul(1.1);
         if (hasUpgrade("g", 25)) ret = ret.mul(1.1);
         if (hasMilestone("i", 4)) ret = ret.mul(1.25);
-        if (hasMilestone("i", 6)) ret = ret.mul(layers.i.infEff());
+        if (hasMilestone("i", 6) || player.sac.points.gte(6)) ret = ret.mul(layers.i.infEff());
         if (hasMilestone("j", 9)) ret = ret.mul(player.j.points.add(1).pow(0.02));
+        if (hasMilestone("k", 13) && player.sac.points.gte(6)) ret = ret.mul(player.k.points.add(1).pow(0.02));
         if (getClickableState("i", 42) == 1) ret = ret.mul(1.1);
         if (getClickableState("i", 61) == 1) ret = ret.mul(1.1);
         return ret;
@@ -33,10 +34,12 @@ addLayer("i", {
     getResetGain() {
         if (getLevel().lt(1e5)) return new Decimal(0);
         let ret = getLevel().sub(1e5).div(1e3).root(3).add(1).mul(layers.i.gainMult()).floor();
+        if(hasMilestone("i",27))ret = getLevel().sub(1e5).div(1e3).mul(layers.i.infEff()).root(3).add(1).mul(layers.i.gainMult()).floor();
         return ret;
     },
     getNextAt() {
         let ret = layers.i.getResetGain().add(1).div(layers.i.gainMult()).sub(1).pow(3).mul(1e3).add(1e5).max(1e5);
+	if(hasMilestone("i",27))ret = layers.i.getResetGain().add(1).div(layers.i.gainMult()).sub(1).pow(3).mul(1e3).div(layers.i.infEff()).add(1e5).max(1e5);
         return ret;
     },
     baseResource: "levels", // Name of resource prestige is based on
@@ -91,7 +94,7 @@ addLayer("i", {
         {
             requirementDescription: "10 imaginary points",
             done() { return player.i.points.gte(10) }, // Used to determine when to give the milestone
-            effectDescription: "Unlock the Infinity Boss.",
+            effectDescription() { if (player.sac.points.gte(6)) return "Deal 100x damage to Infinity Boss."; return "Unlock the Infinity Boss."; },
         },
         {
             requirementDescription: "15 imaginary points",
@@ -194,6 +197,30 @@ addLayer("i", {
             unlocked() { return player.sac.points.gte(5) },
             effectDescription: "Start with first 20 calm milestones.",
         },
+        {
+            requirementDescription: "4000 imaginary points",
+            done() { return (player.i.points.gte(4000) && player.sac.points.gte(6)) }, // Used to determine when to give the milestone
+            unlocked() { return player.sac.points.gte(6) },
+            effectDescription: "Gain 5% of imaginary points gain per second.",
+        },
+        {
+            requirementDescription: "5000 imaginary points",
+            done() { return (player.i.points.gte(5000) && player.sac.points.gte(6)) }, // Used to determine when to give the milestone
+            unlocked() { return player.sac.points.gte(6) },
+            effectDescription: "Imaginary point gain formula is better based on Infinity Boss Total Damage.",
+        },
+        {
+            requirementDescription: "10000 imaginary points",
+            done() { return (player.i.points.gte(10000) && player.sac.points.gte(6)) }, // Used to determine when to give the milestone
+            unlocked() { return player.sac.points.gte(6) },
+            effectDescription: "Start with first 25 calm upgrades.",
+        },
+        {
+            requirementDescription: "1e5 imaginary points",
+            done() { return (player.i.points.gte(1e5) && player.sac.points.gte(6)) }, // Used to determine when to give the milestone
+            unlocked() { return player.sac.points.gte(6) },
+            effectDescription: "Start with first 12 gold upgrades.",
+        },
     ],
     tabFormat: {
         "Main Tab": {
@@ -219,7 +246,7 @@ addLayer("i", {
                 ["display-text", function () { return "Total Damage Dealt to Infinity Boss: " + format(Decimal.pow(2, Decimal.sub(1024, player.i.y)).sub(1)) }],
                 ["display-text", function () { return "Total Damage Dealt to Infinity Boss will increase Imaginary point's effect, and increase Imaginary point" + (hasMilestone("i", 21) ? ", power and essence" : "") + " gain to " + format(layers.i.infEff()) + "x." }],
                 ["row", [["clickable", "11"]]],
-            ], unlocked: function () { return hasMilestone("i", 6) }
+            ], unlocked: function () { return hasMilestone("i", 6) || player.sac.points.gte(6) }
         }, "Imaginary Tree": {
             "content": [
                 "main-display",
@@ -269,7 +296,7 @@ addLayer("i", {
         }
     },
     update(diff) {
-        if (hasMilestone("i", 6)) player.i.infTime = player.i.infTime.add(diff);
+        if (hasMilestone("i", 6) || player.sac.points.gte(6)) player.i.infTime = player.i.infTime.add(diff);
         if (hasMilestone("i", 21)) player.i.power = player.i.power.add(layers.i.getPowerGain().mul(diff));
     },
     clickables: {
@@ -661,7 +688,7 @@ addLayer("i", {
     infMult() {
         let ret = layers.b.dmgMult();
         ret = ret.mul(1 - Math.pow(0.99996, player.i.infTime.toNumber() ** 2));
-        return ret.max(0).div(1e20);
+        return ret.max(0).div(player.sac.points.gte(6) ? 1e18 : 1e20);
     },
     infEff() {
         return Decimal.sub(1200, player.i.y).div(176).pow(1.2).min(10);
@@ -690,6 +717,7 @@ addLayer("i", {
     },
   passiveGeneration(){
 	let a=0;
+	if(hasMilestone("i",26))a += 0.05;
 	if(hasMilestone("j",19))a += 0.2;
 return a;
 }

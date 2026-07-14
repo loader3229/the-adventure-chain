@@ -77,6 +77,12 @@ addLayer("f", {
         if (hasMilestone("j", 7)) {
             if (player.e.points.gte(layers.f.buyables[12].cost())) player.f.buyables[12] = player.f.buyables[12].add(1);
         }
+        if (hasMilestone("j", 24)) {
+            if (player.f.points.gte(layers.f.buyables[21].cost())) player.f.buyables[21] = player.f.buyables[21].add(1);
+        }
+        if (hasMilestone("j", 25)) {
+            if (player.e.points.gte(layers.f.buyables[22].cost())) player.f.buyables[22] = player.f.buyables[22].add(1);
+        }
 
     },
     effect() {

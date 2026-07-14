@@ -10,7 +10,7 @@ addLayer("sac", {
     },
     color: "#FFFFFF",
     requires() {
-        if (player.sac.points.gte(5)) return new Decimal("10^^10");
+        if (player.sac.points.gte(6)) return new Decimal("10^^10");
         return new Decimal(4000);
     }, // Can be a function that takes requirement increases into account
     resource: "sacrifices", // Name of prestige currency
@@ -55,6 +55,12 @@ addLayer("sac", {
             done() { return player[this.layer].points.gte(5) }, // Used to determine when to give the milestone
             effectDescription: "Increase max level, but increase EXP required to level up. Reduce damage taken from bosses to 0.1x. Deal 10x damage to bosses.",
         },
+        {
+            requirementDescription: "Sacrifice 6 times",
+            unlocked() { return player[this.layer].points.gte(5) },
+            done() { return player[this.layer].points.gte(6) }, // Used to determine when to give the milestone
+            effectDescription: "Increase max level, but increase EXP required to level up. Deal 1000x damage to bosses. Permanently unlock Infinity Boss. Reduce domain goals.",
+        },
     ],
     doReset(layer) {
         if (layer == "sac") {
@@ -67,6 +73,8 @@ addLayer("sac", {
             layerDataReset("h");
             layerDataReset("i");
             layerDataReset("j");
+            layerDataReset("k");
+
 
             updateTemp();
             updateTemp();

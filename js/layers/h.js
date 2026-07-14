@@ -32,7 +32,7 @@ addLayer("h", {
             display() {
                 let data = tmp[this.layer].buyables[this.id];
                 return "Level: " + format(player[this.layer].buyables[this.id]) + "<br>" +
-                    "Activate " + format(data.effect) + " ticks per second<br>" +
+                    "Activate " + format(data.effect) + " ticks per second"+(hasMilestone("j",23)?" (based on helper points)":"")+"<br>" +
                     "Cost for Next Level: " + format(data.cost) + " Gold";
             },
             cost() {
@@ -50,6 +50,7 @@ addLayer("h", {
             },
             effect() {
                 let eff = player[this.layer].buyables[this.id].pow(hasMilestone("j", 1) ? 1 : 0.5).mul(0.1);
+		if(hasMilestone("j",23))eff = eff.mul(player[this.layer].points.add(1).log10().mul(0.1).add(1));
                 return eff;
             }
 
@@ -66,7 +67,7 @@ addLayer("h", {
             },
             cost() {
                 let a = player[this.layer].buyables[this.id];
-                a = Decimal.pow(3, a).mul(100);
+                a = Decimal.pow(3, a).mul((hasMilestone("j", 15)&&player.sac.points.gte(6))?1:100);
                 return a;
             },
             canAfford() {
@@ -94,7 +95,7 @@ addLayer("h", {
             },
             cost() {
                 let a = player[this.layer].buyables[this.id];
-                a = Decimal.pow(4, a).mul(1e4);
+                a = Decimal.pow(4, a).mul((hasMilestone("j", 16)&&player.sac.points.gte(6))?1:1e4);
                 return a;
             },
             canAfford() {

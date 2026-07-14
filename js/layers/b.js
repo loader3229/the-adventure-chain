@@ -26,6 +26,7 @@ addLayer("b", {
         return Decimal.pow(5, player.b.points).mul(1000);
     },
     getBossATK() {
+        if (player.b.points.gte(56)) return Decimal.pow(4, player.b.points).mul(10).div(layers.b.dmgDivide());
         if (player.b.points.gte(47)) return Decimal.pow(4, player.b.points.sub(8)).div(layers.b.dmgDivide());
         if (player.b.points.gte(26)) return Decimal.pow(3, player.b.points.sub(26)).mul(1e13).div(layers.b.dmgDivide());
         if (player.b.points.gte(16)) return Decimal.pow(2.5, player.b.points.sub(16)).mul(1e9).div(layers.b.dmgDivide());
@@ -433,6 +434,24 @@ addLayer("b", {
             unlocked() { return player[this.layer].points.gte(52) },
             done() { return player[this.layer].points.gte(53) }, // Used to determine when to give the milestone
             effectDescription: "1.5x HP gain.",
+        },
+        {
+            requirementDescription: "Beat 54 bosses",
+            unlocked() { return player[this.layer].points.gte(53) },
+            done() { return player[this.layer].points.gte(54) }, // Used to determine when to give the milestone
+            effectDescription: "5th domain's level scaling is 0.25",
+        },
+        {
+            requirementDescription: "Beat 55 bosses",
+            unlocked() { return player[this.layer].points.gte(54) },
+            done() { return player[this.layer].points.gte(55) }, // Used to determine when to give the milestone
+            effectDescription: "6th domain's level scaling divider is 4000",
+        },
+        {
+            requirementDescription: "Beat 56 bosses",
+            unlocked() { return player[this.layer].points.gte(55) },
+            done() { return player[this.layer].points.gte(56) }, // Used to determine when to give the milestone
+            effectDescription: "Unlock layer L.",
         },
     ],
     update(diff) {
