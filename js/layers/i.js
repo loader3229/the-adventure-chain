@@ -261,6 +261,7 @@ addLayer("i", {
                 ["clickables", [5]], "blank",
                 ["clickables", [6]], "blank",
                 ["clickables", [7]], "blank",
+                ["clickables", [8]], "blank",
 
 
             ], unlocked: function () { return hasMilestone("i", 21) }
@@ -679,6 +680,29 @@ addLayer("i", {
             unlocked() { return player.b.points.gte(49) },
             style() { return { 'background-color': (getClickableState(this.layer, this.id) == 1) ? "#77BF5F" : tmp.i.clickables[this.id].canClick ? "#00CCCC" : "#BF8F8F" } },
             branches() { return ["61","62","63"] },
+
+        },
+        81: {
+            title() {
+                return this.id;
+            },
+            cost() {
+                return new Decimal(40);
+            },
+            display() {
+                return "???<br>Cost: 40 Imaginary Essence";
+            },
+            canClick() {
+                return tmp.i.getEssence.gte(tmp.i.usedEssence.add(this.cost())) && player.i.clickables[this.id] != 1 && player.i.clickables[71] == 1 && player.i.clickables[72] == 1;
+            },
+            onClick() {
+                if (layers.i.getEssence().gte(layers.i.usedEssence().add(this.cost())) && player.i.clickables[71] == 1 && player.i.clickables[72] == 1) {
+                    player.i.clickables[this.id] = 1;
+                }
+            },
+            unlocked() { return player.sac.points.gte(6) },
+            style() { return { 'background-color': (getClickableState(this.layer, this.id) == 1) ? "#77BF5F" : tmp.i.clickables[this.id].canClick ? "#00CCCC" : "#BF8F8F" } },
+            branches() { return ["71", "72"] },
 
         },
 

@@ -451,7 +451,7 @@ addLayer("b", {
             requirementDescription: "Beat 56 bosses",
             unlocked() { return player[this.layer].points.gte(55) },
             done() { return player[this.layer].points.gte(56) }, // Used to determine when to give the milestone
-            effectDescription: "Unlock layer L.",
+            effectDescription: "Current Endgame" /* "Unlock layer L." */,
         },
     ],
     update(diff) {

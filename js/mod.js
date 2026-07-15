@@ -13,7 +13,7 @@ let modInfo = {
 
 // Set your version in num and name
 let VERSION = {
-    num: "11.4.514",
+    num: "11.5",
     name: "Keys",
 }
 
@@ -96,7 +96,7 @@ function addedPlayerData() {
 // Display extra things at the top of the page
 var displayThings = [
     "Mod Author: loader3229",
-    "Endgame: Boss 54 beaten and Level 4096000",
+    "Endgame: Boss 56 beaten and Level 4100000",
     function () { if (getLevel().gte(200000)) return "Level: " + formatWhole(getLevel()) + "/" + formatWhole(getLevelCap()) + " (Scaling: " + format(getLevelScaling()) + ")"; return "Level: " + formatWhole(getLevel()) + "/" + formatWhole(getLevelCap()) + " (" + format(getLevelProgress().mul(100)) + "%)" },
     function () { return "ATK: " + format(getATK()) },
     function () { if (player.b.points.gte(1)) return "DEF: " + format(getDEF()) },
@@ -106,7 +106,7 @@ var displayThings = [
 
 // Determines when the game "ends"
 function isEndgame() {
-    return player.b.points.gte(54) && getLevel().gte(4096000)
+    return player.b.points.gte(56) && getLevel().gte(4100000)
 }
 
 
@@ -248,7 +248,7 @@ function getRealLevel() {
     if (player.sac.points.gte(6)) {
         let level = player.a.points.pow(0.055).div(25).div(getLevelScaling().sqrt()).add(1).log(1.04).mul(getLevelScaling().sqrt()).pow(2).add(1);
         if (player.a.points.pow(0.11).lte(scaling)) level = player.a.points.pow(0.11).add(1);
-        level = softcap(level, new Decimal(4e6), 0.1).min(getLevelCap());
+        level = softcap(level, new Decimal(hasMilestone("j", 26) ? 4.1e6 : 4e6), 0.1).min(getLevelCap());
         return level;
     }
 

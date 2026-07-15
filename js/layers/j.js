@@ -210,6 +210,12 @@ addLayer("j", {
             unlocked() { return player.sac.points.gte(6) },
             effectDescription: "Autobuy Advanced Forge.",
         },
+        {
+            requirementDescription: "67108864 jokers",
+            done() { return player.j.points.gte(67108864) && player.sac.points.gte(6) }, // Used to determine when to give the milestone
+            unlocked() { return player.sac.points.gte(6) },
+            effectDescription: "Post-4M level scaling starts later.",
+        },
 
     ],
 
