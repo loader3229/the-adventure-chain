@@ -37,10 +37,13 @@ heal: 0,
         if (level === undefined) level = player.bonus1.level;
         return Decimal.pow(1.5, level).mul(player.bonus1.phpmax).div(player.bonus1.phpmax.add(2).log10()).div(getDEF().add(2).log10());
     },
+    getSkip(){
+        return getPointGen().add(2).log10().mul(getATK().add(2).log10()).mul(getDEF().add(2).log10()).mul(getDMG().add(2).log10()).log(2.25).sub(7).floor().max(player.bonus1.points);
+    },
     tabFormat: [
         "main-display",
         //["row", [["display-text", function () { return modInfo.useChinese ? "设置小游戏等级：" : "Set Minigame Level: " }], ["text-input", "setLevel"], ["clickable", 21], ["clickable", 22]]],
-        ["row", [["display-text", function () { return (modInfo.useChinese ? "当前小游戏等级：" : "Current Minigame Level: ") + formatWhole(player.bonus1.level) }], ["clickable", 21], ["clickable", 22]]],
+        ["row", [["display-text", function () { return (modInfo.useChinese ? "当前小游戏等级：" : "Current Minigame Level: ") + formatWhole(player.bonus1.level) }], ["clickable", 21], ["clickable", 22]]],["display-text", function () { return (modInfo.useChinese ? "可设置的等级范围：1-" : "Selectable Minigame Level Range: 1-") + formatWhole(layers.bonus1.getSkip().add(1)) }],
         ["bar", "dp"],
         ["bar", "hp"],
         ["bar", "ap"],
@@ -229,7 +232,7 @@ heal: 0,
                 return "+1"
             },
             canClick() {
-                return player.bonus1.level.lte(player.bonus1.points) && player.bonus1.running == false;
+                return player.bonus1.level.lte(layers.bonus1.getSkip()) && player.bonus1.running == false;
             },
             onClick() {
                 player.bonus1.setLevel = player.bonus1.level = player.bonus1.level.add(1);
