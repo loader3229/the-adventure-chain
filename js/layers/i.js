@@ -165,7 +165,7 @@ addLayer("i", {
             requirementDescription: "650 imaginary points",
             done() { return (player.i.points.gte(650) && player.b.points.gte(37)) }, // Used to determine when to give the milestone
             unlocked() { return player.b.points.gte(37) },
-            effectDescription: "Scrap effect is better.",
+            effectDescription: "Fragment effect is better.",
         },
         {
             requirementDescription: "800 imaginary points",

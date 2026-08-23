@@ -16,7 +16,7 @@ addLayer("a", {
         }
     },
     color: "#FF6666",
-    resource() { return modInfo.useChinese ? "经验" : "EXP"; }, // Name of prestige currency
+    resource() { return modInfo.useChinese ? "经验" : "Adventure EXP"; }, // Name of prestige currency
     type: "none", // normal: cost to gain currency depends on amount gained. static: cost depends on how much you already have
     row: 0, // Row the layer is in on the tree (0 is the first row)
     layerShown() { return true },

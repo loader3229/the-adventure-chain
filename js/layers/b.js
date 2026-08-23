@@ -253,7 +253,7 @@ addLayer("b", {
             requirementDescription: "Beat 23 bosses",
             unlocked() { return player[this.layer].points.gte(22) },
             done() { return player[this.layer].points.gte(23) }, // Used to determine when to give the milestone
-            effectDescription: "You can buy Tier 2 machines using Scraps. Increase Max machine tier by 1.",
+            effectDescription: "You can buy Tier 2 machines using Fragments. Increase Max machine tier by 1.",
         },
         {
             requirementDescription: "Beat 24 bosses",

@@ -31,7 +31,7 @@ addLayer("k", {
         if (hasMilestone("k", 12))ret = ret.mul(2);
         return ret;
     },
-    baseResource: "scraps", // Name of resource prestige is based on
+    baseResource: "fragments", // Name of resource prestige is based on
     baseAmount() {
         return player.f.points;
     },

@@ -139,7 +139,7 @@ addLayer("c", {
             requirementDescription() { if (player.sac.points.gte(2)) return "1e8 calm points"; return "1e16 calm points"; },
             done() { return (player.c.points.gte(1e16) && player.sac.points.gte(1)) || (player.c.points.gte(1e8) && player.sac.points.gte(2)) }, // Used to determine when to give the milestone
             unlocked() { return player.sac.points.gte(1) },
-            effectDescription: "Scrap effect boost EXP.",
+            effectDescription: "Fragment effect boost EXP.",
         },
         {
             requirementDescription() { if (player.sac.points.gte(2)) return "1e11 calm points"; return "1e18 calm points"; },
@@ -163,7 +163,7 @@ addLayer("c", {
             requirementDescription() { if (player.sac.points.gte(3)) return "1e20 calm points"; return "1e21 calm points"; },
             done() { return (player.c.points.gte(1e21) && player.sac.points.gte(2)) || (player.c.points.gte(1e20) && player.sac.points.gte(3)) }, // Used to determine when to give the milestone
             unlocked() { return player.sac.points.gte(2) },
-            effectDescription: "Scrap effect is better.",
+            effectDescription: "Fragment effect is better.",
         },
         {
             requirementDescription() { if (player.sac.points.gte(3)) return "1e23 calm points"; return "1e24 calm points"; },
@@ -321,7 +321,7 @@ addLayer("c", {
             unlocked() { return player.f.unlocked },
         },
         25: {
-            description: "Scrap effect is better.",
+            description: "Fragment effect is better.",
             cost() { if (player.sac.points.gte(5)) return new Decimal(1e20); if (player.sac.points.gte(3)) return new Decimal(1e19); return new Decimal(3e10) },
             unlocked() { return player.sac.points.gte(1) },
         },

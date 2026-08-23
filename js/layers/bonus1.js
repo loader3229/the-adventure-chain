@@ -122,7 +122,7 @@ heal: 0,
     clickables: {
         11: {
             title() {
-                return (modInfo.useChinese ? "攻击（空格）" : "Attack (Space)")
+                return (modInfo.useChinese ? "攻击（E）" : "Attack (E)")
             },
             display() {
                 return (modInfo.useChinese ? "冷却：" : "Cooldown: ") + format(player.bonus1.cd) + (modInfo.useChinese ? "秒" : " seconds")
@@ -273,7 +273,7 @@ heal: 0,
 	}
     },
     hotkeys: [
-        { key: " ", description: "space: attack enemy in minigame", onPress() { layers.bonus1.clickables[11].onClick(); } },
+        { key: "e", description: "e: attack enemy in minigame", onPress() { layers.bonus1.clickables[11].onClick(); } },
     ],
 
 })

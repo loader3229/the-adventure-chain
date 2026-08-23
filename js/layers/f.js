@@ -12,7 +12,7 @@ addLayer("f", {
         }
     },
     color: "#CCCCCC",
-    resource: "scraps", // Name of prestige currency
+    resource: "fragments", // Name of prestige currency
     type: "none", // normal: cost to gain currency depends on amount gained. static: cost depends on how much you already have
     requires: new Decimal(100),
     row: 5, // Row the layer is in on the tree (0 is the first row)
@@ -22,7 +22,7 @@ addLayer("f", {
         "Main Tab": {
             "content": [
                 "main-display",
-                ["display-text", function () { return "Factory, Foundry and Forge. You can use equipment shards to buy machines and generate scraps." }],
+                ["display-text", function () { return "Factory, Foundry and Forge. You can use equipment shards to buy machines and generate fragments." }],
                 ["display-text", function () { return "You have " + formatWhole(player.f.t1.add(player.f.buyables[11])) + " Tier 1 machines" }],
                 ["display-text", function () { if (player.f.maxTier.gte(2)) return "You have " + formatWhole(player.f.t2.add(player.f.buyables[13])) + " Tier 2 machines"; return "" }],
                 ["display-text", function () { if (player.f.maxTier.gte(3)) return "You have 1 Tier " + formatWhole(player.f.maxTier) + " machine"; return "" }],
@@ -155,7 +155,7 @@ addLayer("f", {
                 let data = tmp[this.layer].buyables[this.id];
                 return "Bought " + formatWhole(player[this.layer].buyables[this.id]) + " times<br>" +
                     "Tier 2 Machine speed x" + format(data.effect) + "<br>" +
-                    "Cost: " + format(data.cost) + " Scraps";
+                    "Cost: " + format(data.cost) + " Fragments";
             },
             cost() {
                 let a = player[this.layer].buyables[this.id];
@@ -183,7 +183,7 @@ addLayer("f", {
                 let data = tmp[this.layer].buyables[this.id];
                 return "Level: " + formatWhole(player[this.layer].buyables[this.id]) + "<br>" +
                     "+" + format(data.effect.sub(1).mul(100)) + "% to Equipment Power<br>" +
-                    "Cost: " + format(data.cost) + " Scraps";
+                    "Cost: " + format(data.cost) + " Fragments";
             },
             cost() {
                 let a = player[this.layer].buyables[this.id];
