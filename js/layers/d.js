@@ -125,6 +125,7 @@ addLayer("d", {
         if (player.sac.points.gte(1)) d += 3;
         if (player.sac.points.gte(2)) d += 5;
         if (hasUpgrade("c", 32)) d += 10;
+        if (hasUpgrade("c", 74)) d += 10;
         if (hasUpgrade("g", 15)) d += 5;
         if (hasMilestone("i", 4)) d += 5;
         if (player.b.points.gte(31)) d += 5;

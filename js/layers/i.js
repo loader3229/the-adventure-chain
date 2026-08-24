@@ -29,6 +29,7 @@ addLayer("i", {
         if (hasMilestone("k", 13) && player.sac.points.gte(6)) ret = ret.mul(player.k.points.add(1).pow(0.02));
         if (getClickableState("i", 42) == 1) ret = ret.mul(1.1);
         if (getClickableState("i", 61) == 1) ret = ret.mul(1.1);
+        ret = ret.mul(Decimal.pow(1.1, player.i.challenges[11]));
         return ret;
     },
     getResetGain() {
@@ -262,9 +263,17 @@ addLayer("i", {
                 ["clickables", [6]], "blank",
                 ["clickables", [7]], "blank",
                 ["clickables", [8]], "blank",
+                ["clickables", [9]], "blank",
 
 
             ], unlocked: function () { return hasMilestone("i", 21) }
+        }, "Challenges": {
+            "content": [
+                "main-display",
+                "prestige-button",
+                "resource-display",
+                "challenges"
+            ], unlocked: function () { return player.i.clickables[81] }
         }
     },
     bars: {
@@ -329,7 +338,9 @@ addLayer("i", {
                 return true;
             },
             onClick() {
-                for (i in player.i.clickables) if (player.i.clickables[i] == 1) player.i.clickables[i] = 0;
+		let lmt=0;
+		if(player.i.clickables[81])lmt=81;
+                for (i in player.i.clickables) if (player.i.clickables[i] == 1 && i > lmt) player.i.clickables[i] = 0;
                 doReset("i", true);
             },
             unlocked: true,
@@ -690,7 +701,7 @@ addLayer("i", {
                 return new Decimal(40);
             },
             display() {
-                return "???<br>Cost: 40 Imaginary Essence";
+                return "Unlock Imaginary Challenge.<br>Cost: 40 Imaginary Essence";
             },
             canClick() {
                 return tmp.i.getEssence.gte(tmp.i.usedEssence.add(this.cost())) && player.i.clickables[this.id] != 1 && player.i.clickables[71] == 1 && player.i.clickables[72] == 1;
@@ -703,16 +714,60 @@ addLayer("i", {
             unlocked() { return player.sac.points.gte(6) },
             style() { return { 'background-color': (getClickableState(this.layer, this.id) == 1) ? "#77BF5F" : tmp.i.clickables[this.id].canClick ? "#00CCCC" : "#BF8F8F" } },
             branches() { return ["71", "72"] },
+        },
+        91: {
+            title() {
+                return this.id;
+            },
+            cost() {
+                return new Decimal(12);
+            },
+            display() {
+                return "Deal 100x damage to Infinity Boss.<br>Cost: 12 Imaginary Essence";
+            },
+            canClick() {
+                return tmp.i.getEssence.gte(tmp.i.usedEssence.add(this.cost())) && player.i.clickables[this.id] != 1 && player.i.clickables[81] == 1;
+            },
+            onClick() {
+                if (layers.i.getEssence().gte(layers.i.usedEssence().add(this.cost())) && player.i.clickables[81] == 1) {
+                    player.i.clickables[this.id] = 1;
+                }
+            },
+            unlocked() { return player.i.clickables[81] },
+            style() { return { 'background-color': (getClickableState(this.layer, this.id) == 1) ? "#77BF5F" : tmp.i.clickables[this.id].canClick ? "#00CCCC" : "#BF8F8F" } },
+            branches() { return ["81"] },
+        },
+        92: {
+            title() {
+                return this.id;
+            },
+            cost() {
+                return new Decimal(12);
+            },
+            display() {
+		return "+"+format(tmp.i.getEssence.cbrt())+" Level Scaling<br>(Based on total Imaginary Essence)<br>Cost: 12 Imaginary Essence";
+            },
+            canClick() {
+                return tmp.i.getEssence.gte(tmp.i.usedEssence.add(this.cost())) && player.i.clickables[this.id] != 1 && player.i.clickables[81] == 1;
+            },
+            onClick() {
+                if (layers.i.getEssence().gte(layers.i.usedEssence().add(this.cost())) && player.i.clickables[81] == 1) {
+                    player.i.clickables[this.id] = 1;
+                }
+            },
+            unlocked() { return player.i.clickables[81] },
+            style() { return { 'background-color': (getClickableState(this.layer, this.id) == 1) ? "#77BF5F" : tmp.i.clickables[this.id].canClick ? "#00CCCC" : "#BF8F8F" } },
+            branches() { return ["81"] },
 
         },
-
-
-
     },
     infMult() {
         let ret = layers.b.dmgMult();
         ret = ret.mul(1 - Math.pow(0.99996, player.i.infTime.toNumber() ** 2));
-        return ret.max(0).div(player.sac.points.gte(6) ? 1e18 : 1e20);
+	ret = ret.div(1e20);
+	if(player.sac.points.gte(6) && hasMilestone("i",6))ret = ret.mul(100);
+	if(player.i.clickables[91])ret = ret.mul(100);
+        return ret.max(0);
     },
     infEff() {
         return Decimal.sub(1200, player.i.y).div(176).pow(1.2).min(10);
@@ -744,7 +799,30 @@ addLayer("i", {
 	if(hasMilestone("i",26))a += 0.05;
 	if(hasMilestone("j",19))a += 0.2;
 return a;
-}
+},
+    challenges: {
+        11: {
+            name: "Weak Attack II",
+            challengeDescription() { return "Your ATK and DMG are 1.<br>Completions: " + formatWhole(player.i.challenges[this.id]) + "/" + layers.i.completionLimit(); },
+            goal() { return layers.i.cgoal(this.id); },
+            goalDescription() { return "Reach Level " + formatWhole(this.goal().ceil()); },
+            currencyDisplayName: "Level",
+            canComplete() { return getLevel().gte(this.goal()) },
+            completionLimit() { return layers.i.completionLimit(); },
+            rewardDescription() { return "1.1x I, J and K gain for each completion." },
+            unlocked() { return player.i.clickables[81]; }
+        },
+},
+    cgoal(x) {
+        let base = new Decimal(2);
+        let sc = new Decimal(25);
+        let ret = Decimal.pow(base, softcap(new Decimal(player.i.challenges[x] || 0), sc, 2)).mul(1e6);
+        return ret;
+    },
+
+   completionLimit(){
+	return 2;
+   },
 
 });
 

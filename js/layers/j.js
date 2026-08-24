@@ -22,6 +22,7 @@ addLayer("j", {
         if (player.b.points.gte(36)) ret = ret.mul(player.b.points.sqrt().div(3));
         if (getClickableState("i", 41) == 1) ret = ret.mul(2);
         if (getClickableState("i", 62) == 1) ret = ret.mul(2);
+        ret = ret.mul(Decimal.pow(1.1, player.i.challenges[11]));
         return ret;
     },
     baseResource: "calm points", // Name of resource prestige is based on
@@ -214,9 +215,14 @@ addLayer("j", {
             requirementDescription: "67108864 jokers",
             done() { return player.j.points.gte(67108864) && player.sac.points.gte(6) }, // Used to determine when to give the milestone
             unlocked() { return player.sac.points.gte(6) },
-            effectDescription: "Post-4M level scaling starts later.",
+            effectDescription: "Post-4M level scaling is weaker.",
         },
-
+        {
+            requirementDescription: "134217728 jokers",
+            done() { return player.j.points.gte(134217728) && player.sac.points.gte(6) }, // Used to determine when to give the milestone
+            unlocked() { return player.sac.points.gte(6) },
+            effectDescription: "Unlock 2 cards.",
+        },
     ],
 
     tabFormat: {
@@ -389,6 +395,40 @@ addLayer("j", {
         34: {
 	title: "♣3",
             description: "Calm Point gain x2.",
+            cost() { return new Decimal(1); },
+            currencyLayer: "j",
+            currencyDisplayName: "Unused Card",
+            currencyInternalName: "unused",unlocked: false,
+        },
+        41: {
+	title: "♠4",
+            description: "ATK, DEF, HP gain and DMG x1.1",
+            cost() { return new Decimal(1); },
+            currencyLayer: "j",
+            currencyDisplayName: "Unused Card",
+            currencyInternalName: "unused",
+		unlocked(){return hasMilestone("j",27);}
+        },
+        42: {
+	title: "♥4",
+            description: "ATK, DEF, HP gain and DMG x1.1",
+            cost() { return new Decimal(1); },
+            currencyLayer: "j",
+            currencyDisplayName: "Unused Card",
+            currencyInternalName: "unused",
+		unlocked(){return hasMilestone("j",27);}
+        },
+        43: {
+	title: "♦4",
+            description: "ATK, DEF, HP gain and DMG x1.1",
+            cost() { return new Decimal(1); },
+            currencyLayer: "j",
+            currencyDisplayName: "Unused Card",
+            currencyInternalName: "unused",unlocked: false,
+        },
+        44: {
+	title: "♣4",
+            description: "ATK, DEF, HP gain and DMG x1.1",
             cost() { return new Decimal(1); },
             currencyLayer: "j",
             currencyDisplayName: "Unused Card",

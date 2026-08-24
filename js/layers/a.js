@@ -71,8 +71,8 @@ addLayer("a", {
     },
     getEnemyLoot(level) {
         if (level === undefined) level = player.a.level;
-        let loot = level.max(1).log10().mul(3).div(20).pow(50);
-	//loot = loot.mul(layers.l.gainMult());
+        let loot = level.max(1).log10().mul(0.02).pow(2).mul(player.b.points).pow(25);
+	loot = loot.mul(layers.l.gainMult());
         return loot;
     },
     gainMult() {
@@ -241,6 +241,8 @@ addLayer("a", {
             player.a.bestLevel = player.a.bestLevel.max(player.a.level);
             player.a.points = player.a.points.add(layers.a.getEnemyEXP());
             player.g.points = player.g.points.add(layers.a.getEnemyGold());
+            player.l.points = player.l.points.add(layers.a.getEnemyLoot());
+
 
             player.a.resetTime = 0;
             player.a.nextEnemyTime = new Decimal(2);

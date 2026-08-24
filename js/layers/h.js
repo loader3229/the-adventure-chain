@@ -22,6 +22,7 @@ addLayer("h", {
         if (player.i.points.gte(4) || hasMilestone("i", 3)) ret = ret.mul(3);
         if (getClickableState("i", 43) == 1) ret = ret.mul(3);
         if (player.b.points.gte(29)) ret = ret.mul(player.b.points.div(20));
+	ret = ret.mul(buyableEffect("c",43));
         return ret;
     },
     buyables: {
@@ -191,7 +192,7 @@ addLayer("h", {
                 player[this.layer].buyables[this.id] = player[this.layer].buyables[this.id].add(1)
             },
             effect() {
-                let eff = player[this.layer].buyables[this.id].mul(player[this.layer].points.add(10).log10().pow(1.5)).div(1000).add(1).pow(-0.5);
+                let eff = player[this.layer].buyables[this.id].mul(player[this.layer].points.add(10).log10().pow(1.5)).div(hasMilestone("c", 28)?500:1000).add(1).pow(-0.5);
                 return eff;
             }, unlocked() { return player.sac.points.gte(3) }
 

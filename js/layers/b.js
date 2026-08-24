@@ -26,7 +26,7 @@ addLayer("b", {
         return Decimal.pow(5, player.b.points).mul(1000);
     },
     getBossATK() {
-        if (player.b.points.gte(56)) return Decimal.pow(4, player.b.points).mul(10).div(layers.b.dmgDivide());
+        if (player.b.points.gte(56)) return Decimal.pow(4, player.b.points.sub(6)).div(layers.b.dmgDivide());
         if (player.b.points.gte(47)) return Decimal.pow(4, player.b.points.sub(8)).div(layers.b.dmgDivide());
         if (player.b.points.gte(26)) return Decimal.pow(3, player.b.points.sub(26)).mul(1e13).div(layers.b.dmgDivide());
         if (player.b.points.gte(16)) return Decimal.pow(2.5, player.b.points.sub(16)).mul(1e9).div(layers.b.dmgDivide());
@@ -451,7 +451,13 @@ addLayer("b", {
             requirementDescription: "Beat 56 bosses",
             unlocked() { return player[this.layer].points.gte(55) },
             done() { return player[this.layer].points.gte(56) }, // Used to determine when to give the milestone
-            effectDescription: "Current Endgame" /* "Unlock layer L." */,
+            effectDescription: "Unlock layer L.",
+        },
+        {
+            requirementDescription: "Beat 57 bosses",
+            unlocked() { return player[this.layer].points.gte(56) },
+            done() { return player[this.layer].points.gte(57) }, // Used to determine when to give the milestone
+            effectDescription: "Increase Loot gain based on beaten bosses count.",
         },
     ],
     update(diff) {
@@ -466,6 +472,7 @@ addLayer("b", {
         let ret = new Decimal(1);
         if (hasUpgrade("c", 13)) ret = ret.mul(upgradeEffect("c", 13));
         if (hasUpgrade("g", 21)) ret = ret.mul(upgradeEffect("g", 21));
+        if (hasUpgrade("l", 12)) ret = ret.mul(upgradeEffect("l", 12));
         ret = ret.mul(layers.d.effect2());
         ret = ret.mul(layers.i.effect());
         ret = ret.mul(layers.k.effect());

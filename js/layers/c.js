@@ -61,6 +61,7 @@ addLayer("c", {
         ret = ret.mul(buyableEffect("c", 11));
         if (hasUpgrade("c", 11)) ret = ret.mul(upgradeEffect("c", 11));
         if (hasUpgrade("g", 11)) ret = ret.mul(upgradeEffect("g", 11));
+        if (hasUpgrade("l", 11)) ret = ret.mul(upgradeEffect("l", 11));
         ret = ret.mul(layers.d.effect());
         ret = ret.mul(layers.e.equipmentEff(14));
         ret = ret.mul(layers.f.effect());
@@ -257,6 +258,18 @@ addLayer("c", {
             unlocked() { return player.sac.points.gte(5) },
             effectDescription: "+100% Equipment Power.",
         },
+        {
+            requirementDescription() { return "1e68 calm points"; },
+            done() { return (player.c.points.gte(1e68) && player.sac.points.gte(5)) }, // Used to determine when to give the milestone
+            unlocked() { return player.sac.points.gte(5) },
+            effectDescription: "Respawn Helper is better.",
+        },
+        {
+            requirementDescription() { return "1e71 calm points"; },
+            done() { return (player.c.points.gte(1e71) && player.sac.points.gte(5)) }, // Used to determine when to give the milestone
+            unlocked() { return player.sac.points.gte(5) },
+            effectDescription: "4000 Calm Points milestone is better.",
+        },
     ],
     update(diff) {
         if (hasMilestone("i", 0) && layers.c.tabFormat.Buyables.unlocked()) {
@@ -438,6 +451,16 @@ addLayer("c", {
         73: {
             description() { return "Divide Enemy stats by (enemy level^0.03)"; },
             cost() { return new Decimal(1e66); },
+            unlocked() { return player.sac.points.gte(6) }
+        },
+        74: {
+            description() { return "Increase max domain completions."; },
+            cost() { return new Decimal(1e68); },
+            unlocked() { return player.sac.points.gte(6) }
+        },
+        75: {
+            description() { return "Unlock a new calm buyable."; },
+            cost() { return new Decimal(1e70); },
             unlocked() { return player.sac.points.gte(6) }
         },
 
@@ -762,6 +785,36 @@ addLayer("c", {
             },
             unlocked() { return hasUpgrade("c", 61) }
         },
+        43: {
+            title() {
+                return "Helper Point Gain";
+            },
+            display() {
+                let data = tmp[this.layer].buyables[this.id];
+                return "Level: " + format(player[this.layer].buyables[this.id]) + "<br>" +
+                    "Helper Point Gain x" + format(data.effect) + "<br>" +
+                    "Cost for Next Level: " + format(data.cost) + " Calm Points";
+            },
+            cost() {
+                let a = player[this.layer].buyables[this.id];
+                a = Decimal.pow(7, a).mul(1e60);
+                return a;
+            },
+            canAfford() {
+                return player[this.layer].points.gte(layers[this.layer].buyables[this.id].cost())
+            },
+            buy() {
+                if (!hasMilestone("i", 0)) player[this.layer].points = player[this.layer].points.sub(layers[this.layer].buyables[this.id].cost())
+                player[this.layer].buyables[this.id] = player[this.layer].buyables[this.id].add(1)
+
+            },
+            effect() {
+                let eff = new Decimal(1).add(player[this.layer].buyables[this.id].pow(2).mul(0.01));
+                return eff;
+            },
+            unlocked() { return hasUpgrade("c", 75) }
+        },
+
 
     },
 

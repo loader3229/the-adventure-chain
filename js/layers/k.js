@@ -24,6 +24,7 @@ addLayer("k", {
         if (player.b.points.gte(46)) ret = ret.mul(player.b.points.pow(0.75).div(10));
         if (hasUpgrade("g", 34)) ret = ret.mul(1.5);
         if (getClickableState("i", 63) == 1) ret = ret.mul(2);
+        ret = ret.mul(Decimal.pow(1.1, player.i.challenges[11]));
         return ret;
     },
     gainMult2() {

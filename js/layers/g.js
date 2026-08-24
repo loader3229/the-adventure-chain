@@ -21,7 +21,9 @@ addLayer("g", {
     branches: ['f'],
     layerShown() { return player.b.points.gte(16) || player.g.unlocked },
     gainMult() {
-        return new Decimal(1);
+        let ret=new Decimal(1);
+	if(hasUpgrade("l",13))ret = ret.mul(upgradeEffect("l",13));
+	return ret;
     },
     update(diff) {
         if (player.b.points.gte(16)) player.g.unlocked = true;

@@ -3,7 +3,7 @@ let modInfo = {
     id: "the-adventure-chain",
     author: "loader3229",
     pointsName: "HP",
-    modFiles: ["layers.js", "layers/a.js", "layers/b.js", "layers/c.js", "layers/d.js", "layers/e.js", "layers/f.js", "layers/g.js", "layers/h.js", "layers/i.js", "layers/j.js", "layers/k.js", "layers/bonus1.js", "tree.js"],
+    modFiles: ["layers.js", "layers/a.js", "layers/b.js", "layers/c.js", "layers/d.js", "layers/e.js", "layers/f.js", "layers/g.js", "layers/h.js", "layers/i.js", "layers/j.js", "layers/k.js", "layers/l.js", "layers/bonus1.js", "tree.js"],
 
     discordName: "loader3229's Discord Server",
     discordLink: "https://discord.gg/jztUReQ2vT",
@@ -13,11 +13,13 @@ let modInfo = {
 
 // Set your version in num and name
 let VERSION = {
-    num: "11.5",
-    name: "Keys",
+    num: "12.0",
+    name: "Loot",
 }
 
 let changelog = `<h1>Changelog:</h1><br>
+    <h3>v12.0</h3><br>
+        - Added layer L.<br>
     <h3>v11.0</h3><br>
         - Added layer K.<br>
     <h3>v10.0</h3><br>
@@ -83,6 +85,7 @@ function getPointGen() {
     gain = gain.mul(layers.e.equipmentEff(23));
     gain = gain.mul(layers.k.getBonus(0));
     if (hasMilestone("i", 13)) gain = gain.mul(layers.i.infEff());
+gain = gain.mul(Decimal.pow(1.1, layers.j.getCardLevel(4)));
 
     return gain
 }
@@ -96,7 +99,7 @@ function addedPlayerData() {
 // Display extra things at the top of the page
 var displayThings = [
     "Mod Author: loader3229",
-    "Endgame: Boss 56 beaten and Level 4100000",
+    "Endgame: Boss 58 beaten and Level 4500000",
     function () { if (getLevel().gte(200000)) return "Level: " + formatWhole(getLevel()) + "/" + formatWhole(getLevelCap()) + " (Scaling: " + format(getLevelScaling()) + ")"; return "Level: " + formatWhole(getLevel()) + "/" + formatWhole(getLevelCap()) + " (" + format(getLevelProgress().mul(100)) + "%)" },
     function () { return "ATK: " + format(getATK()) },
     function () { if (player.b.points.gte(1)) return "DEF: " + format(getDEF()) },
@@ -106,7 +109,7 @@ var displayThings = [
 
 // Determines when the game "ends"
 function isEndgame() {
-    return player.b.points.gte(56) && getLevel().gte(4100000)
+    return player.b.points.gte(58) && getLevel().gte(4500000)
 }
 
 
@@ -130,7 +133,7 @@ function fixOldSave(oldVersion) {
 }
 
 function getATK() {
-    if (inChallenge("d", 21)) return new Decimal(1);
+    if (inChallenge("d", 21) || inChallenge("i", 11)) return new Decimal(1);
     let atk = getLevel();
     if (hasMilestone("c", 2)) atk = atk.mul(1.1);
     if (hasMilestone("c", 15)) atk = atk.mul(1.6); // 1.76
@@ -146,6 +149,7 @@ function getATK() {
     if (hasMilestone("i", 14)) atk = atk.mul(layers.i.infEff());
     if (player.b.points.gte(30)) atk = atk.mul(1 + player.d.challenges[21] / 100);
     atk = atk.mul(layers.k.getBonus(0));
+    atk = atk.mul(Decimal.pow(1.1, layers.j.getCardLevel(4)));
 
 
 
@@ -172,12 +176,13 @@ function getDEF() {
     if (hasMilestone("i", 15)) def = def.mul(layers.i.infEff());
     if (player.b.points.gte(30)) def = def.mul(1 + player.d.challenges[11] / 100);
     def = def.mul(layers.k.getBonus(0));
+    def = def.mul(Decimal.pow(1.1, layers.j.getCardLevel(4)));
 
     return def;
 }
 
 function getDMG() {
-    if (inChallenge("d", 21)) return new Decimal(1);
+    if (inChallenge("d", 21) || inChallenge("i", 11)) return new Decimal(1);
 
     let dmg = new Decimal(1);
     if (player.b.points.gte(13)) dmg = dmg.add(getLevel().pow(buyableEffect("c", 42)).mul(0.0001));
@@ -194,6 +199,7 @@ function getDMG() {
     if (hasMilestone("i", 16)) dmg = dmg.mul(layers.i.infEff());
     if (player.b.points.gte(30)) dmg = dmg.mul(1 + player.d.challenges[22] / 100);
     dmg = dmg.mul(layers.k.getBonus(0));
+    dmg = dmg.mul(Decimal.pow(1.1, layers.j.getCardLevel(4)));
 
 
     return dmg;
@@ -226,10 +232,12 @@ function getLevelScaling() {
     if (hasMilestone("c", 6)) scaling = scaling.add(hasUpgrade("c", 31) ? 1 : 0.2);
     if (hasMilestone("c", 7) && player.sac.points.gte(2)) scaling = scaling.add((hasUpgrade("c", 35) && player.sac.points.gte(4)) ? 2 : 0.5);
     if (hasMilestone("c", 26)) scaling = scaling.add(1);
+    if (hasMilestone("c", 29)) scaling = scaling.add(2);
     if (player.sac.points.gte(5)) scaling = scaling.mul(2);
     if (getClickableState("i", 32) == 1) scaling = scaling.add(player.b.points.gte(49)?tmp.i.getEssence.cbrt():2);
     if (getClickableState("i", 54) == 1) scaling = scaling.add(player.b.points.gte(49)?tmp.i.getEssence.cbrt():2);
     if (getClickableState("i", 72) == 1) scaling = scaling.add(tmp.i.getEssence.cbrt());
+    if (getClickableState("i", 92) == 1) scaling = scaling.add(tmp.i.getEssence.cbrt());
     if (player.b.points.gte(40)) scaling = scaling.add(player.b.points.div(10).pow(2));
     else if (player.b.points.gte(29)) scaling = scaling.add(player.b.points.div(11.5).pow(2));
     else if (player.b.points.gte(16)) scaling = scaling.add(player.b.points.div(16).pow(2));
@@ -248,7 +256,7 @@ function getRealLevel() {
     if (player.sac.points.gte(6)) {
         let level = player.a.points.pow(0.055).div(25).div(getLevelScaling().sqrt()).add(1).log(1.04).mul(getLevelScaling().sqrt()).pow(2).add(1);
         if (player.a.points.pow(0.11).lte(scaling)) level = player.a.points.pow(0.11).add(1);
-        level = softcap(level, new Decimal(hasMilestone("j", 26) ? 4.1e6 : 4e6), 0.1).min(getLevelCap());
+        level = softcap(level, new Decimal(4e6), hasMilestone("j", 26) ? 0.3 : 0.1).min(getLevelCap());
         return level;
     }
 
