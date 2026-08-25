@@ -221,7 +221,31 @@ addLayer("j", {
             requirementDescription: "134217728 jokers",
             done() { return player.j.points.gte(134217728) && player.sac.points.gte(6) }, // Used to determine when to give the milestone
             unlocked() { return player.sac.points.gte(6) },
-            effectDescription: "Unlock 2 cards.",
+            effectDescription: "Unlock 2 card types.",
+        },
+        {
+            requirementDescription: "268435456 jokers",
+            done() { return player.j.points.gte(268435456) && player.sac.points.gte(6) }, // Used to determine when to give the milestone
+            unlocked() { return player.sac.points.gte(6) },
+            effectDescription: "Gain 25% of Imaginary Point gain per second.",
+        },
+        {
+            requirementDescription: "536870912 jokers",
+            done() { return player.j.points.gte(536870912) && player.sac.points.gte(6) }, // Used to determine when to give the milestone
+            unlocked() { return player.sac.points.gte(6) },
+            effectDescription: "Post-4M level scaling starts later.",
+        },
+        {
+            requirementDescription: "1073741824 jokers",
+            done() { return player.j.points.gte(1073741824) && player.sac.points.gte(6) }, // Used to determine when to give the milestone
+            unlocked() { return player.sac.points.gte(6) },
+            effectDescription: "Post-4M level scaling starts later.",
+        },
+        {
+            requirementDescription: "2147483648 jokers",
+            done() { return player.j.points.gte(2147483648) && player.sac.points.gte(6) }, // Used to determine when to give the milestone
+            unlocked() { return player.sac.points.gte(6) },
+            effectDescription: "Post-4M level scaling starts later.",
         },
     ],
 

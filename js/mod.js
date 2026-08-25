@@ -76,6 +76,7 @@ function getPointGen() {
     if (hasMilestone("c", 22)) gain = gain.mul(1.4 / 1.25); // 2.8
     if (player.b.points.gte(53)) gain = gain.mul(1.5); // 4.2
     if (hasMilestone("c", 24)) gain = gain.mul(2.5 / 2.1); // 5
+    if (player.b.points.gte(61)) gain = gain.mul(1.15); // 5.75
 
     gain = gain.mul(buyableEffect("c", 21));
     gain = gain.mul(getLevel().pow(buyableEffect("c", 42).sub(1)));
@@ -227,7 +228,7 @@ function getLevelProgress() {
 }
 
 function getLevelScaling() {
-    if (inChallenge("d", 31)) return new Decimal(player.b.points.gte(54) ? 0.25 : player.b.points.gte(51) ? 0.2 : player.b.points.gte(45) ? 0.1 : player.b.points.gte(40) ? 0.05 : 0.03);
+    if (inChallenge("d", 31)) return new Decimal(player.b.points.gte(58) ? 0.3 : player.b.points.gte(54) ? 0.25 : player.b.points.gte(51) ? 0.2 : player.b.points.gte(45) ? 0.1 : player.b.points.gte(40) ? 0.05 : 0.03);
     let scaling = new Decimal(1);
     if (hasMilestone("c", 6)) scaling = scaling.add(hasUpgrade("c", 31) ? 1 : 0.2);
     if (hasMilestone("c", 7) && player.sac.points.gte(2)) scaling = scaling.add((hasUpgrade("c", 35) && player.sac.points.gte(4)) ? 2 : 0.5);
@@ -238,15 +239,17 @@ function getLevelScaling() {
     if (getClickableState("i", 54) == 1) scaling = scaling.add(player.b.points.gte(49)?tmp.i.getEssence.cbrt():2);
     if (getClickableState("i", 72) == 1) scaling = scaling.add(tmp.i.getEssence.cbrt());
     if (getClickableState("i", 92) == 1) scaling = scaling.add(tmp.i.getEssence.cbrt());
-    if (player.b.points.gte(40)) scaling = scaling.add(player.b.points.div(10).pow(2));
+    if (player.b.points.gte(61)) scaling = scaling.add(player.b.points.div(9).pow(2));
+    else if (player.b.points.gte(40)) scaling = scaling.add(player.b.points.div(10).pow(2));
     else if (player.b.points.gte(29)) scaling = scaling.add(player.b.points.div(11.5).pow(2));
     else if (player.b.points.gte(16)) scaling = scaling.add(player.b.points.div(16).pow(2));
     else if (player.b.points.gte(13)) scaling = scaling.add(player.b.points.mul(0.05));
     else if (player.b.points.gte(7)) scaling = scaling.add(player.b.points.sub(5).mul(0.05));
     if (hasUpgrade("g", 35)) scaling = scaling.add(20);
+    if (player.b.points.gte(60))scaling = scaling.add(1 + player.d.challenges[32]);
     scaling = scaling.add(buyableEffect("c", 22));
     scaling = scaling.add(layers.e.equipmentEff(11));
-    if (inChallenge("d", 32)) scaling = scaling.div(player.b.points.gte(55) ? 4000 : 5000);
+    if (inChallenge("d", 32)) scaling = scaling.div(player.b.points.gte(59) ? 3000 : player.b.points.gte(55) ? 4000 : 5000);
     return scaling;
 }
 function getRealLevel() {
@@ -256,7 +259,7 @@ function getRealLevel() {
     if (player.sac.points.gte(6)) {
         let level = player.a.points.pow(0.055).div(25).div(getLevelScaling().sqrt()).add(1).log(1.04).mul(getLevelScaling().sqrt()).pow(2).add(1);
         if (player.a.points.pow(0.11).lte(scaling)) level = player.a.points.pow(0.11).add(1);
-        level = softcap(level, new Decimal(4e6), hasMilestone("j", 26) ? 0.3 : 0.1).min(getLevelCap());
+        level = softcap(level, new Decimal(hasMilestone("j", 31) ? 4.4e6 : hasMilestone("j", 30) ? 4.2e6 : hasMilestone("j", 29) ? 4.1e6 : 4e6), hasMilestone("j", 26) ? 0.3 : 0.1).min(getLevelCap());
         return level;
     }
 

@@ -21,6 +21,7 @@ addLayer("h", {
         let ret = new Decimal(1);
         if (player.i.points.gte(4) || hasMilestone("i", 3)) ret = ret.mul(3);
         if (getClickableState("i", 43) == 1) ret = ret.mul(3);
+        if (getClickableState("i", 102) == 1) ret = ret.mul(3);
         if (player.b.points.gte(29)) ret = ret.mul(player.b.points.div(20));
 	ret = ret.mul(buyableEffect("c",43));
         return ret;

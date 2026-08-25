@@ -30,6 +30,8 @@ addLayer("k", {
     gainMult2() {
         let ret = new Decimal(1);
         if (hasMilestone("k", 12))ret = ret.mul(2);
+        if (hasMilestone("k", 17))ret = ret.mul(2);
+        if (hasUpgrade("l", 15))ret = ret.mul(2.5);
         return ret;
     },
     baseResource: "fragments", // Name of resource prestige is based on
@@ -138,6 +140,18 @@ addLayer("k", {
             done() { return player.k.points.gte(65536) }, // Used to determine when to give the milestone
             effectDescription(){if(player.sac.points.gte(6))return "Bonus effect from Bonus Boxes are better."; return "Post-1.5M level scaling is weaker.";},
         },
+        {
+            requirementDescription: "131072 keys",
+            done() { return player.k.points.gte(131072) && player.sac.points.gte(6) }, // Used to determine when to give the milestone
+            unlocked() { return player.sac.points.gte(6) },
+            effectDescription: "Double Bonus Boxes reward.",
+        },
+        {
+            requirementDescription: "262144 keys",
+            done() { return player.k.points.gte(262144) && player.sac.points.gte(6) }, // Used to determine when to give the milestone
+            unlocked() { return player.sac.points.gte(6) },
+            effectDescription: "Bonus effect from Bonus Boxes are better.",
+        },
 
 
 
@@ -173,6 +187,7 @@ addLayer("k", {
         if (hasMilestone("k", 14))base = base.add(0.1);
         if (hasMilestone("k", 15))base = base.add(0.1);
         if (hasMilestone("k", 16) && player.sac.points.gte(6))base = base.add(0.1);
+        if (hasMilestone("k", 18))base = base.add(0.1);
         return Decimal.pow(base, player.k.bonuses[id].add(1).log10().sqrt());
     },
     doReset(layer) {

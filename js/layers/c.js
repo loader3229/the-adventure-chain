@@ -236,39 +236,45 @@ addLayer("c", {
         },
         {
             requirementDescription() { return "1e56 calm points"; },
-            done() { return (player.c.points.gte(1e56) && player.sac.points.gte(5)) }, // Used to determine when to give the milestone
-            unlocked() { return player.sac.points.gte(5) },
+            done() { return (player.c.points.gte(1e56) && player.sac.points.gte(6)) }, // Used to determine when to give the milestone
+            unlocked() { return player.sac.points.gte(6) },
             effectDescription: "1.19x HP gain.",
         },
         {
             requirementDescription() { return "1e59 calm points"; },
-            done() { return (player.c.points.gte(1e59) && player.sac.points.gte(5)) }, // Used to determine when to give the milestone
-            unlocked() { return player.sac.points.gte(5) },
+            done() { return (player.c.points.gte(1e59) && player.sac.points.gte(6)) }, // Used to determine when to give the milestone
+            unlocked() { return player.sac.points.gte(6) },
             effectDescription: "+100% Equipment Power.",
         },
         {
             requirementDescription() { return "1e62 calm points"; },
-            done() { return (player.c.points.gte(1e62) && player.sac.points.gte(5)) }, // Used to determine when to give the milestone
-            unlocked() { return player.sac.points.gte(5) },
+            done() { return (player.c.points.gte(1e62) && player.sac.points.gte(6)) }, // Used to determine when to give the milestone
+            unlocked() { return player.sac.points.gte(6) },
             effectDescription: "4000 Calm Points milestone is better.",
         },
         {
             requirementDescription() { return "1e65 calm points"; },
-            done() { return (player.c.points.gte(1e65) && player.sac.points.gte(5)) }, // Used to determine when to give the milestone
-            unlocked() { return player.sac.points.gte(5) },
+            done() { return (player.c.points.gte(1e65) && player.sac.points.gte(6)) }, // Used to determine when to give the milestone
+            unlocked() { return player.sac.points.gte(6) },
             effectDescription: "+100% Equipment Power.",
         },
         {
             requirementDescription() { return "1e68 calm points"; },
-            done() { return (player.c.points.gte(1e68) && player.sac.points.gte(5)) }, // Used to determine when to give the milestone
-            unlocked() { return player.sac.points.gte(5) },
+            done() { return (player.c.points.gte(1e68) && player.sac.points.gte(6)) }, // Used to determine when to give the milestone
+            unlocked() { return player.sac.points.gte(6) },
             effectDescription: "Respawn Helper is better.",
         },
         {
             requirementDescription() { return "1e71 calm points"; },
-            done() { return (player.c.points.gte(1e71) && player.sac.points.gte(5)) }, // Used to determine when to give the milestone
-            unlocked() { return player.sac.points.gte(5) },
+            done() { return (player.c.points.gte(1e71) && player.sac.points.gte(6)) }, // Used to determine when to give the milestone
+            unlocked() { return player.sac.points.gte(6) },
             effectDescription: "4000 Calm Points milestone is better.",
+        },
+        {
+            requirementDescription() { return "1e74 calm points"; },
+            done() { return (player.c.points.gte(1e74) && player.sac.points.gte(6)) }, // Used to determine when to give the milestone
+            unlocked() { return player.sac.points.gte(6) },
+            effectDescription: "+100% Equipment Power.",
         },
     ],
     update(diff) {
@@ -462,6 +468,17 @@ addLayer("c", {
             description() { return "Unlock a new calm buyable."; },
             cost() { return new Decimal(1e70); },
             unlocked() { return player.sac.points.gte(6) }
+        },
+        81: {
+            description() { return "Domain goal scaling is delayed."; },
+            cost() { return new Decimal(1e72); },
+            unlocked() { return player.sac.points.gte(6) }
+        },
+        82: {
+            description() { return "Level Gem and Calm Gem effects are better."; },
+            cost() { return new Decimal(1e74); },
+            unlocked() { return player.sac.points.gte(6) }
+
         },
 
     },

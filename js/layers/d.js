@@ -31,6 +31,7 @@ addLayer("d", {
         if (hasUpgrade("c", 53) && player.sac.points.gte(3)) sc = sc.add(5);
         if (hasMilestone("c", 17) && player.sac.points.gte(5)) sc = sc.add(5);
         if (hasUpgrade("c",71) && player.sac.points.gte(6)) sc = sc.add(5);
+        if (hasUpgrade("c",81) && player.sac.points.gte(6)) sc = sc.add(5);
         let ret = Decimal.pow(base, softcap(new Decimal(player.d.challenges[x] || 0), sc, 2)).mul(500);
         if (player.sac.points.gte(6))ret = ret.mul(0.6);
         if (player.sac.points.eq(0) && x == 11) ret = ret.mul(1.2);
@@ -93,13 +94,13 @@ addLayer("d", {
         },
         31: {
             name: "No Equipments and Scaling",
-            challengeDescription() { return "Your equipments has no effect. Level scaling factor is fixed at " + (player.b.points.gte(54) ? 0.25 : player.b.points.gte(51) ? 0.2 : player.b.points.gte(45) ? 0.1 : player.b.points.gte(40) ? 0.05 : 0.03) + "<br>Completions: " + formatWhole(player.d.challenges[this.id]) + "/" + layers.d.completionLimit(); },
+            challengeDescription() { return "Your equipments has no effect. Level scaling factor is fixed at " + (player.b.points.gte(58) ? 0.3 : player.b.points.gte(54) ? 0.25 : player.b.points.gte(51) ? 0.2 : player.b.points.gte(45) ? 0.1 : player.b.points.gte(40) ? 0.05 : 0.03) + "<br>Completions: " + formatWhole(player.d.challenges[this.id]) + "/" + layers.d.completionLimit(); },
             goal() { return layers.d.dgoal(this.id); },
             goalDescription() { return "Reach Level " + formatWhole(this.goal().ceil()); },
             currencyDisplayName: "Level",
             canComplete() { return getLevel().gte(this.goal()) },
             completionLimit() { return layers.d.completionLimit(); },
-            rewardDescription() { return "1 domain point per completion."; },
+            rewardDescription() { if (player.b.points.gte(60)) return "1 domain point and +1% Gold per completion."; return "1 domain point per completion."; },
             onEnter() {
                 doReset("c", true);
             },
@@ -107,13 +108,13 @@ addLayer("d", {
         },
         32: {
             name: "Useless Level",
-            challengeDescription() { return "Level Power is 0. Level Scaling is divided by "+(player.b.points.gte(55) ? 4000 : 5000)+".<br>Completions: " + formatWhole(player.d.challenges[this.id]) + "/" + layers.d.completionLimit(); },
+            challengeDescription() { return "Level Power is 0. Level Scaling is divided by "+(player.b.points.gte(59) ? 3000 : player.b.points.gte(55) ? 4000 : 5000)+".<br>Completions: " + formatWhole(player.d.challenges[this.id]) + "/" + layers.d.completionLimit(); },
             goal() { return layers.d.dgoal(this.id); },
             goalDescription() { return "Reach Level " + formatWhole(this.goal().ceil()); },
             currencyDisplayName: "Level",
             canComplete() { return getLevel().gte(this.goal()) },
             completionLimit() { return layers.d.completionLimit(); },
-            rewardDescription() { return "1 domain point per completion."; },
+            rewardDescription() { if (player.b.points.gte(60)) return "1 domain point and +1 Level Scaling per completion."; return "1 domain point per completion."; },
             onEnter() {
                 doReset("c", true);
             },

@@ -459,6 +459,30 @@ addLayer("b", {
             done() { return player[this.layer].points.gte(57) }, // Used to determine when to give the milestone
             effectDescription: "Increase Loot gain based on beaten bosses count.",
         },
+        {
+            requirementDescription: "Beat 58 bosses",
+            unlocked() { return player[this.layer].points.gte(57) },
+            done() { return player[this.layer].points.gte(58) }, // Used to determine when to give the milestone
+            effectDescription: "5th domain's level scaling is 0.3",
+        },
+        {
+            requirementDescription: "Beat 59 bosses",
+            unlocked() { return player[this.layer].points.gte(58) },
+            done() { return player[this.layer].points.gte(59) }, // Used to determine when to give the milestone
+            effectDescription: "6th domain's level scaling divider is 3000",
+        },
+        {
+            requirementDescription: "Beat 60 bosses",
+            unlocked() { return player[this.layer].points.gte(59) },
+            done() { return player[this.layer].points.gte(60) }, // Used to determine when to give the milestone
+            effectDescription: "Add 2nd rewards for Domains 5-6.",
+        },
+        {
+            requirementDescription: "Beat 61 bosses",
+            unlocked() { return player[this.layer].points.gte(60) },
+            done() { return player[this.layer].points.gte(61) }, // Used to determine when to give the milestone
+            effectDescription: "1.15x HP gain.",
+        },
     ],
     update(diff) {
         if (getLevel().gte(10)) player.b.unlocked = true;

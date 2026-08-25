@@ -29,6 +29,7 @@ addLayer("i", {
         if (hasMilestone("k", 13) && player.sac.points.gte(6)) ret = ret.mul(player.k.points.add(1).pow(0.02));
         if (getClickableState("i", 42) == 1) ret = ret.mul(1.1);
         if (getClickableState("i", 61) == 1) ret = ret.mul(1.1);
+        if (getClickableState("i", 101) == 1) ret = ret.mul(1.1);
         ret = ret.mul(Decimal.pow(1.1, player.i.challenges[11]));
         return ret;
     },
@@ -222,6 +223,12 @@ addLayer("i", {
             unlocked() { return player.sac.points.gte(6) },
             effectDescription: "Start with first 12 gold upgrades.",
         },
+        {
+            requirementDescription: "1e6 imaginary points",
+            done() { return (player.i.points.gte(1e6) && player.sac.points.gte(6)) }, // Used to determine when to give the milestone
+            unlocked() { return player.sac.points.gte(6) },
+            effectDescription: "Start with first 15 gold upgrades.",
+        },
     ],
     tabFormat: {
         "Main Tab": {
@@ -264,6 +271,7 @@ addLayer("i", {
                 ["clickables", [7]], "blank",
                 ["clickables", [8]], "blank",
                 ["clickables", [9]], "blank",
+                ["clickables", [10]], "blank",
 
 
             ], unlocked: function () { return hasMilestone("i", 21) }
@@ -760,6 +768,75 @@ addLayer("i", {
             branches() { return ["81"] },
 
         },
+        101: {
+            title() {
+                return this.id;
+            },
+            cost() {
+                return new Decimal(12);
+            },
+            display() {
+                return "Imaginary Point gain x1.1<br>Cost: 12 Imaginary Essence";
+            },
+            canClick() {
+                return tmp.i.getEssence.gte(tmp.i.usedEssence.add(this.cost())) && player.i.clickables[this.id] != 1 && player.i.clickables[91] == 1 && player.i.clickables[92] == 1;
+            },
+            onClick() {
+                if (layers.i.getEssence().gte(layers.i.usedEssence().add(this.cost())) && player.i.clickables[91] == 1 && player.i.clickables[92] == 1) {
+                    player.i.clickables[this.id] = 1;
+                }
+            },
+            unlocked: true,
+            style() { return { 'background-color': (getClickableState(this.layer, this.id) == 1) ? "#77BF5F" : tmp.i.clickables[this.id].canClick ? "#00CCCC" : "#BF8F8F" } },
+            branches() { return ["91", "92"] },
+
+        },
+        102: {
+            title() {
+                return this.id;
+            },
+            cost() {
+                return new Decimal(12);
+            },
+            display() {
+                return "Helper Point gain x3<br>Cost: 12 Imaginary Essence";
+            },
+            canClick() {
+                return tmp.i.getEssence.gte(tmp.i.usedEssence.add(this.cost())) && player.i.clickables[this.id] != 1 && player.i.clickables[91] == 1 && player.i.clickables[92] == 1;
+            },
+            onClick() {
+                if (layers.i.getEssence().gte(layers.i.usedEssence().add(this.cost())) && player.i.clickables[91] == 1 && player.i.clickables[92] == 1) {
+                    player.i.clickables[this.id] = 1;
+                }
+            },
+            unlocked: true,
+            style() { return { 'background-color': (getClickableState(this.layer, this.id) == 1) ? "#77BF5F" : tmp.i.clickables[this.id].canClick ? "#00CCCC" : "#BF8F8F" } },
+            branches() { return ["91", "92"] },
+
+        },
+        103: {
+            title() {
+                return this.id;
+            },
+            cost() {
+                return new Decimal(12);
+            },
+            display() {
+                return "Gold gain x1.1<br>Cost: 12 Imaginary Essence";
+            },
+            canClick() {
+                return tmp.i.getEssence.gte(tmp.i.usedEssence.add(this.cost())) && player.i.clickables[this.id] != 1 && player.i.clickables[91] == 1 && player.i.clickables[92] == 1;
+            },
+            onClick() {
+                if (layers.i.getEssence().gte(layers.i.usedEssence().add(this.cost())) && player.i.clickables[91] == 1 && player.i.clickables[92] == 1) {
+                    player.i.clickables[this.id] = 1;
+                }
+            },
+            unlocked: true,
+            style() { return { 'background-color': (getClickableState(this.layer, this.id) == 1) ? "#77BF5F" : tmp.i.clickables[this.id].canClick ? "#00CCCC" : "#BF8F8F" } },
+            branches() { return ["91", "92"] },
+
+        },
     },
     infMult() {
         let ret = layers.b.dmgMult();
@@ -798,6 +875,7 @@ addLayer("i", {
 	let a=0;
 	if(hasMilestone("i",26))a += 0.05;
 	if(hasMilestone("j",19))a += 0.2;
+	if(hasMilestone("j",28))a += 0.25;
 return a;
 },
     challenges: {

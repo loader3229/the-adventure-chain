@@ -141,7 +141,7 @@ gain = gain.add(layers.e.gainMult(player.e.equipment[24].level.mul(player.e.equi
         let x = Decimal.mul(player.e.equipment[type].level, player.e.equipment[type].power);
         if (type == 11) {
             if (inChallenge("d", 31)) return new Decimal(0);
-            return softcap(softcap(x.div(hasUpgrade("c", 33) ? 50000 : 60000), new Decimal(2), hasUpgrade("c",62) ? 0.6 : 0.5), new Decimal(8), 1 / 3);
+            return softcap(softcap(x.div(hasUpgrade("c", 33) ? 50000 : 60000), new Decimal(2), hasUpgrade("c",82) ? 2 / 3 : hasUpgrade("c",62) ? 0.6 : 0.5), new Decimal(8), hasUpgrade("l",14) ? 0.4 : 1 / 3);
         }
         if (type == 12) {
             if (inChallenge("d", 31)) return new Decimal(1);
@@ -155,7 +155,7 @@ gain = gain.add(layers.e.gainMult(player.e.equipment[24].level.mul(player.e.equi
         }
         if (type == 14) {
             if (inChallenge("d", 31)) return new Decimal(1);
-            return x.div(hasUpgrade("c",62) ? 300 : hasMilestone("j", 8) ? 1000 : hasUpgrade("c", 33) ? 2000 : 3000).add(1);
+            return x.div(hasUpgrade("c",82) ? 100 : hasUpgrade("c",62) ? 300 : hasMilestone("j", 8) ? 1000 : hasUpgrade("c", 33) ? 2000 : 3000).add(1);
         }
         if (type >= 21 && type <= 24) {
             if (inChallenge("d", 31)) return new Decimal(1);
@@ -186,6 +186,7 @@ gain = gain.add(layers.e.gainMult(player.e.equipment[24].level.mul(player.e.equi
         if (hasMilestone("k", 1)) ret = ret.add(1);
         if (hasMilestone("c", 25)) ret = ret.add(1);
         if (hasMilestone("c", 27)) ret = ret.add(1);
+        if (hasMilestone("c", 30)) ret = ret.add(1);
         if (getClickableState("i", 31) == 1) ret = ret.add(player.b.points.gte(49)?tmp.i.getEssence.cbrt():2);
         if (getClickableState("i", 51) == 1) ret = ret.add(player.b.points.gte(49)?tmp.i.getEssence.cbrt():2);
         if (getClickableState("i", 71) == 1) ret = ret.add(tmp.i.getEssence.cbrt());

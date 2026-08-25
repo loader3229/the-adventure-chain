@@ -23,6 +23,8 @@ addLayer("g", {
     gainMult() {
         let ret=new Decimal(1);
 	if(hasUpgrade("l",13))ret = ret.mul(upgradeEffect("l",13));
+    if (player.b.points.gte(60))ret = ret.mul(1 + player.d.challenges[31] / 100);
+        if (getClickableState("i", 103) == 1) ret = ret.mul(1.1);
 	return ret;
     },
     update(diff) {
@@ -245,6 +247,7 @@ addLayer("g", {
             if (player.i.points.gte(20) || hasMilestone("i", 8)) player.g.upgrades = [11, 12, 13, 14, 15, 21, 22];
             if ((player.i.points.gte(1500) && player.sac.points.gte(5)) || hasMilestone("i", 23)) player.g.upgrades = [11, 12, 13, 14, 15, 21, 22, 23, 24, 25];
             if (hasMilestone("i", 29)) player.g.upgrades = [11, 12, 13, 14, 15, 21, 22, 23, 24, 25, 31, 32];
+            if (hasMilestone("i", 30)) player.g.upgrades = [11, 12, 13, 14, 15, 21, 22, 23, 24, 25, 31, 32, 33, 34, 35];
             updateTemp();
         }
     },

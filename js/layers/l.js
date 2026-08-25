@@ -49,6 +49,14 @@ addLayer("l", {
             effect: function () { return player.l.points.add(100).log10().sqrt(); },
             effectDisplay: function () { return format(upgradeEffect(this.layer, this.id)) + "x" }
         },
+        14: {
+            description: "Level Gem is better.",
+            cost: new Decimal(300)
+        },
+        15: {
+            description: "2.5x bonus box rewards in layer K.",
+            cost: new Decimal(1000)
+        },
     },
     doReset(layer) {
         
