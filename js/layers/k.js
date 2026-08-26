@@ -152,6 +152,12 @@ addLayer("k", {
             unlocked() { return player.sac.points.gte(6) },
             effectDescription: "Bonus effect from Bonus Boxes are better.",
         },
+        {
+            requirementDescription: "524288 keys",
+            done() { return player.k.points.gte(524288) && player.sac.points.gte(6) }, // Used to determine when to give the milestone
+            unlocked() { return player.sac.points.gte(6) },
+            effectDescription: "Bonus effect from Bonus Boxes are better.",
+        },
 
 
 
@@ -188,6 +194,7 @@ addLayer("k", {
         if (hasMilestone("k", 15))base = base.add(0.1);
         if (hasMilestone("k", 16) && player.sac.points.gte(6))base = base.add(0.1);
         if (hasMilestone("k", 18))base = base.add(0.1);
+        if (hasMilestone("k", 19))base = base.add(0.1);
         return Decimal.pow(base, player.k.bonuses[id].add(1).log10().sqrt());
     },
     doReset(layer) {

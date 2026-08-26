@@ -74,6 +74,7 @@ addLayer("sac", {
             layerDataReset("i");
             layerDataReset("j");
             layerDataReset("k");
+            layerDataReset("l");
 
 
             updateTemp();

@@ -57,6 +57,10 @@ addLayer("l", {
             description: "2.5x bonus box rewards in layer K.",
             cost: new Decimal(1000)
         },
+        21: {
+            description: "+20 Level Scaling.",
+            cost: new Decimal(3000)
+        },
     },
     doReset(layer) {
         

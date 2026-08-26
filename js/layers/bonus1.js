@@ -191,7 +191,7 @@ heal: 0,
         },
         14: {
             title() {
-                return (modInfo.useChinese ? "治疗" : "Heal")
+                return (modInfo.useChinese ? "治疗（M）" : "Heal (M)")
             },
             display() {
                 return (modInfo.useChinese ? "剩余次数：" : "Time Remaining: ") + player.bonus1.heal + "/5" 
@@ -274,6 +274,7 @@ heal: 0,
     },
     hotkeys: [
         { key: "e", description: "e: attack enemy in minigame", onPress() { layers.bonus1.clickables[11].onClick(); } },
+        { key: "m", description: "m: heal in minigame", onPress() { layers.bonus1.clickables[14].onClick(); } },
     ],
 
 })

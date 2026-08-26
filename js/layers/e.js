@@ -169,6 +169,7 @@ gain = gain.add(layers.e.gainMult(player.e.equipment[24].level.mul(player.e.equi
         let ret = player.e.points.add(10).log10().mul(0.1);
         if (hasUpgrade("c", 15)) ret = ret.add(player.e.points.add(10).log10().mul(0.15));
         if (hasUpgrade("c", 64)) ret = ret.add(player.e.points.add(10).log10().mul(0.125));
+        if (hasUpgrade("c", 83)) ret = ret.add(player.e.points.add(10).log10().mul(0.125));
         if (hasMilestone("k", 2)) ret = ret.add(player.e.points.add(10).log10().mul(0.125));
         if (hasMilestone("k", 10)) ret = ret.add(player.e.points.add(10).log10().mul(0.125));
         return ret;

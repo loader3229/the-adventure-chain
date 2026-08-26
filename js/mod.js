@@ -13,7 +13,7 @@ let modInfo = {
 
 // Set your version in num and name
 let VERSION = {
-    num: "12.0",
+    num: "12.1",
     name: "Loot",
 }
 
@@ -100,7 +100,7 @@ function addedPlayerData() {
 // Display extra things at the top of the page
 var displayThings = [
     "Mod Author: loader3229",
-    "Endgame: Boss 58 beaten and Level 4500000",
+    "Endgame: Boss 62 beaten and Level 6000000",
     function () { if (getLevel().gte(200000)) return "Level: " + formatWhole(getLevel()) + "/" + formatWhole(getLevelCap()) + " (Scaling: " + format(getLevelScaling()) + ")"; return "Level: " + formatWhole(getLevel()) + "/" + formatWhole(getLevelCap()) + " (" + format(getLevelProgress().mul(100)) + "%)" },
     function () { return "ATK: " + format(getATK()) },
     function () { if (player.b.points.gte(1)) return "DEF: " + format(getDEF()) },
@@ -110,7 +110,7 @@ var displayThings = [
 
 // Determines when the game "ends"
 function isEndgame() {
-    return player.b.points.gte(58) && getLevel().gte(4500000)
+    return player.b.points.gte(62) && getLevel().gte(6000000)
 }
 
 
@@ -239,14 +239,17 @@ function getLevelScaling() {
     if (getClickableState("i", 54) == 1) scaling = scaling.add(player.b.points.gte(49)?tmp.i.getEssence.cbrt():2);
     if (getClickableState("i", 72) == 1) scaling = scaling.add(tmp.i.getEssence.cbrt());
     if (getClickableState("i", 92) == 1) scaling = scaling.add(tmp.i.getEssence.cbrt());
-    if (player.b.points.gte(61)) scaling = scaling.add(player.b.points.div(9).pow(2));
+    if (player.b.points.gte(62)) scaling = scaling.add(player.b.points.div(8).pow(2));
+    else if (player.b.points.gte(61)) scaling = scaling.add(47);
+    else if (player.b.points.gte(60)) scaling = scaling.add(37);
     else if (player.b.points.gte(40)) scaling = scaling.add(player.b.points.div(10).pow(2));
     else if (player.b.points.gte(29)) scaling = scaling.add(player.b.points.div(11.5).pow(2));
     else if (player.b.points.gte(16)) scaling = scaling.add(player.b.points.div(16).pow(2));
     else if (player.b.points.gte(13)) scaling = scaling.add(player.b.points.mul(0.05));
     else if (player.b.points.gte(7)) scaling = scaling.add(player.b.points.sub(5).mul(0.05));
     if (hasUpgrade("g", 35)) scaling = scaling.add(20);
-    if (player.b.points.gte(60))scaling = scaling.add(1 + player.d.challenges[32]);
+    if (hasUpgrade("l", 21)) scaling = scaling.add(20);
+    if (player.b.points.gte(60))scaling = scaling.add(player.d.challenges[32]);
     scaling = scaling.add(buyableEffect("c", 22));
     scaling = scaling.add(layers.e.equipmentEff(11));
     if (inChallenge("d", 32)) scaling = scaling.div(player.b.points.gte(59) ? 3000 : player.b.points.gte(55) ? 4000 : 5000);

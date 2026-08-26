@@ -478,8 +478,13 @@ addLayer("c", {
             description() { return "Level Gem and Calm Gem effects are better."; },
             cost() { return new Decimal(1e74); },
             unlocked() { return player.sac.points.gte(6) }
-
         },
+        83: {
+            description() { return "Equipment shard effect is better."; },
+            cost() { return new Decimal(1e76); },
+            unlocked() { return player.sac.points.gte(6) }
+        },
+
 
     },
     buyables: {
