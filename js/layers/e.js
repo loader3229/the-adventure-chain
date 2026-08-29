@@ -68,6 +68,9 @@ addLayer("e", {
         x = x.mul(layers.f.effect());
         if (hasMilestone("i", 7)) x = x.mul(layers.i.effect());
         x = x.mul(layers.k.getBonus(3));
+        x = x.mul(Decimal.pow(2, layers.j.getCardLevel(5)));
+        if (getClickableState("i", 112) == 1) ret = ret.mul(tmp.i.getEssence.cbrt().div(2).add(1));
+
 
         return x;
     },
@@ -172,6 +175,7 @@ gain = gain.add(layers.e.gainMult(player.e.equipment[24].level.mul(player.e.equi
         if (hasUpgrade("c", 83)) ret = ret.add(player.e.points.add(10).log10().mul(0.125));
         if (hasMilestone("k", 2)) ret = ret.add(player.e.points.add(10).log10().mul(0.125));
         if (hasMilestone("k", 10)) ret = ret.add(player.e.points.add(10).log10().mul(0.125));
+        if (hasUpgrade("l", 22)) ret = ret.add(player.e.points.add(10).log10().mul(0.125));
         return ret;
     },
     effect2() {

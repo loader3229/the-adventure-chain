@@ -221,7 +221,7 @@ addLayer("j", {
             requirementDescription: "134217728 jokers",
             done() { return player.j.points.gte(134217728) && player.sac.points.gte(6) }, // Used to determine when to give the milestone
             unlocked() { return player.sac.points.gte(6) },
-            effectDescription: "Unlock 2 card types.",
+            effectDescription: "Unlock a new card type.",
         },
         {
             requirementDescription: "268435456 jokers",
@@ -236,16 +236,40 @@ addLayer("j", {
             effectDescription: "Post-4M level scaling starts later.",
         },
         {
-            requirementDescription: "1073741824 jokers",
-            done() { return player.j.points.gte(1073741824) && player.sac.points.gte(6) }, // Used to determine when to give the milestone
+            requirementDescription(){return format(Decimal.pow(2,this.id))+" jokers"}, // ID = 30
+            done() { return player.j.points.gte(Decimal.pow(2,this.id)) && player.sac.points.gte(6) }, // Used to determine when to give the milestone
             unlocked() { return player.sac.points.gte(6) },
             effectDescription: "Post-4M level scaling starts later.",
         },
         {
-            requirementDescription: "2147483648 jokers",
-            done() { return player.j.points.gte(2147483648) && player.sac.points.gte(6) }, // Used to determine when to give the milestone
+            requirementDescription(){return format(Decimal.pow(2,this.id))+" jokers"},
+            done() { return player.j.points.gte(Decimal.pow(2,this.id)) && player.sac.points.gte(6) }, // Used to determine when to give the milestone
             unlocked() { return player.sac.points.gte(6) },
             effectDescription: "Post-4M level scaling starts later.",
+        },
+        {
+            requirementDescription(){return format(Decimal.pow(2,this.id))+" jokers"},
+            done() { return player.j.points.gte(Decimal.pow(2,this.id)) && player.sac.points.gte(6) }, // Used to determine when to give the milestone
+            unlocked() { return player.sac.points.gte(6) },
+            effectDescription: "Gain 1% of joker gain per second.",
+        },
+        {
+            requirementDescription(){return format(Decimal.pow(2,this.id))+" jokers"},
+            done() { return player.j.points.gte(Decimal.pow(2,this.id)) && player.sac.points.gte(6) }, // Used to determine when to give the milestone
+            unlocked() { return player.sac.points.gte(6) },
+            effectDescription: "Unlock a new card type.",
+        },
+        {
+            requirementDescription(){return format(Decimal.pow(2,this.id))+" jokers"},
+            done() { return player.j.points.gte(Decimal.pow(2,this.id)) && player.sac.points.gte(6) }, // Used to determine when to give the milestone
+            unlocked() { return player.sac.points.gte(6) },
+            effectDescription: "Passive Imaginary point gain is boosted by Passive Gem, if effect is above 100%",
+        },
+        {
+            requirementDescription(){return format(Decimal.pow(2,this.id))+" jokers"},
+            done() { return player.j.points.gte(Decimal.pow(2,this.id)) && player.sac.points.gte(6) }, // Used to determine when to give the milestone
+            unlocked() { return player.sac.points.gte(6) },
+            effectDescription: "Unlock the 3rd suit of cards.",
         },
     ],
 
@@ -350,7 +374,8 @@ addLayer("j", {
             cost() { return new Decimal(1); },
             currencyLayer: "j",
             currencyDisplayName: "Unused Card",
-            currencyInternalName: "unused",unlocked: false,
+            currencyInternalName: "unused",
+		unlocked(){return hasMilestone("j",35);}
         },
         14: {
 	title: "♣A",
@@ -382,7 +407,8 @@ addLayer("j", {
             cost() { return new Decimal(1); },
             currencyLayer: "j",
             currencyDisplayName: "Unused Card",
-            currencyInternalName: "unused",unlocked: false,
+            currencyInternalName: "unused",
+		unlocked(){return hasMilestone("j",35);}
         },
         24: {
 	title: "♣2",
@@ -414,7 +440,8 @@ addLayer("j", {
             cost() { return new Decimal(1); },
             currencyLayer: "j",
             currencyDisplayName: "Unused Card",
-            currencyInternalName: "unused",unlocked: false,
+            currencyInternalName: "unused",
+		unlocked(){return hasMilestone("j",35);}
         },
         34: {
 	title: "♣3",
@@ -448,11 +475,47 @@ addLayer("j", {
             cost() { return new Decimal(1); },
             currencyLayer: "j",
             currencyDisplayName: "Unused Card",
-            currencyInternalName: "unused",unlocked: false,
+            currencyInternalName: "unused",
+		unlocked(){return hasMilestone("j",35);}
         },
         44: {
 	title: "♣4",
             description: "ATK, DEF, HP gain and DMG x1.1",
+            cost() { return new Decimal(1); },
+            currencyLayer: "j",
+            currencyDisplayName: "Unused Card",
+            currencyInternalName: "unused",unlocked: false,
+        },
+        51: {
+	title: "♠5",
+            description: "Equipment Shard gain x2",
+            cost() { return new Decimal(1); },
+            currencyLayer: "j",
+            currencyDisplayName: "Unused Card",
+            currencyInternalName: "unused",
+		unlocked(){return hasMilestone("j",33);}
+        },
+        52: {
+	title: "♥5",
+            description: "Equipment Shard gain x2",
+            cost() { return new Decimal(1); },
+            currencyLayer: "j",
+            currencyDisplayName: "Unused Card",
+            currencyInternalName: "unused",
+		unlocked(){return hasMilestone("j",33);}
+        },
+        53: {
+	title: "♦5",
+            description: "Equipment Shard gain x2",
+            cost() { return new Decimal(1); },
+            currencyLayer: "j",
+            currencyDisplayName: "Unused Card",
+            currencyInternalName: "unused",
+		unlocked(){return hasMilestone("j",35);}
+        },
+        54: {
+	title: "♣5",
+            description: "Equipment Shard gain x2",
             cost() { return new Decimal(1); },
             currencyLayer: "j",
             currencyDisplayName: "Unused Card",
@@ -466,6 +529,11 @@ player.j.upgrades=[];
                 doReset("j", true);
 }
     },
+passiveGeneration(){
+	let ret=0;
+	if(hasMilestone("j",32))ret += 0.01;
+	return ret;
+}
    
 
 });

@@ -86,6 +86,7 @@ addLayer("a", {
         exp = exp.mul(layers.i.effect());
         if (player.b.points.gte(39)) exp = exp.mul(buyableEffect("h", 21));
         if (getClickableState("i", 53) == 1) exp = exp.mul(player.b.points.gte(49)?tmp.i.getEssence.cbrt().add(1):3);
+        if (getClickableState("i", 113) == 1) exp = exp.mul(tmp.i.getEssence.cbrt().add(1));
         exp = exp.mul(Decimal.pow(2, layers.j.getCardLevel(1)));
         return exp;
     },

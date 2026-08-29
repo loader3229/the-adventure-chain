@@ -272,6 +272,7 @@ addLayer("i", {
                 ["clickables", [8]], "blank",
                 ["clickables", [9]], "blank",
                 ["clickables", [10]], "blank",
+                ["clickables", [11]], "blank",
 
 
             ], unlocked: function () { return hasMilestone("i", 21) }
@@ -786,7 +787,7 @@ addLayer("i", {
                     player.i.clickables[this.id] = 1;
                 }
             },
-            unlocked: true,
+            unlocked() { return player.i.clickables[81] },
             style() { return { 'background-color': (getClickableState(this.layer, this.id) == 1) ? "#77BF5F" : tmp.i.clickables[this.id].canClick ? "#00CCCC" : "#BF8F8F" } },
             branches() { return ["91", "92"] },
 
@@ -809,7 +810,7 @@ addLayer("i", {
                     player.i.clickables[this.id] = 1;
                 }
             },
-            unlocked: true,
+            unlocked() { return player.i.clickables[81] },
             style() { return { 'background-color': (getClickableState(this.layer, this.id) == 1) ? "#77BF5F" : tmp.i.clickables[this.id].canClick ? "#00CCCC" : "#BF8F8F" } },
             branches() { return ["91", "92"] },
 
@@ -832,9 +833,100 @@ addLayer("i", {
                     player.i.clickables[this.id] = 1;
                 }
             },
-            unlocked: true,
+            unlocked() { return player.i.clickables[81] },
             style() { return { 'background-color': (getClickableState(this.layer, this.id) == 1) ? "#77BF5F" : tmp.i.clickables[this.id].canClick ? "#00CCCC" : "#BF8F8F" } },
             branches() { return ["91", "92"] },
+
+        },
+        111: {
+            title() {
+                return this.id;
+            },
+            cost() {
+                return new Decimal(12);
+            },
+            display() {
+                return "Deal 100x damage to Infinity Boss.<br>Cost: 12 Imaginary Essence";
+            },
+            canClick() {
+                return tmp.i.getEssence.gte(tmp.i.usedEssence.add(this.cost())) && player.i.clickables[this.id] != 1 && player.i.clickables[101] == 1;
+            },
+            onClick() {
+                if (layers.i.getEssence().gte(layers.i.usedEssence().add(this.cost())) && player.i.clickables[101] == 1) {
+                    player.i.clickables[this.id] = 1;
+                }
+            },
+            unlocked() { return player.i.clickables[81] },
+            style() { return { 'background-color': (getClickableState(this.layer, this.id) == 1) ? "#77BF5F" : tmp.i.clickables[this.id].canClick ? "#00CCCC" : "#BF8F8F" } },
+            branches() { return ["101"] },
+
+        },
+        112: {
+            title() {
+                return this.id;
+            },
+            cost() {
+                return new Decimal(12);
+            },
+            display() {
+		return "Equipment Shard gain x"+format(tmp.i.getEssence.cbrt().div(2).add(1))+"<br>(Based on total Imaginary Essence)<br>Cost: 12 Imaginary Essence";
+            },
+            canClick() {
+                return tmp.i.getEssence.gte(tmp.i.usedEssence.add(this.cost())) && player.i.clickables[this.id] != 1 && player.i.clickables[101] == 1 && player.i.clickables[102] == 1;
+            },
+            onClick() {
+                if (layers.i.getEssence().gte(layers.i.usedEssence().add(this.cost())) && player.i.clickables[101] == 1 && player.i.clickables[102] == 1) {
+                    player.i.clickables[this.id] = 1;
+                }
+            },
+            unlocked() { return player.i.clickables[81] },
+            style() { return { 'background-color': (getClickableState(this.layer, this.id) == 1) ? "#77BF5F" : tmp.i.clickables[this.id].canClick ? "#00CCCC" : "#BF8F8F" } },
+            branches() { return ["101", "102"] },
+
+        },
+        113: {
+            title() {
+                return this.id;
+            },
+            cost() {
+                return new Decimal(12);
+            },
+            display() {
+		return "EXP gain x"+format(tmp.i.getEssence.cbrt().add(1))+"<br>(Based on total Imaginary Essence)<br>Cost: 12 Imaginary Essence";
+            },
+            canClick() {
+                return tmp.i.getEssence.gte(tmp.i.usedEssence.add(this.cost())) && player.i.clickables[this.id] != 1 && player.i.clickables[102] == 1 && player.i.clickables[103] == 1;
+            },
+            onClick() {
+                if (layers.i.getEssence().gte(layers.i.usedEssence().add(this.cost())) && player.i.clickables[102] == 1 && player.i.clickables[103] == 1) {
+                    player.i.clickables[this.id] = 1;
+                }
+            },
+            unlocked() { return player.i.clickables[81] },
+            style() { return { 'background-color': (getClickableState(this.layer, this.id) == 1) ? "#77BF5F" : tmp.i.clickables[this.id].canClick ? "#00CCCC" : "#BF8F8F" } },
+            branches() { return ["102", "103"] },
+        },
+        114: {
+            title() {
+                return this.id;
+            },
+            cost() {
+                return new Decimal(12);
+            },
+            display() {
+		return "+"+format(tmp.i.getEssence.cbrt())+" Level Scaling<br>(Based on total Imaginary Essence)<br>Cost: 12 Imaginary Essence";
+            },
+            canClick() {
+                return tmp.i.getEssence.gte(tmp.i.usedEssence.add(this.cost())) && player.i.clickables[this.id] != 1 && player.i.clickables[103] == 1;
+            },
+            onClick() {
+                if (layers.i.getEssence().gte(layers.i.usedEssence().add(this.cost())) && player.i.clickables[103] == 1) {
+                    player.i.clickables[this.id] = 1;
+                }
+            },
+            unlocked() { return player.i.clickables[81] },
+            style() { return { 'background-color': (getClickableState(this.layer, this.id) == 1) ? "#77BF5F" : tmp.i.clickables[this.id].canClick ? "#00CCCC" : "#BF8F8F" } },
+            branches() { return ["103"] },
 
         },
     },
@@ -844,6 +936,7 @@ addLayer("i", {
 	ret = ret.div(1e20);
 	if(player.sac.points.gte(6) && hasMilestone("i",6))ret = ret.mul(100);
 	if(player.i.clickables[91])ret = ret.mul(100);
+	if(player.i.clickables[111])ret = ret.mul(100);
         return ret.max(0);
     },
     infEff() {
@@ -876,6 +969,7 @@ addLayer("i", {
 	if(hasMilestone("i",26))a += 0.05;
 	if(hasMilestone("j",19))a += 0.2;
 	if(hasMilestone("j",28))a += 0.25;
+        if (hasMilestone("j",34)) a *= Math.max(layers.e.equipmentEff(13).toNumber(),1);
 return a;
 },
     challenges: {
@@ -899,7 +993,7 @@ return a;
     },
 
    completionLimit(){
-	return 2;
+	return 3;
    },
 
 });

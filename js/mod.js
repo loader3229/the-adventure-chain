@@ -228,7 +228,7 @@ function getLevelProgress() {
 }
 
 function getLevelScaling() {
-    if (inChallenge("d", 31)) return new Decimal(player.b.points.gte(58) ? 0.3 : player.b.points.gte(54) ? 0.25 : player.b.points.gte(51) ? 0.2 : player.b.points.gte(45) ? 0.1 : player.b.points.gte(40) ? 0.05 : 0.03);
+    if (inChallenge("d", 31)) return new Decimal(player.b.points.gte(62) ? 0.4 : player.b.points.gte(58) ? 0.3 : player.b.points.gte(54) ? 0.25 : player.b.points.gte(51) ? 0.2 : player.b.points.gte(45) ? 0.1 : player.b.points.gte(40) ? 0.05 : 0.03);
     let scaling = new Decimal(1);
     if (hasMilestone("c", 6)) scaling = scaling.add(hasUpgrade("c", 31) ? 1 : 0.2);
     if (hasMilestone("c", 7) && player.sac.points.gte(2)) scaling = scaling.add((hasUpgrade("c", 35) && player.sac.points.gte(4)) ? 2 : 0.5);
@@ -239,6 +239,7 @@ function getLevelScaling() {
     if (getClickableState("i", 54) == 1) scaling = scaling.add(player.b.points.gte(49)?tmp.i.getEssence.cbrt():2);
     if (getClickableState("i", 72) == 1) scaling = scaling.add(tmp.i.getEssence.cbrt());
     if (getClickableState("i", 92) == 1) scaling = scaling.add(tmp.i.getEssence.cbrt());
+    if (getClickableState("i", 114) == 1) scaling = scaling.add(tmp.i.getEssence.cbrt());
     if (player.b.points.gte(62)) scaling = scaling.add(player.b.points.div(8).pow(2));
     else if (player.b.points.gte(61)) scaling = scaling.add(47);
     else if (player.b.points.gte(60)) scaling = scaling.add(37);

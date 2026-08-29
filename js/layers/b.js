@@ -483,6 +483,12 @@ addLayer("b", {
             done() { return player[this.layer].points.gte(61) }, // Used to determine when to give the milestone
             effectDescription: "1.15x HP gain.",
         },
+        {
+            requirementDescription: "Beat 62 bosses",
+            unlocked() { return player[this.layer].points.gte(61) },
+            done() { return player[this.layer].points.gte(62) }, // Used to determine when to give the milestone
+            effectDescription: "5th domain's level scaling is 0.4",
+        },
     ],
     update(diff) {
         if (getLevel().gte(10)) player.b.unlocked = true;

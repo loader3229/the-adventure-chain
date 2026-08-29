@@ -61,6 +61,10 @@ addLayer("l", {
             description: "+20 Level Scaling.",
             cost: new Decimal(3000)
         },
+        22: {
+            description: "Equipment Shard effect is better.",
+            cost: new Decimal(10000)
+        },
     },
     doReset(layer) {
         

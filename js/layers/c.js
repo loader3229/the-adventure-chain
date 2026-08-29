@@ -33,12 +33,18 @@ addLayer("c", {
     branches: ['b'],
     layerShown() { return player.b.points.gte(3) || player.c.unlocked },
     tabFormat: {
-        "Main Tab": {
+         "Upgrades": {
             "content": [
                 "main-display",
                 "prestige-button",
                 "resource-display",
-                "upgrades",
+                "upgrades"
+            ]
+        }, "Milestones": {
+            "content": [
+                "main-display",
+                "prestige-button",
+                "resource-display",
                 "milestones"
             ]
         }, "Buyables": {
@@ -46,7 +52,6 @@ addLayer("c", {
                 "main-display",
                 "prestige-button",
                 "resource-display",
-
                 "buyables"
             ], unlocked: function () { return hasMilestone("c", 4) }
         }
@@ -276,6 +281,12 @@ addLayer("c", {
             unlocked() { return player.sac.points.gte(6) },
             effectDescription: "+100% Equipment Power.",
         },
+        {
+            requirementDescription() { return "1e77 calm points"; },
+            done() { return (player.c.points.gte(1e77) && player.sac.points.gte(6)) }, // Used to determine when to give the milestone
+            unlocked() { return player.sac.points.gte(6) },
+            effectDescription: "Fragment effect is better.",
+        },
     ],
     update(diff) {
         if (hasMilestone("i", 0) && layers.c.tabFormat.Buyables.unlocked()) {
@@ -484,6 +495,13 @@ addLayer("c", {
             cost() { return new Decimal(1e76); },
             unlocked() { return player.sac.points.gte(6) }
         },
+        84: {
+            description: "'Calm Buyable Base' calm buyable is better.",
+            cost() { return new Decimal(1e78); },
+            unlocked() { return player.sac.points.gte(6) }
+
+        },
+
 
 
     },
@@ -772,7 +790,7 @@ addLayer("c", {
 
             },
             effect() {
-                let eff = new Decimal(hasUpgrade("c", 72) ? 1.1 : hasUpgrade("c", 55) ? 1.07 : 1.05).add(player[this.layer].buyables[this.id].mul(player.b.points.gte(38) ? 0.002 : 0.001));
+                let eff = new Decimal(hasUpgrade("c", 72) ? 1.1 : hasUpgrade("c", 55) ? 1.07 : 1.05).add(player[this.layer].buyables[this.id].mul(hasUpgrade("c", 84) ? 0.0025 : player.b.points.gte(38) ? 0.002 : 0.001));
                 return eff;
             },
             unlocked() { return hasUpgrade("c", 52) }

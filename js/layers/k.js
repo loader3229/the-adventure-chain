@@ -31,6 +31,7 @@ addLayer("k", {
         let ret = new Decimal(1);
         if (hasMilestone("k", 12))ret = ret.mul(2);
         if (hasMilestone("k", 17))ret = ret.mul(2);
+        if (hasMilestone("k", 20))ret = ret.mul(2);
         if (hasUpgrade("l", 15))ret = ret.mul(2.5);
         return ret;
     },
@@ -157,6 +158,12 @@ addLayer("k", {
             done() { return player.k.points.gte(524288) && player.sac.points.gte(6) }, // Used to determine when to give the milestone
             unlocked() { return player.sac.points.gte(6) },
             effectDescription: "Bonus effect from Bonus Boxes are better.",
+        },
+        {
+            requirementDescription: "1048576 keys",
+            done() { return player.k.points.gte(1048576) && player.sac.points.gte(6) }, // Used to determine when to give the milestone
+            unlocked() { return player.sac.points.gte(6) },
+            effectDescription: "Double Bonus Boxes reward.",
         },
 
 
