@@ -108,7 +108,7 @@ addLayer("d", {
         },
         32: {
             name: "Useless Level",
-            challengeDescription() { return "Level Power is 0. Level Scaling is divided by "+(player.b.points.gte(59) ? 3000 : player.b.points.gte(55) ? 4000 : 5000)+".<br>Completions: " + formatWhole(player.d.challenges[this.id]) + "/" + layers.d.completionLimit(); },
+            challengeDescription() { return "Level Power is 0. Level Scaling is divided by "+(player.b.points.gte(63) ? 2000 : player.b.points.gte(59) ? 3000 : player.b.points.gte(55) ? 4000 : 5000)+".<br>Completions: " + formatWhole(player.d.challenges[this.id]) + "/" + layers.d.completionLimit(); },
             goal() { return layers.d.dgoal(this.id); },
             goalDescription() { return "Reach Level " + formatWhole(this.goal().ceil()); },
             currencyDisplayName: "Level",

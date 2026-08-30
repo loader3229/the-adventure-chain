@@ -266,11 +266,18 @@ addLayer("j", {
             effectDescription: "Passive Imaginary point gain is boosted by Passive Gem, if effect is above 100%",
         },
         {
-            requirementDescription(){return format(Decimal.pow(2,this.id))+" jokers"},
+            requirementDescription(){return format(Decimal.pow(2,this.id))+" jokers"}, // ID = 35
             done() { return player.j.points.gte(Decimal.pow(2,this.id)) && player.sac.points.gte(6) }, // Used to determine when to give the milestone
             unlocked() { return player.sac.points.gte(6) },
             effectDescription: "Unlock the 3rd suit of cards.",
         },
+        {
+            requirementDescription(){return format(Decimal.pow(2,this.id))+" jokers"},
+            done() { return player.j.points.gte(Decimal.pow(2,this.id)) && player.sac.points.gte(6) }, // Used to determine when to give the milestone
+            unlocked() { return player.sac.points.gte(6) },
+            effectDescription: "Post-4M level scaling is weaker.",
+        },
+
     ],
 
     tabFormat: {
@@ -532,6 +539,7 @@ player.j.upgrades=[];
 passiveGeneration(){
 	let ret=0;
 	if(hasMilestone("j",32))ret += 0.01;
+	if(hasMilestone("k",21))ret += 0.01;
 	return ret;
 }
    

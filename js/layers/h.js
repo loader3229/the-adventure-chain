@@ -193,7 +193,7 @@ addLayer("h", {
                 player[this.layer].buyables[this.id] = player[this.layer].buyables[this.id].add(1)
             },
             effect() {
-                let eff = player[this.layer].buyables[this.id].mul(player[this.layer].points.add(10).log10().pow(1.5)).div(hasMilestone("c", 28)?500:1000).add(1).pow(-0.5);
+                let eff = player[this.layer].buyables[this.id].mul(player[this.layer].points.add(10).log10().pow(1.5)).div(hasMilestone("c", 28)?500:1000).add(1).pow(hasUpgrade("c", 85)?-2/3:-0.5);
                 return eff;
             }, unlocked() { return player.sac.points.gte(3) }
 

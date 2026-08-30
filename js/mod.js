@@ -13,7 +13,7 @@ let modInfo = {
 
 // Set your version in num and name
 let VERSION = {
-    num: "12.1",
+    num: "12.2",
     name: "Loot",
 }
 
@@ -100,7 +100,7 @@ function addedPlayerData() {
 // Display extra things at the top of the page
 var displayThings = [
     "Mod Author: loader3229",
-    "Endgame: Boss 62 beaten and Level 6000000",
+    "Endgame: Boss 64 beaten and Level 7000000",
     function () { if (getLevel().gte(200000)) return "Level: " + formatWhole(getLevel()) + "/" + formatWhole(getLevelCap()) + " (Scaling: " + format(getLevelScaling()) + ")"; return "Level: " + formatWhole(getLevel()) + "/" + formatWhole(getLevelCap()) + " (" + format(getLevelProgress().mul(100)) + "%)" },
     function () { return "ATK: " + format(getATK()) },
     function () { if (player.b.points.gte(1)) return "DEF: " + format(getDEF()) },
@@ -110,7 +110,7 @@ var displayThings = [
 
 // Determines when the game "ends"
 function isEndgame() {
-    return player.b.points.gte(62) && getLevel().gte(6000000)
+    return player.b.points.gte(64) && getLevel().gte(7000000)
 }
 
 
@@ -234,6 +234,7 @@ function getLevelScaling() {
     if (hasMilestone("c", 7) && player.sac.points.gte(2)) scaling = scaling.add((hasUpgrade("c", 35) && player.sac.points.gte(4)) ? 2 : 0.5);
     if (hasMilestone("c", 26)) scaling = scaling.add(1);
     if (hasMilestone("c", 29)) scaling = scaling.add(2);
+    if (hasMilestone("c", 32)) scaling = scaling.add(3);
     if (player.sac.points.gte(5)) scaling = scaling.mul(2);
     if (getClickableState("i", 32) == 1) scaling = scaling.add(player.b.points.gte(49)?tmp.i.getEssence.cbrt():2);
     if (getClickableState("i", 54) == 1) scaling = scaling.add(player.b.points.gte(49)?tmp.i.getEssence.cbrt():2);
@@ -253,7 +254,7 @@ function getLevelScaling() {
     if (player.b.points.gte(60))scaling = scaling.add(player.d.challenges[32]);
     scaling = scaling.add(buyableEffect("c", 22));
     scaling = scaling.add(layers.e.equipmentEff(11));
-    if (inChallenge("d", 32)) scaling = scaling.div(player.b.points.gte(59) ? 3000 : player.b.points.gte(55) ? 4000 : 5000);
+    if (inChallenge("d", 32)) scaling = scaling.div(player.b.points.gte(63) ? 2000 : player.b.points.gte(59) ? 3000 : player.b.points.gte(55) ? 4000 : 5000);
     return scaling;
 }
 function getRealLevel() {
@@ -263,7 +264,7 @@ function getRealLevel() {
     if (player.sac.points.gte(6)) {
         let level = player.a.points.pow(0.055).div(25).div(getLevelScaling().sqrt()).add(1).log(1.04).mul(getLevelScaling().sqrt()).pow(2).add(1);
         if (player.a.points.pow(0.11).lte(scaling)) level = player.a.points.pow(0.11).add(1);
-        level = softcap(level, new Decimal(hasMilestone("j", 31) ? 4.4e6 : hasMilestone("j", 30) ? 4.2e6 : hasMilestone("j", 29) ? 4.1e6 : 4e6), hasMilestone("j", 26) ? 0.3 : 0.1).min(getLevelCap());
+        level = softcap(level, new Decimal(hasMilestone("j", 31) ? 4.4e6 : hasMilestone("j", 30) ? 4.2e6 : hasMilestone("j", 29) ? 4.1e6 : 4e6), hasMilestone("j", 36) ? 0.35 : hasMilestone("j", 26) ? 0.3 : 0.1).min(getLevelCap());
         return level;
     }
 

@@ -287,6 +287,12 @@ addLayer("c", {
             unlocked() { return player.sac.points.gte(6) },
             effectDescription: "Fragment effect is better.",
         },
+        {
+            requirementDescription() { return "1e80 calm points"; },
+            done() { return (player.c.points.gte(1e80) && player.sac.points.gte(6)) }, // Used to determine when to give the milestone
+            unlocked() { return player.sac.points.gte(6) },
+            effectDescription: "4000 Calm Points milestone is better.",
+        },
     ],
     update(diff) {
         if (hasMilestone("i", 0) && layers.c.tabFormat.Buyables.unlocked()) {
@@ -500,6 +506,11 @@ addLayer("c", {
             cost() { return new Decimal(1e78); },
             unlocked() { return player.sac.points.gte(6) }
 
+        },
+        85: {
+            description() { return "Respawn Helper is better."; },
+            cost() { return new Decimal(1e80); },
+            unlocked() { return player.sac.points.gte(6) }
         },
 
 

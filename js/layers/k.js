@@ -165,6 +165,12 @@ addLayer("k", {
             unlocked() { return player.sac.points.gte(6) },
             effectDescription: "Double Bonus Boxes reward.",
         },
+        {
+            requirementDescription: "2097152 keys",
+            done() { return player.k.points.gte(2097152) && player.sac.points.gte(6) }, // Used to determine when to give the milestone
+            unlocked() { return player.sac.points.gte(6) },
+            effectDescription: "Gain 1% of jokers gain per second.",
+        },
 
 
 
