@@ -69,7 +69,7 @@ addLayer("e", {
         if (hasMilestone("i", 7)) x = x.mul(layers.i.effect());
         x = x.mul(layers.k.getBonus(3));
         x = x.mul(Decimal.pow(2, layers.j.getCardLevel(5)));
-        if (getClickableState("i", 112) == 1) ret = ret.mul(tmp.i.getEssence.cbrt().div(2).add(1));
+        if (getClickableState("i", 112) == 1) x = x.mul(tmp.i.getEssence.cbrt().div(2).add(1));
 
 
         return x;
